@@ -4,7 +4,7 @@ import hashlib
 
 import streamlit as st
 
-from mvp.documents import MAX_FILE_MB, PdfInputError, read_pdf
+from documents import MAX_FILE_MB, PdfInputError, read_pdf
 
 st.set_page_config(page_title="병원 실무지침 AI · PDF 확인", page_icon="📘", layout="wide")
 st.markdown(
