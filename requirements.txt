@@ -1,14 +1,2 @@
-# Cloud가 루트 진입점을 실행해도 현재 앱 의존성을 설치합니다.
+# Streamlit Community Cloud installs the application dependencies from one source.
 -r mvp/requirements.txt
-streamlit>=1.45,<2
-langchain>=1.0,<2
-langchain-openai>=1.0,<2
-langchain-text-splitters>=1.0,<2
-supabase>=2.15,<3
-pypdf>=5,<7
-python-docx>=1.1,<2
-openpyxl>=3.1,<4
-pydantic>=2.10,<3
-python-dotenv>=1.0,<2
-numpy>=2,<3
-openai>=2,<4
