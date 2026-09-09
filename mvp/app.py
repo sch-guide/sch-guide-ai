@@ -2,7 +2,15 @@
 
 import hashlib
 import math
+import sys
 import time
+from pathlib import Path
+
+# Streamlit Cloud가 하위 폴더의 실행 파일만 Python 경로에 넣는 경우에도
+# mvp 패키지를 찾을 수 있도록 저장소 루트를 명시적으로 등록합니다.
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 import streamlit as st
 
