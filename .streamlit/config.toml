@@ -1,7 +1,10 @@
 [server]
+# 로컬 실행 주소/포트는 실행.cmd 또는 명령행에서 지정합니다.
+headless = true
 maxUploadSize = 20
 enableXsrfProtection = true
 enableCORS = true
+enableStaticServing = false
 
 [browser]
 gatherUsageStats = false

@@ -11,7 +11,7 @@ from streamlit.testing.v1 import AppTest
 
 from mvp.documents import MAX_FILE_BYTES, PdfInputError, read_pdf
 
-APP = Path(__file__).resolve().parents[1] / "mvp" / "app.py"
+APP = Path(__file__).resolve().parents[1] / "mvp" / "preview.py"
 
 
 def sample_pdf() -> bytes:

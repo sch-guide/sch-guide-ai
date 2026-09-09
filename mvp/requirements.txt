@@ -1,3 +1,15 @@
-# 1단계에 필요한 패키지만 설치합니다. Python 3.12에서 확인한 버전입니다.
+# Python 3.12에서 실행합니다. 무료 검색 + 직원 로그인 + AI 채팅 모듈.
 streamlit==1.63.0
 pypdf==6.17.0
+fastembed==0.8.0
+faiss-cpu==1.15.0
+langchain-core==1.6.2
+langchain-text-splitters==1.1.2
+httpx>=0.28,<0.29
+python-dotenv>=1,<2
+numpy>=2,<3
+pydantic>=2.10,<3
+tiktoken==0.14.0
+python-docx==1.2.0
+openpyxl==3.1.5
+pdfplumber==0.11.10
