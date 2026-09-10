@@ -1,5 +1,5 @@
 -- 현재 앱용: Supabase Auth + 관리자만 접근하는 비공개 원본 Storage.
--- 검색 인덱스는 앱 서버의 SQLite/FAISS에 저장하므로 pgvector 설치는 필요하지 않습니다.
+-- 원본 Storage 정책입니다. 운영 검색 인덱스는 schema.sql과 migrations/20260910_operational_pgvector.sql의 pgvector에 저장합니다.
 -- Supabase SQL Editor에서 관리자가 실행합니다. 실제 문서는 이 스크립트에 넣지 않습니다.
 begin;
 create table if not exists public.guide_profiles (

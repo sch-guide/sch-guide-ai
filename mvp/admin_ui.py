@@ -34,6 +34,18 @@ def extraction_status(document):
                                           for p in document.pages if p.error or not p.text))
 
 
+@st.dialog('지침서 삭제 확인', width='small', dismissible=True)
+def delete_document_dialog(library, doc_id, document_name):
+    st.warning('삭제하면 이 문서의 검색 인덱스와 승인 체크리스트도 함께 제거됩니다.')
+    st.write(document_name)
+    confirmed = st.checkbox('선택한 지침서를 삭제하는 것을 확인했습니다.', key='confirm_delete_' + doc_id)
+    if st.button('지침서 삭제', type='primary', disabled=not confirmed, width='stretch'):
+        try:
+            library.retire(doc_id)
+            finish('문서와 연결된 검색 데이터를 삭제했습니다.')
+        except GuideError as exc:
+            finish(str(exc), error=True)
+
 def render_admin(library, auth, settings, model_factory):
     # 탭을 숨기는 것과 별개로 서버에서 관리자 권한을 다시 확인합니다.
     auth.require_admin()
@@ -49,7 +61,7 @@ def render_admin(library, auth, settings, model_factory):
     document_summary(docs)
     ready = {d["id"]: d["document_name"] for d in docs if d["status"] == "ready"}
     labels = {"ready": "● 검색 가능", "pending": "○ 색인 대기", "error": "⚠ 색인 실패",
-              "replaced": "교체 완료", "deleted": "삭제 완료"}
+              "replaced": "교체 완료", "retired": "교체·삭제 완료", "deleted": "삭제 완료"}
     if docs:
         st.caption('등록 문서 · 행을 선택하면 아래에서 해당 문서를 관리할 수 있습니다.')
         rows = [{"문서명": d["document_name"], "페이지/영역": d.get('page_count', 0),
@@ -105,9 +117,13 @@ def render_admin(library, auth, settings, model_factory):
                     if not reviewed:
                         raise GuideError("원본 지침서와 개인정보 여부를 확인한 뒤 등록하세요.")
                     try:
-                        with st.spinner("원본을 저장하고 로컬 검색 인덱스를 생성합니다…"):
+                        with st.status('1/4 · 원본 파일을 확인하고 있습니다…', expanded=True) as progress:
+                            progress.write('2/4 · 문서에서 텍스트와 페이지 위치를 추출합니다.')
+                            progress.write('3/4 · 관련 단위로 나누고 검색 embedding을 생성합니다.')
                             library.register(upload.name, upload.getvalue(), model_factory(), title=title, section=section,
                                 updated_date=updated.isoformat() if updated else None, replaces_id=replacement or None)
+                            progress.write('4/4 · 검색 저장소에 반영하고 권한을 확인합니다.')
+                            progress.update(label='검색 준비 완료', state='complete', expanded=False)
                     except GuideError as exc:
                         finish(str(exc), error=True)
                     finish("검색 준비가 완료되었습니다. AI 채팅에서 질문하세요.")
@@ -129,18 +145,13 @@ def render_admin(library, auth, settings, model_factory):
             if doc["status"] in {"pending", "error", "ready"}:
                 if st.button("이 문서 검색 인덱스 재생성"):
                     try:
-                        with st.spinner("검색 인덱스를 다시 생성합니다…"):
+                        with st.spinner("문서를 다시 읽고 검색 인덱스를 생성합니다…"):
                             library.reindex(chosen, model_factory())
                         finish("재색인을 완료했습니다. AI 채팅에서 변경된 지침서를 검색할 수 있습니다.")
                     except GuideError as exc:
                         finish(str(exc), error=True)
-            confirmed = st.checkbox("선택한 지침서의 원본과 검색 데이터를 삭제합니다.", key="delete_" + chosen)
-            if st.button("선택 문서 삭제", disabled=not confirmed):
-                try:
-                    library.retire(chosen)
-                    finish("문서와 연결된 검색 데이터를 삭제했습니다.")
-                except GuideError as exc:
-                    finish(str(exc), error=True)
+            if st.button('선택 문서 삭제', icon=':material/delete:', width='stretch'):
+                delete_document_dialog(library, chosen, doc['document_name'])
         with st.expander("전체 검색 인덱스 재생성"):
             st.caption("문서별로 새 색인이 완성된 뒤 검색에 반영합니다.")
             if st.button("등록 중인 모든 문서 재색인"):
@@ -148,7 +159,7 @@ def render_admin(library, auth, settings, model_factory):
                 for doc in docs:
                     if doc["status"] in {"pending", "error", "ready"}:
                         try:
-                            with st.spinner("로컬 검색 인덱스를 재생성합니다…"):
+                            with st.spinner("검색 인덱스를 재생성합니다…"):
                                 library.reindex(doc["id"], model_factory())
                         except GuideError:
                             failures += 1
@@ -157,7 +168,7 @@ def render_admin(library, auth, settings, model_factory):
     with st.expander("관리자 설정 안내 / 직원 계정"):
         st.write("설정 파일: mvp/.env · API 키는 화면이나 GitHub에 올리지 마세요.")
         st.text("원본 저장소: " + settings.storage_backend)
-        st.write("검색은 서버의 FAISS에서 실행하며, AI 서버에는 검색된 일부 문단만 전달합니다.")
+        st.write("검색은 " + ("Supabase pgvector" if settings.mode == "staff" else "이 PC의 FAISS") + "에서 실행하며, AI 서버에는 검색된 일부 문단만 전달합니다.")
         st.caption(f"최근 24시간 AI 제한: 전체 {settings.daily_limit}회 / 직원별 {settings.user_daily_limit}회")
         usage = Quota().summary(settings)
         left, middle, right = st.columns(3)

@@ -4,7 +4,7 @@
 
 - 직원: AI 채팅, 이전 질문 이어 묻기, 답변 근거와 관련 원문 확인
 - 관리자: PDF·DOCX·XLSX 등록·교체·삭제·재색인
-- 검색: 무료 다국어 임베딩 + FAISS + BM25 혼합 검색
+- 검색: 무료 다국어 임베딩 + Vector/Keyword 혼합 검색 (운영 Supabase pgvector, 로컬 개발 FAISS)
 - 답변: 등록 지침의 검색 근거가 있을 때만 Groq로 생성
 - 출처: 문서명, 항목, 페이지 또는 문단 위치, 개정일
 
@@ -19,7 +19,7 @@
 | Main file path | mvp/app.py |
 | Python | 3.12 |
 
-배포 전에 Supabase SQL Editor에서 mvp/storage_schema.sql을 실행하고, Streamlit Cloud의 Settings → Secrets에 아래 항목을 실제 값으로 등록합니다.
+배포 전에 Supabase SQL Editor에서 mvp/schema.sql, mvp/storage_schema.sql, mvp/migrations/20260910_operational_pgvector.sql 순서로 실행하고, Streamlit Cloud의 Settings → Secrets에 아래 항목을 실제 값으로 등록합니다. 기존 설치에는 마지막 migration만 추가 실행합니다.
 
 ~~~toml
 GUIDE_MODE = "staff"

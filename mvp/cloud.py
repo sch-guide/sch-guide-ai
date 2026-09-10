@@ -83,16 +83,19 @@ class StaffLibrary:
         if self.authorize()["role"] != "admin":
             raise GuideError("관리자만 지침서 자료를 변경할 수 있습니다.")
 
-    def documents(self):
-        return self.request("GET", "/rest/v1/guide_documents",
-                            params={"status": "eq.active", "select": "*", "order": "title", "limit": "500"})
+    def documents(self, all_status=False):
+        self.require_admin() if all_status else self.authorize()
+        params = {"select": "*", "order": "title", "limit": "500"}
+        if not all_status:
+            params["status"] = "eq.active"
+        return self.request("GET", "/rest/v1/guide_documents", params=params)
 
     def publish(self, metadata, chunks, vectors):
         self.require_admin()
         rows = [{**chunk_payload(c), "embedding": vector.tolist()} for c, vector in zip(chunks, vectors, strict=True)]
         self.request("POST", "/rest/v1/rpc/guide_publish", json={"doc": metadata, "parts": rows})
 
-    def search(self, question, vector, doc_ids, minimum):
+    def search(self, question, vector, doc_ids, minimum, plan=None):
         if not doc_ids:
             return []
         self.authorize()
@@ -102,6 +105,12 @@ class StaffLibrary:
         })
         return rank_hits(question, [Hit(Chunk.from_row(r), r["similarity"]) for r in rows], minimum)
 
+    def reindex(self, metadata, chunks, vectors):
+        self.require_admin()
+        rows = [{**chunk_payload(c), "embedding": vector.tolist()}
+                for c, vector in zip(chunks, vectors, strict=True)]
+        self.request("POST", "/rest/v1/rpc/guide_reindex",
+                     json={"doc": metadata, "parts": rows})
     def source_chunks(self, doc_id, chunk_ids=None):
         self.authorize()
         if chunk_ids is not None:
@@ -109,7 +118,7 @@ class StaffLibrary:
                 return []
             rows = self.request("GET", "/rest/v1/guide_chunks", params={
                 "document_id": "eq." + doc_id, "id": "in.(" + ",".join(sorted(set(chunk_ids))) + ")",
-                "select": "id,document_id,document_name,page,title,section,updated_date,text,index",
+                "select": "*",
                 "order": "index", "limit": "40",
             })
             return [Chunk.from_row(row) for row in rows]
@@ -117,7 +126,7 @@ class StaffLibrary:
         for offset in range(0, 5000, 500):
             rows = self.request("GET", "/rest/v1/guide_chunks", params={
                 "document_id": "eq." + doc_id,
-                "select": "id,document_id,document_name,page,title,section,updated_date,text,index",
+                "select": "*",
                 "order": "index", "offset": str(offset), "limit": "500",
             })
             result.extend(Chunk.from_row(row) for row in rows)
@@ -136,6 +145,11 @@ class StaffLibrary:
             "document_id": "in.(" + ",".join(doc_ids) + ")", "select": "*", "order": "created_at.desc",
         })
 
+    def request_review(self, document_ids, chunk_ids):
+        self.authorize()
+        return self.request("POST", "/rest/v1/rpc/guide_request_review", json={
+            "document_ids": list(document_ids), "chunk_ids": list(chunk_ids)
+        })
     def retire(self, doc_id):
         self.require_admin()
         self.request("PATCH", "/rest/v1/guide_documents",

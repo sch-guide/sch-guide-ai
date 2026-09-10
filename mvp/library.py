@@ -10,21 +10,11 @@ from uuid import uuid4
 import numpy as np
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
+from mvp.medical_terms import ALIASES
 from mvp.settings import DIMENSIONS, MODEL, ROOT, GuideError
 
-ABBREVIATIONS = ("pcn", "foley", "cpe", "cre", "vre", "picc", "vancomycin")
-ALIASES = {
-    "pcn": ("pcn", "percutaneous nephrostomy", "nephrostomy catheter", "경피적 신루", "경피 신루", "신루관"),
-    "foley": ("foley", "폴리 카테터", "유치도뇨관"),
-    "picc": ("picc", "peripherally inserted central catheter", "말초삽입 중심정맥관"),
-    "vre": ("vre", "vancomycin resistant enterococci", "반코마이신 내성 장알균"),
-    "cre": ("cre", "carbapenem resistant enterobacterales", "카바페넴 내성 장내세균"),
-    "cpe": ("cpe", "carbapenemase producing enterobacterales", "카바페넴분해효소 생성 장내세균"),
-    "vancomycin": ("vancomycin", "반코마이신"),
-    "thoracentesis": ("thoracentesis", "흉강천자", "흉막천자", "늑막천자"),
-}
 NO_GUIDELINE = "등록된 지침서에서 확인할 수 없습니다."
-SEARCH_VERSION = 5
+SEARCH_VERSION = 6
 CHUNK_VERSION = 3
 # 이 단어만 겹치는 경우에는 서로 다른 시술의 문서를 근거로 채택하지 않습니다.
 INTENT_TERMS = {

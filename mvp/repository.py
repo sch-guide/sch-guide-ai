@@ -96,6 +96,9 @@ class Repository:
                 create index if not exists chunks_document on chunks(document_id);
                 create table if not exists checklists(
                     id text primary key, document_id text not null, payload text not null, active integer not null);
+                create table if not exists review_requests(
+                    id text primary key, created_at text not null, user_hash text not null,
+                    document_ids text not null, chunk_ids text not null, status text not null);
             """)
 
     def authorize(self):
@@ -306,6 +309,28 @@ class Repository:
             rows = db.execute("""select c.payload from checklists c join documents d on d.id=c.document_id
                 where c.active=1 and d.status='ready'""").fetchall()
         return [c for r in rows if (c := json.loads(r[0]))["document_id"] in doc_ids]
+
+    def request_review(self, user_id, document_ids, chunk_ids):
+        self.authorize()
+        document_ids, chunk_ids = set(document_ids), set(chunk_ids)
+        if not 1 <= len(document_ids) <= 10 or not 1 <= len(chunk_ids) <= 40:
+            raise GuideError('검토할 답변의 출처를 확인하지 못했습니다. (REVIEW_SOURCE)')
+        identifier = str(uuid4())
+        user_hash = hashlib.sha256(str(user_id).encode()).hexdigest()
+        with database(self.path) as db:
+            valid_docs = {row[0] for row in db.execute(
+                "select id from documents where status='ready' and id in ({})".format(
+                    ','.join('?' for _ in document_ids)), tuple(document_ids))}
+            valid_chunks = {row[0] for row in db.execute(
+                "select id from chunks where document_id in ({}) and id in ({})".format(
+                    ','.join('?' for _ in document_ids), ','.join('?' for _ in chunk_ids)),
+                tuple(document_ids) + tuple(chunk_ids))}
+            if valid_docs != document_ids or valid_chunks != chunk_ids:
+                raise GuideError('검토할 답변의 출처가 변경되었습니다. 다시 검색해 주세요. (REVIEW_SOURCE)')
+            db.execute('insert into review_requests values(?,?,?,?,?,?)',
+                       (identifier, now(), user_hash, dump(sorted(document_ids)),
+                        dump(sorted(chunk_ids)), 'open'))
+        return identifier
 
     def save_checklist(self, entry):
         self.auth.require_admin()

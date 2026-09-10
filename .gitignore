@@ -2,6 +2,7 @@
 .env.*
 !.env.example
 .venv/
+.venv*/
 .local-runtime.json
 .streamlit/secrets.toml
 __pycache__/
