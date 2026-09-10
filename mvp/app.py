@@ -1,5 +1,7 @@
 """실행: python -m streamlit run mvp/app.py --server.address 127.0.0.1 --server.port 8502"""
 
+# ruff: noqa: E402  # Streamlit Cloud에서 저장소 루트를 먼저 Python 경로에 넣습니다.
+
 import hashlib
 import math
 import sys
@@ -17,7 +19,9 @@ import streamlit as st
 from mvp.ai import AI_VERSION, generate
 from mvp.answer_ui import render_answer
 from mvp.auth import LocalAuth
+from mvp.checklist_ui import checklist_dialog, matching_checklists
 from mvp.cloud import StaffLibrary
+from mvp.cloud_repository import CloudRepository
 from mvp.library import (
     NO_GUIDELINE,
     SEARCH_VERSION,
@@ -33,6 +37,7 @@ from mvp.ui import (
     brand,
     empty_state,
     header,
+    login_brand,
     question_bubble,
     recent_questions,
     sidebar_account,
@@ -50,7 +55,7 @@ def search_model():
 
 def clear_conversation():
     for key in list(st.session_state):
-        if key in {"turns", "pending_question", "follow_up", "question_input", "ui_error"} or key.startswith(("source_context_", "source_open_")):
+        if key in {"turns", "pending_question", "follow_up", "question_input", "ui_error"} or key.startswith(("source_context_", "source_open_", "approved_check_")):
             st.session_state.pop(key, None)
     st.session_state["ui_page"] = "chat"
 
@@ -61,6 +66,14 @@ def source_view(chunk, quotes=(), *, view_key=""):
 
 def navigate(page):
     st.session_state['ui_page'] = page
+
+
+def review_answer(index, document_ids, chunk_ids):
+    try:
+        library.request_review(user_id, document_ids, chunk_ids)
+        st.toast('검토 요청을 등록했습니다. 질문 원문은 저장하지 않았습니다.', icon='✅')
+    except GuideError as exc:
+        st.error(str(exc))
 
 
 try:
@@ -94,45 +107,53 @@ if "auth" not in st.session_state:
 auth = st.session_state["auth"]
 
 if not auth.token:
-    header(settings)
-    with st.container(key='login_card'):
-        if isinstance(auth, LocalAuth) and auth.needs_setup():
-            st.subheader("최초 관리자 계정 만들기")
-            st.caption("이 PC에서 한 번만 설정합니다. 설정 후에는 관리자와 직원 모두 로그인해야 합니다.")
-            with st.form("bootstrap", clear_on_submit=True):
-                username = st.text_input("관리자 아이디")
-                password = st.text_input("관리자 비밀번호 (10자 이상)", type="password")
-                confirm = st.text_input("비밀번호 확인", type="password")
-                submitted = st.form_submit_button("관리자 계정 만들기", type="primary", width='stretch')
-            if submitted:
-                try:
-                    if password != confirm:
-                        raise GuideError("비밀번호가 일치하지 않습니다.")
-                    auth.bootstrap(username, password)
-                    st.rerun()
-                except GuideError as exc:
-                    st.error(str(exc))
-        else:
-            st.subheader("직원 로그인")
-            st.caption("관리자가 등록한 계정으로 로그인하세요.")
-            with st.form("login", clear_on_submit=True):
-                username = st.text_input("직원 아이디" if settings.mode == "local" else "직원 이메일")
-                password = st.text_input("비밀번호", type="password")
-                submitted = st.form_submit_button("로그인", type="primary", width='stretch')
-            if submitted:
-                try:
-                    auth.login(username, password)
-                    clear_conversation()
-                    st.rerun()
-                except GuideError as exc:
-                    st.error(str(exc))
-        st.stop()
+    with st.container(key='login_shell'):
+        brand_column, form_column = st.columns([1.15, 1], gap='large', vertical_alignment='center')
+        with brand_column:
+            login_brand()
+        with form_column, st.container(key='login_card'):
+            if isinstance(auth, LocalAuth) and auth.needs_setup():
+                st.html('<div class="login-card-heading"><span>처음 시작하기</span><h2>관리자 계정 만들기</h2>'
+                        '<p>이 PC에서 한 번만 설정합니다.</p></div>')
+                with st.form("bootstrap", clear_on_submit=True):
+                    username = st.text_input("관리자 아이디", placeholder="사용할 아이디")
+                    password = st.text_input("관리자 비밀번호 (10자 이상)", type="password", placeholder="비밀번호")
+                    confirm = st.text_input("비밀번호 확인", type="password", placeholder="비밀번호 다시 입력")
+                    submitted = st.form_submit_button("관리자 계정 만들기", type="primary", width='stretch')
+                if submitted:
+                    try:
+                        if password != confirm:
+                            raise GuideError("비밀번호가 일치하지 않습니다.")
+                        auth.bootstrap(username, password)
+                        st.rerun()
+                    except GuideError as exc:
+                        st.error(str(exc))
+            else:
+                st.html('<div class="login-card-heading"><span>직원 전용</span><h2>로그인</h2>'
+                        '<p>병원에서 등록한 직원 계정으로 접속하세요.</p></div>')
+                with st.form("login", clear_on_submit=True):
+                    username = st.text_input("직원 아이디" if settings.mode == "local" else "직원 이메일",
+                                             placeholder="직원 계정을 입력하세요")
+                    password = st.text_input("비밀번호", type="password", placeholder="비밀번호를 입력하세요")
+                    submitted = st.form_submit_button("로그인", type="primary", width='stretch')
+                if submitted:
+                    try:
+                        with st.spinner('직원 권한을 확인하고 있습니다…'):
+                            auth.login(username, password)
+                        clear_conversation()
+                        st.rerun()
+                    except GuideError as exc:
+                        st.error(str(exc))
+            st.html('<div class="login-help"><b>로그인이 안 되나요?</b><span>관리자에게 직원 등록 상태를 문의하세요.</span></div>')
+    st.html('<footer class="login-footer">병원 내부 업무용 · 환자 이름과 등록번호 등 개인정보는 입력하지 마세요.</footer>')
+    st.stop()
 
 try:
     profile = auth.authorize()
     admin, user_id = profile["role"] == "admin", auth.user_id
     # 이 객체는 경로/접속 정보만 갖습니다. 원본이나 전체 문단은 세션에 보관하지 않습니다.
-    library = Repository(settings, auth, source_store(settings, auth))
+    repository_type = Repository if settings.mode == "local" else CloudRepository
+    library = repository_type(settings, auth, source_store(settings, auth))
     revision = library.revision()
     documents = library.documents()
     selected = [d["id"] for d in documents]  # 직원은 관리자가 등록한 전체 지침을 자동 검색
@@ -155,7 +176,7 @@ turns = st.session_state.setdefault('turns', [])
 if not admin:
     st.session_state['ui_page'] = 'chat'
 page = st.session_state.get('ui_page', 'chat')
-header(settings, turns, admin=admin, page=page, on_navigate=navigate)
+header(settings, turns, admin=admin, page=page, on_navigate=navigate, documents=documents)
 with st.sidebar:
     with st.container(key='sidebar_main'):
         brand()
@@ -188,7 +209,8 @@ def show_turn(turn, index):
         hits = turn.get("hits", [])
         if answer:
             if answer.answerable:
-                render_answer(answer, hits, index, source_view)
+                render_answer(answer, hits, index, source_view, on_review=review_answer,
+                              checklists=turn.get("checklists", ()), on_checklist=checklist_dialog)
             else:
                 st.write(NO_GUIDELINE)
         elif turn.get("clarification"):
@@ -209,9 +231,14 @@ def show_turn(turn, index):
         if not hits and not turn.get("error") and not turn.get("clarification"):
             st.caption("확인 가능한 근거가 부족합니다. 질문을 구체적으로 적거나 관리자에게 지침서 등록 상태를 문의하세요.")
         if hits and (not answer or not answer.answerable):
-            st.caption("검색된 참고 원문 · AI 답변이 아닙니다")
-            for hit in hits:
-                source_view(hit.chunk, view_key=str(index))
+            st.caption("검색된 참고 원문 · AI 답변이 아니며, 대기 중에도 확인할 수 있습니다.")
+            for source_number, hit in enumerate(hits[:5], 1):
+                chunk = hit.chunk
+                place = f'p.{chunk.page}' if chunk.source_type == 'pdf' else chunk.location
+                if st.button(f'[{source_number}] {chunk.document_name} · {place}',
+                             key=f'fallback_source_{index}_{source_number}',
+                             icon=':material/description:', width='stretch'):
+                    source_view(chunk, view_key=f'fallback_{index}_{source_number}')
         with st.popover(f"{turn['elapsed']:.1f}초 · 처리 정보", icon=':material/schedule:'):
             st.caption(f"검색·응답 처리 {turn['elapsed']:.1f}초")
             if turn.get("reused"):
@@ -234,7 +261,7 @@ else:
     if not documents:
         st.info('관리자가 지침서를 등록하면 AI 채팅을 사용할 수 있습니다.')
     if not turns:
-        empty_state(disabled=not selected)
+        empty_state(documents, disabled=not selected)
     for i, turn in enumerate(turns):
         show_turn(turn, i)
     with st.container(key='conversation_tools'):
@@ -289,6 +316,15 @@ else:
                         status.update(label="답변을 작성하고 있습니다…")
                         answer, used = generate(settings, query, hits, user_id, plan=plan)
                         turn["answer"], turn["hits"] = answer, used
+                        cited_docs = list(dict.fromkeys(hit.chunk.document_id for hit in used))
+                        approved = matching_checklists(question, library.list_checklists(cited_docs))
+                        hydrated = []
+                        for entry in approved:
+                            entry = dict(entry)
+                            item_ids = [item.get('chunk_id') for item in entry.get('items', []) if item.get('chunk_id')]
+                            entry['_chunks'] = library.source_chunks(entry['document_id'], item_ids)
+                            hydrated.append(entry)
+                        turn["checklists"] = hydrated if answer.answerable else []
                     except GuideError as exc:
                         turn["error"] = str(exc)
                         if getattr(exc, "retry_after", None):

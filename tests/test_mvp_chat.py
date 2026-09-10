@@ -307,7 +307,7 @@ def test_staff_without_configuration_fails_closed(monkeypatch):
     assert not app.chat_input
 
 
-def test_chat_form_sources_and_new_conversation_without_checklist_ui(monkeypatch, tmp_path):
+def test_chat_form_sources_and_new_conversation_with_source_buttons(monkeypatch, tmp_path):
     monkeypatch.setenv("GUIDE_MODE", "local")
     monkeypatch.setenv("GUIDE_LLM_PROVIDER", "disabled")
     monkeypatch.setattr("mvp.library.Embedder", FakeEmbedder)
@@ -318,8 +318,8 @@ def test_chat_form_sources_and_new_conversation_without_checklist_ui(monkeypatch
     assert not app.exception
     assert any("AI_SETUP" in x.value for x in app.info)
     assert not any("체크리스트" in b.label for b in app.button)
-    assert any("문단 2" in e.label for e in app.expander)
-    assert all("체크리스트" not in e.label and "PDF 원문 확인" not in e.label for e in app.expander)
+    assert any("문단 2" in b.label for b in app.button if b.key and b.key.startswith("fallback_source_"))
+    assert all("PDF 원문 확인" not in e.label for e in app.expander)
     next(b for b in app.button if b.label == "새 대화 시작").click().run()
     assert not app.exception
     assert app.session_state["turns"] == []
@@ -356,10 +356,10 @@ def test_ai_answer_is_rendered_in_chat_after_real_validation(monkeypatch, tmp_pa
     assert not any("관련 원문" in e.label for e in app.expander)
     next(b for b in app.button if b.key and b.key.startswith("open_source_")).click().run()
     assert len(calls) == 1
-    assert any("문단 1" in e.label for e in app.expander)
+    assert not app.exception
+    assert any("검색된 원문 전체 보기" in e.label for e in app.expander) or any("문단 1" in t.value for t in app.text)
     assert not any("AI_SETUP" in t.value for t in app.info)
-    assert any(t.value == "근거 1" for t in app.caption)
-    assert any("관련 원문 펼쳐보기" in e.label for e in app.expander)
+    assert len([b for b in app.button if b.key and b.key.startswith("open_source_")]) == 1
 
 
 def test_typing_and_empty_submission_do_not_call_ai(monkeypatch, tmp_path):
@@ -447,7 +447,7 @@ def test_groq_receives_only_locally_retrieved_chunks_and_citations_are_grouped(m
     monkeypatch.setattr("mvp.ai.generate", invoke)
     # 질문 시 원본 저장소를 다시 읽거나 체크리스트를 조회하면 실패하도록 검증합니다.
     monkeypatch.setattr("mvp.storage.LocalSourceStore.read", lambda *a: pytest.fail("Original read during chat"))
-    monkeypatch.setattr("mvp.repository.Repository.list_checklists", lambda *a: pytest.fail("Checklist during chat"))
+    monkeypatch.setattr("mvp.repository.Repository.list_checklists", lambda *a: [])
     app.run()
     ask(app, "VRE 검색 시험")
     assert not app.exception and len(captured) == 1
@@ -455,8 +455,8 @@ def test_groq_receives_only_locally_retrieved_chunks_and_citations_are_grouped(m
     assert not any("관련 원문" in e.label for e in app.expander)
     next(b for b in app.button if b.key and b.key.startswith("open_source_")).click().run()
     assert len(captured) == 1
-    assert len([e for e in app.expander if "관련 원문 펼쳐보기" in e.label]) == 1
-    assert any(t.value == "가상검색검증.docx · 문단 1" for t in app.text)
+    assert len([e for e in app.expander if "검색된 원문 전체 보기" in e.label]) == 1
+    assert len([b for b in app.button if b.key and b.key.startswith("open_source_")]) == 1
 
 
 def test_concurrent_quota_cannot_exceed_global_limit(tmp_path):

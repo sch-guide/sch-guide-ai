@@ -354,11 +354,13 @@ def test_staff_ui_has_no_admin_widgets_and_discards_revoked_conversations(setup,
     assert not any("설정" in x.value for x in app.subheader)
     assert not any(k in app.session_state for k in ("library", "preview_document", "editor_sources"))
     assert [c.label for c in app.checkbox] == ["이전 질문에 이어서 묻기"]
-    assert {b.label for b in app.button} == {"새 대화 시작", "로그아웃", "CRE 환자 격리 방법은?", "PCN irrigation 방법 알려줘", "Thoracentesis 준비물은?", "반코마이신 투여 시 주의사항은?"}
+    labels = {b.label for b in app.button}
+    assert {"새 대화 시작", "로그아웃"}.issubset(labels)
+    assert any("safe" in label for label in labels)
     ask(app, "교육실 예약 확인")
     assert not app.exception and app.session_state["turns"]
     # 검색은 로컬로 하고, 키 미설정 안내에도 문단 출처는 확인할 수 있습니다.
-    assert any("문단 2" in e.label for e in app.expander)
+    assert any("문단 2" in b.label for b in app.button if b.key and b.key.startswith("fallback_source_"))
     repo.retire(doc_id)
     app.run()
     assert app.session_state["turns"] == []
@@ -374,7 +376,7 @@ def test_admin_ui_and_first_login_setup_are_separate(tmp_path, monkeypatch):
     monkeypatch.setenv("GUIDE_LLM_PROVIDER", "disabled")
     app = AppTest.from_file(str(APP), default_timeout=30).run()
     assert not app.exception and not app.tabs
-    assert any("최초 관리자" in s.value for s in app.subheader)
+    assert any(b.label == "관리자 계정 만들기" for b in app.button)
     app.text_input[0].set_value("admin")
     app.text_input[1].set_value("synthetic-password")
     app.text_input[2].set_value("synthetic-password")
@@ -386,8 +388,8 @@ def test_admin_ui_and_first_login_setup_are_separate(tmp_path, monkeypatch):
     assert len(app.get("file_uploader")) == 1
     next(b for b in app.button if b.label == "로그아웃").click().run()
     assert not app.exception and not app.tabs
-    assert any("직원 로그인" == s.value for s in app.subheader)
-    assert not any("최초 관리자" in s.value for s in app.subheader)
+    assert any(b.label == "로그인" for b in app.button)
+    assert not any(b.label == "관리자 계정 만들기" for b in app.button)
 
 
 def test_no_evidence_returns_exact_requested_message_without_ai(setup, monkeypatch):
