@@ -1,4 +1,4 @@
-# Python 3.12에서 실행합니다. 무료 검색 + 직원 로그인 + AI 채팅 모듈.
+# Python 3.12 · deployment refresh 2026-09-10 · 직원 로그인 + RAG AI 채팅
 streamlit==1.63.0
 pypdf==6.17.0
 fastembed==0.8.0
