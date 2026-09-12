@@ -46,7 +46,7 @@ from mvp.ui import (
     source_card,
 )
 
-APP_RELEASE = '2026.09.12-rag.5'
+APP_RELEASE = '2026.09.12-bm25.1'
 
 st.set_page_config(page_title="병원 실무지침 AI", page_icon="📘", layout="wide", initial_sidebar_state="auto")
 apply_theme()

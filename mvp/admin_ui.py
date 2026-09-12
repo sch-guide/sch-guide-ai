@@ -4,7 +4,7 @@ import streamlit as st
 
 from mvp.ai import Quota
 from mvp.auth import LocalAuth
-from mvp.diagnostic_ui import render_diagnostics
+from mvp.diagnostic_ui import render_bm25_evaluation, render_diagnostics
 from mvp.documents import MAX_FILE_MB, PdfInputError, read_document
 from mvp.library import CHUNK_VERSION, protect_private
 from mvp.operations import create_backup, verify_backup
@@ -61,6 +61,7 @@ def render_admin(library, auth, settings, model_factory):
                 st.session_state['show_upload'] = True
     document_summary(docs)
     if docs:
+        render_bm25_evaluation(library, auth, docs)
         render_diagnostics(library, auth, settings, model_factory, docs)
     ready = {d["id"]: d["document_name"] for d in docs if d["status"] == "ready"}
     labels = {"ready": "● 검색 가능", "pending": "○ 색인 대기", "error": "⚠ 색인 실패",
