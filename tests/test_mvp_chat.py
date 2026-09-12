@@ -327,6 +327,32 @@ def test_chat_form_sources_and_new_conversation_with_source_buttons(monkeypatch,
     assert next(c for c in app.checkbox if c.label == "이전 질문에 이어서 묻기").disabled
 
 
+def test_bm25_chat_debug_is_collected_and_shown_only_to_admin(monkeypatch, tmp_path):
+    from mvp.auth import LocalAuth
+
+    monkeypatch.setenv("GUIDE_MODE", "local")
+    monkeypatch.setenv("GUIDE_LLM_PROVIDER", "disabled")
+    monkeypatch.setattr("mvp.library.Embedder", FakeEmbedder)
+    app = registered_app(monkeypatch, tmp_path)
+    ask(app, "교육실 예약 확인")
+    trace = app.session_state["turns"][-1]["search_trace"]
+    assert trace["actual_query"] == "교육실 예약 확인"
+    assert trace["bm25_top10"] and "chunk_text" in trace["bm25_top10"][0]
+    assert any("BM25 원시 검색 결과" in item.label for item in app.expander)
+    assert any(button.label == "BM25 결과 CSV 저장" for button in app.get("download_button"))
+
+    admin_auth = app.session_state["auth"]
+    admin_auth.create_user("debug-staff", "synthetic-staff-password")
+    staff = LocalAuth(admin_auth.path.parent)
+    staff.login("debug-staff", "synthetic-staff-password")
+    app.session_state["auth"] = staff
+    app.run()
+    ask(app, "교육실 예약 확인")
+    assert "search_trace" not in app.session_state["turns"][-1]
+    assert not any("BM25 원시 검색 결과" in item.label for item in app.expander)
+    assert not any(button.label == "BM25 결과 CSV 저장" for button in app.get("download_button"))
+
+
 def test_ai_answer_is_rendered_in_chat_after_real_validation(monkeypatch, tmp_path):
     monkeypatch.setenv("GUIDE_MODE", "local")
     monkeypatch.setenv("GUIDE_LLM_PROVIDER", "internal")
