@@ -1,4 +1,4 @@
-# Python 3.12 · deployment refresh 2026-09-12-rag.3 · 실제 검색 진단·목적 항목 문맥
+# Python 3.12 · deployment refresh 2026-09-12-rag.4 · PDF 문장 줄바꿈·표제 후보 제외
 streamlit==1.63.0
 pypdf==6.17.0
 fastembed==0.8.0

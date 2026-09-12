@@ -7,7 +7,7 @@ from dataclasses import replace
 
 import numpy as np
 
-from mvp.library import Hit, anchors, clean, compatible, lexical_evidence, term_matches
+from mvp.library import Hit, anchors, clean, compatible, has_substantive_body, lexical_evidence, term_matches
 from mvp.query import plan_query, topic_words
 from mvp.search_trace import begin_trace, candidate_trace, finish_trace
 
@@ -69,6 +69,9 @@ def rerank(plan, hits, minimum=.38, trace=None):
         decision = dict(chunk_id=hit.chunk.id, similarity=hit.similarity)
         if trace is not None:
             trace['rerank_decisions'].append(decision)
+        if not has_substantive_body(hit.chunk):
+            decision['reason'] = 'heading_only_or_short_body'
+            continue
         if not compatible(plan.query, text + ' ' + section):
             decision['reason'] = 'incompatible_topic'
             continue

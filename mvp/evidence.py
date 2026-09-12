@@ -3,7 +3,7 @@
 import re
 from dataclasses import dataclass
 
-from mvp.library import INTENT_TERMS, anchors, clean, compatible, term_matches, terms
+from mvp.library import INTENT_TERMS, anchors, clean, compatible, has_substantive_body, term_matches, terms
 
 # 같은 주제의 목적 문단만으로 용량·주기·해제 기준 등을 답하지 못하게 합니다.
 ASPECTS = (
@@ -35,7 +35,7 @@ def relevant_body(plan, hit):
     """제목이나 높은 벡터 점수만으로 근거를 인정하지 않습니다."""
     text = hit.chunk.text
     context = text + ' ' + hit.chunk.section
-    if not compatible(plan.query, context) or len(clean(text)) < 8:
+    if not compatible(plan.query, context) or not has_substantive_body(hit.chunk):
         return False
     if plan.entities:
         return bool(set(plan.entities) & set(anchors(context)))
@@ -126,8 +126,23 @@ def assess_evidence(plan, hits):
 
 
 def source_sentences(text):
-    """수치의 소수점은 유지하며 문장/표 행을 출처 단위로 나눕니다."""
-    return [clean(s) for s in re.split(r'(?<=[.!?。！？])(?<!\d\.)\s+|\n+', text) if clean(s)]
+    """명확한 한국어 연결어 뒤의 PDF 줄바꿈은 문장 경계가 아닙니다.
+
+    단어·조건·부정은 그대로 두고 공백만 정규화합니다. 빈 줄/표 행/목록/항목 경계는 유지합니다.
+    """
+    lines = []
+    boundary = r'^(?:[-•●▪*※]|[①-⑳]|\d+(?:\.\d+)*[.)]\s|[가-하]\))|[|]|[:：]$'
+    continuation = r'(?:[가-힣]{2,}(?:의|을|를|와|과|은|는|가|로)|[a-zA-Z%]+(?:의|을|를|로)|(?:경우|위해|하며|하여|하고|또는|및|후|전|때|없이|않고))$'
+    for raw in text.splitlines():
+        line = clean(raw)
+        previous = lines[-1] if lines else ''
+        if (line and previous and not re.search(boundary, line)
+                and '|' not in previous and not re.search(r'[.!?。！？:：]$', previous)
+                and re.search(continuation, previous)):
+            lines[-1] += ' ' + line
+        else:
+            lines.append(line)
+    return [clean(s) for s in re.split(r'(?<=[.!?。！？])(?<!\d\.)\s+|\n+', '\n'.join(lines)) if clean(s)]
 
 
 def sentence_evidence(text, evidence, sources):

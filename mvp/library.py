@@ -14,7 +14,7 @@ from mvp.medical_terms import ALIASES
 from mvp.settings import DIMENSIONS, MODEL, ROOT, GuideError
 
 NO_GUIDELINE = "등록된 지침서에서 확인할 수 없습니다."
-SEARCH_VERSION = 9
+SEARCH_VERSION = 10
 CHUNK_VERSION = 4
 # 이 단어만 겹치는 경우에는 서로 다른 시술의 문서를 근거로 채택하지 않습니다.
 INTENT_TERMS = {
@@ -87,6 +87,16 @@ def lexical_evidence(question, chunk, words=None):
     supported = topic_body or (topic_context and intent_body)
     score = len(body) + (0.5 if topic_context and intent_body else 0)
     return score, supported
+
+
+def has_substantive_body(chunk):
+    """문서명/항목명만 반복하는 짧은 표제는 답변 본문이나 검색 seed로 쓰지 않습니다."""
+    headings = {clean(value) for value in (chunk.title, chunk.document_name,
+                chunk.document_name.rsplit('.', 1)[0], *chunk.section.split('>')) if value.strip()}
+    lines = [clean(line) for line in chunk.text.splitlines() if clean(line)]
+    caption = r'(?:\[[^\]]{1,50}\]|(?:예시|그림|표)\s*[①-⑳\d]+)'
+    body = ' '.join(line for line in lines if line not in headings and not re.fullmatch(caption, line))
+    return len(body) >= 8 and bool(re.search(r'[가-힣a-zA-Z]', body))
 
 
 def anchors(question):
