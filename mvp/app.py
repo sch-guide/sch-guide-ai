@@ -22,6 +22,7 @@ from mvp.auth import LocalAuth
 from mvp.checklist_ui import checklist_dialog, matching_checklists
 from mvp.cloud import StaffLibrary
 from mvp.cloud_repository import CloudRepository
+from mvp.diagnostic_ui import render_bm25_debug
 from mvp.library import (
     CHUNK_VERSION,
     NO_GUIDELINE,
@@ -45,7 +46,7 @@ from mvp.ui import (
     source_card,
 )
 
-APP_RELEASE = '2026.09.12-rag.4'
+APP_RELEASE = '2026.09.12-rag.5'
 
 st.set_page_config(page_title="병원 실무지침 AI", page_icon="📘", layout="wide", initial_sidebar_state="auto")
 apply_theme()
@@ -255,6 +256,8 @@ def show_turn(turn, index):
                 st.caption("이전 질문의 맥락을 이어서 확인했습니다.")
             if turn.get('plan') and turn['plan'].corrections:
                 st.caption('검색어 철자 보완: ' + ' · '.join(f'{a} → {b}' for a, b in turn['plan'].corrections))
+        if admin and turn.get('search_trace') is not None:
+            render_bm25_debug(turn['query'], turn['search_trace'], index)
 
 
 if page == 'manage' and admin:
@@ -315,8 +318,12 @@ else:
                 library.ensure_revision(revision)
                 model = search_model()
                 vector = model.encode([bounded_embedding_question(plan.expanded, model)])[0]
-                hits = library.search(query, vector, selected, settings.min_similarity, plan=plan)
+                search_trace = {} if admin else None
+                hits = library.search(
+                    query, vector, selected, settings.min_similarity, plan=plan, trace=search_trace)
                 turn["hits"] = hits
+                if search_trace is not None:
+                    turn["search_trace"] = search_trace
                 turn["search_elapsed"] = time.perf_counter() - start
                 if hits:
                     ai_start = time.perf_counter()

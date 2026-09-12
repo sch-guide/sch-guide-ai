@@ -1,5 +1,6 @@
 """합성 문서로 차단 원인과 관리자 진단 계약을 검증합니다. 운영 문서 검증과 구분합니다."""
 
+import csv
 import json
 from dataclasses import replace
 from io import BytesIO
@@ -13,6 +14,7 @@ from mvp.ai import Quota, answer_text, generate
 from mvp.auth import LocalAuth
 from mvp.cloud import StaffLibrary
 from mvp.cloud_repository import CloudRepository
+from mvp.diagnostic_ui import BM25_CSV_COLUMNS, bm25_csv, bm25_debug_rows
 from mvp.diagnostics import extraction_summary, run_diagnostics, safe_failure, vectors_summary
 from mvp.documents import PdfDocument, PdfPage
 from mvp.evidence import assess_evidence
@@ -92,11 +94,31 @@ def test_trace_records_all_actual_search_stages_without_changing_results():
     assert expected == actual and actual[0].chunk.id == 'purpose'
     assert trace['bm25_index_size'] == 2 and set(trace['indexed_chunk_ids']) == {'purpose', 'other'}
     assert trace['bm25_top10'][0]['score'] > 0
+    assert trace['actual_query'] == QUESTION
+    assert trace['bm25_top10'][0]['chunk_text'] == source.text
     assert len(trace['vector_top10']) == 2 and trace['fused_top10']
     assert trace['reranked_top5'][0]['chunk_id'] == 'purpose'
     assert trace['thresholds']['unsupported_dense_minimum'] == .55
     reasons = {d['chunk_id']: d['reason'] for d in trace['rerank_decisions']}
     assert reasons == {'purpose': 'selected', 'other': 'below_unsupported_dense_threshold'}
+
+
+def test_bm25_csv_has_required_columns_top_ten_and_full_chunk_text():
+    long_text = '가상 원문입니다. ' * 40
+    trace = {'actual_query': '실제 확장 검색어', 'bm25_top10': [
+        {'score': 8.21 - rank, 'document_name': '가상지침.pdf', 'page_number': rank + 1,
+         'section_title': '가상 항목', 'chunk_id': f'chunk-{rank}', 'chunk_text': long_text + str(rank)}
+        for rank in range(12)
+    ]}
+    rows = bm25_debug_rows('사용자 질문', trace)
+    assert len(rows) == 10 and rows[0]['rank'] == 1 and rows[-1]['rank'] == 10
+    assert rows[0]['query'] == '실제 확장 검색어'
+    assert rows[0]['chunk_text'] == long_text + '0'
+    decoded = bm25_csv('사용자 질문', trace).decode('utf-8-sig')
+    parsed = list(csv.DictReader(decoded.splitlines()))
+    assert tuple(parsed[0]) == BM25_CSV_COLUMNS
+    assert len(parsed) == 10 and parsed[0]['bm25_score'] == '8.21'
+    assert parsed[0]['chunk_text'] == long_text + '0'
 
 
 def test_extraction_counts_include_empty_pages_and_whitespace_keywords():

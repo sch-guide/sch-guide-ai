@@ -19,7 +19,7 @@ def hit_row(hit):
 
 def begin_trace(trace, plan, doc_ids, minimum):
     if trace is not None:
-        trace.update(plan=asdict(plan), requested_document_ids=sorted(set(doc_ids)),
+        trace.update(actual_query=plan.query, plan=asdict(plan), requested_document_ids=sorted(set(doc_ids)),
                      allowed_document_ids=[], indexed_chunk_ids=[], bm25_index_size=0,
                      bm25_top10=[], vector_top10=[], fused_top10=[], reranked_top5=[], final_hits=[],
                      rerank_decisions=[], reason='not_searched',
@@ -32,7 +32,8 @@ def candidate_trace(trace, chunks, bm25_scores, dense_hits, candidates):
     if trace is None:
         return
     trace.update(indexed_chunk_ids=[c.id for c in chunks], bm25_index_size=len(chunks),
-                 bm25_top10=[dict(chunk_row(chunks[int(i)]), score=float(bm25_scores[i]))
+                 bm25_top10=[dict(chunk_row(chunks[int(i)]), score=float(bm25_scores[i]),
+                                    chunk_text=chunks[int(i)].text)
                              for i in np.argsort(-bm25_scores, kind='stable')[:10]],
                  vector_top10=[dict(hit_row(h), score=h.similarity) for h in dense_hits[:10]],
                  fused_top10=[hit_row(h) for h in sorted(candidates, key=lambda h: -h.fusion_score)[:10]])

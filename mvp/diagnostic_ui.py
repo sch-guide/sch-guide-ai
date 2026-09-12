@@ -1,11 +1,72 @@
-"""관리자 전용, 클릭할 때만 실행하는 실제 검색 진단 화면."""
+"""관리자 전용 검색 진단과 BM25 원시 결과 표시."""
 
+import csv
 import json
+from io import StringIO
 
 import streamlit as st
 
 from mvp.diagnostics import run_diagnostics
 from mvp.settings import GuideError
+
+BM25_CSV_COLUMNS = (
+    'query', 'rank', 'bm25_score', 'document_name', 'page_number',
+    'section_title', 'chunk_id', 'chunk_text',
+)
+
+
+def bm25_debug_rows(query, trace):
+    """검색 trace를 화면과 CSV에서 함께 쓰는 고정 형식으로 바꿉니다."""
+    actual_query = trace.get('actual_query') or query
+    rows = []
+    for rank, item in enumerate(trace.get('bm25_top10', ())[:10], 1):
+        rows.append({
+            'query': actual_query,
+            'rank': rank,
+            'bm25_score': float(item.get('score', item.get('bm25_score', 0))),
+            'document_name': item.get('document_name') or '',
+            'page_number': item.get('page_number'),
+            'section_title': item.get('section_title') or '',
+            'chunk_id': item.get('chunk_id') or '',
+            'chunk_text': item.get('chunk_text') or item.get('sample') or '',
+        })
+    return rows
+
+
+def bm25_csv(query, trace):
+    """한글이 Excel에서도 깨지지 않는 UTF-8 BOM CSV를 만듭니다."""
+    output = StringIO(newline='')
+    writer = csv.DictWriter(output, fieldnames=BM25_CSV_COLUMNS, lineterminator='\n')
+    writer.writeheader()
+    writer.writerows(bm25_debug_rows(query, trace))
+    return ('\ufeff' + output.getvalue()).encode('utf-8')
+
+
+def render_bm25_debug(query, trace, index):
+    """관리자 채팅에서만 호출하는 질문별 BM25 원시 결과 화면입니다."""
+    actual_query = trace.get('actual_query') or query
+    rows = bm25_debug_rows(actual_query, trace)
+    with st.expander('BM25 원시 검색 결과 · 관리자 전용'):
+        st.caption('최종 AI 답변과 무관하게 BM25가 실제로 계산한 상위 10개 chunk입니다.')
+        st.markdown('**실제 검색 query**')
+        st.code(actual_query, language=None)
+        if not rows:
+            st.info('BM25 검색 결과가 없습니다.')
+        for row in rows:
+            st.markdown(f"**{row['rank']}위** · score: {row['bm25_score']:.4f}")
+            page = f"p.{row['page_number']}" if row['page_number'] not in (None, '') else '페이지 정보 없음'
+            st.caption(f"문서: {row['document_name']} · {page}")
+            st.caption(f"section: {row['section_title'] or '미지정'}")
+            preview = row['chunk_text'][:300]
+            st.text(preview + ('…' if len(row['chunk_text']) > 300 else ''))
+        st.download_button(
+            'BM25 결과 CSV 저장',
+            data=bm25_csv(actual_query, trace),
+            file_name=f'bm25-search-{index + 1}.csv',
+            mime='text/csv',
+            key=f'bm25_csv_{index}',
+            on_click='ignore',
+        )
 
 
 def render_diagnostics(library, auth, settings, model_factory, documents):
@@ -50,6 +111,9 @@ def render_diagnostics(library, auth, settings, model_factory, documents):
                 st.dataframe(doc['chunks'], hide_index=True, width='stretch')
         for label, trace in report['searches'].items():
             st.write('질문 검색' if label == 'question' else '인덱스 비교 검색')
+            actual_query = trace.get('actual_query') or query
+            st.markdown('**실제 검색 query**')
+            st.code(actual_query, language=None)
             st.json({k: trace.get(k) for k in ('plan', 'query_embedding', 'allowed_document_ids', 'bm25_index_size',
                                              'thresholds', 'reason', 'evidence_assessment')})
             for key, title in [('bm25_top10', 'BM25 top 10'), ('vector_top10', '실제 vector 검색 top 10'),
@@ -58,7 +122,21 @@ def render_diagnostics(library, auth, settings, model_factory, documents):
                                ('stored_vector_cosine_top10', '실제 저장 벡터 전수 비교 top 10')]:
                 st.write(title)
                 if trace.get(key):
-                    st.dataframe(trace[key], hide_index=True, width='stretch')
+                    if key == 'bm25_top10':
+                        rows = bm25_debug_rows(actual_query, trace)
+                        previews = [{**{k: v for k, v in row.items() if k != 'chunk_text'},
+                                     'chunk_preview_300': row['chunk_text'][:300]} for row in rows]
+                        st.dataframe(previews, hide_index=True, width='stretch')
+                        st.download_button(
+                            'BM25 결과 CSV 저장',
+                            data=bm25_csv(actual_query, trace),
+                            file_name=f'bm25-{label}.csv',
+                            mime='text/csv',
+                            key=f'diagnostic_bm25_csv_{label}',
+                            on_click='ignore',
+                        )
+                    else:
+                        st.dataframe(trace[key], hide_index=True, width='stretch')
                 else:
                     st.caption('결과 없음 또는 해당 단계 미실행 · 오류/제외 사유를 확인하세요.')
             if trace.get('vector_score_note'):
