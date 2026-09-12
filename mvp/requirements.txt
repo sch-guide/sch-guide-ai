@@ -1,4 +1,4 @@
-# Python 3.12 · deployment refresh 2026-09-12-rag.1 · 근거 검증 + hybrid RAG
+# Python 3.12 · deployment refresh 2026-09-12-rag.2 · 기존 DB 검색 호환성
 streamlit==1.63.0
 pypdf==6.17.0
 fastembed==0.8.0

@@ -1,5 +1,6 @@
 """직원 세션별 Supabase 연결. publishable 키 + 사용자 JWT로 RLS를 적용합니다."""
 
+import re
 import time
 
 import httpx
@@ -7,6 +8,55 @@ import numpy as np
 
 from mvp.library import Chunk, Hit, chunk_payload
 from mvp.settings import GuideError, reject_secret_key
+
+OPTIONAL_CHUNK_COLUMNS = frozenset({
+    'source_type', 'location', 'normalized_text', 'previous_chunk_id', 'next_chunk_id', 'parent_id',
+})
+
+
+def database_stage(path):
+    """고정된 처리명만 표시하고 URL·ID·인증정보는 오류에 포함하지 않습니다."""
+    return {
+        '/rest/v1/guide_chunks': 'SOURCE', '/rest/v1/rpc/guide_search': 'SEARCH',
+        '/rest/v1/guide_documents': 'DOCUMENTS', '/rest/v1/guide_checklists': 'CHECKLISTS',
+    }.get(path, 'REQUEST')
+
+
+class DatabaseError(GuideError):
+    """응답 본문을 보관하지 않고 안전한 진단 코드와 알려진 누락 열만 추출합니다."""
+
+    def __init__(self, response, path):
+        self.status = response.status_code
+        try:
+            payload = response.json()
+        except ValueError:
+            payload = {}
+        if not isinstance(payload, dict):
+            payload = {}
+        code = payload.get('code', '')
+        self.code = code if isinstance(code, str) and re.fullmatch(r'(?:[0-9A-Z]{5}|PGRST\d{3})', code) else 'UNKNOWN'
+        self.missing_column = None
+        if self.status == 400 and path == '/rest/v1/guide_chunks' and self.code in {'42703', 'PGRST204'}:
+            message = payload.get('message', '')
+            if isinstance(message, str):
+                patterns = (
+                    r'column (?:(?:"?public"?\.)?"?guide_chunks(?:_\d+)?"?\.)?"?([a-z_]+)"? does not exist',
+                    r"Could not find the '([a-z_]+)' column of 'guide_chunks' in the schema cache",
+                )
+                for pattern in patterns:
+                    match = re.fullmatch(pattern, message)
+                    if match and match[1] in OPTIONAL_CHUNK_COLUMNS:
+                        self.missing_column = match[1]
+                        break
+        if self.status in {401, 403}:
+            advice = '자료 조회 권한을 확인하지 못했습니다. 다시 로그인하거나 관리자에게 문의하세요.'
+        elif self.code in {'PGRST202', '42883'}:
+            advice = '데이터베이스 검색 함수가 없거나 버전이 맞지 않습니다. 관리자에게 문의하세요.'
+        elif self.code in {'57014', 'PGRST003'}:
+            advice = '데이터베이스 요청 시간이 초과되었습니다. 검색할 지침서를 줄여 다시 시도해 주세요.'
+        else:
+            advice = '데이터베이스 요청을 처리하지 못했습니다. 아래 오류 코드를 관리자에게 전달해 주세요.'
+        super().__init__(f'{advice} (DATABASE/{database_stage(path)}/HTTP{self.status}/{self.code})')
 
 
 class StaffLibrary:
@@ -19,6 +69,7 @@ class StaffLibrary:
         self.profile = None
         self.user_id = ""
         self._search_cache = None
+        self._chunk_columns = tuple(Chunk.__dataclass_fields__)
 
     def request(self, method, path, **kwargs):
         headers = {"apikey": self.settings.supabase_key}
@@ -28,12 +79,13 @@ class StaffLibrary:
             response = self.client.request(method, self.settings.supabase_url.rstrip("/") + path,
                                            headers=headers, **kwargs)
             if response.status_code >= 400:
-                raise GuideError("계정 권한·연결 설정·SQL 설치 상태를 확인해 주세요. (DATABASE)")
+                raise DatabaseError(response, path)
             return response.json() if response.content else None
         except GuideError:
             raise
         except (httpx.HTTPError, ValueError):
-            raise GuideError("Supabase에 연결하지 못했습니다. 네트워크 상태를 확인해 주세요. (DATABASE)") from None
+            raise GuideError('Supabase 응답을 받지 못했습니다. 잠시 후 다시 시도해 주세요. '
+                             f'(DATABASE/{database_stage(path)}/NETWORK)') from None
 
     def use_token(self, data):
         self.token = data["access_token"]
@@ -73,6 +125,7 @@ class StaffLibrary:
         self.profile = None
         self.expires = 0
         self._search_cache = None
+        self._chunk_columns = tuple(Chunk.__dataclass_fields__)
 
     def logout(self):
         try:
@@ -147,24 +200,38 @@ class StaffLibrary:
                 for c, vector in zip(chunks, vectors, strict=True)]
         self.request("POST", "/rest/v1/rpc/guide_reindex",
                      json={"doc": metadata, "parts": rows})
+    def _source_rows(self, params):
+        # 구버전/부분 마이그레이션 DB도 지원합니다. 서버가 없다고 확인한 선택 열만 제외하며,
+        # 문서명·페이지·본문 등 필수 열과 존재하는 문맥 메타데이터는 그대로 유지합니다.
+        columns = self._chunk_columns
+        for _ in range(len(OPTIONAL_CHUNK_COLUMNS) + 1):
+            try:
+                rows = self.request('GET', '/rest/v1/guide_chunks',
+                                    params={**params, 'select': ','.join(columns)})
+            except DatabaseError as error:
+                if error.missing_column not in columns:
+                    raise
+                columns = tuple(c for c in columns if c != error.missing_column)
+            else:
+                self._chunk_columns = columns
+                return rows
+        raise GuideError('지침서 원문 열을 확인하지 못했습니다. 관리자에게 문의하세요. (DATABASE/SOURCE/SCHEMA)')
+
     def source_chunks(self, doc_id, chunk_ids=None):
         self.authorize()
         # 벡터는 pgvector에서 검색합니다. BM25/출처 조회에 384차원 벡터를 전송하지 않습니다.
-        columns = ','.join(Chunk.__dataclass_fields__)
         if chunk_ids is not None:
             if not chunk_ids:
                 return []
-            rows = self.request("GET", "/rest/v1/guide_chunks", params={
+            rows = self._source_rows({
                 "document_id": "eq." + doc_id, "id": "in.(" + ",".join(sorted(set(chunk_ids))) + ")",
-                "select": columns,
                 "order": "index", "limit": "40",
             })
             return [Chunk.from_row(row) for row in rows]
         result = []
         for offset in range(0, 5000, 500):
-            rows = self.request("GET", "/rest/v1/guide_chunks", params={
+            rows = self._source_rows({
                 "document_id": "eq." + doc_id,
-                "select": columns,
                 "order": "index", "offset": str(offset), "limit": "500",
             })
             result.extend(Chunk.from_row(row) for row in rows)

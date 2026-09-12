@@ -45,7 +45,7 @@ from mvp.ui import (
     source_card,
 )
 
-APP_RELEASE = '2026.09.12-rag.1'
+APP_RELEASE = '2026.09.12-rag.2'
 
 st.set_page_config(page_title="병원 실무지침 AI", page_icon="📘", layout="wide", initial_sidebar_state="auto")
 apply_theme()
@@ -283,6 +283,7 @@ else:
     question = typed_question or (pending['question'] if pending else None)
     if question:
         start = time.perf_counter()
+        status = None
         try:
             previous = turns[-1]["query"] if turns else ""
             previous_answer = turns[-1].get('answer') if turns else None
@@ -349,4 +350,6 @@ else:
             st.rerun()
         except GuideError as exc:
             # 입력 오류로 이전 대화를 지우지 않습니다. 다음 실행에서도 권한과 문서 버전을 검사합니다.
+            if status is not None:
+                status.update(label="처리를 완료하지 못했습니다.", state="error")
             st.error(str(exc))
