@@ -9,6 +9,7 @@ import numpy as np
 
 from mvp.library import Hit, anchors, clean, compatible, lexical_evidence, term_matches
 from mvp.query import plan_query, topic_words
+from mvp.search_trace import begin_trace, candidate_trace, finish_trace
 
 
 def lexical_tokens(text):
@@ -58,19 +59,29 @@ def rrf(*rankings):
     return scores
 
 
-def rerank(plan, hits, minimum=.38):
+def rerank(plan, hits, minimum=.38, trace=None):
+    from mvp.evidence import explicit_heading_context
+
     selected, ranked = [], []
     words = topic_words(plan)
     for hit in hits:
         text, section = hit.chunk.text, hit.chunk.section
+        decision = dict(chunk_id=hit.chunk.id, similarity=hit.similarity)
+        if trace is not None:
+            trace['rerank_decisions'].append(decision)
         if not compatible(plan.query, text + ' ' + section):
+            decision['reason'] = 'incompatible_topic'
             continue
         lexical, supported = lexical_evidence(plan.query, hit.chunk)
+        supported = supported or explicit_heading_context(plan, hit.chunk)
+        decision.update(lexical_supported=supported, minimum_applied=None if supported else max(minimum, .55))
         if not supported and hit.similarity < max(minimum, .55):
+            decision['reason'] = 'below_unsupported_dense_threshold'
             continue
         coverage = sum(term_matches(word, text + ' ' + section) for word in words) / max(1, len(words))
         focus = sum(term_matches(word, text) for word in plan.focus) / max(1, len(plan.focus))
         score = hit.fusion_score + .045 * coverage + .04 * focus + .008 * max(0, hit.similarity)
+        decision.update(reason='scored', rerank_score=score)
         ranked.append(replace(hit, lexical=lexical, rerank_score=score))
     ranked.sort(key=lambda h: h.rerank_score, reverse=True)
     # 비교 대상 문서·약어를 먼저 확보한 뒤 나머지 상위 후보를 선택합니다.
@@ -91,16 +102,25 @@ def rerank(plan, hits, minimum=.38):
             seen.add(signature)
         if len(selected) >= plan.max_seeds:
             break
+    if trace is not None:
+        selected_ids = {h.chunk.id for h in selected}
+        for decision in trace['rerank_decisions']:
+            if decision.get('reason') == 'scored':
+                decision['reason'] = 'selected' if decision['chunk_id'] in selected_ids else 'rank_limit_or_duplicate'
     return selected
 
 
-def search(library, question, vector, doc_ids, minimum, plan=None):
+def search(library, question, vector, doc_ids, minimum, plan=None, trace=None):
     import faiss
 
     from mvp.context import expand_context
     plan = plan or plan_query(question)
+    begin_trace(trace, plan, doc_ids, minimum)
     allowed = set(doc_ids) & (set(plan.document_ids) if plan.document_ids else set(doc_ids))
     indices = [i for i, chunk in enumerate(library.chunks) if chunk.document_id in allowed]
+    if trace is not None:
+        trace.update(backend='FAISS IndexFlatIP', allowed_document_ids=sorted(allowed),
+                     reason='no_authorized_chunks' if not indices else 'domain_or_clarification')
     if not indices or plan.clarification or plan.domain == 'out_of_scope':
         return []
     key = (tuple(indices), id(library.chunks))
@@ -119,5 +139,10 @@ def search(library, question, vector, doc_ids, minimum, plan=None):
         index = indices[position]
         candidates.append(Hit(library.chunks[index], float(np.dot(library.vectors[index], vector)),
                               bm25_score=float(bm25[position]), fusion_score=fused[position]))
-    seeds = rerank(plan, candidates, minimum)
-    return expand_context(question, seeds, [library.chunks[i] for i in indices], limit=plan.max_hits)
+    by_id = {h.chunk.id: h for h in candidates}
+    candidate_trace(trace, [library.chunks[i] for i in indices], bm25,
+                    [by_id[library.chunks[indices[p]].id] for p in dense], candidates)
+    seeds = rerank(plan, candidates, minimum, trace=trace)
+    hits = expand_context(question, seeds, [library.chunks[i] for i in indices], limit=plan.max_hits)
+    finish_trace(trace, seeds, hits)
+    return hits

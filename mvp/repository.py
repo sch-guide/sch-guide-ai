@@ -267,7 +267,9 @@ class Repository:
             with database(self.path) as db:
                 db.execute("update documents set last_error='' where id=?", (doc_id,))
 
-    def search(self, question, vector, doc_ids, minimum, plan=None):
+    def search(self, question, vector, doc_ids, minimum, plan=None, trace=None):
+        if trace is not None:
+            self.auth.require_admin()
         self.authorize()
         protect_private(question)
         revision = self.revision()
@@ -275,9 +277,34 @@ class Repository:
         with search_lock(self.path):
             library = snapshot(self.path, revision)
             allowed = {d["id"] for d in library.docs}
-            hits = library.search(question, vector, [d for d in doc_ids if d in allowed], minimum, plan)
+            hits = library.search(question, vector, [d for d in doc_ids if d in allowed], minimum, plan, trace=trace)
         self.ensure_revision(revision)
+        if trace is not None:
+            self.auth.require_admin()
         return hits
+
+    def diagnostic_source(self, doc_id):
+        self.auth.require_admin()
+        row = self._row(doc_id)
+        if row['storage_tag'] != self.storage_tag:
+            raise GuideError('등록 당시 원본 저장소와 현재 설정이 다릅니다. (STORAGE_CONFIG)')
+        content = self.store.read(row['source_key'])
+        self.auth.require_admin()
+        return json.loads(row['metadata'])['document_name'], content
+
+    def diagnostic_chunks(self, doc_id):
+        self.auth.require_admin()
+        with database(self.path) as db:
+            rows = db.execute('select payload from chunks where document_id=? order by position', (doc_id,)).fetchall()
+        self.auth.require_admin()
+        return [Chunk.from_row(json.loads(r[0])) for r in rows]
+
+    def diagnostic_vectors(self, doc_id):
+        self.auth.require_admin()
+        with database(self.path) as db:
+            rows = db.execute('select id,vector from chunks where document_id=? order by position', (doc_id,)).fetchall()
+        self.auth.require_admin()
+        return [(r[0], np.frombuffer(r[1], dtype='<f4')) for r in rows]
 
     def source_chunks(self, doc_id, chunk_ids=None):
         self.authorize()

@@ -22,6 +22,7 @@ from mvp.library import (
     make_chunks,
     retrieval_question,
 )
+from mvp.pdf_layout import EXTRACTION_VERSION
 from mvp.settings import DIMENSIONS, GuideError, Settings
 
 
@@ -106,7 +107,7 @@ def test_word_table_chunks_retain_header_and_location():
     table_parts = [p for p in parts if p.location == "표 1"]
     assert len(table_parts) > 2 and all("물품 | 위치" in p.text for p in table_parts)
     assert all(p.page is None and len(p.text) <= 110 for p in parts)
-    assert metadata["extraction_version"] == 2
+    assert metadata["extraction_version"] == EXTRACTION_VERSION
 
 
 def test_pdf_table_retains_row_relationship_and_real_page():

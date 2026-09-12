@@ -42,7 +42,47 @@ def relevant_body(plan, hit):
     words = [w for w in terms(plan.query) if w not in GENERIC]
     matched = [w for w in words if term_matches(w, text)]
     # 등록 문서명만 같거나 '방법/교육' 같은 공통어만 같은 것은 제외합니다.
-    return bool(matched)
+    return bool(matched) or explicit_heading_context(plan, hit.chunk)
+
+
+def explicit_heading_context(plan, chunk):
+    """목적/정의 항목의 실질 본문만 문서 주제에 연결합니다. 제목만으로 허용하지 않습니다."""
+    if plan.entities or not set(plan.focus).intersection({'목적', '정의'}):
+        return False
+    words = [w for w in terms(plan.query) if w not in GENERIC]
+    subject = ' '.join((chunk.document_name.rsplit('.', 1)[0], chunk.title, chunk.section))
+    if not words or not any(term_matches(w, subject) for w in words):
+        return False
+    heading = r'\s*(?:\d+(?:\.\d+)*[.)]?\s*)?(목적|정의)\s*[:：]?\s*'
+    from mvp.documents import PdfPage
+    from mvp.structure import semantic_blocks
+
+    # 저장 section이 없는 구형 DB도 원문에 명시된 항목 제목만 사용할 수 있습니다.
+    for text, section, _ in semantic_blocks(PdfPage(chunk.page, chunk.text, section=chunk.section), chunk.document_id):
+        match = re.fullmatch(heading, section.rsplit('>', 1)[-1])
+        if not match or match[1] not in plan.focus:
+            continue
+        body = [line for line in source_sentences(text) if not re.fullmatch(heading, line)
+                and line not in {clean(chunk.title), clean(chunk.document_name)}]
+        if any(len(line) >= 8 and re.search(r'[가-힣a-zA-Z]', line) for line in body):
+            return True
+    return False
+
+
+def citation_section(chunk, quotes):
+    """구버전 DB가 항목 metadata를 버린 경우에도, 원문 안의 실제 제목 범위만 복원합니다.
+
+    인용이 여러 항목에 걸치거나 같은 문장이 다른 항목에도 있으면 문맥을 추측하지 않습니다.
+    """
+    from mvp.documents import PdfPage
+    from mvp.structure import semantic_blocks
+
+    blocks = list(semantic_blocks(PdfPage(chunk.page, chunk.text, section=chunk.section), chunk.document_id))
+    locations = [{section for text, section, _ in blocks if clean(quote) in clean(text)} for quote in quotes]
+    if not locations or any(len(found) != 1 for found in locations):
+        return ''
+    sections = set.union(*locations)
+    return next(iter(sections)) if len(sections) == 1 else ''
 
 
 def assess_evidence(plan, hits):
@@ -61,7 +101,13 @@ def assess_evidence(plan, hits):
     current = plan.query.split(' / 추가 질문: ')[-1]
     # 검색어 확장에 사용한 동의어는 원문 존재 여부를 판단할 때 재사용하지 않습니다.
     for request, support in ASPECTS:
-        if re.search(request, current, re.I) and not re.search(support, bodies, re.I):
+        # 목적/정의라는 항목명은 인용할 답변 문장에 반복될 필요가 없습니다.
+        # 실제 저장된 해당 항목의 메타데이터가 있을 때만 문맥을 인정합니다.
+        aspect_text = bodies
+        if request == r'목적|정의':
+            aspect_text += '\n' + '\n'.join(h.chunk.section for h in relevant
+                                            if explicit_heading_context(plan, h.chunk))
+        if re.search(request, current, re.I) and not re.search(support, aspect_text, re.I):
             return EvidenceAssessment(False, tuple(relevant), 'missing_requested_aspect')
     if plan.entities:
         present = set().union(*(anchors(h.chunk.text + ' ' + h.chunk.section) for h in relevant))

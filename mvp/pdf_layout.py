@@ -11,7 +11,7 @@ from pathlib import Path
 from mvp.documents import PdfInputError
 from mvp.settings import ROOT
 
-EXTRACTION_VERSION = 2
+EXTRACTION_VERSION = 3
 
 
 def ocr_executable():
@@ -105,15 +105,12 @@ def enhance_pdf(document, content, *, ocr=False):
     import pdfplumber
 
     warnings, pages = list(document.warnings), []
-    if ocr:
-        ready, reason = ocr_status()
-        if not ready:
-            raise PdfInputError(reason + " (OCR_SETUP)")
     try:
         sections = bookmark_sections(content)
     except Exception:
         sections = {}
     current_section, ocr_count, ocr_seconds = "", 0, 0
+    ocr_ready = None
     try:
         with pdfplumber.open(BytesIO(content)) as pdf:
             for original, page in zip(document.pages, pdf.pages, strict=True):
@@ -146,7 +143,12 @@ def enhance_pdf(document, content, *, ocr=False):
                         text = "\n\n".join(paragraphs)
                         warnings.append("PDF 표를 행·열 텍스트로 추출했습니다. 병합 셀과 열 제목을 확인하세요.")
                     if page.images and len(text.strip()) < 80:
-                        if ocr and ocr_count < 50 and ocr_seconds < 120:
+                        # 일반 텍스트 PDF는 OCR 설치 여부와 관계없이 기존 방식으로 처리합니다.
+                        if ocr and ocr_ready is None:
+                            ocr_ready, reason = ocr_status()
+                            if not ocr_ready:
+                                warnings.append(reason + ' (OCR_SETUP)')
+                        if ocr and ocr_ready and ocr_count < 50 and ocr_seconds < 120:
                             ocr_count += 1
                             started = time.perf_counter()
                             try:

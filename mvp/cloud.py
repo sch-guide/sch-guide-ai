@@ -151,18 +151,27 @@ class StaffLibrary:
         rows = [{**chunk_payload(c), "embedding": vector.tolist()} for c, vector in zip(chunks, vectors, strict=True)]
         self.request("POST", "/rest/v1/rpc/guide_publish", json={"doc": metadata, "parts": rows})
 
-    def search(self, question, vector, doc_ids, minimum, plan=None):
+    def search(self, question, vector, doc_ids, minimum, plan=None, trace=None):
         from mvp.context import expand_context
         from mvp.query import plan_query
         from mvp.retrieval import BM25Index, rerank, rrf
+        from mvp.search_trace import begin_trace, candidate_trace, finish_trace
 
+        if trace is not None:
+            self.require_admin()
         plan = plan or plan_query(question)
+        begin_trace(trace, plan, doc_ids, minimum)
         if not doc_ids or plan.clarification or plan.domain == 'out_of_scope':
+            if trace is not None:
+                trace['reason'] = 'empty_scope_or_domain_or_clarification'
             return []
         self.authorize()
         allowed = set(doc_ids) & (set(plan.document_ids) if plan.document_ids else set(doc_ids))
         documents = [d for d in self.documents() if d['id'] in allowed]
         allowed = {d['id'] for d in documents}
+        if trace is not None:
+            trace.update(backend='Supabase pgvector RPC + local BM25', allowed_document_ids=sorted(allowed),
+                         reason='no_active_documents')
         if not allowed:
             return []
         # 캐시는 직원 세션에만 유지합니다. 매 검색마다 권한·문서 버전을 재확인합니다.
@@ -174,6 +183,8 @@ class StaffLibrary:
             self._search_cache = key, chunks, BM25Index(chunks)
         _, chunks, bm25 = self._search_cache
         if not chunks:
+            if trace is not None:
+                trace['reason'] = 'no_authorized_chunks'
             return []
         # DB에서 dense top 40을, 권한 있는 전체 원문 인덱스에서 BM25 top 40을 구합니다.
         # query_terms=[]는 기존 RPC의 단순 부분문자열 순위를 사용하지 않도록 합니다.
@@ -191,8 +202,33 @@ class StaffLibrary:
         candidates = [Hit(by_id[identifier], similarities.get(identifier, 0),
                           bm25_score=lexical_scores.get(identifier, 0), fusion_score=value)
                       for identifier, value in fusion.items()]
-        seeds = rerank(plan, candidates, minimum)
-        return expand_context(question, seeds, chunks, limit=plan.max_hits)
+        hit_by_id = {h.chunk.id: h for h in candidates}
+        candidate_trace(trace, chunks, scores, [hit_by_id[r['id']] for r in dense], candidates)
+        if trace is not None:
+            trace['vector_score_note'] = 'RPC가 반환하지 않은 BM25 전용 후보의 similarity=0은 미측정 대체값입니다.'
+            trace['rpc_returned_count'] = len(rows)
+            trace['rpc_excluded_ids'] = [r['id'] for r in rows if r['id'] not in by_id]
+        seeds = rerank(plan, candidates, minimum, trace=trace)
+        hits = expand_context(question, seeds, chunks, limit=plan.max_hits)
+        finish_trace(trace, seeds, hits)
+        if trace is not None:
+            self.require_admin()
+        return hits
+
+    def diagnostic_vectors(self, doc_id):
+        """관리자가 요청한 문서의 실제 저장 벡터만 JWT/RLS로 읽습니다."""
+        self.require_admin()
+        result = []
+        for offset in range(0, 5000, 500):
+            rows = self.request('GET', '/rest/v1/guide_chunks', params={
+                'select': 'id,embedding', 'document_id': 'eq.' + doc_id,
+                'order': 'index', 'offset': str(offset), 'limit': '500',
+            })
+            result.extend((row['id'], row.get('embedding')) for row in rows)
+            if len(rows) < 500:
+                break
+        self.require_admin()
+        return result
 
     def reindex(self, metadata, chunks, vectors):
         self.require_admin()

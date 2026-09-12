@@ -1,2 +1,2 @@
-# Streamlit Community Cloud deployment refresh: 2026-09-12-rag.2
+# Streamlit Community Cloud deployment refresh: 2026-09-12-rag.3
 -r mvp/requirements.txt

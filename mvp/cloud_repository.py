@@ -32,6 +32,12 @@ class CloudRepository:
         result = []
         for row in rows:
             item = dict(row)
+            item['storage_status'] = row.get('status')
+            item['stored_indexed_at'] = row.get('indexed_at')
+            item['stored_chunk_count'] = row.get('chunk_count')
+            item['stored_active'] = row.get('active')
+            item['stored_indexed'] = row.get('indexed')
+            item['stored_searchable'] = row.get('searchable')
             item['status'] = 'ready' if item.get('status') == 'active' else item.get('status', 'error')
             item.setdefault('indexed_at', item.get('created_at'))
             item.setdefault('last_error', '')
@@ -124,8 +130,26 @@ class CloudRepository:
         self.auth.retire(doc_id)
         self.store.delete(self._key(document))
 
-    def search(self, question, vector, doc_ids, minimum, plan=None):
-        return self.auth.search(question, vector, doc_ids, minimum, plan=plan)
+    def search(self, question, vector, doc_ids, minimum, plan=None, trace=None):
+        if trace is not None:
+            self.auth.require_admin()
+        return self.auth.search(question, vector, doc_ids, minimum, plan=plan, trace=trace)
+
+    def diagnostic_source(self, doc_id):
+        self.auth.require_admin()
+        doc = self._document(doc_id)
+        content = self.store.read(self._key(doc))
+        self.auth.require_admin()
+        return doc['document_name'], content
+
+    def diagnostic_chunks(self, doc_id):
+        self.auth.require_admin()
+        result = self.auth.source_chunks(doc_id)
+        self.auth.require_admin()
+        return result
+
+    def diagnostic_vectors(self, doc_id):
+        return self.auth.diagnostic_vectors(doc_id)
 
     def source_chunks(self, doc_id, chunk_ids=None):
         return self.auth.source_chunks(doc_id, chunk_ids)

@@ -14,7 +14,7 @@ from mvp.medical_terms import ALIASES
 from mvp.settings import DIMENSIONS, MODEL, ROOT, GuideError
 
 NO_GUIDELINE = "등록된 지침서에서 확인할 수 없습니다."
-SEARCH_VERSION = 8
+SEARCH_VERSION = 9
 CHUNK_VERSION = 4
 # 이 단어만 겹치는 경우에는 서로 다른 시술의 문서를 근거로 채택하지 않습니다.
 INTENT_TERMS = {
@@ -349,9 +349,9 @@ class LocalLibrary:
         self.vectors = combined
         self._index_key = None
 
-    def search(self, question, vector, doc_ids, minimum, plan=None):
+    def search(self, question, vector, doc_ids, minimum, plan=None, trace=None):
         from mvp.retrieval import search
-        return search(self, question, vector, doc_ids, minimum, plan)
+        return search(self, question, vector, doc_ids, minimum, plan, trace=trace)
 
     def source_chunks(self, doc_id, chunk_ids=None):
         return [c for c in self.chunks if c.document_id == doc_id
