@@ -183,4 +183,8 @@ def test_cited_quote_does_not_permit_invented_preparation_step():
     with pytest.raises(GuideError, match='AI_EVIDENCE'):
         validate_answer(json.dumps(payload), [Hit(source, .8)])
     payload['statements'][0]['text'] = 'CRE 교육 안내문을 읽고 학습 확인표를 확인한다.'
+    # 현재 계약은 추출형 답변입니다. 의미가 유사해도 원문과 다른 문장을 표시하지 않습니다.
+    with pytest.raises(GuideError, match='AI_EVIDENCE'):
+        validate_answer(json.dumps(payload), [Hit(source, .8)])
+    payload['statements'][0]['text'] = source.text
     assert validate_answer(json.dumps(payload), [Hit(source, .8)]).answerable

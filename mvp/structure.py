@@ -2,6 +2,7 @@
 
 import hashlib
 import re
+from uuid import UUID
 
 
 def semantic_blocks(page, document_id, fallback_section=''):
@@ -11,7 +12,9 @@ def semantic_blocks(page, document_id, fallback_section=''):
     def block(lines, current):
         nonlocal ordinal
         ordinal += 1
-        parent = hashlib.sha256(f'{document_id}:{page.number}:{page.location}:{ordinal}'.encode()).hexdigest()[:24]
+        # Supabase의 parent_id는 uuid입니다. 24자리 해시는 PostgreSQL에서 거절됩니다.
+        parent = str(UUID(hashlib.sha256(
+            f'{document_id}:{page.number}:{page.location}:{ordinal}'.encode()).hexdigest()[:32]))
         return '\n'.join(lines).strip(), current, parent
     for paragraph in page.text.split('\n\n'):
         if ' | ' in paragraph or page.header:

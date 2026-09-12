@@ -101,7 +101,7 @@ def search(library, question, vector, doc_ids, minimum, plan=None):
     plan = plan or plan_query(question)
     allowed = set(doc_ids) & (set(plan.document_ids) if plan.document_ids else set(doc_ids))
     indices = [i for i, chunk in enumerate(library.chunks) if chunk.document_id in allowed]
-    if not indices or plan.clarification:
+    if not indices or plan.clarification or plan.domain == 'out_of_scope':
         return []
     key = (tuple(indices), id(library.chunks))
     if library._index_key != key:

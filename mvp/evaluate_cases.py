@@ -10,6 +10,7 @@ import time
 from pathlib import Path
 
 from mvp.ai import Quota, answer_text, generate, validate_answer
+from mvp.evidence import assess_evidence
 from mvp.library import Chunk, Embedder, LocalLibrary, bounded_embedding_question
 from mvp.query import plan_query
 from mvp.settings import ROOT, GuideError, load_settings
@@ -70,7 +71,9 @@ def main():
         plan = plan_query(question, previous=previous, documents=documents)
         vector = model.encode([bounded_embedding_question(plan.expanded, model)])[0]
         hits = library.search(plan.query, vector, [d['id'] for d in documents], .38, plan)
+        assessment = assess_evidence(plan, hits)
         entry = dict(case=code, question=question, query=plan.query, kind=plan.kind,
+                     evidence_sufficient=assessment.sufficient, evidence_reason=assessment.reason,
                      expected=sorted(expected), search_seconds=round(time.perf_counter()-start, 3),
                      hits=[dict(chunk_id=h.chunk.id, document=h.chunk.document_name, page=h.chunk.page,
                                 text=h.chunk.text, similarity=round(h.similarity, 4), bm25=round(h.bm25_score, 4),
@@ -81,7 +84,8 @@ def main():
                 # 실제 앱과 동일한 전체/사용자 한도를 사용하며 한도 오류를 자동 재시도하지 않습니다.
                 answer, used = generate(settings, plan.query, hits, 'synthetic-evaluation', quota=Quota(), plan=plan)
             else:
-                answer = validate_answer(json.dumps(fixture_answer(hits, expected), ensure_ascii=False), hits)
+                supported = list(assessment.hits) if assessment.sufficient else []
+                answer = validate_answer(json.dumps(fixture_answer(supported, expected), ensure_ascii=False), supported)
                 used = hits
             entry.update(answer=answer.model_dump(), final_text=answer_text(answer),
                          sent_source_ids=[h.chunk.id for h in used], answer_mode='Groq' if args.live else 'fixture')

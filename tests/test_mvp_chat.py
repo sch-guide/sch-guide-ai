@@ -553,9 +553,9 @@ def test_successful_api_usage_settles_even_if_answer_evidence_is_invalid(tmp_pat
                         llm_key="fake-key", groq_free_confirmed=True, llm_approved=True)
     response = {"choices": [{"finish_reason": "stop", "message": {"content": "invalid-json"}}],
                 "usage": {"prompt_tokens": 200, "completion_tokens": 100, "total_tokens": 300}}
-    with pytest.raises(GuideError, match="AI_EVIDENCE"):
-        generate(settings, "교육실", [Hit(part(),.8)], "a", quota,
-                 httpx.MockTransport(lambda request: httpx.Response(200,json=response)))
+    answer, _ = generate(settings, "교육실", [Hit(part(),.8)], "a", quota,
+                         httpx.MockTransport(lambda request: httpx.Response(200,json=response)))
+    assert not answer.answerable
     with sqlite3.connect(quota.path) as db:
         assert db.execute("select tokens,reported from reservations").fetchone() == (300,1)
 

@@ -1,6 +1,7 @@
 """비용이 들지 않는 질문 계획. 검색 표현만 확장하며 임상 답변을 만들지 않습니다."""
 
 import re
+import unicodedata
 from dataclasses import dataclass
 from difflib import get_close_matches
 
@@ -37,6 +38,20 @@ class QueryPlan:
     corrections: tuple[tuple[str, str], ...] = ()
     max_seeds: int = 6
     max_hits: int = 12
+    domain: str = 'unknown'
+
+
+def question_domain(question):
+    """명백한 외부 주제는 검색 전 차단; 미등록 용어는 근거 검사에서 판단합니다."""
+    current = question.split(' / 추가 질문: ')[-1]
+    if re.search(r'날씨|주식|코인|비트코인|로또|운세|연애|맛집|여행\s*(?:추천|일정)|'
+                 r'우주선|축구\s*결과|파이썬\s*코드|영화\s*추천', current, re.I):
+        return 'out_of_scope'
+    if anchors(question) or re.search(
+        r'간호|병원|환자|진료|투약|투여|수혈|수술|검사|감염|격리|소독|세척|도뇨|'
+        r'카테터|배액|활력|혈압|혈당|산소|심폐|응급|낙상|욕창|처방|병동|직원|교육실|인계|병실', question):
+        return 'hospital'
+    return 'unknown'
 
 
 def correct_spelling(question):
@@ -77,7 +92,7 @@ def classify(question):
 
 def plan_query(question, previous='', follow_up=False, documents=(), previous_sources=()):
     # 개인정보 검사와 대화 길이 제한은 기존 공통 함수에서 수행합니다.
-    corrected, corrections = correct_spelling(question)
+    corrected, corrections = correct_spelling(clean(unicodedata.normalize('NFKC', question)))
     auto = bool(re.match(r'^(그럼|그때|그것|이어서|추가로|아까|주의사항은|준비물은|해제 기준)', corrected))
     if re.search(r'이 두 (?:지침|문서)|이 문서|이 지침|쉽게 정리|보기 쉽게', corrected):
         auto = True
@@ -113,7 +128,7 @@ def plan_query(question, previous='', follow_up=False, documents=(), previous_so
     broad = kind in {'comparison', 'synthesis', 'summary'}
     return QueryPlan(question, query, expanded, kind, STYLE[kind], focus, tuple(chosen),
                      2 if reference_two or len(chosen) >= 2 else 1, tuple(anchors(query)), clarification,
-                     corrections, 8 if broad else 6, 14 if broad else 12)
+                     corrections, 8 if broad else 6, 14 if broad else 12, question_domain(query))
 
 
 def topic_words(plan):

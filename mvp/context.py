@@ -44,6 +44,14 @@ def neighbors(seed, chunks, radius=2):
 def expand_context(question, seeds, chunks, limit=12):
     # 같은 항목의 문맥만 유지하고 다른 문서로 확장하지 않습니다.
     selected, seen = [], set()
+    def complete_context():
+        # 128토큰 제한으로 나뉜 의미 단위의 뒷부분이 빠지면 이를 생성 단계에 알립니다.
+        ids = {h.chunk.id for h in selected}
+        parents = {(h.chunk.document_id, h.chunk.parent_id) for h in selected if h.chunk.parent_id}
+        incomplete = {(c.document_id, c.parent_id) for c in chunks
+                      if (c.document_id, c.parent_id) in parents and c.id not in ids}
+        return [replace(h, context_complete=(h.chunk.document_id, h.chunk.parent_id) not in incomplete)
+                for h in selected]
     groups = [[s.chunk] + [c for c in neighbors(s.chunk, chunks) if c.id != s.chunk.id] for s in seeds]
     # 검색 후보를 먼저 확보한 뒤 앞뒤를 추가하여 여러 문서의 비교 근거를 남깁니다.
     for depth in range(max((len(g) for g in groups), default=0)):
@@ -57,5 +65,5 @@ def expand_context(question, seeds, chunks, limit=12):
                                                                bm25_score=0, context_only=True))
                 seen.add(signature)
             if len(selected) >= limit:
-                return selected
-    return selected
+                return complete_context()
+    return complete_context()

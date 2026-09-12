@@ -23,6 +23,7 @@ from mvp.checklist_ui import checklist_dialog, matching_checklists
 from mvp.cloud import StaffLibrary
 from mvp.cloud_repository import CloudRepository
 from mvp.library import (
+    CHUNK_VERSION,
     NO_GUIDELINE,
     SEARCH_VERSION,
     Embedder,
@@ -43,6 +44,8 @@ from mvp.ui import (
     sidebar_account,
     source_card,
 )
+
+APP_RELEASE = '2026.09.12-rag.1'
 
 st.set_page_config(page_title="병원 실무지침 AI", page_icon="📘", layout="wide", initial_sidebar_state="auto")
 apply_theme()
@@ -145,7 +148,10 @@ if not auth.token:
                     except GuideError as exc:
                         st.error(str(exc))
             st.html('<div class="login-help"><b>로그인이 안 되나요?</b><span>관리자에게 직원 등록 상태를 문의하세요.</span></div>')
-    st.html('<footer class="login-footer">병원 내부 업무용 · 환자 이름과 등록번호 등 개인정보는 입력하지 마세요.</footer>')
+    st.html(f'<footer class="login-footer" data-guide-release="{APP_RELEASE}" '
+            f'data-rag-version="{AI_VERSION}.{SEARCH_VERSION}.{CHUNK_VERSION}">'
+            '병원 내부 업무용 · 환자 이름과 등록번호 등 개인정보는 입력하지 마세요.'
+            f'<br>버전 {APP_RELEASE}</footer>')
     st.stop()
 
 try:
@@ -287,6 +293,10 @@ else:
                 question, previous, follow_up, documents, previous_sources)
             query = plan.query
             turn = dict(question=question, query=query, plan=plan, hits=[], answer=None, error=None)
+            if plan.domain == 'out_of_scope':
+                turn.update(elapsed=time.perf_counter() - start)
+                st.session_state['turns'] = (turns + [turn])[-8:]
+                st.rerun()
             if plan.clarification:
                 turn.update(clarification=plan.clarification, elapsed=time.perf_counter() - start)
                 st.session_state['turns'] = (turns + [turn])[-8:]

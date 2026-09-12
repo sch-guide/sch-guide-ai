@@ -14,8 +14,8 @@ from mvp.medical_terms import ALIASES
 from mvp.settings import DIMENSIONS, MODEL, ROOT, GuideError
 
 NO_GUIDELINE = "등록된 지침서에서 확인할 수 없습니다."
-SEARCH_VERSION = 6
-CHUNK_VERSION = 3
+SEARCH_VERSION = 7
+CHUNK_VERSION = 4
 # 이 단어만 겹치는 경우에는 서로 다른 시술의 문서를 근거로 채택하지 않습니다.
 INTENT_TERMS = {
     "목적", "절차", "정의", "방법", "순서", "준비", "준비물", "주의", "주의사항",
@@ -181,6 +181,7 @@ class Hit:
     fusion_score: float = 0
     rerank_score: float = 0
     context_only: bool = False
+    context_complete: bool = True
 
 
 class Embedder:

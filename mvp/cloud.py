@@ -3,8 +3,9 @@
 import time
 
 import httpx
+import numpy as np
 
-from mvp.library import Chunk, Hit, chunk_payload, rank_hits, terms
+from mvp.library import Chunk, Hit, chunk_payload
 from mvp.settings import GuideError, reject_secret_key
 
 
@@ -17,6 +18,7 @@ class StaffLibrary:
         self.expires = 0
         self.profile = None
         self.user_id = ""
+        self._search_cache = None
 
     def request(self, method, path, **kwargs):
         headers = {"apikey": self.settings.supabase_key}
@@ -70,6 +72,7 @@ class StaffLibrary:
         self.token = self.refresh = self.user_id = ""
         self.profile = None
         self.expires = 0
+        self._search_cache = None
 
     def logout(self):
         try:
@@ -96,14 +99,47 @@ class StaffLibrary:
         self.request("POST", "/rest/v1/rpc/guide_publish", json={"doc": metadata, "parts": rows})
 
     def search(self, question, vector, doc_ids, minimum, plan=None):
-        if not doc_ids:
+        from mvp.context import expand_context
+        from mvp.query import plan_query
+        from mvp.retrieval import BM25Index, rerank, rrf
+
+        plan = plan or plan_query(question)
+        if not doc_ids or plan.clarification or plan.domain == 'out_of_scope':
             return []
         self.authorize()
+        allowed = set(doc_ids) & (set(plan.document_ids) if plan.document_ids else set(doc_ids))
+        documents = [d for d in self.documents() if d['id'] in allowed]
+        allowed = {d['id'] for d in documents}
+        if not allowed:
+            return []
+        # 캐시는 직원 세션에만 유지합니다. 매 검색마다 권한·문서 버전을 재확인합니다.
+        key = (self.user_id, tuple(sorted((d['id'], d.get('file_hash', ''),
+               d.get('indexed_at') or d.get('created_at', ''), d.get('updated_date') or '') for d in documents)))
+        if self._search_cache is None or self._search_cache[0] != key:
+            self._search_cache = None
+            chunks = [c for doc_id in sorted(allowed) for c in self.source_chunks(doc_id)]
+            self._search_cache = key, chunks, BM25Index(chunks)
+        _, chunks, bm25 = self._search_cache
+        if not chunks:
+            return []
+        # DB에서 dense top 40을, 권한 있는 전체 원문 인덱스에서 BM25 top 40을 구합니다.
+        # query_terms=[]는 기존 RPC의 단순 부분문자열 순위를 사용하지 않도록 합니다.
         rows = self.request("POST", "/rest/v1/rpc/guide_search", json={
-            "query_embedding": vector.tolist(), "query_terms": terms(question),
-            "document_ids": doc_ids, "match_count": 80,
+            "query_embedding": vector.tolist(), "query_terms": [],
+            "document_ids": sorted(allowed), "match_count": 80,
         })
-        return rank_hits(question, [Hit(Chunk.from_row(r), r["similarity"]) for r in rows], minimum)
+        by_id = {c.id: c for c in chunks}
+        dense = sorted((r for r in rows if r['id'] in by_id), key=lambda r: (-r['similarity'], r['id']))[:40]
+        scores = bm25.scores(plan.expanded)
+        lexical = [int(i) for i in np.argsort(-scores, kind='stable')[:40] if scores[i] > 0]
+        fusion = rrf([r['id'] for r in dense], [chunks[i].id for i in lexical])
+        similarities = {r['id']: float(r['similarity']) for r in dense}
+        lexical_scores = {chunks[i].id: float(scores[i]) for i in lexical}
+        candidates = [Hit(by_id[identifier], similarities.get(identifier, 0),
+                          bm25_score=lexical_scores.get(identifier, 0), fusion_score=value)
+                      for identifier, value in fusion.items()]
+        seeds = rerank(plan, candidates, minimum)
+        return expand_context(question, seeds, chunks, limit=plan.max_hits)
 
     def reindex(self, metadata, chunks, vectors):
         self.require_admin()
@@ -113,12 +149,14 @@ class StaffLibrary:
                      json={"doc": metadata, "parts": rows})
     def source_chunks(self, doc_id, chunk_ids=None):
         self.authorize()
+        # 벡터는 pgvector에서 검색합니다. BM25/출처 조회에 384차원 벡터를 전송하지 않습니다.
+        columns = ','.join(Chunk.__dataclass_fields__)
         if chunk_ids is not None:
             if not chunk_ids:
                 return []
             rows = self.request("GET", "/rest/v1/guide_chunks", params={
                 "document_id": "eq." + doc_id, "id": "in.(" + ",".join(sorted(set(chunk_ids))) + ")",
-                "select": "*",
+                "select": columns,
                 "order": "index", "limit": "40",
             })
             return [Chunk.from_row(row) for row in rows]
@@ -126,7 +164,7 @@ class StaffLibrary:
         for offset in range(0, 5000, 500):
             rows = self.request("GET", "/rest/v1/guide_chunks", params={
                 "document_id": "eq." + doc_id,
-                "select": "*",
+                "select": columns,
                 "order": "index", "offset": str(offset), "limit": "500",
             })
             result.extend(Chunk.from_row(row) for row in rows)
