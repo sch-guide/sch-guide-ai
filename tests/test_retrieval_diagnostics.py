@@ -336,8 +336,20 @@ def test_admin_diagnostic_form_runs_real_repository_search(monkeypatch, tmp_path
     monkeypatch.setattr('mvp.library.Embedder', FixtureModel)
     monkeypatch.setattr('mvp.ai.generate', lambda *a, **k: pytest.fail('LLM not requested'))
     app = registered_app(monkeypatch, tmp_path)
+    from mvp.bm25_evaluation import save_bm25_artifacts
+    monkeypatch.setattr(
+        'mvp.diagnostic_ui.save_bm25_artifacts',
+        lambda report: save_bm25_artifacts(report, tmp_path / 'artifacts'),
+    )
     next(b for b in app.button if b.key == 'nav_manage').click().run()
     assert not app.exception
+    assert any(x.label == 'BM25 테스트 질문' for x in app.text_area)
+    next(b for b in app.button if b.label == 'BM25 기준선 평가 실행').click().run()
+    assert not app.exception and not app.error
+    assert {path.name for path in (tmp_path / 'artifacts').iterdir()} == {
+        'bm25_results.csv', 'bm25_results.json'
+    }
+    assert any(b.label == '전체 BM25 결과 CSV 저장' for b in app.get('download_button'))
     assert any(x.label == '진단 질문' for x in app.text_input)
     next(x for x in app.text_input if x.label == '진단 질문').set_value('교육실 사용 방법은?')
     next(b for b in app.button if b.label == '실제 검색 파이프라인 진단').click().run()
@@ -353,4 +365,5 @@ def test_admin_diagnostic_form_runs_real_repository_search(monkeypatch, tmp_path
     app.session_state['ui_page'] = 'manage'
     app.run()
     assert not app.exception
+    assert not any(x.label == 'BM25 테스트 질문' for x in app.text_area)
     assert not any(x.label == '진단 질문' for x in app.text_input)

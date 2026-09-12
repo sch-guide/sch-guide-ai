@@ -6,6 +6,14 @@ from io import StringIO
 
 import streamlit as st
 
+from mvp.bm25_evaluation import CSV_COLUMNS as EVALUATION_CSV_COLUMNS
+from mvp.bm25_evaluation import (
+    DEFAULT_QUESTIONS,
+    evaluate_bm25,
+    report_csv,
+    report_json,
+    save_bm25_artifacts,
+)
 from mvp.diagnostics import run_diagnostics
 from mvp.settings import GuideError
 
@@ -67,6 +75,91 @@ def render_bm25_debug(query, trace, index):
             key=f'bm25_csv_{index}',
             on_click='ignore',
         )
+
+
+def render_bm25_evaluation(library, auth, documents):
+    """등록된 저장 chunk만 사용하는 관리자용 BM25 일괄 기준선 화면입니다."""
+    auth.require_admin()
+    ready = {doc["id"]: doc for doc in documents if doc.get("status") == "ready"}
+    with st.expander("BM25 기준선 평가 · 관리자 전용"):
+        st.caption("벡터 검색과 AI를 호출하지 않고 현재 저장 chunk의 BM25 원시 Top-10만 평가합니다.")
+        if not ready:
+            st.info("검색 가능한 지침서를 먼저 등록하세요.")
+            return
+        with st.form("bm25_batch_evaluation"):
+            selected = st.multiselect(
+                "평가할 지침서",
+                list(ready),
+                default=list(ready),
+                format_func=lambda identifier: ready[identifier]["document_name"],
+            )
+            question_text = st.text_area(
+                "BM25 테스트 질문",
+                value="\n".join(DEFAULT_QUESTIONS),
+                height=160,
+                max_chars=5000,
+                help="한 줄에 질문 하나를 입력합니다. 최대 50개까지 평가합니다.",
+            )
+            submitted = st.form_submit_button("BM25 기준선 평가 실행", type="primary")
+        if not submitted:
+            return
+        questions = [line.strip() for line in question_text.splitlines() if line.strip()]
+        try:
+            with st.spinner("저장된 chunk에서 BM25 Top-10을 계산하고 있습니다…"):
+                report = evaluate_bm25(library, questions, selected)
+                saved = save_bm25_artifacts(report)
+            auth.require_admin()
+        except GuideError as exc:
+            st.error(str(exc))
+            return
+
+        left, middle, right = st.columns(3)
+        left.metric("문서", f"{report['document_count']}개")
+        middle.metric("저장 chunk", f"{report['chunk_count']}개")
+        right.metric("질문", f"{report['question_count']}개")
+        st.success("BM25 기준선 결과 파일을 저장했습니다.")
+        st.caption("저장 파일: artifacts/bm25_results.csv · artifacts/bm25_results.json")
+        st.warning("결과에는 지침 원문이 포함됩니다. 승인된 관리자만 검토하고 외부에 공유하지 마세요.")
+
+        for query in report["queries"]:
+            st.markdown(f"#### {query['original_query']}")
+            st.caption(
+                f"실제 query: {query['actual_query']} · BM25 입력: {query['expanded_query']} · "
+                f"양수 점수 {query['positive_result_count']}개 · {query['elapsed_ms']:.3f}ms"
+            )
+            top_five = [
+                {
+                    "rank": row["rank"],
+                    "bm25_score": round(row["bm25_score"], 6),
+                    "document_name": row["document_name"],
+                    "page_number": row["page_number"],
+                    "section_title": row["section_title"],
+                    "chunk_id": row["chunk_id"],
+                    "chunk_preview_300": row["chunk_text"][:300],
+                }
+                for row in query["top10"][:5]
+            ]
+            st.dataframe(top_five, hide_index=True, width="stretch")
+            if not query["positive_result_count"]:
+                st.warning("BM25 양수 점수 결과가 없습니다. 표시된 0점 chunk는 검색 성공이 아닙니다.")
+
+        st.download_button(
+            "전체 BM25 결과 CSV 저장",
+            data=report_csv(report),
+            file_name="bm25_results.csv",
+            mime="text/csv",
+            key="bm25_batch_csv",
+            on_click="ignore",
+        )
+        st.download_button(
+            "전체 BM25 결과 JSON 저장",
+            data=report_json(report),
+            file_name="bm25_results.json",
+            mime="application/json",
+            key="bm25_batch_json",
+            on_click="ignore",
+        )
+        st.caption(f"서버 저장 확인: {len(saved)}개 파일 · CSV 컬럼 {', '.join(EVALUATION_CSV_COLUMNS)}")
 
 
 def render_diagnostics(library, auth, settings, model_factory, documents):
