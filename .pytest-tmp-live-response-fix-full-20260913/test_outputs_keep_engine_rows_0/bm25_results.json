@@ -1,0 +1,95 @@
+{
+  "generated_at": "2026-09-12T00:00:00+09:00",
+  "documents": [],
+  "corpus": {
+    "chunk_count": 1
+  },
+  "queries": [
+    {
+      "query_id": "Q001",
+      "original_query": "진정간호 목적은?",
+      "normalized_query": "진정간호 목적은?",
+      "expanded_query": "진정간호 목적은?",
+      "query_tokens": [
+        "진정간호",
+        "ko:진정",
+        "ko:정간",
+        "ko:간호",
+        "목적",
+        "ko:목적",
+        "ko:적은"
+      ],
+      "query_plan": {
+        "original": "진정간호 목적은?",
+        "query": "진정간호 목적은?",
+        "expanded": "진정간호 목적은?",
+        "kind": "fact",
+        "format": "paragraph",
+        "focus": [
+          "목적"
+        ],
+        "document_ids": [],
+        "min_documents": 1,
+        "entities": [],
+        "clarification": "",
+        "corrections": [],
+        "max_seeds": 6,
+        "max_hits": 12,
+        "domain": "hospital"
+      },
+      "schat_bm25": [
+        {
+          "engine": "schat_bm25",
+          "query_id": "Q001",
+          "original_query": "진정간호 목적은?",
+          "normalized_query": "진정간호 목적은?",
+          "expanded_query": "진정간호 목적은?",
+          "rank": 1,
+          "bm25_score": 0.8938694000244141,
+          "requested_temporal_phase": null,
+          "temporal_tier": "inactive",
+          "zero_score": false,
+          "document_id": "doc",
+          "document_name": "가상지침.pdf",
+          "page_number": 1,
+          "location": "",
+          "section_title": "목적",
+          "chunk_id": "purpose",
+          "chunk_text": "진정간호 목적에 관한 가상 원문",
+          "source_type": "pdf",
+          "relevance_label": "unreviewed",
+          "failure_type": "",
+          "review_note": ""
+        }
+      ],
+      "rank_bm25": [
+        {
+          "engine": "rank_bm25",
+          "query_id": "Q001",
+          "original_query": "진정간호 목적은?",
+          "normalized_query": "진정간호 목적은?",
+          "expanded_query": "진정간호 목적은?",
+          "rank": 1,
+          "bm25_score": -1.7656269073486328,
+          "requested_temporal_phase": null,
+          "temporal_tier": "baseline",
+          "zero_score": false,
+          "document_id": "doc",
+          "document_name": "가상지침.pdf",
+          "page_number": 1,
+          "location": "",
+          "section_title": "목적",
+          "chunk_id": "purpose",
+          "chunk_text": "진정간호 목적에 관한 가상 원문",
+          "source_type": "pdf",
+          "relevance_label": "unreviewed",
+          "failure_type": "",
+          "review_note": ""
+        }
+      ],
+      "top10_overlap_chunk_ids": [
+        "purpose"
+      ]
+    }
+  ]
+}

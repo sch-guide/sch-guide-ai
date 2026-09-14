@@ -4,7 +4,6 @@ import re
 import time
 
 import httpx
-import numpy as np
 
 from mvp.library import Chunk, Hit, chunk_payload
 from mvp.settings import GuideError, reject_secret_key
@@ -154,7 +153,7 @@ class StaffLibrary:
     def search(self, question, vector, doc_ids, minimum, plan=None, trace=None):
         from mvp.context import expand_context
         from mvp.query import plan_query
-        from mvp.retrieval import BM25Index, rerank, rrf
+        from mvp.retrieval import BM25Index, rank_bm25_candidates, rerank, rrf
         from mvp.search_trace import begin_trace, candidate_trace, finish_trace
 
         if trace is not None:
@@ -195,7 +194,8 @@ class StaffLibrary:
         by_id = {c.id: c for c in chunks}
         dense = sorted((r for r in rows if r['id'] in by_id), key=lambda r: (-r['similarity'], r['id']))[:40]
         scores = bm25.scores(plan.expanded)
-        lexical = [int(i) for i in np.argsort(-scores, kind='stable')[:40] if scores[i] > 0]
+        bm25_ranking = rank_bm25_candidates(plan.original, chunks, scores)
+        lexical = [position for position in bm25_ranking.positions if scores[position] > 0]
         fusion = rrf([r['id'] for r in dense], [chunks[i].id for i in lexical])
         similarities = {r['id']: float(r['similarity']) for r in dense}
         lexical_scores = {chunks[i].id: float(scores[i]) for i in lexical}
@@ -203,7 +203,8 @@ class StaffLibrary:
                           bm25_score=lexical_scores.get(identifier, 0), fusion_score=value)
                       for identifier, value in fusion.items()]
         hit_by_id = {h.chunk.id: h for h in candidates}
-        candidate_trace(trace, chunks, scores, [hit_by_id[r['id']] for r in dense], candidates)
+        candidate_trace(trace, chunks, scores, [hit_by_id[r['id']] for r in dense], candidates,
+                        bm25_ranking=bm25_ranking)
         if trace is not None:
             trace['vector_score_note'] = 'RPC가 반환하지 않은 BM25 전용 후보의 similarity=0은 미측정 대체값입니다.'
             trace['rpc_returned_count'] = len(rows)

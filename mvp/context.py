@@ -1,8 +1,9 @@
 """검색한 문단의 앞뒤 문맥. 원본 파일을 열거나 별도 AI를 호출하지 않습니다."""
 
+import re
 from dataclasses import replace
 
-from mvp.library import anchors, clean
+from mvp.library import anchors, clean, has_substantive_body
 
 
 def neighbors(seed, chunks, radius=2):
@@ -41,17 +42,139 @@ def neighbors(seed, chunks, radius=2):
     return sorted(result, key=lambda c: c.index)
 
 
+def _procedure_question(question):
+    current = question.split(' / 추가 질문: ')[-1]
+    return bool(re.search(r'어떻게|방법|절차|순서', current))
+
+
+def _exact_signature(chunk):
+    return chunk.document_id, clean(chunk.text).casefold()
+
+
+def _branch_markers(text):
+    """원문에 명시된 성인/소아 분기만 찾고 임상 단계를 추론하지 않습니다."""
+    return frozenset(
+        re.findall(
+            r'\[(성인|소아)\]|^\s*(성인|소아)\s*(?:\||$)',
+            text,
+            re.MULTILINE,
+        )
+    )
+
+
+def _flat_markers(text):
+    return frozenset(marker for pair in _branch_markers(text) for marker in pair if marker)
+
+
+def _branch_stems(text):
+    stems = []
+    for line in text.splitlines():
+        if not _flat_markers(line):
+            continue
+        stem = clean(re.sub(r'\[(?:성인|소아)\]|(?:^|\|)\s*(?:성인|소아)\s*(?=\||$)', ' ', line))
+        if len(stem) >= 4:
+            stems.append(stem)
+    return tuple(dict.fromkeys(stems))
+
+
+def _parent_group(chunk, chunks):
+    if not chunk.parent_id:
+        return [chunk]
+    return sorted(
+        (candidate for candidate in chunks
+         if candidate.document_id == chunk.document_id and candidate.parent_id == chunk.parent_id),
+        key=lambda candidate: candidate.index,
+    )
+
+
+def _procedure_signature(chunk, chunks):
+    branch = frozenset(
+        marker
+        for related in _parent_group(chunk, chunks)
+        for marker in _flat_markers(related.text)
+    )
+    return chunk.document_id, tuple(sorted(branch)), clean(chunk.text).casefold()
+
+
+def _procedure_expansion(seed, chunks):
+    """seed의 의미 단위·이웃과 원문에 명시된 병렬 분기를 함께 보존합니다."""
+    expanded = {chunk.id: chunk for chunk in _parent_group(seed, chunks)}
+    expanded.update({chunk.id: chunk for chunk in neighbors(seed, chunks)})
+
+    markers, stems = _flat_markers(seed.text), _branch_stems(seed.text)
+    if markers and stems:
+        for candidate in chunks:
+            if candidate.document_id != seed.document_id:
+                continue
+            candidate_markers = _flat_markers(candidate.text)
+            if not candidate_markers or candidate_markers == markers:
+                continue
+            if not any(stem in clean(candidate.text) for stem in stems):
+                continue
+            for related in _parent_group(candidate, chunks):
+                expanded[related.id] = related
+            for related in neighbors(candidate, chunks):
+                expanded[related.id] = related
+    return sorted(expanded.values(), key=lambda chunk: chunk.index)
+
+
+def _complete_context(selected, chunks, *, preserve_branches=False):
+    ids = {hit.chunk.id for hit in selected}
+    parents = {(hit.chunk.document_id, hit.chunk.parent_id)
+               for hit in selected if hit.chunk.parent_id}
+    if preserve_branches:
+        signatures = {_procedure_signature(hit.chunk, chunks) for hit in selected}
+        incomplete = {
+            (chunk.document_id, chunk.parent_id)
+            for chunk in chunks
+            if (chunk.document_id, chunk.parent_id) in parents
+            and chunk.id not in ids
+            and _procedure_signature(chunk, chunks) not in signatures
+        }
+    else:
+        incomplete = {
+            (chunk.document_id, chunk.parent_id)
+            for chunk in chunks
+            if (chunk.document_id, chunk.parent_id) in parents and chunk.id not in ids
+        }
+    return [replace(hit, context_complete=(hit.chunk.document_id, hit.chunk.parent_id) not in incomplete)
+            for hit in selected]
+
+
+def _expand_procedure_context(seeds, chunks, limit):
+    """관련 seed 여러 개를 구조적으로 확장한 뒤 문서 원문 순서로 반환합니다."""
+    seed_by_id = {hit.chunk.id: hit for hit in seeds}
+    document_order = {document_id: position for position, document_id in enumerate(
+        dict.fromkeys(hit.chunk.document_id for hit in seeds))}
+    selected_by_signature = {}
+
+    for seed in seeds:
+        for chunk in _procedure_expansion(seed.chunk, chunks):
+            if not has_substantive_body(chunk):
+                continue
+            hit = seed_by_id.get(chunk.id) or replace(
+                seed, chunk=chunk, lexical=0, bm25_score=0, context_only=True
+            )
+            signature = _procedure_signature(chunk, chunks)
+            previous = selected_by_signature.get(signature)
+            if previous is None or (previous.context_only and not hit.context_only):
+                selected_by_signature[signature] = hit
+
+    ordered = sorted(
+        selected_by_signature.values(),
+        key=lambda hit: (document_order.get(hit.chunk.document_id, len(document_order)), hit.chunk.index),
+    )[:limit]
+    return _complete_context(ordered, chunks, preserve_branches=True)
+
+
 def expand_context(question, seeds, chunks, limit=12):
     # 같은 항목의 문맥만 유지하고 다른 문서로 확장하지 않습니다.
+    if limit < 1:
+        raise ValueError('limit은 1 이상이어야 합니다.')
+    if _procedure_question(question):
+        return _expand_procedure_context(seeds, chunks, limit)
+
     selected, seen = [], set()
-    def complete_context():
-        # 128토큰 제한으로 나뉜 의미 단위의 뒷부분이 빠지면 이를 생성 단계에 알립니다.
-        ids = {h.chunk.id for h in selected}
-        parents = {(h.chunk.document_id, h.chunk.parent_id) for h in selected if h.chunk.parent_id}
-        incomplete = {(c.document_id, c.parent_id) for c in chunks
-                      if (c.document_id, c.parent_id) in parents and c.id not in ids}
-        return [replace(h, context_complete=(h.chunk.document_id, h.chunk.parent_id) not in incomplete)
-                for h in selected]
     groups = [[s.chunk] + [c for c in neighbors(s.chunk, chunks) if c.id != s.chunk.id] for s in seeds]
     # 검색 후보를 먼저 확보한 뒤 앞뒤를 추가하여 여러 문서의 비교 근거를 남깁니다.
     for depth in range(max((len(g) for g in groups), default=0)):
@@ -65,5 +188,5 @@ def expand_context(question, seeds, chunks, limit=12):
                                                                bm25_score=0, context_only=True))
                 seen.add(signature)
             if len(selected) >= limit:
-                return complete_context()
-    return complete_context()
+                return _complete_context(selected, chunks)
+    return _complete_context(selected, chunks)
