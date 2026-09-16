@@ -153,6 +153,11 @@ _EVENT_PHASE = re.compile(
     + _PHASE_BOUNDARY
 )
 _CONTINUED_PHASE = re.compile(r'[·‧/]\s*(전|중|후)' + _PHASE_BOUNDARY)
+_EVENT_DURING = re.compile(
+    r'(?<![가-힣a-zA-Z0-9])([가-힣a-zA-Z0-9()/-]{2,})\s*(시|할\s*때|하는\s*동안)'
+    r'(?=$|[\s·‧/(),.?!\[\]])'
+)
+_NON_PROCEDURE_TIME_SUBJECTS = frozenset({'필요', '회복', '동의'})
 _BOUNDED_PHASE_PATTERNS = {
     'before': (
         r'(?<![가-힣])전(?:에|에는)(?=$|[\s·‧/(),.?!\[\]])',
@@ -181,6 +186,9 @@ def _temporal_phases(text: str) -> frozenset[TemporalPhase]:
             phases.add(phase)
     phases.update(_SHORT_PHASES[marker] for marker in _EVENT_PHASE.findall(normalized))
     phases.update(_SHORT_PHASES[marker] for marker in _CONTINUED_PHASE.findall(normalized))
+    if any(subject not in _NON_PROCEDURE_TIME_SUBJECTS
+           for subject, _ in _EVENT_DURING.findall(normalized)):
+        phases.add('during')
     return frozenset(phases)
 
 

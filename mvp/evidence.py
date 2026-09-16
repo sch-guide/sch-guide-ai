@@ -279,11 +279,17 @@ def _requested_body_support(plan):
         patterns.append(r'(?:\d+(?:\.\d+)?\s*분\s*간격|간격)')
     if '동의서' in current:
         patterns.append(r'동의서')
-    if re.search(r'산소\s*포화도|산소포화도|spo2', current, re.I):
+    from mvp.query import MONITORING_ITEM_PATTERNS
+
+    if plan.monitoring_item:
+        patterns.append(MONITORING_ITEM_PATTERNS[plan.monitoring_item])
+    elif re.search(r'산소\s*포화도|산소포화도|spo2', current, re.I):
         patterns.append(r'산소\s*포화도|산소포화도|SpO2|Oxymetry')
     if re.search(r'활력\s*징후|활력징후|v/s', current, re.I):
         patterns.append(r'활력\s*징후|활력징후|V/S|혈압|맥박|호흡수')
-    if re.search(r'모니터링|관찰|확인|측정|평가', current):
+    if plan.monitoring_action:
+        patterns.append(r'모니터링|관찰|감시|확인|측정|평가')
+    elif re.search(r'모니터링|관찰|확인|측정|평가', current):
         patterns.append(r'모니터링|관찰|확인|측정|평가')
     if re.search(r'투약|투여|약물', current):
         patterns.append(r'투약|투여|약물|약품명|용량|용법')
@@ -300,6 +306,11 @@ def relevant_body(plan, hit):
     context = text + ' ' + hit.chunk.section
     if not compatible(plan.query, context) or not has_substantive_body(hit.chunk):
         return False
+    if plan.monitoring_item and plan.monitoring_phase:
+        from mvp.retrieval import _temporal_phases
+
+        if plan.monitoring_phase not in _temporal_phases(context):
+            return False
     if plan.entities:
         return bool(set(plan.entities) & set(anchors(context)))
     from mvp.query import topic_words

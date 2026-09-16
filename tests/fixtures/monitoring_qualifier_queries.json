@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "description": "Branch × Phase × Monitoring Item × Action 오프라인 일반화 평가 fixture",
+  "cases": [
+    {"id":"MQ01","question":"소아 진정 시 호흡수도 봐?","expected_answerable":true,"expected_branch":"pediatric","expected_phase":"during","expected_item":"respiratory_rate","expected_action":"observe"},
+    {"id":"MQ02","question":"소아 진정 중 호흡수 확인해?","expected_answerable":true,"expected_branch":"pediatric","expected_phase":"during","expected_item":"respiratory_rate","expected_action":"check"},
+    {"id":"MQ03","question":"소아 진정할 때 맥박도 재?","expected_answerable":true,"expected_branch":"pediatric","expected_phase":"during","expected_item":"pulse","expected_action":"measure"},
+    {"id":"MQ04","question":"소아 진정 중 산소포화도 봐?","expected_answerable":true,"expected_branch":"pediatric","expected_phase":"during","expected_item":"oxygen_saturation","expected_action":"observe"},
+    {"id":"MQ05","question":"소아 진정 중 의식상태도 확인해?","expected_answerable":true,"expected_branch":"pediatric","expected_phase":"during","expected_item":"consciousness","expected_action":"check"},
+    {"id":"MQ06","question":"성인 진정할 때 산소포화도 봐?","expected_answerable":true,"expected_branch":"adult","expected_phase":"during","expected_item":"oxygen_saturation","expected_action":"observe"},
+    {"id":"MQ07","question":"성인 진정 중 호흡수도 확인해?","expected_answerable":false,"expected_branch":"adult","expected_phase":"during","expected_item":"respiratory_rate","expected_action":"check"}
+  ]
+}
