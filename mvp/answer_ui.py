@@ -6,6 +6,8 @@ from datetime import date
 
 import streamlit as st
 
+from mvp.presentation import procedure_display_rows
+
 
 def escape(text):
     return re.sub(r'([\\`*{}\[\]()#+.!|<>_~-])', r'\\\1', text).replace('\n', ' ')
@@ -30,7 +32,27 @@ def _is_stale(updated_date):
         return False
 
 
-def render_answer(answer, hits, index, source_view, *, on_review=None, checklists=(), on_checklist=None):
+def uses_grouped_procedure(answer, presentation):
+    return bool(
+        answer.format == 'steps'
+        and presentation
+        and len(presentation.statements) == len(answer.statements)
+    )
+
+
+def grouped_statement_markdown(statement, item, reference_text):
+    text = statement.text.lstrip()
+    marker = item.leading_marker
+    if marker and text.startswith(marker):
+        body = text[len(marker):].lstrip()
+        content = f'**{escape(marker)}**' + (f' {escape(body)}' if body else '')
+    else:
+        content = '- ' + escape(statement.text)
+    return content + (' ' + reference_text if reference_text else '')
+
+
+def render_answer(answer, hits, index, source_view, *, presentation=None, on_review=None,
+                  checklists=(), on_checklist=None):
     """문장별 인용은 유지하면서 같은 문서·위치의 chunk는 하나의 출처로 묶습니다."""
     chunks = {hit.chunk.id: hit.chunk for hit in hits}
     groups, chunk_to_group = {}, {}
@@ -70,6 +92,17 @@ def render_answer(answer, hits, index, source_view, *, on_review=None, checklist
                                              for e in statement.evidence))
             rows.append(f'| {escape(statement.label or names)} | {escape(statement.text)} | {references(statement)} |')
         st.markdown('\n'.join(rows))
+    elif uses_grouped_procedure(answer, presentation):
+        for row in procedure_display_rows(presentation):
+            if row.kind == 'branch':
+                st.markdown(f'### {row.label}')
+            elif row.kind == 'phase':
+                st.markdown(f'#### {row.label}')
+            else:
+                statement = answer.statements[row.statement_index]
+                st.markdown(grouped_statement_markdown(
+                    statement, presentation.statements[row.statement_index], references(statement)
+                ))
     else:
         for number, statement in enumerate(answer.statements, 1):
             prefix = f'{number}. ' if answer.format == 'steps' else ('- ' if answer.format == 'bullets' else '')

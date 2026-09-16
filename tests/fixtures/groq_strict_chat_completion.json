@@ -1,0 +1,27 @@
+{
+  "id": "chatcmpl-fixture",
+  "object": "chat.completion",
+  "created": 1730241104,
+  "model": "openai/gpt-oss-20b",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\"group_selections\":{\"g1\":[\"su001\"]}}",
+        "refusal": null
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 100,
+    "completion_tokens": 40,
+    "total_tokens": 140
+  },
+  "system_fingerprint": "fp_fixture",
+  "x_groq": {
+    "id": "req_fixture"
+  }
+}

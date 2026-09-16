@@ -96,6 +96,8 @@ def test_trace_records_all_actual_search_stages_without_changing_results():
     assert trace['bm25_top10'][0]['score'] > 0
     assert trace['actual_query'] == QUESTION
     assert trace['bm25_top10'][0]['chunk_text'] == source.text
+    assert trace['requested_temporal_phase'] is None
+    assert {row['temporal_tier'] for row in trace['bm25_top10']} == {'inactive'}
     assert len(trace['vector_top10']) == 2 and trace['fused_top10']
     assert trace['reranked_top5'][0]['chunk_id'] == 'purpose'
     assert trace['thresholds']['unsupported_dense_minimum'] == .55
@@ -119,6 +121,27 @@ def test_bm25_csv_has_required_columns_top_ten_and_full_chunk_text():
     assert tuple(parsed[0]) == BM25_CSV_COLUMNS
     assert len(parsed) == 10 and parsed[0]['bm25_score'] == '8.21'
     assert parsed[0]['chunk_text'] == long_text + '0'
+
+
+def test_local_trace_records_applied_temporal_ranking():
+    during = purpose_chunk('진정 진정 진정 치료 중 환자 상태를 모니터링합니다.', '')
+    during = replace(during, id='during')
+    before = replace(
+        purpose_chunk('진정 치료 전 환자 상태를 평가하고 준비합니다.', ''),
+        id='before',
+        index=1,
+    )
+    library, model = LocalLibrary(), FixtureModel()
+    library.chunks = [during, before]
+    library.vectors = model.encode([during.text, before.text])
+    trace = {}
+
+    library.search('진정 전 준비사항은?', model.encode(['query'])[0], ['doc'], .38, trace=trace)
+
+    assert trace['requested_temporal_phase'] == 'before'
+    assert trace['bm25_top10'][0]['chunk_id'] == 'before'
+    assert trace['bm25_top10'][0]['temporal_tier'] == 'match'
+    assert trace['bm25_top10'][1]['temporal_tier'] == 'mismatch'
 
 
 def test_extraction_counts_include_empty_pages_and_whitespace_keywords():

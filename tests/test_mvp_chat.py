@@ -364,8 +364,9 @@ def test_ai_answer_is_rendered_in_chat_after_real_validation(monkeypatch, tmp_pa
     def response(request):
         calls.append(request)
         content = json.loads(request.content)["messages"][1]["content"]
-        evidence = json.loads(content.split("Evidence (JSON):\n", 1)[1])
-        row = next(e for e in evidence if "예약 확인표" in e["text"])
+        envelope = json.loads(content.split("Evidence groups (JSON):\n", 1)[1])
+        evidence = [source for group in envelope['groups'] for source in group['sources']]
+        row = next(e for e in evidence if any("예약 확인표" in unit["text"] for unit in e["units"]))
         data = {"answerable": True, "statements": [{"text": "교육실 사용 전 예약 확인표를 확인합니다.",
             "evidence": [{"chunk_id": row["chunk_id"], "quote": "교육실 사용 전 예약 확인표를 확인합니다."}]}]}
         return httpx.Response(200, json={"choices": [{"finish_reason": "stop",
@@ -462,11 +463,15 @@ def test_groq_receives_only_locally_retrieved_chunks_and_citations_are_grouped(m
         payload = json.loads(request.content)
         content = payload["messages"][1]["content"]
         assert excluded not in content and "교육실" not in content
-        evidence = json.loads(content.split("Evidence (JSON):\n", 1)[1])
-        assert len(evidence) == 1 and evidence[0]["text"] == source
-        item = {"text": source, "evidence": [{"chunk_id": evidence[0]["chunk_id"], "quote": source}]}
+        envelope = json.loads(content.split("Evidence groups (JSON):\n", 1)[1])
+        evidence = [source for group in envelope['groups'] for source in group['sources']]
+        assert len(evidence) == 1
+        unit = next(item for item in evidence[0]["units"] if item["selectable"])
+        group_id = envelope['groups'][0]['group_id']
         return httpx.Response(200, json={"choices": [{"finish_reason": "stop", "message": {
-            "content": json.dumps({"answerable": True, "statements": [item, item]}, ensure_ascii=False)}}]})
+            "content": json.dumps({
+                "group_selections": {group_id: [unit["id"]]}
+            }, ensure_ascii=False)}}]})
     def invoke(config, question, hits, user_id, **kwargs):
         return generate(config, question, hits, user_id, Quota(tmp_path / "groq.sqlite3"),
                         httpx.MockTransport(response), **kwargs)

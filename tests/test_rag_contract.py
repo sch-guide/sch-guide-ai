@@ -85,8 +85,14 @@ def test_prompt_can_include_essential_source_beyond_five_hits(tmp_path):
     last = chunk('last', 'PCN 교육 준비물은 용어 카드입니다.', index=5)
     hits.append(Hit(last, .7))
     def handle(request):
-        evidence = json.loads(json.loads(request.content)['messages'][1]['content'].split('Evidence (JSON):\n')[1])
-        assert 'last' in {e['chunk_id'] for e in evidence}
+        envelope = json.loads(
+            json.loads(request.content)['messages'][1]['content'].split('Evidence groups (JSON):\n')[1]
+        )
+        assert 'last' in {
+            source['chunk_id']
+            for group in envelope['groups']
+            for source in group['sources']
+        }
         return httpx.Response(200, json={'choices': [{'message': {'content': response([statement(last.text, last)])}}]})
     result, _ = generate(configured(), 'PCN 교육 준비물은?', hits, 'employee',
                          Quota(tmp_path / 'quota.db'), httpx.MockTransport(handle))
@@ -197,6 +203,29 @@ def cloud_fixture(columns=None):
                         httpx.MockTransport(handle))
     auth.token, auth.user_id, auth.expires = 'staff-test-token', 'employee', float('inf')
     return CloudRepository(auth.settings, auth, None), state
+
+
+def test_cloud_search_passes_temporal_order_to_rrf(monkeypatch):
+    repo, state = cloud_fixture()
+    state['parts'] = [
+        chunk('during', '진정 진정 진정 치료 중 환자 상태를 모니터링합니다.', section='', index=0),
+        chunk('before', '진정 치료 전 환자 상태를 평가하고 준비합니다.', section='', index=1),
+        chunk('neutral', '진정 환자 상태를 확인합니다.', section='', index=2),
+    ]
+    captured = {}
+    from mvp.retrieval import rrf as original_rrf
+
+    def capture_rrf(dense, lexical):
+        captured['lexical'] = list(lexical)
+        return original_rrf(dense, lexical)
+
+    monkeypatch.setattr('mvp.retrieval.rrf', capture_rrf)
+    plan = plan_query('진정 전 준비사항은?')
+
+    repo.search(plan.query, np.zeros(DIMENSIONS), ['doc'], .38, plan=plan)
+
+    assert captured['lexical'][0] == 'before'
+    assert set(captured['lexical']) == {'during', 'before', 'neutral'}
 
 
 BASE_CHUNK_COLUMNS = ('id', 'document_id', 'document_name', 'page', 'title', 'section',
@@ -323,7 +352,7 @@ def test_cloud_respects_plan_document_scope():
 def test_truncated_semantic_block_abstains_without_omitting_cautions():
     parts = [replace(chunk(str(i), f'PCN 교육 절차 {i}를 확인합니다.', index=i), parent_id='same-block')
              for i in range(7)]
-    hits = expand_context('PCN 교육 절차', [Hit(parts[0], .9)], parts)
+    hits = expand_context('PCN 교육 절차', [Hit(parts[0], .9)], parts, limit=6)
     assert hits and not all(h.context_complete for h in hits)
     assert not assess_evidence(plan_query('PCN 교육 절차'), hits).sufficient
 

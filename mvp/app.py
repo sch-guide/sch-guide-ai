@@ -216,7 +216,8 @@ def show_turn(turn, index):
         hits = turn.get("hits", [])
         if answer:
             if answer.answerable:
-                render_answer(answer, hits, index, source_view, on_review=review_answer,
+                render_answer(answer, hits, index, source_view, presentation=turn.get('presentation'),
+                              on_review=review_answer,
                               checklists=turn.get("checklists", ()), on_checklist=checklist_dialog)
             else:
                 st.write(NO_GUIDELINE)
@@ -334,6 +335,7 @@ else:
                         status.update(label="답변을 작성하고 있습니다…")
                         answer, used = generate(settings, query, hits, user_id, plan=plan)
                         turn["answer"], turn["hits"] = answer, used
+                        turn["presentation"] = answer.presentation
                         cited_docs = list(dict.fromkeys(hit.chunk.document_id for hit in used))
                         approved = matching_checklists(question, library.list_checklists(cited_docs))
                         hydrated = []
