@@ -80,6 +80,51 @@ class QueryPlan:
     max_hits: int = 12
     domain: str = 'unknown'
     canonical_topics: tuple[str, ...] = ()
+    monitoring_branches: tuple[str, ...] = ()
+    monitoring_phase: str = ''
+    monitoring_item: str = ''
+    monitoring_action: str = ''
+
+
+MONITORING_ITEM_PATTERNS = {
+    'respiratory_rate': r'호흡\s*수|호흡수|(?<![a-z])RR(?![a-z])',
+    'pulse': r'맥박|(?<![a-z])pulse(?![a-z])|(?<![a-z])HR(?![a-z])',
+    'oxygen_saturation': r'산소\s*포화도|산소포화도|SpO2|Oxymetry',
+    'consciousness': r'의식\s*(?:상태|수준)|의식상태|의식수준|MOAA/S',
+}
+
+_MONITORING_ACTION_PATTERNS = (
+    ('assess', r'평가(?:해|하나요|하니|하는지|해요)?'),
+    ('measure', r'(?:측정(?:해|하나요|하니|하는지|해요)?|(?<![가-힣])재(?:나요|니|는지|요)?(?=$|[\s?!,.]))'),
+    ('check', r'(?:확인(?:해|하나요|하니|하는지|해요)?|체크(?:해|하나요|하니|하는지|해요)?)'),
+    ('observe', r'(?:(?<![가-힣])봐(?:요)?(?=$|[\s?!,.])|(?<![가-힣])보(?:나요|니|는지)(?=$|[\s?!,.]))'),
+)
+
+
+def _monitoring_qualifiers(question):
+    """질문의 monitoring 축만 구조화하며 임상 지식은 추론하지 않습니다."""
+    current = question.split(' / 추가 질문: ')[-1]
+    branches = []
+    if re.search(r'(?<![가-힣])성인(?:과|와|은|는|이|가|의|에게|[·‧/]|\s|[?!,.]|$)', current):
+        branches.append('adult')
+    if re.search(r'(?<![가-힣])소아(?:과|와|은|는|이|가|의|에게|[·‧/]|\s|[?!,.]|$)', current):
+        branches.append('pediatric')
+
+    item = next(
+        (name for name, pattern in MONITORING_ITEM_PATTERNS.items()
+         if re.search(pattern, current, re.I)),
+        '',
+    )
+    action = next(
+        (name for name, pattern in _MONITORING_ACTION_PATTERNS
+         if re.search(pattern, current, re.I)),
+        '',
+    )
+    from mvp.retrieval import _temporal_phases
+
+    phases = _temporal_phases(current)
+    phase = next(iter(phases)) if len(phases) == 1 else ''
+    return tuple(branches), phase, item, action
 
 
 def normalize_attached_aspects(question):
@@ -305,9 +350,11 @@ def plan_query(question, previous='', follow_up=False, documents=(), previous_so
     domain = question_domain(query)
     if domain != 'out_of_scope' and canonical_topics:
         domain = 'hospital'
+    monitoring = _monitoring_qualifiers(query)
     return QueryPlan(question, query, expanded, kind, STYLE[kind], focus, tuple(chosen),
                      2 if reference_two or len(chosen) >= 2 else 1, tuple(anchors(query)), clarification,
-                     corrections, 8 if broad else 6, 14 if broad else 12, domain, canonical_topics)
+                     corrections, 8 if broad else 6, 14 if broad else 12, domain, canonical_topics,
+                     *monitoring)
 
 
 def topic_words(plan):
