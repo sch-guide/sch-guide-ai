@@ -390,7 +390,7 @@ def retrieve(question, model, metadata, chunks, vectors):
         for position in sorted(set(dense_positions) | set(bm25_positions))
     ]
     seeds = rerank(plan, candidates, 0.38)
-    hits = expand_context(question, seeds, chunks, plan.max_hits)
+    hits = expand_context(question, seeds, chunks, plan.max_hits, plan=plan)
     assessment = assess_evidence(plan, hits)
     trace = {}
     if assessment.sufficient:

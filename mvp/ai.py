@@ -1125,7 +1125,14 @@ def generate(settings, question, hits, user_id, quota=None, transport=None, plan
         )
     if not selected:
         return blocked('after_budget:no_group_fits', [])
-    budget_assessment = assess_evidence(plan, selected)
+    branch_by_chunk = {
+        hit.chunk.id: group.branch
+        for group in assessment.groups
+        for hit in group.hits
+    }
+    budget_assessment = assess_evidence(
+        plan, selected, branch_by_chunk=branch_by_chunk,
+    )
     if trace is not None:
         coverage = budget_assessment.procedure_coverage
         trace.update(stage='after_budget', prompt_chunk_ids=[h.chunk.id for h in selected],

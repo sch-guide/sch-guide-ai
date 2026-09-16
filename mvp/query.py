@@ -53,6 +53,9 @@ _QUERY_NOISE = {
     '대해서', '대해', '대한', '관한', '어떻게', '진행해', '진행하나요', '시행해',
     '시행하나요', '수행해', '수행하나요', '확인해', '준비해', '조심할', '주의할',
     '안전하게', '봐야', '항목', '점은', '사항은', '것은', '하는', '방법',
+    '어떤',
+    '전체적으로', '전반적으로', '간단히', '설명해줘', '설명해주세요',
+    '정리해줘', '정리해주세요',
 }
 _DOCUMENT_LABELS = {
     '지침', '지침서', '실무지침', '실무지침서', '간호지침', '간호실무지침', '간호실무지침서',
@@ -114,7 +117,11 @@ def _topic_aliases(topic):
 
 def _subject_matches_topic(subject, topic):
     aliases = _topic_aliases(topic)
-    return subject in aliases or (subject.endswith('할') and subject[:-1] in aliases)
+    stems = {subject}
+    for ending in ('하는', '하다', '해', '할', '하'):
+        if subject.endswith(ending) and len(subject) > len(ending):
+            stems.add(subject[:-len(ending)])
+    return bool(stems & aliases)
 
 
 def _subject_candidates(question):
@@ -153,15 +160,30 @@ def _canonical_expanded_query(query, kind, canonical_topics, extra):
         if topic.endswith(suffix)
     }
     aspect_words = set(_ASPECT_SUFFIX_KIND)
+    def aspect_form(word):
+        return any(re.fullmatch(
+            re.escape(aspect) + r'(?:으로|로|은|는|을|를|이|가|에|의)?', word,
+        ) for aspect in aspect_words)
+
     remaining = [
         word for word in terms(query)
         if word not in matched_subjects and word not in topic_roles
-        and word not in aspect_words and word not in _QUERY_NOISE
+        and not aspect_form(word) and word not in _QUERY_NOISE
     ]
     canonical_aspect = _CANONICAL_ASPECT.get(kind)
     parts = [*canonical_topics]
     if canonical_aspect:
         parts.append(canonical_aspect)
+    if kind == 'summary':
+        parts.extend(('목적', '절차', '주의'))
+    if kind == 'cautions' and re.search(
+        r'안전|확인|관찰|모니터링|이상\s*증상|문제가\s*생기면|회복', query,
+    ):
+        parts.extend(('관찰', '모니터링'))
+    if re.search(r'(?<![가-힣])성인(?:과|와|은|는|이|가|의|에게|[·‧/]|\s|[?!,.]|$)', query):
+        parts.append('성인')
+    if re.search(r'(?<![가-힣])소아(?:과|와|은|는|이|가|의|에게|[·‧/]|\s|[?!,.]|$)', query):
+        parts.append('소아')
     parts.extend(remaining)
     parts.extend(extra)
     return clean(' '.join(dict.fromkeys(parts)))
@@ -171,7 +193,7 @@ def question_domain(question):
     """명백한 외부 주제는 검색 전 차단; 미등록 용어는 근거 검사에서 판단합니다."""
     current = question.split(' / 추가 질문: ')[-1]
     if re.search(r'날씨|주식|코인|비트코인|로또|운세|연애|맛집|여행\s*(?:추천|일정)|'
-                 r'우주선|축구\s*결과|파이썬\s*코드|영화\s*추천', current, re.I):
+                 r'우주선|축구\s*(?:경기\s*)?결과|파이썬\s*코드|영화\s*추천', current, re.I):
         return 'out_of_scope'
     if anchors(question) or re.search(
         r'간호|병원|환자|진료|투약|투여|수혈|수술|검사|감염|격리|소독|세척|도뇨|'
@@ -181,6 +203,13 @@ def question_domain(question):
         r'진정.{0,20}(?:치료|시행|수행|전|중|후|목적|준비|확인|체크|주의|조심|안전|'
         r'평가|동의|투약|모니터링)',
         current,
+    ):
+        return 'hospital'
+    if re.search(
+        r'(?<![가-힣a-zA-Z0-9-])[가-힣a-zA-Z0-9-]{2,}교육\s*'
+        r'(?:목적|준비|주의|방법|절차)',
+        current,
+        re.I,
     ):
         return 'hospital'
     return 'unknown'
@@ -205,24 +234,29 @@ def correct_spelling(question):
 
 def classify(question):
     question = question.split(' / 추가 질문: ')[-1]
-    if re.search(r'비교|차이|다른 점|다른점', question):
+    if re.search(r'비교|차이|다른 점|다른점|어떻게\s*달라|뭐가\s*달라', question):
         return 'comparison'
     if re.search(r'종합|여러 문서|여러 지침|함께 정리|문서 간|문서간', question):
         return 'synthesis'
     if re.search(r'준비물|물품', question):
         return 'materials'
     phase = bool(re.search(r'사전|이전|전(?:에|에는|의|\s|$)', question))
-    if (re.search(r'준비사항|체크\s*사항|뭘\s*준비|(?:^|\s)(?:준비|확인)(?:\s|[?!,.]|$)', question)
+    if (re.search(r'준비사항|체크\s*사항|확인\s*사항|뭘\s*준비|준비할\s*(?:것|항목)|'
+                  r'(?:^|\s)(?:준비|확인)(?:\s|[?!,.]|$)', question)
             or (phase and re.search(r'준비(?:할|해야|해)|확인(?:할|해야|해)', question))):
         return 'preparation'
-    if re.search(r'주의|금기|관찰|보고|조심|(?:^|\s)안전(?:\s|[?!,.]|$)|'
-                 r'안전하게.{0,12}(?:봐야|확인|관찰)', question):
-        return 'cautions'
-    if re.search(r'목적|정의|이유|왜\s*(?:시행|수행|하|필요)', question):
+    if re.search(r'목적|정의|이유|왜\s*(?:시행|수행|하|해|하는|필요)', question):
         return 'purpose'
     if re.search(r'해제|종료 기준|중단 기준', question):
         return 'release'
-    if re.search(r'요약|정리|쉽게|신규간호사', question):
+    if re.search(r'방법|절차|순서|(?:^|\s)(?:시행|진행)(?:\s|[?!,.]|$)', question):
+        return 'procedure'
+    if re.search(r'주의|금기|관찰|모니터링|보고|조심|이상\s*증상|문제가\s*생기면|'
+                 r'(?:^|\s)안전(?:\s|[?!,.]|$)|안전하게.{0,12}(?:봐야|확인|관찰)', question):
+        return 'cautions'
+    if re.search(r'요약|정리|쉽게|신규간호사|전체적|전반적|간단히|'
+                 r'(?:에\s*대해|에\s*관해).{0,20}(?:알려|설명)|'
+                 r'(?:^|\s)[가-힣a-zA-Z0-9-]{2,}(?:은|는|이|가)?\s+(?:알려줘|알려주세요)$', question):
         return 'summary'
     if re.search(r'어떻게|방법|절차|순서|(?:^|\s)(?:시행|진행)(?:\s|[?!,.]|$)', question):
         return 'procedure'

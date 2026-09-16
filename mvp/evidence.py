@@ -260,6 +260,40 @@ def required_coverage_loss(before, after):
     return ''
 
 
+def _requested_branches(question):
+    """질문에 명시된 성인/소아 분기만 반환하며 누락된 분기를 추론하지 않습니다."""
+    current = question.split(' / 추가 질문: ')[-1]
+    branches = []
+    if re.search(r'(?<![가-힣])성인(?:과|와|은|는|이|가|의|에게|[·‧/]|\s|[?!,.]|$)', current):
+        branches.append('adult')
+    if re.search(r'(?<![가-힣])소아(?:과|와|은|는|이|가|의|에게|[·‧/]|\s|[?!,.]|$)', current):
+        branches.append('pediatric')
+    return tuple(branches)
+
+
+def _requested_body_support(plan):
+    """구체 질문 qualifier가 실제 본문에 있어야 하는 bounded support 규칙."""
+    current = plan.query.split(' / 추가 질문: ')[-1]
+    patterns = []
+    if re.search(r'몇\s*분|얼마나\s*자주|간격', current):
+        patterns.append(r'(?:\d+(?:\.\d+)?\s*분\s*간격|간격)')
+    if '동의서' in current:
+        patterns.append(r'동의서')
+    if re.search(r'산소\s*포화도|산소포화도|spo2', current, re.I):
+        patterns.append(r'산소\s*포화도|산소포화도|SpO2|Oxymetry')
+    if re.search(r'활력\s*징후|활력징후|v/s', current, re.I):
+        patterns.append(r'활력\s*징후|활력징후|V/S|혈압|맥박|호흡수')
+    if re.search(r'모니터링|관찰|확인|측정|평가', current):
+        patterns.append(r'모니터링|관찰|확인|측정|평가')
+    if re.search(r'투약|투여|약물', current):
+        patterns.append(r'투약|투여|약물|약품명|용량|용법')
+    if re.search(r'회복', current):
+        patterns.append(r'회복')
+    if re.search(r'입원실|병실|이동', current):
+        patterns.extend((r'입원실|병실', r'이동|모니터링|관찰'))
+    return tuple(dict.fromkeys(patterns))
+
+
 def relevant_body(plan, hit):
     """제목이나 높은 벡터 점수만으로 근거를 인정하지 않습니다."""
     text = hit.chunk.text
@@ -278,10 +312,25 @@ def relevant_body(plan, hit):
     topic_in_context = any(term_matches(word, topic_context) for word in words)
     heading_context = explicit_heading_context(plan, hit.chunk)
     support = _ASPECT_SUPPORT.get(plan.kind)
+    topic_supported = topic_in_body or topic_in_context or heading_context
     if support:
-        # Metadata는 문서 topic만 연결한다. 요청 aspect는 실제 본문이 지지해야 한다.
-        return heading_context or ((topic_in_body or topic_in_context)
-                                   and bool(re.search(support, text, re.I)))
+        # Metadata는 문서 topic만 연결한다. 요청 aspect와 구체 qualifier는 본문이 지지해야 한다.
+        qualifiers = _requested_body_support(plan)
+        return heading_context or (
+            topic_supported
+            and bool(re.search(support, text, re.I))
+            and all(re.search(pattern, text, re.I) for pattern in qualifiers)
+        )
+    if plan.kind == 'summary':
+        # 완전성은 parent context와 assess_evidence에서 별도로 검사한다.
+        return topic_supported
+    if plan.kind == 'comparison':
+        qualifiers = _requested_body_support(plan)
+        return topic_supported and all(re.search(pattern, text, re.I) for pattern in qualifiers)
+    if plan.kind == 'fact':
+        qualifiers = _requested_body_support(plan)
+        if qualifiers:
+            return topic_supported and all(re.search(pattern, text, re.I) for pattern in qualifiers)
     # Aspect가 없는 일반 fact는 제목 일치만으로 근거를 열지 않는다.
     return topic_in_body or heading_context
 
@@ -338,8 +387,15 @@ def _procedure_seed(plan, hit):
 
 
 def assess_evidence(plan, hits, branch_by_chunk=None):
-    if plan.domain == 'out_of_scope' or plan.clarification:
+    if plan.domain != 'hospital' or plan.clarification:
         return EvidenceAssessment(False, reason='domain_or_clarification')
+    preserved_branches = dict(branch_by_chunk or {})
+    for group in evidence_groups(plan, hits, branch_by_chunk=preserved_branches):
+        if group.branch == 'common':
+            continue
+        for hit in group.hits:
+            preserved_branches.setdefault(hit.chunk.id, group.branch)
+    branch_by_chunk = preserved_branches
     if plan.kind == 'procedure':
         seeds = [hit for hit in hits if _procedure_seed(plan, hit)]
         documents = {hit.chunk.document_id for hit in seeds}
@@ -376,7 +432,8 @@ def assess_evidence(plan, hits, branch_by_chunk=None):
         ))
         # 분기를 요청하지 않은 좁은 질문은 충분한 common 근거가 있을 때
         # 성인/소아 예시 block까지 자동 required로 승격하지 않는다.
-        if not re.search(r'성인|소아', plan.query):
+        if (plan.kind not in {'summary', 'comparison'}
+                and not re.search(r'성인|소아', plan.query)):
             preview_groups = evidence_groups(plan, relevant, branch_by_chunk=branch_by_chunk)
             common_keys = {group.key for group in preview_groups if group.branch == 'common'}
             if common_keys:
@@ -386,6 +443,24 @@ def assess_evidence(plan, hits, branch_by_chunk=None):
     if not seeds:
         return EvidenceAssessment(False, reason='no_topic_evidence')
     groups = evidence_groups(plan, relevant, branch_by_chunk=branch_by_chunk)
+    requested_branches = set(_requested_branches(plan.query))
+    if len(requested_branches) == 1:
+        requested_branch = next(iter(requested_branches))
+        groups = tuple(
+            group for group in groups
+            if group.branch in {'common', requested_branch}
+        )
+        relevant = [hit for group in groups for hit in group.hits]
+        if requested_branch not in {group.branch for group in groups}:
+            return EvidenceAssessment(
+                False, tuple(relevant), 'missing_requested_branch', groups,
+            )
+    if plan.kind == 'comparison' and requested_branches == {'adult', 'pediatric'}:
+        present = {group.branch for group in groups}
+        if not requested_branches.issubset(present):
+            return EvidenceAssessment(
+                False, tuple(relevant), 'missing_comparison_branch', groups,
+            )
     coverage = procedure_coverage(groups) if plan.kind == 'procedure' else None
     if any(not group.complete for group in groups):
         return EvidenceAssessment(False, tuple(relevant), 'incomplete_semantic_block', groups, coverage)

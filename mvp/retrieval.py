@@ -153,6 +153,20 @@ _EVENT_PHASE = re.compile(
     + _PHASE_BOUNDARY
 )
 _CONTINUED_PHASE = re.compile(r'[·‧/]\s*(전|중|후)' + _PHASE_BOUNDARY)
+_BOUNDED_PHASE_PATTERNS = {
+    'before': (
+        r'(?<![가-힣])전(?:에|에는)(?=$|[\s·‧/(),.?!\[\]])',
+        r'(?:하|되|시행|수행)기\s*전(?=$|[\s·‧/(),.?!\[\]])',
+    ),
+    'during': (
+        r'(?<![가-힣])중(?:에)?(?=$|[\s·‧/(),.?!\[\]])',
+        r'(?:하는|시행하는|수행하는)\s*동안(?=$|[\s·‧/(),.?!\[\]])',
+    ),
+    'after': (
+        r'(?<![가-힣])후(?:에)?(?=$|[\s·‧/(),.?!\[\]])',
+        r'(?:하고|한|시행하고|수행하고)\s*나서(?=$|[\s·‧/(),.?!\[\]])',
+    ),
+}
 
 
 def _temporal_phases(text: str) -> frozenset[TemporalPhase]:
@@ -161,6 +175,9 @@ def _temporal_phases(text: str) -> frozenset[TemporalPhase]:
     for phase, words in _PHASE_WORDS.items():
         if any(re.search(rf'(?<![가-힣a-z0-9]){word}(?![가-힣a-z0-9])', normalized)
                for word in words):
+            phases.add(phase)
+    for phase, patterns in _BOUNDED_PHASE_PATTERNS.items():
+        if any(re.search(pattern, normalized) for pattern in patterns):
             phases.add(phase)
     phases.update(_SHORT_PHASES[marker] for marker in _EVENT_PHASE.findall(normalized))
     phases.update(_SHORT_PHASES[marker] for marker in _CONTINUED_PHASE.findall(normalized))
@@ -354,6 +371,9 @@ def search(library, question, vector, doc_ids, minimum, plan=None, trace=None):
                     [by_id[library.chunks[indices[p]].id] for p in dense], candidates,
                     bm25_ranking=bm25_ranking)
     seeds = rerank(plan, candidates, minimum, trace=trace)
-    hits = expand_context(question, seeds, [library.chunks[i] for i in indices], limit=plan.max_hits)
+    hits = expand_context(
+        question, seeds, [library.chunks[i] for i in indices],
+        limit=plan.max_hits, plan=plan,
+    )
     finish_trace(trace, seeds, hits)
     return hits

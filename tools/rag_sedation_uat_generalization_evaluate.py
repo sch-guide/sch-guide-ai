@@ -21,13 +21,17 @@ from tools.rag_pilot_query_generalization_evaluate import retrieve_funnel
 from tools.rag_procedure_live_evaluate import pilot_corpus
 
 DEFAULT_FIXTURE = ROOT / 'tests' / 'fixtures' / 'sedation_uat_queries.json'
-DEFAULT_OUTPUT = ROOT / 'artifacts' / '2026-09-15_rag-sedation-uat-generalization-baseline-02'
+DEFAULT_OUTPUT = ROOT / 'artifacts' / '2026-09-16_rag-sedation-uat-generalization'
+BASELINE_REPORT = (
+    ROOT / 'artifacts' / '2026-09-15_rag-sedation-uat-generalization-baseline-02'
+    / 'uat_report.json'
+)
 
 
 def load_cases(path: Path) -> list[dict]:
     payload = json.loads(path.read_text(encoding='utf-8'))
     cases = payload.get('cases')
-    if payload.get('schema_version') != 1 or not isinstance(cases, list):
+    if payload.get('schema_version') != 2 or not isinstance(cases, list):
         raise ValueError('unsupported sedation UAT fixture')
     return cases
 
@@ -50,17 +54,27 @@ def _branch_matches(expected: str, actual: set[str]) -> bool:
 
 
 def _failure_reasons(case: dict, funnel: dict) -> list[str]:
-    behavior = case['expected_behavior']
+    mode = case['expected_mode']
     plan = funnel['plan']
     pre = funnel['pre_budget']
     post = funnel.get('post_budget')
     selected_count = len(funnel.get('selected_evidence', ()))
     reasons = []
-    if behavior == 'abstain':
+    if mode == 'independent_abstain':
         if plan['domain'] != 'out_of_scope':
             reasons.append('negative_domain_not_out_of_scope')
         if pre['sufficient'] or selected_count:
             reasons.append('unsafe_negative_admission')
+        return reasons
+    if mode == 'context_follow_up':
+        if pre['sufficient'] or selected_count:
+            reasons.append('unsafe_standalone_follow_up_admission')
+        return reasons
+    if mode == 'clarification':
+        if not plan['clarification']:
+            reasons.append('missing_clarification')
+        if pre['sufficient'] or selected_count:
+            reasons.append('unsafe_clarification_admission')
         return reasons
     if plan['domain'] != 'hospital':
         reasons.append('domain_not_hospital')
@@ -177,6 +191,111 @@ def q006_zero_call(runtime) -> dict:
     }
 
 
+FAILURE_GROUPS = (
+    'intent classification',
+    'topic/canonical topic',
+    'summary',
+    'comparison',
+    'fact-specific',
+    'branch qualifier',
+    'temporal qualifier',
+    'follow-up/context',
+    'semantic block / parent selection',
+    'out-of-scope',
+    'other',
+)
+
+
+def _failure_group(case: dict) -> str:
+    reasons = set(case.get('failure_reasons', ()))
+    category = case.get('category')
+    if case.get('expected_mode') == 'context_follow_up':
+        return 'follow-up/context'
+    if category == 'negative_out_of_scope':
+        return 'out-of-scope'
+    if any('incomplete_semantic_block' in reason for reason in reasons):
+        return 'semantic block / parent selection'
+    if category == 'summary_broad':
+        return 'summary'
+    if category == 'comparison':
+        return 'comparison'
+    if category == 'fact_specific':
+        return 'fact-specific'
+    if category == 'branch_specific':
+        return 'branch qualifier'
+    if 'temporal_qualifier_mismatch' in reasons:
+        return 'temporal qualifier'
+    if 'intent_mismatch' in reasons:
+        return 'intent classification'
+    if ('topic_mismatch' in reasons
+            or any('no_topic_evidence' in reason for reason in reasons)):
+        return 'topic/canonical topic'
+    return 'other'
+
+
+def _failure_record(case: dict) -> dict:
+    diagnostics = case.get('diagnostics', {})
+    return {
+        'id': case['id'],
+        'question': case['question'],
+        'expected_mode': case.get('expected_mode'),
+        'actual_query_plan': {
+            'kind': case.get('actual_kind'),
+            'domain': case.get('actual_domain'),
+            'topic_words': case.get('actual_topic', []),
+            'normalized_query': diagnostics.get('normalized_query'),
+            'expanded_query': diagnostics.get('expanded_query'),
+        },
+        'pre_budget_reason': case.get('pre_budget_reason'),
+        'post_budget_reason': case.get('post_budget_reason'),
+        'retrieval_evidence_present': bool(diagnostics.get('context_chunk_ids')),
+        'selected_evidence_present': bool(diagnostics.get('selected_evidence_ids')),
+        'failure_reasons': case.get('failure_reasons', []),
+    }
+
+
+def _group_failures(cases: list[dict]) -> list[dict]:
+    grouped = {name: [] for name in FAILURE_GROUPS}
+    for case in cases:
+        if case.get('pass'):
+            continue
+        grouped[_failure_group(case)].append(_failure_record(case))
+    return [
+        {
+            'category': name,
+            'count': len(grouped[name]),
+            'representative_question': (
+                grouped[name][0]['question'] if grouped[name] else None
+            ),
+            'cases': grouped[name],
+        }
+        for name in FAILURE_GROUPS
+    ]
+
+
+def write_failure_categories(output: Path, report: dict, fixture: Path) -> None:
+    current_cases = {case['id']: case for case in load_cases(fixture)}
+    baseline_payload = json.loads(BASELINE_REPORT.read_text(encoding='utf-8'))
+    baseline_cases = []
+    for case in baseline_payload['cases']:
+        merged = {**case, **{
+            'expected_mode': current_cases[case['id']]['expected_mode'],
+            'expected_behavior': current_cases[case['id']]['expected_behavior'],
+        }}
+        baseline_cases.append(merged)
+    payload = {
+        'baseline_artifact': str(BASELINE_REPORT.relative_to(ROOT)),
+        'before_total_failed': sum(not case.get('pass') for case in baseline_cases),
+        'after_total_failed': report['failed'],
+        'before': _group_failures(baseline_cases),
+        'after': _group_failures(report['cases']),
+        'contains_full_source_text': False,
+    }
+    (output / 'failure_categories.json').write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2), encoding='utf-8',
+    )
+
+
 def build_report(fixture: Path = DEFAULT_FIXTURE) -> dict:
     cases = load_cases(fixture)
     runtime = pilot_corpus()
@@ -202,6 +321,16 @@ def build_report(fixture: Path = DEFAULT_FIXTURE) -> dict:
         'search_version': SEARCH_VERSION,
         'actual_groq_calls': 0,
         'question_count': len(results),
+        'expected_mode_summary': [
+            {
+                'mode': mode,
+                'count': sum(case['expected_mode'] == mode for case in results),
+            }
+            for mode in (
+                'independent_answer', 'independent_abstain',
+                'context_follow_up', 'clarification',
+            )
+        ],
         'passed': sum(case['pass'] for case in results),
         'failed': sum(not case['pass'] for case in results),
         'category_summary': category_summary,
@@ -221,7 +350,7 @@ def build_report(fixture: Path = DEFAULT_FIXTURE) -> dict:
 
 def write_csv(output: Path, report: dict) -> None:
     fields = (
-        'id', 'category', 'question', 'expected_behavior', 'expected_intent',
+        'id', 'category', 'question', 'expected_mode', 'expected_behavior', 'expected_intent',
         'expected_topic', 'expected_branch', 'expected_phase', 'expected_qualifier',
         'actual_kind', 'actual_domain', 'actual_topic', 'actual_branches',
         'actual_requested_phase', 'pre_budget_reason', 'post_budget_reason',
@@ -265,7 +394,7 @@ def write_review(output: Path, report: dict) -> None:
             f'<tr data-category="{escape(case["category"])}" data-status="{status}">'
             f'<td>{escape(case["id"])}</td><td>{escape(case["category"])}</td>'
             f'<td>{escape(case["question"])}</td>'
-            f'<td>{escape(case["expected_behavior"])}</td>'
+            f'<td>{escape(case["expected_mode"])}</td>'
             f'<td>{escape(case["expected_intent"])}</td>'
             f'<td>{escape(str(case["expected_branch"]))} / '
             f'{escape(str(case["expected_qualifier"]))}</td>'
@@ -302,7 +431,7 @@ def write_review(output: Path, report: dict) -> None:
         for row in report['category_summary']
     )
     html = f'''<!doctype html>
-<html lang="ko"><head><meta charset="utf-8"><title>진정간호 UAT Generalization Baseline</title>
+<html lang="ko"><head><meta charset="utf-8"><title>진정간호 UAT Generalization 결과</title>
 <style>
 body{{font-family:system-ui,sans-serif;margin:28px;color:#17324d;background:#f5f8fb}}
 h1,h2{{color:#0b466b}} .card{{background:white;border:1px solid #ccd7e1;border-radius:12px;padding:16px;margin:16px 0}}
@@ -311,7 +440,7 @@ th{{background:#e8f1f7;position:sticky;top:0}} .pass{{color:#087443;font-weight:
 select{{padding:6px;margin-right:8px}} details{{background:white;border:1px solid #d8e1e8;border-radius:8px;padding:10px;margin:8px 0}}
 code{{background:#eef3f7;padding:2px 5px;border-radius:4px}}
 </style></head><body>
-<h1>진정간호 실사용 UAT 일반화 Baseline</h1>
+<h1>진정간호 실사용 UAT 일반화 결과</h1>
 <div class="card">질문 {report['question_count']}개 · PASS {report['passed']} · FAIL {report['failed']} · 실제 Groq 호출 0회<br>
 Q006 zero-call: {_badge(report['q006_zero_call']['pass'])}</div>
 <h2>유형별 요약</h2><table><tr><th>유형</th><th>전체</th><th>PASS</th><th>FAIL</th></tr>{category_rows}</table>
@@ -320,7 +449,7 @@ Q006 zero-call: {_badge(report['q006_zero_call']['pass'])}</div>
 <h2>질문별 결과</h2>
 <div class="card"><label>유형 <select id="category"><option value="all">전체</option>{categories}</select></label>
 <label>판정 <select id="status"><option value="all">전체</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></label></div>
-<table id="results"><thead><tr><th>ID</th><th>유형</th><th>질문</th><th>기대 동작</th><th>기대 intent</th><th>기대 branch/qualifier</th><th>실제 kind</th><th>domain</th><th>topic</th><th>Pre</th><th>Post</th><th>Evidence</th><th>판정</th><th>실패 유형</th></tr></thead><tbody>{''.join(rows)}</tbody></table>
+<table id="results"><thead><tr><th>ID</th><th>유형</th><th>질문</th><th>기대 모드</th><th>기대 intent</th><th>기대 branch/qualifier</th><th>실제 kind</th><th>domain</th><th>topic</th><th>Pre</th><th>Post</th><th>Evidence</th><th>판정</th><th>실패 유형</th></tr></thead><tbody>{''.join(rows)}</tbody></table>
 <h2>FAIL 상세</h2>{''.join(details) or '<div class="card">실패 없음</div>'}
 <script>
 function filterRows(){{const c=document.getElementById('category').value;const s=document.getElementById('status').value;
@@ -343,6 +472,7 @@ def main() -> None:
         json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8',
     )
     write_csv(args.output, report)
+    write_failure_categories(args.output, report, args.fixture)
     write_review(args.output, report)
     print(json.dumps({
         'output': str(args.output),

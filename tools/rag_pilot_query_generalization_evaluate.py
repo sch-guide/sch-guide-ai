@@ -112,7 +112,7 @@ def retrieve_funnel(question, model, metadata, chunks, vectors):
         for position in candidate_positions
     ]
     seeds = rerank(plan, candidates, .38)
-    hits = expand_context(question, seeds, chunks, plan.max_hits)
+    hits = expand_context(question, seeds, chunks, plan.max_hits, plan=plan)
     before = assess_evidence(plan, hits)
     prompt_trace = {}
     selected, catalog, contract = [], (), None
@@ -129,7 +129,14 @@ def retrieve_funnel(question, model, metadata, chunks, vectors):
             return_catalog=True,
             return_contract=True,
         )
-        after = assess_evidence(plan, selected)
+        branch_by_chunk = {
+            hit.chunk.id: group.branch
+            for group in before.groups
+            for hit in group.hits
+        }
+        after = assess_evidence(
+            plan, selected, branch_by_chunk=branch_by_chunk,
+        )
     fused_positions = sorted(candidate_positions, key=lambda position: -fusion_scores[position])
     return {
         'question': question,

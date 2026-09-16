@@ -210,7 +210,9 @@ class StaffLibrary:
             trace['rpc_returned_count'] = len(rows)
             trace['rpc_excluded_ids'] = [r['id'] for r in rows if r['id'] not in by_id]
         seeds = rerank(plan, candidates, minimum, trace=trace)
-        hits = expand_context(question, seeds, chunks, limit=plan.max_hits)
+        hits = expand_context(
+            question, seeds, chunks, limit=plan.max_hits, plan=plan,
+        )
         finish_trace(trace, seeds, hits)
         if trace is not None:
             self.require_admin()
