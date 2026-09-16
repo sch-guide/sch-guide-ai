@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>SCHAT Q002 server-derived answerability Live 검수</title>
+  <style>
+    body{font-family:system-ui,sans-serif;max-width:1100px;margin:24px auto;padding:0 16px;color:#17202a}
+    table{border-collapse:collapse;width:100%;margin:12px 0 28px}th,td{border:1px solid #ccd1d1;padding:8px;text-align:left;vertical-align:top}
+    th{background:#eef3f6}.pass{color:#176b35;font-weight:700}.fail{color:#a93226;font-weight:700}.muted{color:#626567}
+    code{overflow-wrap:anywhere}h1,h2{margin-top:28px}
+  </style>
+</head>
+<body>
+  <h1>Q002 핵심 Live 평가 — 조건부 중단</h1>
+  <p><strong>최종 판정:</strong> <span class="fail">FAIL</span> — selection은 통과했으나 post-reconstruction citation assessment가 <code>duplicate_evidence</code>로 차단했습니다.</p>
+  <h2>Q006 zero-call</h2>
+  <table>
+    <tr><th>질문</th><td>화성 우주선의 궤도 계산 공식은?</td></tr>
+    <tr><th>실제 Groq 호출</th><td class="pass">0회</td></tr>
+    <tr><th>결과</th><td>등록된 지침서에서 확인할 수 없습니다.</td></tr>
+    <tr><th>차단 경로</th><td><code>pre_llm:domain_or_clarification</code></td></tr>
+  </table>
+  <h2>Q002 실행 결과</h2>
+  <table>
+    <tr><th>질문</th><td>진정간호 절차는?</td></tr>
+    <tr><th>실제 Groq 호출</th><td>1회</td></tr>
+    <tr><th>HTTP / 모델 / finish</th><td>200 / <code>openai/gpt-oss-20b</code> / <code>stop</code></td></tr>
+    <tr><th>Tokens</th><td>prompt 2611 / completion 110 / total 2721</td></tr>
+    <tr><th>Latency</th><td>1744.95 ms</td></tr>
+    <tr><th>Response stage</th><td><code>validation</code></td></tr>
+    <tr><th>Selection</th><td>5 units / limit 16 · g1=1, g2=1, g3=1, g4=1, g5=1</td></tr>
+    <tr><th>Required coverage</th><td>groups 5/5 · adult 충족 · pediatric 충족</td></tr>
+    <tr><th>Retrieval</th><td>pre/post required gold recall 10/10 · selected evidence 12 chunks</td></tr>
+    <tr><th>최종 Answer</th><td class="fail">answerable=false · verified statements 0</td></tr>
+    <tr><th>실패 reason</th><td><code>citation_assessment=duplicate_evidence</code></td></tr>
+  </table>
+  <h2>검증된 최종 답변</h2>
+  <p class="muted">최종 citation 검증을 통과한 Answer가 없어 표시할 문장이 없습니다. 검증되지 않은 모델 content와 raw response는 저장하지 않았습니다.</p>
+  <h2>선택 evidence</h2>
+  <ol>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00013</code></li>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00015</code></li>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00016</code></li>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00019</code></li>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00020</code></li>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00021</code></li>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00022</code></li>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00023</code></li>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00024</code></li>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00025</code></li>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00026</code></li>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00027</code></li>
+  </ol>
+  <h2>조건부 중단</h2>
+  <p>Q002가 최종 Answer와 citation 검증까지 완주하지 못했으므로 Q001, Q003, Q004, Q005의 실제 Groq 호출은 수행하지 않았습니다. Retry, fallback, 자동 보충·축소·dedup·재정렬도 수행하지 않았습니다.</p>
+</body>
+</html>

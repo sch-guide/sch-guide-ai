@@ -1,0 +1,20 @@
+{
+  "generated_at": "2026-09-14",
+  "external_groq_calls": 0,
+  "focused": {
+    "command": "python -m pytest tests/test_source_unit_selection.py tests/test_groq_structured_output.py tests/test_unsupported_sentence_schema.py -q",
+    "passed": 34,
+    "failed": 0,
+    "warnings": 1
+  },
+  "full": {
+    "command": "python -m pytest -q",
+    "passed": 292,
+    "skipped": 1,
+    "failed": 0,
+    "warnings": 2
+  },
+  "ruff": "passed",
+  "git_diff_check": "passed",
+  "warning_note": "Existing FastEmbed multilingual MiniLM pooling-default notice; embedding configuration was not changed."
+}

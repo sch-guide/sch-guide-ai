@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "classification": "model_declared_abstention",
+  "q006_actual_groq_calls": 0,
+  "q002_actual_groq_calls": 1,
+  "http_status": 200,
+  "model_returned": "openai/gpt-oss-20b",
+  "finish_reason": "stop",
+  "response_parse_stage": "complete",
+  "failure_code": null,
+  "validation_reason": null,
+  "answerable": false,
+  "group_slot_count": 5,
+  "required_group_satisfied_count": 0,
+  "adult_required_branch_satisfied": false,
+  "pediatric_required_branch_satisfied": false,
+  "selected_source_unit_count": 0,
+  "group_selected_counts": {
+    "g1": 0,
+    "g2": 0,
+    "g3": 0,
+    "g4": 0,
+    "g5": 0
+  },
+  "verified_statement_count": 0,
+  "second_call_performed": false,
+  "automatic_retry": false,
+  "automatic_correction": false
+}

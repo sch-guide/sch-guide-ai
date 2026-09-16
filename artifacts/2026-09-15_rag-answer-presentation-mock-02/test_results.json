@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "actual_groq_calls": 0,
+  "focused_presentation_and_source_unit": {
+    "result": "43 passed, 1 warning",
+    "status": "passed"
+  },
+  "related_q001_q006_q002_ui": {
+    "result": "125 passed, 3 warnings",
+    "status": "passed"
+  },
+  "full_pytest": {
+    "result": "352 passed, 1 skipped, 4 warnings",
+    "status": "passed"
+  },
+  "ruff": {
+    "result": "All checks passed!",
+    "status": "passed"
+  },
+  "git_diff_check": {
+    "status": "passed",
+    "note": "exit code 0; existing inaccessible historical pytest temp paths produced non-failing warnings"
+  },
+  "warnings": [
+    "Existing FastEmbed multilingual MiniLM pooling default notices; no embedding configuration was changed."
+  ]
+}

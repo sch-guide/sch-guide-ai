@@ -1,0 +1,57 @@
+{
+  "generated_at": "2026-09-13",
+  "mode": "mock_only",
+  "actual_groq_calls": 0,
+  "implementation": {
+    "transport_preconsumes_response_body": false,
+    "transport_rewraps_httpx_response": false,
+    "latency_measurement": "time.perf_counter around generate",
+    "response_format": "json_schema",
+    "strict": true,
+    "output_limit": 768,
+    "request_token_budget": 3500,
+    "prompt_schema_version": "compact-evidence-v2"
+  },
+  "transport_regression": {
+    "uncompressed": "passed",
+    "gzip": "passed",
+    "deflate": "passed",
+    "response_identity_preserved": true
+  },
+  "response_parser_regression": {
+    "finish_reason_stop": "passed",
+    "finish_reason_length": "AI_INCOMPLETE",
+    "finish_reason_missing": "AI_RESPONSE:finish_missing",
+    "choices_missing": "AI_RESPONSE:choices_missing",
+    "choices_empty": "AI_RESPONSE:choices_empty",
+    "choices_wrong_type": "AI_RESPONSE:choices_type",
+    "choice_wrong_type": "AI_RESPONSE:choice_type",
+    "message_missing": "AI_RESPONSE:message_missing",
+    "message_wrong_type": "AI_RESPONSE:message_type",
+    "content_missing": "AI_RESPONSE:content_missing",
+    "content_wrong_type": "AI_RESPONSE:content_type",
+    "refusal_non_null": "AI_RESPONSE:refusal",
+    "invalid_citation": "AI_EVIDENCE",
+    "q006_transport_calls": 0
+  },
+  "safe_trace": {
+    "records_raw_response": false,
+    "records_message_content": false,
+    "records_raw_prompt": false,
+    "records_api_key": false,
+    "records_authorization_header": false,
+    "records_shape_only": true
+  },
+  "verification": {
+    "focused_tests": "25 passed",
+    "related_regression_tests": "143 passed",
+    "full_tests": "264 passed, 1 skipped",
+    "ruff": "passed",
+    "mock_evaluator": {
+      "q002_mock_calls": 1,
+      "q002_validation_passed": true,
+      "q006_mock_calls": 0
+    },
+    "code_review": "no actionable findings"
+  }
+}

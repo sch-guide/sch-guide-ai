@@ -1,0 +1,292 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-14T08:44:32+09:00",
+  "mode": "mock",
+  "external_groq_calls": 0,
+  "configuration": {
+    "ai_version": 16,
+    "prompt_schema_version": 4,
+    "response_selection_schema_version": 3,
+    "output_limit": 2048,
+    "request_token_budget": 5120,
+    "response_format": "json_schema",
+    "strict": true,
+    "selection_limit": 16,
+    "answer_statement_limit": 16,
+    "automatic_retry": false,
+    "fallback": false,
+    "web_search": false
+  },
+  "selection_policy_audit": {
+    "policy": {
+      "goal": "smallest_sufficient_subset",
+      "maximum_total": 16,
+      "selectable_means": "eligible_not_mandatory",
+      "required_group_means": "non_empty_sufficient_subset"
+    },
+    "exact_policy_keys": true,
+    "contains_q002": false,
+    "contains_gold_or_stage": false,
+    "contains_chunk_id": false,
+    "contains_per_group_count": false,
+    "system_selectable_is_eligible": true,
+    "system_required_applies_to_group": true,
+    "system_smallest_sufficient_subset": true,
+    "system_counts_maximum_total": true
+  },
+  "provider_schema_audit": {
+    "root_type": "object",
+    "root_properties": [
+      "answerable",
+      "group_selections"
+    ],
+    "all_root_properties_required": true,
+    "root_additional_properties": false,
+    "group_slots": [
+      {
+        "prompt_group_id": "g1",
+        "branch": "common",
+        "required_by_server": true,
+        "enum_count": 1
+      },
+      {
+        "prompt_group_id": "g2",
+        "branch": "common",
+        "required_by_server": true,
+        "enum_count": 1
+      },
+      {
+        "prompt_group_id": "g3",
+        "branch": "common",
+        "required_by_server": true,
+        "enum_count": 1
+      },
+      {
+        "prompt_group_id": "g4",
+        "branch": "adult",
+        "required_by_server": true,
+        "enum_count": 6
+      },
+      {
+        "prompt_group_id": "g5",
+        "branch": "pediatric",
+        "required_by_server": true,
+        "enum_count": 12
+      }
+    ],
+    "keyword_counts": {
+      "anyOf": 0,
+      "minItems": 0,
+      "maxItems": 0,
+      "enum": 5,
+      "const": 0,
+      "oneOf": 0,
+      "allOf": 0,
+      "if": 0,
+      "then": 0,
+      "else": 0,
+      "pattern": 0,
+      "uniqueItems": 0,
+      "dependentSchemas": 0,
+      "propertyNames": 0,
+      "minProperties": 0,
+      "maxProperties": 0
+    },
+    "provider_enforces": [
+      "closed required object shape",
+      "boolean answerable",
+      "required group slot properties",
+      "per-slot selectable source-unit ID enums"
+    ],
+    "server_fail_closed_enforces": [
+      "required group non-empty",
+      "required branch coverage",
+      "answerable/selection consistency",
+      "duplicate ID rejection",
+      "total selection limit 16",
+      "source order",
+      "AnswerCoverage and reconstruction validation"
+    ]
+  },
+  "q002": {
+    "selected_evidence_chunk_ids": [
+      "eval-741858d2e9162acf8d38-chunk-00013",
+      "eval-741858d2e9162acf8d38-chunk-00015",
+      "eval-741858d2e9162acf8d38-chunk-00016",
+      "eval-741858d2e9162acf8d38-chunk-00019",
+      "eval-741858d2e9162acf8d38-chunk-00020",
+      "eval-741858d2e9162acf8d38-chunk-00021",
+      "eval-741858d2e9162acf8d38-chunk-00022",
+      "eval-741858d2e9162acf8d38-chunk-00023",
+      "eval-741858d2e9162acf8d38-chunk-00024",
+      "eval-741858d2e9162acf8d38-chunk-00025",
+      "eval-741858d2e9162acf8d38-chunk-00026",
+      "eval-741858d2e9162acf8d38-chunk-00027"
+    ],
+    "selected_evidence_count": 12,
+    "raw_source_unit_count": 40,
+    "selectable_source_unit_count": 21,
+    "prompt_required_input_unit_count": 23,
+    "selected_source_unit_ids": [
+      "su002",
+      "su003",
+      "su005",
+      "su006",
+      "su012",
+      "su015",
+      "su017",
+      "su020",
+      "su021",
+      "su024",
+      "su026",
+      "su029",
+      "su031",
+      "su032"
+    ],
+    "selected_source_unit_count": 14,
+    "required_source_unit_gold_recall": {
+      "hit": 10,
+      "total": 10
+    },
+    "pre_required_gold_recall": {
+      "recalled": 10,
+      "total": 10,
+      "recall": 1.0
+    },
+    "post_required_gold_recall": {
+      "recalled": 10,
+      "total": 10,
+      "recall": 1.0
+    },
+    "required_group_count": 5,
+    "required_branches": [
+      "adult",
+      "pediatric"
+    ],
+    "parent_partial_inclusion_count": 0,
+    "source_ordered": true,
+    "transport_calls": 1,
+    "answerable": true,
+    "verified_statement_count": 14,
+    "reconstruction_text_exact": true,
+    "reconstruction_quote_exact": true,
+    "citation_coverage": 1.0,
+    "exact_citation_validation": "supported",
+    "answer_coverage": {
+      "required_group_keys": [
+        "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00011",
+        "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00013",
+        "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00014",
+        "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00017",
+        "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00018"
+      ],
+      "selected_group_keys": [
+        "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00011",
+        "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00013",
+        "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00014",
+        "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00017",
+        "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00018"
+      ],
+      "required_branches": [
+        "adult",
+        "pediatric"
+      ],
+      "selected_branches": [
+        "adult",
+        "pediatric"
+      ],
+      "required_query_actions": [],
+      "selected_query_actions": [],
+      "source_ordered": true,
+      "complete": true,
+      "reason": ""
+    },
+    "response_parse_stage": "complete",
+    "failure_code": null,
+    "validation_reason": null,
+    "reservation": 4701,
+    "admission_cap": 5120,
+    "headroom": 419,
+    "minimum_headroom": 377,
+    "prompt_estimated_tokens": 4701,
+    "response_schema_serialized_tokens": 212,
+    "response_selection_schema_version": 3,
+    "selection_group_slots": [
+      {
+        "prompt_group_id": "g1",
+        "group_key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00011",
+        "branch": "common",
+        "required": true,
+        "selectable_source_unit_count": 1,
+        "source_order": 12,
+        "selected_count": 1
+      },
+      {
+        "prompt_group_id": "g2",
+        "group_key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00013",
+        "branch": "common",
+        "required": true,
+        "selectable_source_unit_count": 1,
+        "source_order": 14,
+        "selected_count": 1
+      },
+      {
+        "prompt_group_id": "g3",
+        "group_key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00014",
+        "branch": "common",
+        "required": true,
+        "selectable_source_unit_count": 1,
+        "source_order": 15,
+        "selected_count": 1
+      },
+      {
+        "prompt_group_id": "g4",
+        "group_key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00017",
+        "branch": "adult",
+        "required": true,
+        "selectable_source_unit_count": 6,
+        "source_order": 18,
+        "selected_count": 6
+      },
+      {
+        "prompt_group_id": "g5",
+        "group_key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00018",
+        "branch": "pediatric",
+        "required": true,
+        "selectable_source_unit_count": 12,
+        "source_order": 22,
+        "selected_count": 5
+      }
+    ],
+    "overselection_mock": {
+      "selected_source_unit_count": 21,
+      "transport_calls": 1,
+      "answerable": false,
+      "failure_code": "AI_EVIDENCE",
+      "validation_reason": "selection_limit",
+      "automatic_truncation": false
+    }
+  },
+  "q006": {
+    "catalog_count": 0,
+    "transport_calls": 0,
+    "llm_called": false,
+    "fixed_abstention": true
+  },
+  "negative_contracts": {
+    "required_adult_empty": "AI_EVIDENCE/selection_branch",
+    "required_pediatric_empty": "AI_EVIDENCE/selection_branch",
+    "required_common_empty": "AI_EVIDENCE/selection_missing_group",
+    "wrong_group_id": "AI_EVIDENCE/selection_wrong_group",
+    "unknown_id": "AI_EVIDENCE/selection_unknown_id",
+    "duplicate_id": "AI_EVIDENCE/selection_duplicate_id",
+    "non_selectable_id": "AI_EVIDENCE/selection_non_selectable",
+    "selection_limit": "AI_EVIDENCE/selection_limit",
+    "group_source_order_reversal": "AI_EVIDENCE/selection_source_order",
+    "global_source_order_reversal": "AI_EVIDENCE/selection_source_order",
+    "false_with_ids": "AI_EVIDENCE/selection_inconsistent",
+    "true_with_required_group_empty": "AI_EVIDENCE/selection_branch_or_missing_group",
+    "source_order_reversal": "AI_EVIDENCE/selection_source_order",
+    "verified_by": "tests/test_source_unit_selection.py"
+  }
+}

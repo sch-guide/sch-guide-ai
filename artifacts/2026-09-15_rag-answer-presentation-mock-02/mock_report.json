@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "actual_groq_calls": 0,
+  "mock_transport_calls": 1,
+  "selected_source_unit_count": 11,
+  "verified_statement_count": 11,
+  "presentation_statement_count": 11,
+  "sidecar_fields": [
+    "statement_index",
+    "source_unit_id",
+    "branch",
+    "phase",
+    "source_order",
+    "leading_marker"
+  ],
+  "sidecar_has_clinical_text": false,
+  "answer_schema_unchanged": true,
+  "statement_text_quote_chunk_identity": true,
+  "citation_coverage": 1.0,
+  "citation_assessment": "supported",
+  "source_order_reversal_count": 0,
+  "branch_counts": {
+    "common": 3,
+    "adult": 5,
+    "pediatric": 3
+  },
+  "phase_counts": {
+    "unspecified": 3,
+    "before": 3,
+    "during": 2,
+    "after": 3
+  },
+  "leading_marker_count": 9,
+  "outer_numbering_added": false,
+  "clinical_number_marker_checks": {
+    "15분": "",
+    "10분": "",
+    "10 mg": "",
+    "95%": ""
+  },
+  "response_parse_stage": "complete",
+  "validation_reason": null,
+  "presentation_ready": true,
+  "answer_sha256": "87aab3c62a43f2947d54f1d1bf82a6ffd38cf719dc5be23d5a35d7d9219a218f"
+}

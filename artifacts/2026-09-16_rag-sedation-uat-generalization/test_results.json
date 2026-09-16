@@ -1,0 +1,95 @@
+{
+  "executed_on": "2026-09-16",
+  "branch": "boha-rag",
+  "baseline_commit": "f4d994e6ea7cd356cf570657e5423ea3f01f6f94",
+  "actual_groq_calls": 0,
+  "uat": {
+    "question_count": 45,
+    "passed": 45,
+    "failed": 0,
+    "expected_modes": {
+      "independent_answer": 39,
+      "independent_abstain": 4,
+      "context_follow_up": 2,
+      "clarification": 0
+    },
+    "q006_transport_calls": 0
+  },
+  "focused_checks": [
+    {
+      "name": "sedation UAT/query/temporal/follow-up tests",
+      "passed": 26,
+      "failed": 0
+    },
+    {
+      "name": "Q002 facet 41, gold reconstruction, budget, Q006 zero-call",
+      "passed": 4,
+      "failed": 0
+    },
+    {
+      "name": "Q001/Q003/Q004 and Q002/Q006 offline boundaries",
+      "passed": 5,
+      "failed": 0
+    },
+    {
+      "name": "Q001~Q005 answerable paraphrases pre/post budget",
+      "passed": 14,
+      "failed": 0
+    },
+    {
+      "name": "context/evidence/retrieval/RAG contract regression",
+      "passed": 96,
+      "failed": 0
+    },
+    {
+      "name": "bounded temporal regression",
+      "passed": 9,
+      "failed": 0
+    },
+    {
+      "name": "heading-only purpose evidence regression",
+      "passed": 1,
+      "failed": 0
+    }
+  ],
+  "full_pytest": {
+    "passed": 420,
+    "skipped": 1,
+    "failed": 0,
+    "warnings": 5,
+    "duration_seconds": 117.46
+  },
+  "ruff": {
+    "passed": true
+  },
+  "git_diff_check": {
+    "passed": true
+  },
+  "q002_contract": {
+    "required_facet_count": 41,
+    "selection_limit": 16,
+    "mock_regression_passed": true
+  },
+  "versions": {
+    "AI_VERSION": 19,
+    "PROMPT_EVIDENCE_SCHEMA_VERSION": 6,
+    "RESPONSE_SELECTION_SCHEMA_VERSION": 5,
+    "SEARCH_VERSION": 14,
+    "CHUNK_VERSION": 4,
+    "OUTPUT_LIMIT": 2048,
+    "GROQ_REQUEST_TOKEN_BUDGET": 5120
+  },
+  "unchanged_contracts": [
+    "BM25/tokenizer",
+    "embedding",
+    "RRF",
+    "reranker",
+    "Facet-slot SourceUnit Selection",
+    "selection limit 16",
+    "AnswerCoverage semantics",
+    "validate_answer()",
+    "citation/number/unit/condition/negation/action validators",
+    "presentation sidecar",
+    "retry/fallback/web search"
+  ]
+}

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>SCHAT Groq 실제 평가</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 1100px; margin: 24px auto; padding: 0 16px; color: #17202a; }
+    table { border-collapse: collapse; width: 100%; margin: 18px 0 32px; }
+    th, td { border: 1px solid #ccd1d1; padding: 8px; text-align: left; vertical-align: top; }
+    th { background: #eef3f6; }
+    .stop { color: #a93226; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <h1>Q002 실제 Groq 단일 호출 평가</h1>
+  <p class="stop">실제 요청 1회가 인증/권한 오류(AI_AUTH, HTTP 401 또는 403)로 종료됐습니다. 재시도하지 않았습니다.</p>
+  <ul>
+    <li>요청 모델: openai/gpt-oss-20b</li>
+    <li>실제 Groq 호출: 1회</li>
+    <li>자동 retry / fallback / web search: 없음</li>
+    <li>prompt schema: 2</li>
+    <li>예약 token: 3130 / budget 3500</li>
+    <li>pre/post 필수 gold recall: 10/10, 10/10</li>
+    <li>input/output/total token: 인증 실패로 측정 불가</li>
+    <li>latency: 결과 flush 전 인증 예외로 측정값 보존 불가</li>
+    <li>statement/citation/source-order 검증: 응답이 없어 미실행</li>
+  </ul>
+  <h2>검증된 답변</h2>
+  <table>
+    <thead><tr><th>statement</th><th>chunk</th><th>exact quote</th></tr></thead>
+    <tbody><tr><td colspan="3">인증 실패로 생성된 statement가 없습니다.</td></tr></tbody>
+  </table>
+  <h2>Q006 zero-call</h2>
+  <ul>
+    <li>실제 Groq 호출: 0회</li>
+    <li>결과: 등록된 지침서에서 확인할 수 없습니다.</li>
+    <li>reason: pre_llm:domain_or_clarification</li>
+  </ul>
+</body>
+</html>

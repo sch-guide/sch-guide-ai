@@ -1,0 +1,33 @@
+{
+  "generated_at": "2026-09-14T21:27:00+09:00",
+  "actual_groq_calls": 0,
+  "focused_mock_and_contract": {
+    "passed": 57,
+    "failed": 0
+  },
+  "live_transport_and_source_unit": {
+    "passed": 40,
+    "failed": 0
+  },
+  "output_limit_regression": {
+    "passed": 4,
+    "failed": 0
+  },
+  "full_pytest_final": {
+    "passed": 309,
+    "skipped": 1,
+    "failed": 0,
+    "warnings": 2,
+    "duration_seconds": 188.18
+  },
+  "ruff": {
+    "scope": ["mvp", "tests", "tools"],
+    "passed": true
+  },
+  "git_diff_check": {
+    "passed": true
+  },
+  "known_warnings": [
+    "FastEmbed multilingual MiniLM pooling default change notice; embedding configuration was not changed."
+  ]
+}

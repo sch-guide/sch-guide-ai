@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-13T23:59:00+09:00",
+  "mode": "local-read-only-feasibility",
+  "actual_groq_calls": 0,
+  "code_changes": 0,
+  "q002": {
+    "selected_chunk_count": 12,
+    "raw_source_unit_count": 43,
+    "required_group_count": 5,
+    "required_procedural_unit_count": 23,
+    "required_gold_stage_count": 10,
+    "minimum_distinct_chunks_for_required_gold": 10,
+    "maximum_selected_source_unit_ids": 10,
+    "source_unit_specific_gold_mapping_exists": false,
+    "feasible_under_approved_contract": false,
+    "blocking_reason": "required_procedural_unit_count_exceeds_selection_limit"
+  },
+  "groups": [
+    {"branch": "common", "chunk_count": 1, "raw_source_units": 2, "required_procedural_units": 1},
+    {"branch": "common", "chunk_count": 1, "raw_source_units": 2, "required_procedural_units": 2},
+    {"branch": "common", "chunk_count": 1, "raw_source_units": 1, "required_procedural_units": 1},
+    {"branch": "adult", "chunk_count": 4, "raw_source_units": 16, "required_procedural_units": 7},
+    {"branch": "pediatric", "chunk_count": 5, "raw_source_units": 22, "required_procedural_units": 12}
+  ],
+  "constraints_preserved": {
+    "selection_limit_unchanged": true,
+    "units_not_merged": true,
+    "required_units_not_reclassified": true,
+    "source_sentences_unchanged": true,
+    "retrieval_unchanged": true,
+    "existing_artifacts_overwritten": false
+  }
+}

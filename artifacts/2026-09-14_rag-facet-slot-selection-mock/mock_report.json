@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "scope": "MockTransport and local validation only; actual Groq calls 0",
+  "versions": {
+    "ai": 19,
+    "prompt_evidence": 6,
+    "response_selection": 5
+  },
+  "facet_contract": {
+    "required_facets": 41,
+    "empty_allowlists": 0,
+    "allowlist_sizes": [
+      1,
+      13,
+      1,
+      1,
+      1,
+      1,
+      1,
+      5,
+      10,
+      1,
+      1,
+      6,
+      6,
+      15,
+      1,
+      2,
+      1,
+      2,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2,
+      1,
+      2,
+      1,
+      2,
+      12,
+      12,
+      3,
+      3,
+      1,
+      3,
+      1,
+      1,
+      2,
+      3
+    ],
+    "arrays_used": false
+  },
+  "minimum_witness": {
+    "distinct_ids": 10,
+    "facet_assignments": 41,
+    "answer_coverage_complete": true,
+    "reason": null
+  },
+  "gold_mock": {
+    "transport_calls": 1,
+    "selected_evidence_chunks": 12,
+    "pre_required_gold": {
+      "recalled": 10,
+      "total": 10,
+      "recall": 1.0
+    },
+    "post_required_gold": {
+      "recalled": 10,
+      "total": 10,
+      "recall": 1.0
+    },
+    "source_unit_gold_recall": {
+      "recalled": 10,
+      "total": 10
+    },
+    "facet_assignments": 41,
+    "distinct_ids": 14,
+    "verified_statements": 14,
+    "server_answerable": true,
+    "exact_text_quote": true,
+    "citation_coverage": 1.0,
+    "citation_assessment": "supported",
+    "duplicate_evidence": false,
+    "branch_metadata_preserved": true,
+    "source_order_reversal": 0,
+    "answer_coverage_complete": true
+  },
+  "over_selection": {
+    "17": {
+      "distinct_ids": 17,
+      "reason": "selection_limit",
+      "reported_selected_count": 17
+    },
+    "21": {
+      "distinct_ids": 21,
+      "reason": "selection_limit",
+      "reported_selected_count": 21
+    }
+  },
+  "invalid_responses": {
+    "missing_facet": {
+      "schema_rejected": true,
+      "server_reason": "selection_schema"
+    },
+    "outside_allowlist": {
+      "schema_rejected": true,
+      "server_reason": "selection_wrong_facet"
+    },
+    "extra_property": {
+      "schema_rejected": true,
+      "server_reason": "selection_schema"
+    },
+    "source_order_reversal": {
+      "schema_rejected": false,
+      "server_reason": "selection_source_order"
+    }
+  },
+  "q006": {
+    "catalog_units": 0,
+    "transport_calls": 0,
+    "llm_called": false,
+    "fixed_abstention": "등록된 지침서에서 확인할 수 없습니다."
+  },
+  "budget": {
+    "request_reservation": 4259,
+    "admission_cap": 5120,
+    "headroom": 861,
+    "minimum_headroom": 341,
+    "response_schema_serialized_tokens": 956,
+    "passed": true
+  },
+  "passed": true
+}

@@ -1,0 +1,3339 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-14T22:23:04+09:00",
+  "scope": "offline local retrieval and MockTransport only; actual Groq calls 0",
+  "actual_groq_calls": 0,
+  "expected_cases": {
+    "Q001": true,
+    "Q002": true,
+    "Q003": true,
+    "Q004": true,
+    "Q005": true,
+    "Q006": false
+  },
+  "cases": [
+    {
+      "case_id": "Q001",
+      "question": "진정간호 목적은?",
+      "expected_answerable": true,
+      "legacy": {
+        "answerable": true,
+        "reason": "supported"
+      },
+      "current_pre_budget": "supported",
+      "current_post_budget": "supported",
+      "mock": {
+        "transport_calls": 1,
+        "answerable": true,
+        "selected_evidence_count": 1,
+        "verified_statement_count": 1,
+        "citation_coverage": 1.0,
+        "citation_assessment": "supported",
+        "response_parse_stage": "complete",
+        "validation_reason": null,
+        "block_reason": null
+      },
+      "pass": true
+    },
+    {
+      "case_id": "Q002",
+      "question": "진정간호 절차는?",
+      "expected_answerable": true,
+      "legacy": {
+        "answerable": true,
+        "reason": "supported"
+      },
+      "current_pre_budget": "supported",
+      "current_post_budget": "supported",
+      "mock": {
+        "transport_calls": 1,
+        "answerable": true,
+        "selected_evidence_count": 12,
+        "verified_statement_count": 14,
+        "citation_coverage": 1.0,
+        "citation_assessment": "supported",
+        "response_parse_stage": "complete",
+        "validation_reason": null,
+        "block_reason": null
+      },
+      "pass": true
+    },
+    {
+      "case_id": "Q003",
+      "question": "진정 전 준비사항은?",
+      "expected_answerable": true,
+      "legacy": {
+        "answerable": false,
+        "reason": "incomplete_semantic_block"
+      },
+      "current_pre_budget": "supported",
+      "current_post_budget": "supported",
+      "mock": {
+        "transport_calls": 1,
+        "answerable": true,
+        "selected_evidence_count": 3,
+        "verified_statement_count": 3,
+        "citation_coverage": 1.0,
+        "citation_assessment": "supported",
+        "response_parse_stage": "complete",
+        "validation_reason": null,
+        "block_reason": null
+      },
+      "pass": true
+    },
+    {
+      "case_id": "Q004",
+      "question": "진정 간호의 목적은 무엇인가요?",
+      "expected_answerable": true,
+      "legacy": {
+        "answerable": false,
+        "reason": "incomplete_semantic_block"
+      },
+      "current_pre_budget": "supported",
+      "current_post_budget": "supported",
+      "mock": {
+        "transport_calls": 1,
+        "answerable": true,
+        "selected_evidence_count": 1,
+        "verified_statement_count": 1,
+        "citation_coverage": 1.0,
+        "citation_assessment": "supported",
+        "response_parse_stage": "complete",
+        "validation_reason": null,
+        "block_reason": null
+      },
+      "pass": true
+    },
+    {
+      "case_id": "Q005",
+      "question": "진정간호 주의사항은?",
+      "expected_answerable": true,
+      "legacy": {
+        "answerable": false,
+        "reason": "no_topic_evidence"
+      },
+      "current_pre_budget": "supported",
+      "current_post_budget": "supported",
+      "mock": {
+        "transport_calls": 1,
+        "answerable": true,
+        "selected_evidence_count": 5,
+        "verified_statement_count": 3,
+        "citation_coverage": 1.0,
+        "citation_assessment": "supported",
+        "response_parse_stage": "complete",
+        "validation_reason": null,
+        "block_reason": null
+      },
+      "pass": true
+    },
+    {
+      "case_id": "Q006",
+      "question": "화성 우주선의 궤도 계산 공식은?",
+      "expected_answerable": false,
+      "legacy": {
+        "answerable": false,
+        "reason": "domain_or_clarification"
+      },
+      "current_pre_budget": "domain_or_clarification",
+      "current_post_budget": null,
+      "mock": {
+        "transport_calls": 0,
+        "answerable": false,
+        "verified_statement_count": 0,
+        "citation_coverage": 0.0
+      },
+      "pass": true
+    }
+  ],
+  "funnels": {
+    "Q001": {
+      "question": "진정간호 목적은?",
+      "plan": {
+        "original": "진정간호 목적은?",
+        "query": "진정간호 목적은?",
+        "expanded": "진정간호 목적은?",
+        "kind": "purpose",
+        "format": "paragraph",
+        "focus": [
+          "목적",
+          "정의",
+          "예방",
+          "위해",
+          "이란"
+        ],
+        "document_ids": [],
+        "min_documents": 1,
+        "entities": [],
+        "clarification": "",
+        "corrections": [],
+        "max_seeds": 6,
+        "max_hits": 12,
+        "domain": "hospital"
+      },
+      "query_analysis": {
+        "terms": [
+          "진정간호",
+          "목적"
+        ],
+        "topic_words": [
+          "진정간호"
+        ],
+        "embedding_question": "진정 간호 목적",
+        "lexical_tokens": [
+          "진정간호",
+          "ko:진정",
+          "ko:정간",
+          "ko:간호",
+          "목적",
+          "ko:목적",
+          "ko:적은"
+        ],
+        "requested_temporal_phase": null
+      },
+      "bm25_top": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00003",
+          "chunk_index": 2,
+          "score": 5.489635,
+          "temporal_tier": "inactive",
+          "section": "1. 목적",
+          "text": "1. 목적\n저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의\n상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00034",
+          "chunk_index": 33,
+          "score": 0.53223,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n진정 기록 [진정 후]\n[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00029",
+          "chunk_index": 28,
+          "score": 0.46475,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00032",
+          "chunk_index": 31,
+          "score": 0.397465,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "S | T-PCRA 6ml 경구 복용 후 진정 상태로 간호사 OOO 동행하여 S-Car 타고 MRI실 내려감"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00019",
+          "chunk_index": 18,
+          "score": 0.338287,
+          "temporal_tier": "inactive",
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후  \n   환자 상태를 평가하고 모니터링하여 기록한다.\n* 진정 평가 기록지(동의서 및 기타 출력서식 출력 → 작성 후 OCR 반납)\n* 진정 중 서면 기록지 출력 방법"
+        },
+        {
+          "rank": 6,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00035",
+          "chunk_index": 34,
+          "score": 0.318429,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "S | MRI 검사 종료 후 간호사 OOO 동행하여 S-Car 타고 병실로 돌아옴 진정된 상태로 V/S HR:108회/분, RR: 24회/분, SpO2 97% 측정됨. 진정 후 안내문 보호자(모)에게 제공하며 교육함"
+        },
+        {
+          "rank": 7,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00037",
+          "chunk_index": 36,
+          "score": 0.301766,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n[실제 예시]\n진정 후 안내문\nŸ 구두 및 서면으로 교육한다.\nŸ 소아진정 시 필요에 따라 보호자의 도움을 받을 수 있으며, 퇴실 시 보호자 또는 대리인이 \n동행한다."
+        },
+        {
+          "rank": 8,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00028",
+          "chunk_index": 27,
+          "score": 0.295286,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n퇴실 시 교육\nŸ 주의해야 할 주요증상 및 징후\nŸ 발생할 수 있는 합병증\nŸ 식사, 약물복용, 일상 활동 등\nŸ 응급상황 발생 시 일차적인 처치 방법 및 연락처\n진정 기록 [진정 중]\n[진정기록지]"
+        },
+        {
+          "rank": 9,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00023",
+          "chunk_index": 22,
+          "score": 0.266698,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n진정 기록지 작성 방법 [소아]\n① 진정 치료 전 \n 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.\n② 진정 약물 투여\n 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.\n③ 진정 치료 중"
+        },
+        {
+          "rank": 10,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00021",
+          "chunk_index": 20,
+          "score": 0.236418,
+          "temporal_tier": "inactive",
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "② 진정 약물 투여\n 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.\n③ 진정 치료 중 \n 15분 간격으로 활력징후, 산소포화도, 의식상태(MOAA/S scale)를 평가하고 모니터링하여 \n  기록한다.\n④ 진정 치료 후"
+        }
+      ],
+      "semantic_top": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00001",
+          "chunk_index": 0,
+          "score": 0.804054,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00012",
+          "chunk_index": 11,
+          "score": 0.804054,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00018",
+          "chunk_index": 17,
+          "score": 0.804054,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00038",
+          "chunk_index": 37,
+          "score": 0.804054,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00002",
+          "chunk_index": 1,
+          "score": 0.728321,
+          "temporal_tier": "inactive",
+          "section": "15. 진정간호",
+          "text": "15. 진정간호"
+        },
+        {
+          "rank": 6,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00034",
+          "chunk_index": 33,
+          "score": 0.687806,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n진정 기록 [진정 후]\n[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 7,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00037",
+          "chunk_index": 36,
+          "score": 0.632125,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n[실제 예시]\n진정 후 안내문\nŸ 구두 및 서면으로 교육한다.\nŸ 소아진정 시 필요에 따라 보호자의 도움을 받을 수 있으며, 퇴실 시 보호자 또는 대리인이 \n동행한다."
+        },
+        {
+          "rank": 8,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00016",
+          "chunk_index": 15,
+          "score": 0.60221,
+          "temporal_tier": "inactive",
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다."
+        },
+        {
+          "rank": 9,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00003",
+          "chunk_index": 2,
+          "score": 0.581685,
+          "temporal_tier": "inactive",
+          "section": "1. 목적",
+          "text": "1. 목적\n저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의\n상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다."
+        },
+        {
+          "rank": 10,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00029",
+          "chunk_index": 28,
+          "score": 0.578562,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        }
+      ],
+      "rrf_top": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00034",
+          "chunk_index": 33,
+          "score": 0.031281,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n진정 기록 [진정 후]\n[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00003",
+          "chunk_index": 2,
+          "score": 0.030886,
+          "temporal_tier": "inactive",
+          "section": "1. 목적",
+          "text": "1. 목적\n저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의\n상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00029",
+          "chunk_index": 28,
+          "score": 0.030159,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00037",
+          "chunk_index": 36,
+          "score": 0.029851,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n[실제 예시]\n진정 후 안내문\nŸ 구두 및 서면으로 교육한다.\nŸ 소아진정 시 필요에 따라 보호자의 도움을 받을 수 있으며, 퇴실 시 보호자 또는 대리인이 \n동행한다."
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00028",
+          "chunk_index": 27,
+          "score": 0.02879,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n퇴실 시 교육\nŸ 주의해야 할 주요증상 및 징후\nŸ 발생할 수 있는 합병증\nŸ 식사, 약물복용, 일상 활동 등\nŸ 응급상황 발생 시 일차적인 처치 방법 및 연락처\n진정 기록 [진정 중]\n[진정기록지]"
+        },
+        {
+          "rank": 6,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00016",
+          "chunk_index": 15,
+          "score": 0.028219,
+          "temporal_tier": "inactive",
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다."
+        },
+        {
+          "rank": 7,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00019",
+          "chunk_index": 18,
+          "score": 0.027885,
+          "temporal_tier": "inactive",
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후  \n   환자 상태를 평가하고 모니터링하여 기록한다.\n* 진정 평가 기록지(동의서 및 기타 출력서식 출력 → 작성 후 OCR 반납)\n* 진정 중 서면 기록지 출력 방법"
+        },
+        {
+          "rank": 8,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00023",
+          "chunk_index": 22,
+          "score": 0.027826,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n진정 기록지 작성 방법 [소아]\n① 진정 치료 전 \n 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.\n② 진정 약물 투여\n 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.\n③ 진정 치료 중"
+        },
+        {
+          "rank": 9,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00032",
+          "chunk_index": 31,
+          "score": 0.02782,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "S | T-PCRA 6ml 경구 복용 후 진정 상태로 간호사 OOO 동행하여 S-Car 타고 MRI실 내려감"
+        },
+        {
+          "rank": 10,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00015",
+          "chunk_index": 14,
+          "score": 0.027222,
+          "temporal_tier": "inactive",
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "2) 진정 치료를 수행하는 의사는 진정 치료 전\n진정 전 환자 평가서를 이용하여 환자 상태를 평가하고 모니터링하여 적합한 진정 치료를 계획한다.\n* 의사가 작성한 진정 전 환자평가서 확인 방법"
+        }
+      ],
+      "rerank_seeds": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00003",
+          "chunk_index": 2,
+          "score": 0.05954,
+          "section": "1. 목적",
+          "text": "1. 목적\n저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의\n상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00034",
+          "chunk_index": 33,
+          "score": 0.036783,
+          "section": "",
+          "text": "간호실무지침\n진정 기록 [진정 후]\n[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00037",
+          "chunk_index": 36,
+          "score": 0.034908,
+          "section": "",
+          "text": "간호실무지침\n[실제 예시]\n진정 후 안내문\nŸ 구두 및 서면으로 교육한다.\nŸ 소아진정 시 필요에 따라 보호자의 도움을 받을 수 있으며, 퇴실 시 보호자 또는 대리인이 \n동행한다."
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00029",
+          "chunk_index": 28,
+          "score": 0.034787,
+          "section": "",
+          "text": "[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00016",
+          "chunk_index": 15,
+          "score": 0.033037,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다."
+        }
+      ],
+      "context_hits": [
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00003",
+          "chunk_index": 2,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00003",
+          "context_only": false,
+          "context_complete": true,
+          "section": "1. 목적",
+          "text": "1. 목적\n저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의\n상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다."
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00016",
+          "chunk_index": 15,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00014",
+          "context_only": false,
+          "context_complete": true,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다."
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00028",
+          "chunk_index": 27,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00019",
+          "context_only": true,
+          "context_complete": true,
+          "section": "",
+          "text": "간호실무지침\n퇴실 시 교육\nŸ 주의해야 할 주요증상 및 징후\nŸ 발생할 수 있는 합병증\nŸ 식사, 약물복용, 일상 활동 등\nŸ 응급상황 발생 시 일차적인 처치 방법 및 연락처\n진정 기록 [진정 중]\n[진정기록지]"
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00029",
+          "chunk_index": 28,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00019",
+          "context_only": false,
+          "context_complete": true,
+          "section": "",
+          "text": "[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00034",
+          "chunk_index": 33,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00023",
+          "context_only": false,
+          "context_complete": true,
+          "section": "",
+          "text": "간호실무지침\n진정 기록 [진정 후]\n[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00037",
+          "chunk_index": 36,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00026",
+          "context_only": false,
+          "context_complete": true,
+          "section": "",
+          "text": "간호실무지침\n[실제 예시]\n진정 후 안내문\nŸ 구두 및 서면으로 교육한다.\nŸ 소아진정 시 필요에 따라 보호자의 도움을 받을 수 있으며, 퇴실 시 보호자 또는 대리인이 \n동행한다."
+        }
+      ],
+      "pre_budget": {
+        "sufficient": true,
+        "reason": "supported",
+        "hit_count": 1,
+        "groups": [
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00003",
+            "branch": "common",
+            "source_start": 2,
+            "source_end": 2,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00003"
+            ]
+          }
+        ]
+      },
+      "selected_evidence": [
+        "eval-741858d2e9162acf8d38-chunk-00003"
+      ],
+      "post_budget": {
+        "sufficient": true,
+        "reason": "supported",
+        "hit_count": 1,
+        "groups": [
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00003",
+            "branch": "common",
+            "source_start": 2,
+            "source_end": 2,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00003"
+            ]
+          }
+        ]
+      },
+      "selectable_source_units": 1,
+      "selection_slots": 1,
+      "budget": {
+        "reservation": 2539,
+        "cap": 5120,
+        "headroom": 2581,
+        "minimum_headroom": 256
+      }
+    },
+    "Q002": {
+      "question": "진정간호 절차는?",
+      "plan": {
+        "original": "진정간호 절차는?",
+        "query": "진정간호 절차는?",
+        "expanded": "진정간호 절차는?",
+        "kind": "procedure",
+        "format": "steps",
+        "focus": [
+          "방법",
+          "절차",
+          "순서",
+          "시행"
+        ],
+        "document_ids": [],
+        "min_documents": 1,
+        "entities": [],
+        "clarification": "",
+        "corrections": [],
+        "max_seeds": 6,
+        "max_hits": 12,
+        "domain": "hospital"
+      },
+      "query_analysis": {
+        "terms": [
+          "진정간호",
+          "절차"
+        ],
+        "topic_words": [
+          "진정간호"
+        ],
+        "embedding_question": "진정 간호 절차",
+        "lexical_tokens": [
+          "진정간호",
+          "ko:진정",
+          "ko:정간",
+          "ko:간호",
+          "절차",
+          "ko:절차",
+          "ko:차는"
+        ],
+        "requested_temporal_phase": null
+      },
+      "bm25_top": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00013",
+          "chunk_index": 12,
+          "score": 6.14228,
+          "temporal_tier": "inactive",
+          "section": "6. 진정 절차",
+          "text": "6. 진정 절차\n1) 진정 QSED 처방을 확인한다."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00014",
+          "chunk_index": 13,
+          "score": 5.46711,
+          "temporal_tier": "inactive",
+          "section": "6. 진정 절차",
+          "text": "성인\n소아"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00034",
+          "chunk_index": 33,
+          "score": 0.53223,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n진정 기록 [진정 후]\n[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00029",
+          "chunk_index": 28,
+          "score": 0.46475,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00032",
+          "chunk_index": 31,
+          "score": 0.397465,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "S | T-PCRA 6ml 경구 복용 후 진정 상태로 간호사 OOO 동행하여 S-Car 타고 MRI실 내려감"
+        },
+        {
+          "rank": 6,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00019",
+          "chunk_index": 18,
+          "score": 0.338287,
+          "temporal_tier": "inactive",
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후  \n   환자 상태를 평가하고 모니터링하여 기록한다.\n* 진정 평가 기록지(동의서 및 기타 출력서식 출력 → 작성 후 OCR 반납)\n* 진정 중 서면 기록지 출력 방법"
+        },
+        {
+          "rank": 7,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00035",
+          "chunk_index": 34,
+          "score": 0.318429,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "S | MRI 검사 종료 후 간호사 OOO 동행하여 S-Car 타고 병실로 돌아옴 진정된 상태로 V/S HR:108회/분, RR: 24회/분, SpO2 97% 측정됨. 진정 후 안내문 보호자(모)에게 제공하며 교육함"
+        },
+        {
+          "rank": 8,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00037",
+          "chunk_index": 36,
+          "score": 0.301766,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n[실제 예시]\n진정 후 안내문\nŸ 구두 및 서면으로 교육한다.\nŸ 소아진정 시 필요에 따라 보호자의 도움을 받을 수 있으며, 퇴실 시 보호자 또는 대리인이 \n동행한다."
+        },
+        {
+          "rank": 9,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00028",
+          "chunk_index": 27,
+          "score": 0.295286,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n퇴실 시 교육\nŸ 주의해야 할 주요증상 및 징후\nŸ 발생할 수 있는 합병증\nŸ 식사, 약물복용, 일상 활동 등\nŸ 응급상황 발생 시 일차적인 처치 방법 및 연락처\n진정 기록 [진정 중]\n[진정기록지]"
+        },
+        {
+          "rank": 10,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00023",
+          "chunk_index": 22,
+          "score": 0.266698,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n진정 기록지 작성 방법 [소아]\n① 진정 치료 전 \n 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.\n② 진정 약물 투여\n 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.\n③ 진정 치료 중"
+        }
+      ],
+      "semantic_top": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00001",
+          "chunk_index": 0,
+          "score": 0.909455,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00012",
+          "chunk_index": 11,
+          "score": 0.909455,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00018",
+          "chunk_index": 17,
+          "score": 0.909455,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00038",
+          "chunk_index": 37,
+          "score": 0.909455,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00034",
+          "chunk_index": 33,
+          "score": 0.766384,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n진정 기록 [진정 후]\n[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 6,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00002",
+          "chunk_index": 1,
+          "score": 0.743698,
+          "temporal_tier": "inactive",
+          "section": "15. 진정간호",
+          "text": "15. 진정간호"
+        },
+        {
+          "rank": 7,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00037",
+          "chunk_index": 36,
+          "score": 0.661757,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n[실제 예시]\n진정 후 안내문\nŸ 구두 및 서면으로 교육한다.\nŸ 소아진정 시 필요에 따라 보호자의 도움을 받을 수 있으며, 퇴실 시 보호자 또는 대리인이 \n동행한다."
+        },
+        {
+          "rank": 8,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00023",
+          "chunk_index": 22,
+          "score": 0.654315,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n진정 기록지 작성 방법 [소아]\n① 진정 치료 전 \n 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.\n② 진정 약물 투여\n 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.\n③ 진정 치료 중"
+        },
+        {
+          "rank": 9,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00029",
+          "chunk_index": 28,
+          "score": 0.620035,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 10,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00028",
+          "chunk_index": 27,
+          "score": 0.615263,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n퇴실 시 교육\nŸ 주의해야 할 주요증상 및 징후\nŸ 발생할 수 있는 합병증\nŸ 식사, 약물복용, 일상 활동 등\nŸ 응급상황 발생 시 일차적인 처치 방법 및 연락처\n진정 기록 [진정 중]\n[진정기록지]"
+        }
+      ],
+      "rrf_top": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00034",
+          "chunk_index": 33,
+          "score": 0.031258,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n진정 기록 [진정 후]\n[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00029",
+          "chunk_index": 28,
+          "score": 0.030118,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00037",
+          "chunk_index": 36,
+          "score": 0.029631,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n[실제 예시]\n진정 후 안내문\nŸ 구두 및 서면으로 교육한다.\nŸ 소아진정 시 필요에 따라 보호자의 도움을 받을 수 있으며, 퇴실 시 보호자 또는 대리인이 \n동행한다."
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00023",
+          "chunk_index": 22,
+          "score": 0.028992,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n진정 기록지 작성 방법 [소아]\n① 진정 치료 전 \n 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.\n② 진정 약물 투여\n 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.\n③ 진정 치료 중"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00014",
+          "chunk_index": 13,
+          "score": 0.02895,
+          "temporal_tier": "inactive",
+          "section": "6. 진정 절차",
+          "text": "성인\n소아"
+        },
+        {
+          "rank": 6,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00028",
+          "chunk_index": 27,
+          "score": 0.028778,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n퇴실 시 교육\nŸ 주의해야 할 주요증상 및 징후\nŸ 발생할 수 있는 합병증\nŸ 식사, 약물복용, 일상 활동 등\nŸ 응급상황 발생 시 일차적인 처치 방법 및 연락처\n진정 기록 [진정 중]\n[진정기록지]"
+        },
+        {
+          "rank": 7,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00032",
+          "chunk_index": 31,
+          "score": 0.028543,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "S | T-PCRA 6ml 경구 복용 후 진정 상태로 간호사 OOO 동행하여 S-Car 타고 MRI실 내려감"
+        },
+        {
+          "rank": 8,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00019",
+          "chunk_index": 18,
+          "score": 0.028139,
+          "temporal_tier": "inactive",
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후  \n   환자 상태를 평가하고 모니터링하여 기록한다.\n* 진정 평가 기록지(동의서 및 기타 출력서식 출력 → 작성 후 OCR 반납)\n* 진정 중 서면 기록지 출력 방법"
+        },
+        {
+          "rank": 9,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00015",
+          "chunk_index": 14,
+          "score": 0.027418,
+          "temporal_tier": "inactive",
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "2) 진정 치료를 수행하는 의사는 진정 치료 전\n진정 전 환자 평가서를 이용하여 환자 상태를 평가하고 모니터링하여 적합한 진정 치료를 계획한다.\n* 의사가 작성한 진정 전 환자평가서 확인 방법"
+        },
+        {
+          "rank": 10,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00016",
+          "chunk_index": 15,
+          "score": 0.027402,
+          "temporal_tier": "inactive",
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다."
+        }
+      ],
+      "rerank_seeds": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00023",
+          "chunk_index": 22,
+          "score": 0.044226,
+          "section": "",
+          "text": "간호실무지침\n진정 기록지 작성 방법 [소아]\n① 진정 치료 전 \n 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.\n② 진정 약물 투여\n 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.\n③ 진정 치료 중"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00028",
+          "chunk_index": 27,
+          "score": 0.043701,
+          "section": "",
+          "text": "간호실무지침\n퇴실 시 교육\nŸ 주의해야 할 주요증상 및 징후\nŸ 발생할 수 있는 합병증\nŸ 식사, 약물복용, 일상 활동 등\nŸ 응급상황 발생 시 일차적인 처치 방법 및 연락처\n진정 기록 [진정 중]\n[진정기록지]"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00015",
+          "chunk_index": 14,
+          "score": 0.042323,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "2) 진정 치료를 수행하는 의사는 진정 치료 전\n진정 전 환자 평가서를 이용하여 환자 상태를 평가하고 모니터링하여 적합한 진정 치료를 계획한다.\n* 의사가 작성한 진정 전 환자평가서 확인 방법"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00013",
+          "chunk_index": 12,
+          "score": 0.040558,
+          "section": "6. 진정 절차",
+          "text": "6. 진정 절차\n1) 진정 QSED 처방을 확인한다."
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00034",
+          "chunk_index": 33,
+          "score": 0.037389,
+          "section": "",
+          "text": "간호실무지침\n진정 기록 [진정 후]\n[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 6,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00029",
+          "chunk_index": 28,
+          "score": 0.035078,
+          "section": "",
+          "text": "[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        }
+      ],
+      "context_hits": [
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00013",
+          "chunk_index": 12,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00011",
+          "context_only": false,
+          "context_complete": true,
+          "section": "6. 진정 절차",
+          "text": "6. 진정 절차\n1) 진정 QSED 처방을 확인한다."
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00015",
+          "chunk_index": 14,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00013",
+          "context_only": false,
+          "context_complete": true,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "2) 진정 치료를 수행하는 의사는 진정 치료 전\n진정 전 환자 평가서를 이용하여 환자 상태를 평가하고 모니터링하여 적합한 진정 치료를 계획한다.\n* 의사가 작성한 진정 전 환자평가서 확인 방법"
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00016",
+          "chunk_index": 15,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00014",
+          "context_only": true,
+          "context_complete": true,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다."
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00019",
+          "chunk_index": 18,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00017",
+          "context_only": true,
+          "context_complete": true,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후  \n   환자 상태를 평가하고 모니터링하여 기록한다.\n* 진정 평가 기록지(동의서 및 기타 출력서식 출력 → 작성 후 OCR 반납)\n* 진정 중 서면 기록지 출력 방법"
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00020",
+          "chunk_index": 19,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00017",
+          "context_only": true,
+          "context_complete": true,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "* 진정 중 서면 기록지 출력 방법\n(출력물을 지참하여 검사실에서 수기로 작성 후 EMR 진정 기록지에 입력한다.)\n진정 기록지 작성 방법 [성인]\n① 진정 치료 전 \n 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.\n② 진정 약물 투여"
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00021",
+          "chunk_index": 20,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00017",
+          "context_only": true,
+          "context_complete": true,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "② 진정 약물 투여\n 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.\n③ 진정 치료 중 \n 15분 간격으로 활력징후, 산소포화도, 의식상태(MOAA/S scale)를 평가하고 모니터링하여 \n  기록한다.\n④ 진정 치료 후"
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00022",
+          "chunk_index": 21,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00017",
+          "context_only": true,
+          "context_complete": true,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "기록한다.\n④ 진정 치료 후\n 회복 시까지 활력징후와 회복 상태를 15분 간격으로 평가하고 모니터링하여 기록한다.\n⑤ 회복실이 없는 검사실에서 검사를 진행한 입원환자는 입원실로 이동하여 모니터링을 한다."
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00023",
+          "chunk_index": 22,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00018",
+          "context_only": false,
+          "context_complete": true,
+          "section": "",
+          "text": "간호실무지침\n진정 기록지 작성 방법 [소아]\n① 진정 치료 전 \n 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.\n② 진정 약물 투여\n 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.\n③ 진정 치료 중"
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00024",
+          "chunk_index": 23,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00018",
+          "context_only": true,
+          "context_complete": true,
+          "section": "",
+          "text": "③ 진정 치료 중 \n 10분 간격으로 호흡수, 맥박, 산소포화도, 의식상태(MOAA/S scale)를 평가하고 모니터링하여 \n  기록한다.\n - 필요시 해당과 의사의 판단 하에 5분 간격으로 평가, 기록한다."
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00025",
+          "chunk_index": 24,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00018",
+          "context_only": true,
+          "context_complete": true,
+          "section": "",
+          "text": "- 혈압은 진정 치료 중, 후 필요시(산소포화도 95% 미만, 정상 심박수 범위를 벗어날 때)\n    해당과 의사의 판단 하에 5분 간격으로 평가하고 기록한다.\n④ 진정 치료 후\n 회복 시까지 호흡수, 맥박, 산소포화도와 회복상태를 10분 간격으로 평가하고 모니터링하여     \n 기록한다."
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00026",
+          "chunk_index": 25,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00018",
+          "context_only": true,
+          "context_complete": true,
+          "section": "",
+          "text": "기록한다.\n⑤ 회복실이 없는 검사실에서 검사를 진행한 입원환자는 입원실로 이동하여 모니터링을 한다.\n공통사항\nŸ 진정 치료 진행 시 Patient Monitor를 연결하지 못하는 경우 Oxymetry를 통해 맥박과 산소 \n포화도를 확인하여 기록한다. 검사 중으로 호흡수 측정하지 못할 경우 ‘검사 중’으로 기록 한다."
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00027",
+          "chunk_index": 26,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00018",
+          "context_only": true,
+          "context_complete": true,
+          "section": "",
+          "text": "Ÿ 퇴실 기록 : 퇴실 장소(검사실), 퇴실 시간(검사실 퇴실 시간)\nŸ 진정 회복 후 퇴실 기준은 Modified Aldrete Score 9점 이상이다.\n    \nŸ 필요 시 퇴실 기준을 만족하지 못해도 의사의 판단에 따라 퇴실할 수 있으며 퇴실 기록에\n   그 사유를 기록한다."
+        }
+      ],
+      "pre_budget": {
+        "sufficient": true,
+        "reason": "supported",
+        "hit_count": 12,
+        "groups": [
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00011",
+            "branch": "common",
+            "source_start": 12,
+            "source_end": 12,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00013"
+            ]
+          },
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00013",
+            "branch": "common",
+            "source_start": 14,
+            "source_end": 14,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00015"
+            ]
+          },
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00014",
+            "branch": "common",
+            "source_start": 15,
+            "source_end": 15,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00016"
+            ]
+          },
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00017",
+            "branch": "adult",
+            "source_start": 18,
+            "source_end": 21,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00019",
+              "eval-741858d2e9162acf8d38-chunk-00020",
+              "eval-741858d2e9162acf8d38-chunk-00021",
+              "eval-741858d2e9162acf8d38-chunk-00022"
+            ]
+          },
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00018",
+            "branch": "pediatric",
+            "source_start": 22,
+            "source_end": 26,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00023",
+              "eval-741858d2e9162acf8d38-chunk-00024",
+              "eval-741858d2e9162acf8d38-chunk-00025",
+              "eval-741858d2e9162acf8d38-chunk-00026",
+              "eval-741858d2e9162acf8d38-chunk-00027"
+            ]
+          }
+        ]
+      },
+      "selected_evidence": [
+        "eval-741858d2e9162acf8d38-chunk-00013",
+        "eval-741858d2e9162acf8d38-chunk-00015",
+        "eval-741858d2e9162acf8d38-chunk-00016",
+        "eval-741858d2e9162acf8d38-chunk-00019",
+        "eval-741858d2e9162acf8d38-chunk-00020",
+        "eval-741858d2e9162acf8d38-chunk-00021",
+        "eval-741858d2e9162acf8d38-chunk-00022",
+        "eval-741858d2e9162acf8d38-chunk-00023",
+        "eval-741858d2e9162acf8d38-chunk-00024",
+        "eval-741858d2e9162acf8d38-chunk-00025",
+        "eval-741858d2e9162acf8d38-chunk-00026",
+        "eval-741858d2e9162acf8d38-chunk-00027"
+      ],
+      "post_budget": {
+        "sufficient": true,
+        "reason": "supported",
+        "hit_count": 12,
+        "groups": [
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00011",
+            "branch": "common",
+            "source_start": 12,
+            "source_end": 12,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00013"
+            ]
+          },
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00013",
+            "branch": "common",
+            "source_start": 14,
+            "source_end": 14,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00015"
+            ]
+          },
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00014",
+            "branch": "common",
+            "source_start": 15,
+            "source_end": 15,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00016"
+            ]
+          },
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00017",
+            "branch": "adult",
+            "source_start": 18,
+            "source_end": 21,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00019",
+              "eval-741858d2e9162acf8d38-chunk-00020",
+              "eval-741858d2e9162acf8d38-chunk-00021",
+              "eval-741858d2e9162acf8d38-chunk-00022"
+            ]
+          },
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00018",
+            "branch": "pediatric",
+            "source_start": 22,
+            "source_end": 26,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00023",
+              "eval-741858d2e9162acf8d38-chunk-00024",
+              "eval-741858d2e9162acf8d38-chunk-00025",
+              "eval-741858d2e9162acf8d38-chunk-00026",
+              "eval-741858d2e9162acf8d38-chunk-00027"
+            ]
+          }
+        ]
+      },
+      "selectable_source_units": 21,
+      "selection_slots": 41,
+      "budget": {
+        "reservation": 4259,
+        "cap": 5120,
+        "headroom": 861,
+        "minimum_headroom": 341
+      }
+    },
+    "Q003": {
+      "question": "진정 전 준비사항은?",
+      "plan": {
+        "original": "진정 전 준비사항은?",
+        "query": "진정 전 준비사항은?",
+        "expanded": "진정 전 준비사항은?",
+        "kind": "preparation",
+        "format": "bullets",
+        "focus": [
+          "준비",
+          "확인",
+          "평가",
+          "설명",
+          "동의",
+          "계획"
+        ],
+        "document_ids": [],
+        "min_documents": 1,
+        "entities": [],
+        "clarification": "",
+        "corrections": [],
+        "max_seeds": 6,
+        "max_hits": 12,
+        "domain": "hospital"
+      },
+      "query_analysis": {
+        "terms": [
+          "진정",
+          "준비사항"
+        ],
+        "topic_words": [
+          "진정"
+        ],
+        "embedding_question": "진정 준비사항",
+        "lexical_tokens": [
+          "진정",
+          "ko:진정",
+          "준비사항",
+          "ko:준비",
+          "ko:비사",
+          "ko:사항",
+          "ko:항은"
+        ],
+        "requested_temporal_phase": "before"
+      },
+      "bm25_top": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00016",
+          "chunk_index": 15,
+          "score": 0.357257,
+          "temporal_tier": "match",
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00015",
+          "chunk_index": 14,
+          "score": 0.353008,
+          "temporal_tier": "match",
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "2) 진정 치료를 수행하는 의사는 진정 치료 전\n진정 전 환자 평가서를 이용하여 환자 상태를 평가하고 모니터링하여 적합한 진정 치료를 계획한다.\n* 의사가 작성한 진정 전 환자평가서 확인 방법"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00019",
+          "chunk_index": 18,
+          "score": 0.344069,
+          "temporal_tier": "match",
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후  \n   환자 상태를 평가하고 모니터링하여 기록한다.\n* 진정 평가 기록지(동의서 및 기타 출력서식 출력 → 작성 후 OCR 반납)\n* 진정 중 서면 기록지 출력 방법"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00020",
+          "chunk_index": 19,
+          "score": 0.343435,
+          "temporal_tier": "match",
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "* 진정 중 서면 기록지 출력 방법\n(출력물을 지참하여 검사실에서 수기로 작성 후 EMR 진정 기록지에 입력한다.)\n진정 기록지 작성 방법 [성인]\n① 진정 치료 전 \n 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.\n② 진정 약물 투여"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00017",
+          "chunk_index": 16,
+          "score": 0.331798,
+          "temporal_tier": "match",
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "성인 | 소아"
+        },
+        {
+          "rank": 6,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00021",
+          "chunk_index": 20,
+          "score": 0.324871,
+          "temporal_tier": "match",
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "② 진정 약물 투여\n 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.\n③ 진정 치료 중 \n 15분 간격으로 활력징후, 산소포화도, 의식상태(MOAA/S scale)를 평가하고 모니터링하여 \n  기록한다.\n④ 진정 치료 후"
+        },
+        {
+          "rank": 7,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00023",
+          "chunk_index": 22,
+          "score": 0.305681,
+          "temporal_tier": "match",
+          "section": "",
+          "text": "간호실무지침\n진정 기록지 작성 방법 [소아]\n① 진정 치료 전 \n 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.\n② 진정 약물 투여\n 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.\n③ 진정 치료 중"
+        },
+        {
+          "rank": 8,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00003",
+          "chunk_index": 2,
+          "score": 0.297226,
+          "temporal_tier": "match",
+          "section": "1. 목적",
+          "text": "1. 목적\n저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의\n상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다."
+        },
+        {
+          "rank": 9,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00022",
+          "chunk_index": 21,
+          "score": 0.280805,
+          "temporal_tier": "match",
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "기록한다.\n④ 진정 치료 후\n 회복 시까지 활력징후와 회복 상태를 15분 간격으로 평가하고 모니터링하여 기록한다.\n⑤ 회복실이 없는 검사실에서 검사를 진행한 입원환자는 입원실로 이동하여 모니터링을 한다."
+        },
+        {
+          "rank": 10,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00030",
+          "chunk_index": 29,
+          "score": 0.268636,
+          "temporal_tier": "match",
+          "section": "",
+          "text": "S | 진정 전 V/S BP: 90/60mmHg, HR:150회/분 RR:26회/분, SpO2 97% 측정됨 T-PCRA 6ml 경구"
+        }
+      ],
+      "semantic_top": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00002",
+          "chunk_index": 1,
+          "score": 0.658064,
+          "temporal_tier": "inactive",
+          "section": "15. 진정간호",
+          "text": "15. 진정간호"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00014",
+          "chunk_index": 13,
+          "score": 0.635251,
+          "temporal_tier": "inactive",
+          "section": "6. 진정 절차",
+          "text": "성인\n소아"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00001",
+          "chunk_index": 0,
+          "score": 0.634367,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00012",
+          "chunk_index": 11,
+          "score": 0.634367,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00018",
+          "chunk_index": 17,
+          "score": 0.634367,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침"
+        },
+        {
+          "rank": 6,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00038",
+          "chunk_index": 37,
+          "score": 0.634367,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침"
+        },
+        {
+          "rank": 7,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00009",
+          "chunk_index": 8,
+          "score": 0.546577,
+          "temporal_tier": "inactive",
+          "section": "5. 진정 대상 의약품 목록",
+          "text": "성인 | 소아"
+        },
+        {
+          "rank": 8,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00017",
+          "chunk_index": 16,
+          "score": 0.546577,
+          "temporal_tier": "inactive",
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "성인 | 소아"
+        },
+        {
+          "rank": 9,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00042",
+          "chunk_index": 41,
+          "score": 0.540817,
+          "temporal_tier": "inactive",
+          "section": "8. 외래에서의 소아 진정치료 절차",
+          "text": "8. 외래에서의 소아 진정치료 절차"
+        },
+        {
+          "rank": 10,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00007",
+          "chunk_index": 6,
+          "score": 0.510765,
+          "temporal_tier": "inactive",
+          "section": "4. 범위",
+          "text": "감시가 가능한 경우, 의사의 판단 하에 응급치료가 필요한 경우"
+        }
+      ],
+      "rrf_top": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00017",
+          "chunk_index": 16,
+          "score": 0.03009,
+          "temporal_tier": "inactive",
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "성인 | 소아"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00014",
+          "chunk_index": 13,
+          "score": 0.029828,
+          "temporal_tier": "inactive",
+          "section": "6. 진정 절차",
+          "text": "성인\n소아"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00016",
+          "chunk_index": 15,
+          "score": 0.02938,
+          "temporal_tier": "inactive",
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다."
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00015",
+          "chunk_index": 14,
+          "score": 0.028787,
+          "temporal_tier": "inactive",
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "2) 진정 치료를 수행하는 의사는 진정 치료 전\n진정 전 환자 평가서를 이용하여 환자 상태를 평가하고 모니터링하여 적합한 진정 치료를 계획한다.\n* 의사가 작성한 진정 전 환자평가서 확인 방법"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00009",
+          "chunk_index": 8,
+          "score": 0.028439,
+          "temporal_tier": "inactive",
+          "section": "5. 진정 대상 의약품 목록",
+          "text": "성인 | 소아"
+        },
+        {
+          "rank": 6,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00020",
+          "chunk_index": 19,
+          "score": 0.02739,
+          "temporal_tier": "inactive",
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "* 진정 중 서면 기록지 출력 방법\n(출력물을 지참하여 검사실에서 수기로 작성 후 EMR 진정 기록지에 입력한다.)\n진정 기록지 작성 방법 [성인]\n① 진정 치료 전 \n 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.\n② 진정 약물 투여"
+        },
+        {
+          "rank": 7,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00023",
+          "chunk_index": 22,
+          "score": 0.027271,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n진정 기록지 작성 방법 [소아]\n① 진정 치료 전 \n 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.\n② 진정 약물 투여\n 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.\n③ 진정 치료 중"
+        },
+        {
+          "rank": 8,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00004",
+          "chunk_index": 3,
+          "score": 0.027047,
+          "temporal_tier": "inactive",
+          "section": "2. 규정, 지침",
+          "text": "2. 규정, 지침\n• 인증 규정 – 5장. 수술/마취/진정 – 04-10. 성인 진정 치료 규정\n• 인증 규정 – 5장. 수술/마취/진정 – 04-10. 소아 진정 치료 규정"
+        },
+        {
+          "rank": 9,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00003",
+          "chunk_index": 2,
+          "score": 0.026754,
+          "temporal_tier": "inactive",
+          "section": "1. 목적",
+          "text": "1. 목적\n저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의\n상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다."
+        },
+        {
+          "rank": 10,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00021",
+          "chunk_index": 20,
+          "score": 0.026515,
+          "temporal_tier": "inactive",
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "② 진정 약물 투여\n 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.\n③ 진정 치료 중 \n 15분 간격으로 활력징후, 산소포화도, 의식상태(MOAA/S scale)를 평가하고 모니터링하여 \n  기록한다.\n④ 진정 치료 후"
+        }
+      ],
+      "rerank_seeds": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00016",
+          "chunk_index": 15,
+          "score": 0.097247,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00015",
+          "chunk_index": 14,
+          "score": 0.096485,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "2) 진정 치료를 수행하는 의사는 진정 치료 전\n진정 전 환자 평가서를 이용하여 환자 상태를 평가하고 모니터링하여 적합한 진정 치료를 계획한다.\n* 의사가 작성한 진정 전 환자평가서 확인 방법"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00019",
+          "chunk_index": 18,
+          "score": 0.086222,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후  \n   환자 상태를 평가하고 모니터링하여 기록한다.\n* 진정 평가 기록지(동의서 및 기타 출력서식 출력 → 작성 후 OCR 반납)\n* 진정 중 서면 기록지 출력 방법"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00023",
+          "chunk_index": 22,
+          "score": 0.081429,
+          "section": "",
+          "text": "간호실무지침\n진정 기록지 작성 방법 [소아]\n① 진정 치료 전 \n 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.\n② 진정 약물 투여\n 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.\n③ 진정 치료 중"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00020",
+          "chunk_index": 19,
+          "score": 0.081218,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "* 진정 중 서면 기록지 출력 방법\n(출력물을 지참하여 검사실에서 수기로 작성 후 EMR 진정 기록지에 입력한다.)\n진정 기록지 작성 방법 [성인]\n① 진정 치료 전 \n 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.\n② 진정 약물 투여"
+        },
+        {
+          "rank": 6,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00003",
+          "chunk_index": 2,
+          "score": 0.080747,
+          "section": "1. 목적",
+          "text": "1. 목적\n저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의\n상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다."
+        }
+      ],
+      "context_hits": [
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00003",
+          "chunk_index": 2,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00003",
+          "context_only": false,
+          "context_complete": true,
+          "section": "1. 목적",
+          "text": "1. 목적\n저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의\n상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다."
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00015",
+          "chunk_index": 14,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00013",
+          "context_only": false,
+          "context_complete": true,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "2) 진정 치료를 수행하는 의사는 진정 치료 전\n진정 전 환자 평가서를 이용하여 환자 상태를 평가하고 모니터링하여 적합한 진정 치료를 계획한다.\n* 의사가 작성한 진정 전 환자평가서 확인 방법"
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00016",
+          "chunk_index": 15,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00014",
+          "context_only": false,
+          "context_complete": true,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다."
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00019",
+          "chunk_index": 18,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00017",
+          "context_only": false,
+          "context_complete": true,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후  \n   환자 상태를 평가하고 모니터링하여 기록한다.\n* 진정 평가 기록지(동의서 및 기타 출력서식 출력 → 작성 후 OCR 반납)\n* 진정 중 서면 기록지 출력 방법"
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00020",
+          "chunk_index": 19,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00017",
+          "context_only": false,
+          "context_complete": true,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "* 진정 중 서면 기록지 출력 방법\n(출력물을 지참하여 검사실에서 수기로 작성 후 EMR 진정 기록지에 입력한다.)\n진정 기록지 작성 방법 [성인]\n① 진정 치료 전 \n 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.\n② 진정 약물 투여"
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00021",
+          "chunk_index": 20,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00017",
+          "context_only": true,
+          "context_complete": true,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "② 진정 약물 투여\n 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.\n③ 진정 치료 중 \n 15분 간격으로 활력징후, 산소포화도, 의식상태(MOAA/S scale)를 평가하고 모니터링하여 \n  기록한다.\n④ 진정 치료 후"
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00022",
+          "chunk_index": 21,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00017",
+          "context_only": true,
+          "context_complete": true,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "기록한다.\n④ 진정 치료 후\n 회복 시까지 활력징후와 회복 상태를 15분 간격으로 평가하고 모니터링하여 기록한다.\n⑤ 회복실이 없는 검사실에서 검사를 진행한 입원환자는 입원실로 이동하여 모니터링을 한다."
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00023",
+          "chunk_index": 22,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00018",
+          "context_only": false,
+          "context_complete": true,
+          "section": "",
+          "text": "간호실무지침\n진정 기록지 작성 방법 [소아]\n① 진정 치료 전 \n 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.\n② 진정 약물 투여\n 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.\n③ 진정 치료 중"
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00024",
+          "chunk_index": 23,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00018",
+          "context_only": true,
+          "context_complete": true,
+          "section": "",
+          "text": "③ 진정 치료 중 \n 10분 간격으로 호흡수, 맥박, 산소포화도, 의식상태(MOAA/S scale)를 평가하고 모니터링하여 \n  기록한다.\n - 필요시 해당과 의사의 판단 하에 5분 간격으로 평가, 기록한다."
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00025",
+          "chunk_index": 24,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00018",
+          "context_only": true,
+          "context_complete": true,
+          "section": "",
+          "text": "- 혈압은 진정 치료 중, 후 필요시(산소포화도 95% 미만, 정상 심박수 범위를 벗어날 때)\n    해당과 의사의 판단 하에 5분 간격으로 평가하고 기록한다.\n④ 진정 치료 후\n 회복 시까지 호흡수, 맥박, 산소포화도와 회복상태를 10분 간격으로 평가하고 모니터링하여     \n 기록한다."
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00026",
+          "chunk_index": 25,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00018",
+          "context_only": true,
+          "context_complete": true,
+          "section": "",
+          "text": "기록한다.\n⑤ 회복실이 없는 검사실에서 검사를 진행한 입원환자는 입원실로 이동하여 모니터링을 한다.\n공통사항\nŸ 진정 치료 진행 시 Patient Monitor를 연결하지 못하는 경우 Oxymetry를 통해 맥박과 산소 \n포화도를 확인하여 기록한다. 검사 중으로 호흡수 측정하지 못할 경우 ‘검사 중’으로 기록 한다."
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00027",
+          "chunk_index": 26,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00018",
+          "context_only": true,
+          "context_complete": true,
+          "section": "",
+          "text": "Ÿ 퇴실 기록 : 퇴실 장소(검사실), 퇴실 시간(검사실 퇴실 시간)\nŸ 진정 회복 후 퇴실 기준은 Modified Aldrete Score 9점 이상이다.\n    \nŸ 필요 시 퇴실 기준을 만족하지 못해도 의사의 판단에 따라 퇴실할 수 있으며 퇴실 기록에\n   그 사유를 기록한다."
+        }
+      ],
+      "pre_budget": {
+        "sufficient": true,
+        "reason": "supported",
+        "hit_count": 3,
+        "groups": [
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00003",
+            "branch": "common",
+            "source_start": 2,
+            "source_end": 2,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00003"
+            ]
+          },
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00013",
+            "branch": "common",
+            "source_start": 14,
+            "source_end": 14,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00015"
+            ]
+          },
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00014",
+            "branch": "common",
+            "source_start": 15,
+            "source_end": 15,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00016"
+            ]
+          }
+        ]
+      },
+      "selected_evidence": [
+        "eval-741858d2e9162acf8d38-chunk-00003",
+        "eval-741858d2e9162acf8d38-chunk-00015",
+        "eval-741858d2e9162acf8d38-chunk-00016"
+      ],
+      "post_budget": {
+        "sufficient": true,
+        "reason": "supported",
+        "hit_count": 3,
+        "groups": [
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00003",
+            "branch": "common",
+            "source_start": 2,
+            "source_end": 2,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00003"
+            ]
+          },
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00013",
+            "branch": "common",
+            "source_start": 14,
+            "source_end": 14,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00015"
+            ]
+          },
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00014",
+            "branch": "common",
+            "source_start": 15,
+            "source_end": 15,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00016"
+            ]
+          }
+        ]
+      },
+      "selectable_source_units": 3,
+      "selection_slots": 3,
+      "budget": {
+        "reservation": 2909,
+        "cap": 5120,
+        "headroom": 2211,
+        "minimum_headroom": 256
+      }
+    },
+    "Q004": {
+      "question": "진정 간호의 목적은 무엇인가요?",
+      "plan": {
+        "original": "진정 간호의 목적은 무엇인가요?",
+        "query": "진정 간호의 목적은 무엇인가요?",
+        "expanded": "진정 간호의 목적은 무엇인가요?",
+        "kind": "purpose",
+        "format": "paragraph",
+        "focus": [
+          "목적",
+          "정의",
+          "예방",
+          "위해",
+          "이란"
+        ],
+        "document_ids": [],
+        "min_documents": 1,
+        "entities": [],
+        "clarification": "",
+        "corrections": [],
+        "max_seeds": 6,
+        "max_hits": 12,
+        "domain": "hospital"
+      },
+      "query_analysis": {
+        "terms": [
+          "진정",
+          "간호",
+          "목적"
+        ],
+        "topic_words": [
+          "진정간호"
+        ],
+        "embedding_question": "진정 간호 목적",
+        "lexical_tokens": [
+          "진정",
+          "ko:진정",
+          "간호",
+          "ko:간호",
+          "ko:호의",
+          "목적",
+          "ko:목적",
+          "ko:적은",
+          "무엇인가요",
+          "ko:무엇",
+          "ko:엇인",
+          "ko:인가",
+          "ko:가요"
+        ],
+        "requested_temporal_phase": null
+      },
+      "bm25_top": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00003",
+          "chunk_index": 2,
+          "score": 5.757761,
+          "temporal_tier": "inactive",
+          "section": "1. 목적",
+          "text": "1. 목적\n저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의\n상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00034",
+          "chunk_index": 33,
+          "score": 0.82125,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n진정 기록 [진정 후]\n[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00019",
+          "chunk_index": 18,
+          "score": 0.648671,
+          "temporal_tier": "inactive",
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후  \n   환자 상태를 평가하고 모니터링하여 기록한다.\n* 진정 평가 기록지(동의서 및 기타 출력서식 출력 → 작성 후 OCR 반납)\n* 진정 중 서면 기록지 출력 방법"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00032",
+          "chunk_index": 31,
+          "score": 0.614741,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "S | T-PCRA 6ml 경구 복용 후 진정 상태로 간호사 OOO 동행하여 S-Car 타고 MRI실 내려감"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00023",
+          "chunk_index": 22,
+          "score": 0.542451,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n진정 기록지 작성 방법 [소아]\n① 진정 치료 전 \n 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.\n② 진정 약물 투여\n 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.\n③ 진정 치료 중"
+        },
+        {
+          "rank": 6,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00020",
+          "chunk_index": 19,
+          "score": 0.536056,
+          "temporal_tier": "inactive",
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "* 진정 중 서면 기록지 출력 방법\n(출력물을 지참하여 검사실에서 수기로 작성 후 EMR 진정 기록지에 입력한다.)\n진정 기록지 작성 방법 [성인]\n① 진정 치료 전 \n 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.\n② 진정 약물 투여"
+        },
+        {
+          "rank": 7,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00021",
+          "chunk_index": 20,
+          "score": 0.529483,
+          "temporal_tier": "inactive",
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "② 진정 약물 투여\n 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.\n③ 진정 치료 중 \n 15분 간격으로 활력징후, 산소포화도, 의식상태(MOAA/S scale)를 평가하고 모니터링하여 \n  기록한다.\n④ 진정 치료 후"
+        },
+        {
+          "rank": 8,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00028",
+          "chunk_index": 27,
+          "score": 0.520732,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n퇴실 시 교육\nŸ 주의해야 할 주요증상 및 징후\nŸ 발생할 수 있는 합병증\nŸ 식사, 약물복용, 일상 활동 등\nŸ 응급상황 발생 시 일차적인 처치 방법 및 연락처\n진정 기록 [진정 중]\n[진정기록지]"
+        },
+        {
+          "rank": 9,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00035",
+          "chunk_index": 34,
+          "score": 0.48828,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "S | MRI 검사 종료 후 간호사 OOO 동행하여 S-Car 타고 병실로 돌아옴 진정된 상태로 V/S HR:108회/분, RR: 24회/분, SpO2 97% 측정됨. 진정 후 안내문 보호자(모)에게 제공하며 교육함"
+        },
+        {
+          "rank": 10,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00022",
+          "chunk_index": 21,
+          "score": 0.482001,
+          "temporal_tier": "inactive",
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "기록한다.\n④ 진정 치료 후\n 회복 시까지 활력징후와 회복 상태를 15분 간격으로 평가하고 모니터링하여 기록한다.\n⑤ 회복실이 없는 검사실에서 검사를 진행한 입원환자는 입원실로 이동하여 모니터링을 한다."
+        }
+      ],
+      "semantic_top": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00001",
+          "chunk_index": 0,
+          "score": 0.804054,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00012",
+          "chunk_index": 11,
+          "score": 0.804054,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00018",
+          "chunk_index": 17,
+          "score": 0.804054,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00038",
+          "chunk_index": 37,
+          "score": 0.804054,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00002",
+          "chunk_index": 1,
+          "score": 0.728321,
+          "temporal_tier": "inactive",
+          "section": "15. 진정간호",
+          "text": "15. 진정간호"
+        },
+        {
+          "rank": 6,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00034",
+          "chunk_index": 33,
+          "score": 0.687806,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n진정 기록 [진정 후]\n[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 7,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00037",
+          "chunk_index": 36,
+          "score": 0.632125,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n[실제 예시]\n진정 후 안내문\nŸ 구두 및 서면으로 교육한다.\nŸ 소아진정 시 필요에 따라 보호자의 도움을 받을 수 있으며, 퇴실 시 보호자 또는 대리인이 \n동행한다."
+        },
+        {
+          "rank": 8,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00016",
+          "chunk_index": 15,
+          "score": 0.60221,
+          "temporal_tier": "inactive",
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다."
+        },
+        {
+          "rank": 9,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00003",
+          "chunk_index": 2,
+          "score": 0.581685,
+          "temporal_tier": "inactive",
+          "section": "1. 목적",
+          "text": "1. 목적\n저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의\n상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다."
+        },
+        {
+          "rank": 10,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00029",
+          "chunk_index": 28,
+          "score": 0.578562,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        }
+      ],
+      "rrf_top": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00034",
+          "chunk_index": 33,
+          "score": 0.031281,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n진정 기록 [진정 후]\n[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00003",
+          "chunk_index": 2,
+          "score": 0.030886,
+          "temporal_tier": "inactive",
+          "section": "1. 목적",
+          "text": "1. 목적\n저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의\n상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00037",
+          "chunk_index": 36,
+          "score": 0.028814,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n[실제 예시]\n진정 후 안내문\nŸ 구두 및 서면으로 교육한다.\nŸ 소아진정 시 필요에 따라 보호자의 도움을 받을 수 있으며, 퇴실 시 보호자 또는 대리인이 \n동행한다."
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00028",
+          "chunk_index": 27,
+          "score": 0.02879,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n퇴실 시 교육\nŸ 주의해야 할 주요증상 및 징후\nŸ 발생할 수 있는 합병증\nŸ 식사, 약물복용, 일상 활동 등\nŸ 응급상황 발생 시 일차적인 처치 방법 및 연락처\n진정 기록 [진정 중]\n[진정기록지]"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00023",
+          "chunk_index": 22,
+          "score": 0.028718,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n진정 기록지 작성 방법 [소아]\n① 진정 치료 전 \n 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.\n② 진정 약물 투여\n 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.\n③ 진정 치료 중"
+        },
+        {
+          "rank": 6,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00019",
+          "chunk_index": 18,
+          "score": 0.028373,
+          "temporal_tier": "inactive",
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "text": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후  \n   환자 상태를 평가하고 모니터링하여 기록한다.\n* 진정 평가 기록지(동의서 및 기타 출력서식 출력 → 작성 후 OCR 반납)\n* 진정 중 서면 기록지 출력 방법"
+        },
+        {
+          "rank": 7,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00029",
+          "chunk_index": 28,
+          "score": 0.02837,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 8,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00016",
+          "chunk_index": 15,
+          "score": 0.028219,
+          "temporal_tier": "inactive",
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다."
+        },
+        {
+          "rank": 9,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00032",
+          "chunk_index": 31,
+          "score": 0.02782,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "S | T-PCRA 6ml 경구 복용 후 진정 상태로 간호사 OOO 동행하여 S-Car 타고 MRI실 내려감"
+        },
+        {
+          "rank": 10,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00015",
+          "chunk_index": 14,
+          "score": 0.027222,
+          "temporal_tier": "inactive",
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "2) 진정 치료를 수행하는 의사는 진정 치료 전\n진정 전 환자 평가서를 이용하여 환자 상태를 평가하고 모니터링하여 적합한 진정 치료를 계획한다.\n* 의사가 작성한 진정 전 환자평가서 확인 방법"
+        }
+      ],
+      "rerank_seeds": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00003",
+          "chunk_index": 2,
+          "score": 0.05954,
+          "section": "1. 목적",
+          "text": "1. 목적\n저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의\n상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00034",
+          "chunk_index": 33,
+          "score": 0.036783,
+          "section": "",
+          "text": "간호실무지침\n진정 기록 [진정 후]\n[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00037",
+          "chunk_index": 36,
+          "score": 0.033871,
+          "section": "",
+          "text": "간호실무지침\n[실제 예시]\n진정 후 안내문\nŸ 구두 및 서면으로 교육한다.\nŸ 소아진정 시 필요에 따라 보호자의 도움을 받을 수 있으며, 퇴실 시 보호자 또는 대리인이 \n동행한다."
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00028",
+          "chunk_index": 27,
+          "score": 0.033128,
+          "section": "",
+          "text": "간호실무지침\n퇴실 시 교육\nŸ 주의해야 할 주요증상 및 징후\nŸ 발생할 수 있는 합병증\nŸ 식사, 약물복용, 일상 활동 등\nŸ 응급상황 발생 시 일차적인 처치 방법 및 연락처\n진정 기록 [진정 중]\n[진정기록지]"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00016",
+          "chunk_index": 15,
+          "score": 0.033037,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다."
+        },
+        {
+          "rank": 6,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00029",
+          "chunk_index": 28,
+          "score": 0.032999,
+          "section": "",
+          "text": "[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        }
+      ],
+      "context_hits": [
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00003",
+          "chunk_index": 2,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00003",
+          "context_only": false,
+          "context_complete": true,
+          "section": "1. 목적",
+          "text": "1. 목적\n저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의\n상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다."
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00016",
+          "chunk_index": 15,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00014",
+          "context_only": false,
+          "context_complete": true,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다."
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00028",
+          "chunk_index": 27,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00019",
+          "context_only": false,
+          "context_complete": true,
+          "section": "",
+          "text": "간호실무지침\n퇴실 시 교육\nŸ 주의해야 할 주요증상 및 징후\nŸ 발생할 수 있는 합병증\nŸ 식사, 약물복용, 일상 활동 등\nŸ 응급상황 발생 시 일차적인 처치 방법 및 연락처\n진정 기록 [진정 중]\n[진정기록지]"
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00029",
+          "chunk_index": 28,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00019",
+          "context_only": false,
+          "context_complete": true,
+          "section": "",
+          "text": "[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00034",
+          "chunk_index": 33,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00023",
+          "context_only": false,
+          "context_complete": true,
+          "section": "",
+          "text": "간호실무지침\n진정 기록 [진정 후]\n[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00037",
+          "chunk_index": 36,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00026",
+          "context_only": false,
+          "context_complete": true,
+          "section": "",
+          "text": "간호실무지침\n[실제 예시]\n진정 후 안내문\nŸ 구두 및 서면으로 교육한다.\nŸ 소아진정 시 필요에 따라 보호자의 도움을 받을 수 있으며, 퇴실 시 보호자 또는 대리인이 \n동행한다."
+        }
+      ],
+      "pre_budget": {
+        "sufficient": true,
+        "reason": "supported",
+        "hit_count": 1,
+        "groups": [
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00003",
+            "branch": "common",
+            "source_start": 2,
+            "source_end": 2,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00003"
+            ]
+          }
+        ]
+      },
+      "selected_evidence": [
+        "eval-741858d2e9162acf8d38-chunk-00003"
+      ],
+      "post_budget": {
+        "sufficient": true,
+        "reason": "supported",
+        "hit_count": 1,
+        "groups": [
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00003",
+            "branch": "common",
+            "source_start": 2,
+            "source_end": 2,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00003"
+            ]
+          }
+        ]
+      },
+      "selectable_source_units": 1,
+      "selection_slots": 1,
+      "budget": {
+        "reservation": 2543,
+        "cap": 5120,
+        "headroom": 2577,
+        "minimum_headroom": 256
+      }
+    },
+    "Q005": {
+      "question": "진정간호 주의사항은?",
+      "plan": {
+        "original": "진정간호 주의사항은?",
+        "query": "진정간호 주의사항은?",
+        "expanded": "진정간호 주의사항은?",
+        "kind": "cautions",
+        "format": "bullets",
+        "focus": [
+          "주의",
+          "주의사항",
+          "금기",
+          "관찰",
+          "보고",
+          "안전",
+          "증상",
+          "합병증"
+        ],
+        "document_ids": [],
+        "min_documents": 1,
+        "entities": [],
+        "clarification": "",
+        "corrections": [],
+        "max_seeds": 6,
+        "max_hits": 12,
+        "domain": "hospital"
+      },
+      "query_analysis": {
+        "terms": [
+          "진정간호",
+          "주의사항"
+        ],
+        "topic_words": [
+          "진정간호"
+        ],
+        "embedding_question": "진정 간호 주의사항",
+        "lexical_tokens": [
+          "진정간호",
+          "ko:진정",
+          "ko:정간",
+          "ko:간호",
+          "주의사항",
+          "ko:주의",
+          "ko:의사",
+          "ko:사항",
+          "ko:항은"
+        ],
+        "requested_temporal_phase": null
+      },
+      "bm25_top": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00028",
+          "chunk_index": 27,
+          "score": 1.037273,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n퇴실 시 교육\nŸ 주의해야 할 주요증상 및 징후\nŸ 발생할 수 있는 합병증\nŸ 식사, 약물복용, 일상 활동 등\nŸ 응급상황 발생 시 일차적인 처치 방법 및 연락처\n진정 기록 [진정 중]\n[진정기록지]"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00026",
+          "chunk_index": 25,
+          "score": 0.586045,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "기록한다.\n⑤ 회복실이 없는 검사실에서 검사를 진행한 입원환자는 입원실로 이동하여 모니터링을 한다.\n공통사항\nŸ 진정 치료 진행 시 Patient Monitor를 연결하지 못하는 경우 Oxymetry를 통해 맥박과 산소 \n포화도를 확인하여 기록한다. 검사 중으로 호흡수 측정하지 못할 경우 ‘검사 중’으로 기록 한다."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00015",
+          "chunk_index": 14,
+          "score": 0.564103,
+          "temporal_tier": "inactive",
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "2) 진정 치료를 수행하는 의사는 진정 치료 전\n진정 전 환자 평가서를 이용하여 환자 상태를 평가하고 모니터링하여 적합한 진정 치료를 계획한다.\n* 의사가 작성한 진정 전 환자평가서 확인 방법"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00017",
+          "chunk_index": 16,
+          "score": 0.542311,
+          "temporal_tier": "inactive",
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "성인 | 소아"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00034",
+          "chunk_index": 33,
+          "score": 0.53223,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n진정 기록 [진정 후]\n[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 6,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00007",
+          "chunk_index": 6,
+          "score": 0.472921,
+          "temporal_tier": "inactive",
+          "section": "4. 범위",
+          "text": "감시가 가능한 경우, 의사의 판단 하에 응급치료가 필요한 경우"
+        },
+        {
+          "rank": 7,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00029",
+          "chunk_index": 28,
+          "score": 0.46475,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 8,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00016",
+          "chunk_index": 15,
+          "score": 0.455691,
+          "temporal_tier": "inactive",
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다."
+        },
+        {
+          "rank": 9,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00032",
+          "chunk_index": 31,
+          "score": 0.397465,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "S | T-PCRA 6ml 경구 복용 후 진정 상태로 간호사 OOO 동행하여 S-Car 타고 MRI실 내려감"
+        },
+        {
+          "rank": 10,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00005",
+          "chunk_index": 4,
+          "score": 0.364556,
+          "temporal_tier": "inactive",
+          "section": "3. 대상",
+          "text": "3. 대상\n1) 성인 : 입원하여 시행함을 원칙으로 한다. 단, 의사의 판단 하에 필요시 외래에서 시행할 수 있다.\n2) 소아 : 만 12세 이하의 소아, 외래에서 시행 시 외래 소아진정 process를 따른다."
+        }
+      ],
+      "semantic_top": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00001",
+          "chunk_index": 0,
+          "score": 0.873998,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00012",
+          "chunk_index": 11,
+          "score": 0.873998,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00018",
+          "chunk_index": 17,
+          "score": 0.873998,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00038",
+          "chunk_index": 37,
+          "score": 0.873998,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00002",
+          "chunk_index": 1,
+          "score": 0.746955,
+          "temporal_tier": "inactive",
+          "section": "15. 진정간호",
+          "text": "15. 진정간호"
+        },
+        {
+          "rank": 6,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00034",
+          "chunk_index": 33,
+          "score": 0.742311,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n진정 기록 [진정 후]\n[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 7,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00028",
+          "chunk_index": 27,
+          "score": 0.674885,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n퇴실 시 교육\nŸ 주의해야 할 주요증상 및 징후\nŸ 발생할 수 있는 합병증\nŸ 식사, 약물복용, 일상 활동 등\nŸ 응급상황 발생 시 일차적인 처치 방법 및 연락처\n진정 기록 [진정 중]\n[진정기록지]"
+        },
+        {
+          "rank": 8,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00007",
+          "chunk_index": 6,
+          "score": 0.644234,
+          "temporal_tier": "inactive",
+          "section": "4. 범위",
+          "text": "감시가 가능한 경우, 의사의 판단 하에 응급치료가 필요한 경우"
+        },
+        {
+          "rank": 9,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00037",
+          "chunk_index": 36,
+          "score": 0.639311,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n[실제 예시]\n진정 후 안내문\nŸ 구두 및 서면으로 교육한다.\nŸ 소아진정 시 필요에 따라 보호자의 도움을 받을 수 있으며, 퇴실 시 보호자 또는 대리인이 \n동행한다."
+        },
+        {
+          "rank": 10,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00016",
+          "chunk_index": 15,
+          "score": 0.617401,
+          "temporal_tier": "inactive",
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다."
+        }
+      ],
+      "rrf_top": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00028",
+          "chunk_index": 27,
+          "score": 0.031319,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n퇴실 시 교육\nŸ 주의해야 할 주요증상 및 징후\nŸ 발생할 수 있는 합병증\nŸ 식사, 약물복용, 일상 활동 등\nŸ 응급상황 발생 시 일차적인 처치 방법 및 연락처\n진정 기록 [진정 중]\n[진정기록지]"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00034",
+          "chunk_index": 33,
+          "score": 0.030536,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n진정 기록 [진정 후]\n[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00015",
+          "chunk_index": 14,
+          "score": 0.029958,
+          "temporal_tier": "inactive",
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "2) 진정 치료를 수행하는 의사는 진정 치료 전\n진정 전 환자 평가서를 이용하여 환자 상태를 평가하고 모니터링하여 적합한 진정 치료를 계획한다.\n* 의사가 작성한 진정 전 환자평가서 확인 방법"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00007",
+          "chunk_index": 6,
+          "score": 0.029857,
+          "temporal_tier": "inactive",
+          "section": "4. 범위",
+          "text": "감시가 가능한 경우, 의사의 판단 하에 응급치료가 필요한 경우"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00016",
+          "chunk_index": 15,
+          "score": 0.028992,
+          "temporal_tier": "inactive",
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다."
+        },
+        {
+          "rank": 6,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00029",
+          "chunk_index": 28,
+          "score": 0.028814,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 7,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00017",
+          "chunk_index": 16,
+          "score": 0.028783,
+          "temporal_tier": "inactive",
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "성인 | 소아"
+        },
+        {
+          "rank": 8,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00037",
+          "chunk_index": 36,
+          "score": 0.027651,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침\n[실제 예시]\n진정 후 안내문\nŸ 구두 및 서면으로 교육한다.\nŸ 소아진정 시 필요에 따라 보호자의 도움을 받을 수 있으며, 퇴실 시 보호자 또는 대리인이 \n동행한다."
+        },
+        {
+          "rank": 9,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00026",
+          "chunk_index": 25,
+          "score": 0.027493,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "기록한다.\n⑤ 회복실이 없는 검사실에서 검사를 진행한 입원환자는 입원실로 이동하여 모니터링을 한다.\n공통사항\nŸ 진정 치료 진행 시 Patient Monitor를 연결하지 못하는 경우 Oxymetry를 통해 맥박과 산소 \n포화도를 확인하여 기록한다. 검사 중으로 호흡수 측정하지 못할 경우 ‘검사 중’으로 기록 한다."
+        },
+        {
+          "rank": 10,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00032",
+          "chunk_index": 31,
+          "score": 0.027151,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "S | T-PCRA 6ml 경구 복용 후 진정 상태로 간호사 OOO 동행하여 S-Car 타고 MRI실 내려감"
+        }
+      ],
+      "rerank_seeds": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00028",
+          "chunk_index": 27,
+          "score": 0.051718,
+          "section": "",
+          "text": "간호실무지침\n퇴실 시 교육\nŸ 주의해야 할 주요증상 및 징후\nŸ 발생할 수 있는 합병증\nŸ 식사, 약물복용, 일상 활동 등\nŸ 응급상황 발생 시 일차적인 처치 방법 및 연락처\n진정 기록 [진정 중]\n[진정기록지]"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00034",
+          "chunk_index": 33,
+          "score": 0.036475,
+          "section": "",
+          "text": "간호실무지침\n진정 기록 [진정 후]\n[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00003",
+          "chunk_index": 2,
+          "score": 0.035137,
+          "section": "1. 목적",
+          "text": "1. 목적\n저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의\n상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다."
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00007",
+          "chunk_index": 6,
+          "score": 0.035011,
+          "section": "4. 범위",
+          "text": "감시가 가능한 경우, 의사의 판단 하에 응급치료가 필요한 경우"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00015",
+          "chunk_index": 14,
+          "score": 0.034831,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "2) 진정 치료를 수행하는 의사는 진정 치료 전\n진정 전 환자 평가서를 이용하여 환자 상태를 평가하고 모니터링하여 적합한 진정 치료를 계획한다.\n* 의사가 작성한 진정 전 환자평가서 확인 방법"
+        },
+        {
+          "rank": 6,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00016",
+          "chunk_index": 15,
+          "score": 0.033931,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다."
+        }
+      ],
+      "context_hits": [
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00003",
+          "chunk_index": 2,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00003",
+          "context_only": false,
+          "context_complete": true,
+          "section": "1. 목적",
+          "text": "1. 목적\n저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의\n상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다."
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00006",
+          "chunk_index": 5,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00006",
+          "context_only": true,
+          "context_complete": true,
+          "section": "4. 범위",
+          "text": "4. 범위\n• 적용 : 의식 수준의 저하가 동반되는 중등도 또는 깊은 진정 하에 시행되는 검사\n(수면내시경, 뇌파검사, MRI, CT, Echocardiogram 등) 및 시술\n• 적용되지 않는 경우 : ICU, OR, RR에서의 진정치료와 같이 지속적으로 심혈관계 및 호흡기계"
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00007",
+          "chunk_index": 6,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00006",
+          "context_only": false,
+          "context_complete": true,
+          "section": "4. 범위",
+          "text": "감시가 가능한 경우, 의사의 판단 하에 응급치료가 필요한 경우"
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00015",
+          "chunk_index": 14,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00013",
+          "context_only": false,
+          "context_complete": true,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "2) 진정 치료를 수행하는 의사는 진정 치료 전\n진정 전 환자 평가서를 이용하여 환자 상태를 평가하고 모니터링하여 적합한 진정 치료를 계획한다.\n* 의사가 작성한 진정 전 환자평가서 확인 방법"
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00016",
+          "chunk_index": 15,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00014",
+          "context_only": false,
+          "context_complete": true,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "text": "3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다."
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00028",
+          "chunk_index": 27,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00019",
+          "context_only": false,
+          "context_complete": true,
+          "section": "",
+          "text": "간호실무지침\n퇴실 시 교육\nŸ 주의해야 할 주요증상 및 징후\nŸ 발생할 수 있는 합병증\nŸ 식사, 약물복용, 일상 활동 등\nŸ 응급상황 발생 시 일차적인 처치 방법 및 연락처\n진정 기록 [진정 중]\n[진정기록지]"
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00029",
+          "chunk_index": 28,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00019",
+          "context_only": true,
+          "context_complete": true,
+          "section": "",
+          "text": "[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00034",
+          "chunk_index": 33,
+          "parent_id": "eval-741858d2e9162acf8d38-parent-00023",
+          "context_only": false,
+          "context_complete": true,
+          "section": "",
+          "text": "간호실무지침\n진정 기록 [진정 후]\n[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        }
+      ],
+      "pre_budget": {
+        "sufficient": true,
+        "reason": "supported",
+        "hit_count": 5,
+        "groups": [
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00006",
+            "branch": "common",
+            "source_start": 5,
+            "source_end": 6,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00006",
+              "eval-741858d2e9162acf8d38-chunk-00007"
+            ]
+          },
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00013",
+            "branch": "common",
+            "source_start": 14,
+            "source_end": 14,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00015"
+            ]
+          },
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00019",
+            "branch": "common",
+            "source_start": 27,
+            "source_end": 28,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00028",
+              "eval-741858d2e9162acf8d38-chunk-00029"
+            ]
+          }
+        ]
+      },
+      "selected_evidence": [
+        "eval-741858d2e9162acf8d38-chunk-00006",
+        "eval-741858d2e9162acf8d38-chunk-00007",
+        "eval-741858d2e9162acf8d38-chunk-00015",
+        "eval-741858d2e9162acf8d38-chunk-00028",
+        "eval-741858d2e9162acf8d38-chunk-00029"
+      ],
+      "post_budget": {
+        "sufficient": true,
+        "reason": "supported",
+        "hit_count": 5,
+        "groups": [
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00006",
+            "branch": "common",
+            "source_start": 5,
+            "source_end": 6,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00006",
+              "eval-741858d2e9162acf8d38-chunk-00007"
+            ]
+          },
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00013",
+            "branch": "common",
+            "source_start": 14,
+            "source_end": 14,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00015"
+            ]
+          },
+          {
+            "key": "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00019",
+            "branch": "common",
+            "source_start": 27,
+            "source_end": 28,
+            "complete": true,
+            "required": true,
+            "chunk_ids": [
+              "eval-741858d2e9162acf8d38-chunk-00028",
+              "eval-741858d2e9162acf8d38-chunk-00029"
+            ]
+          }
+        ]
+      },
+      "selectable_source_units": 7,
+      "selection_slots": 3,
+      "budget": {
+        "reservation": 3261,
+        "cap": 5120,
+        "headroom": 1859,
+        "minimum_headroom": 261
+      }
+    },
+    "Q006": {
+      "question": "화성 우주선의 궤도 계산 공식은?",
+      "plan": {
+        "original": "화성 우주선의 궤도 계산 공식은?",
+        "query": "화성 우주선의 궤도 계산 공식은?",
+        "expanded": "화성 우주선의 궤도 계산 공식은?",
+        "kind": "fact",
+        "format": "paragraph",
+        "focus": [],
+        "document_ids": [],
+        "min_documents": 1,
+        "entities": [],
+        "clarification": "",
+        "corrections": [],
+        "max_seeds": 6,
+        "max_hits": 12,
+        "domain": "out_of_scope"
+      },
+      "query_analysis": {
+        "terms": [
+          "화성",
+          "우주선",
+          "궤도",
+          "계산",
+          "공식"
+        ],
+        "topic_words": [
+          "화성",
+          "우주선",
+          "궤도",
+          "공식"
+        ],
+        "embedding_question": "화성 우주선 궤도 계산 공식",
+        "lexical_tokens": [
+          "화성",
+          "ko:화성",
+          "우주선",
+          "ko:우주",
+          "ko:주선",
+          "ko:선의",
+          "궤도",
+          "ko:궤도",
+          "계산",
+          "ko:계산",
+          "공식",
+          "ko:공식",
+          "ko:식은"
+        ],
+        "requested_temporal_phase": null
+      },
+      "bm25_top": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00001",
+          "chunk_index": 0,
+          "score": 0.0,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "간호실무지침"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00002",
+          "chunk_index": 1,
+          "score": 0.0,
+          "temporal_tier": "inactive",
+          "section": "15. 진정간호",
+          "text": "15. 진정간호"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00003",
+          "chunk_index": 2,
+          "score": 0.0,
+          "temporal_tier": "inactive",
+          "section": "1. 목적",
+          "text": "1. 목적\n저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의\n상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다."
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00004",
+          "chunk_index": 3,
+          "score": 0.0,
+          "temporal_tier": "inactive",
+          "section": "2. 규정, 지침",
+          "text": "2. 규정, 지침\n• 인증 규정 – 5장. 수술/마취/진정 – 04-10. 성인 진정 치료 규정\n• 인증 규정 – 5장. 수술/마취/진정 – 04-10. 소아 진정 치료 규정"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00005",
+          "chunk_index": 4,
+          "score": 0.0,
+          "temporal_tier": "inactive",
+          "section": "3. 대상",
+          "text": "3. 대상\n1) 성인 : 입원하여 시행함을 원칙으로 한다. 단, 의사의 판단 하에 필요시 외래에서 시행할 수 있다.\n2) 소아 : 만 12세 이하의 소아, 외래에서 시행 시 외래 소아진정 process를 따른다."
+        },
+        {
+          "rank": 6,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00006",
+          "chunk_index": 5,
+          "score": 0.0,
+          "temporal_tier": "inactive",
+          "section": "4. 범위",
+          "text": "4. 범위\n• 적용 : 의식 수준의 저하가 동반되는 중등도 또는 깊은 진정 하에 시행되는 검사\n(수면내시경, 뇌파검사, MRI, CT, Echocardiogram 등) 및 시술\n• 적용되지 않는 경우 : ICU, OR, RR에서의 진정치료와 같이 지속적으로 심혈관계 및 호흡기계"
+        },
+        {
+          "rank": 7,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00007",
+          "chunk_index": 6,
+          "score": 0.0,
+          "temporal_tier": "inactive",
+          "section": "4. 범위",
+          "text": "감시가 가능한 경우, 의사의 판단 하에 응급치료가 필요한 경우"
+        },
+        {
+          "rank": 8,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00008",
+          "chunk_index": 7,
+          "score": 0.0,
+          "temporal_tier": "inactive",
+          "section": "5. 진정 대상 의약품 목록",
+          "text": "5. 진정 대상 의약품 목록"
+        },
+        {
+          "rank": 9,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00009",
+          "chunk_index": 8,
+          "score": 0.0,
+          "temporal_tier": "inactive",
+          "section": "5. 진정 대상 의약품 목록",
+          "text": "성인 | 소아"
+        },
+        {
+          "rank": 10,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00010",
+          "chunk_index": 9,
+          "score": 0.0,
+          "temporal_tier": "inactive",
+          "section": "5. 진정 대상 의약품 목록",
+          "text": "① Benzodiazepine ① Benzodiazepine\n: Midazolam, Diazepam, Lorazepam : Midazolam, Diazepam, Lorazepam\n② Barbiturate : Thiopental, Pentobarbital ② Barbiturate : Thiopental, Pentobarbital\n③ Etomidate ③ Chloral Hydrate\n④ Propofol ④ Ketamine"
+        }
+      ],
+      "semantic_top": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00031",
+          "chunk_index": 30,
+          "score": 0.317639,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "T-PCRA 6ml 경구 복용함"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00030",
+          "chunk_index": 29,
+          "score": 0.296292,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "S | 진정 전 V/S BP: 90/60mmHg, HR:150회/분 RR:26회/분, SpO2 97% 측정됨 T-PCRA 6ml 경구"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00042",
+          "chunk_index": 41,
+          "score": 0.229257,
+          "temporal_tier": "inactive",
+          "section": "8. 외래에서의 소아 진정치료 절차",
+          "text": "8. 외래에서의 소아 진정치료 절차"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00013",
+          "chunk_index": 12,
+          "score": 0.21843,
+          "temporal_tier": "inactive",
+          "section": "6. 진정 절차",
+          "text": "6. 진정 절차\n1) 진정 QSED 처방을 확인한다."
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00032",
+          "chunk_index": 31,
+          "score": 0.203335,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "S | T-PCRA 6ml 경구 복용 후 진정 상태로 간호사 OOO 동행하여 S-Car 타고 MRI실 내려감"
+        },
+        {
+          "rank": 6,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00035",
+          "chunk_index": 34,
+          "score": 0.178833,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "S | MRI 검사 종료 후 간호사 OOO 동행하여 S-Car 타고 병실로 돌아옴 진정된 상태로 V/S HR:108회/분, RR: 24회/분, SpO2 97% 측정됨. 진정 후 안내문 보호자(모)에게 제공하며 교육함"
+        },
+        {
+          "rank": 7,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00029",
+          "chunk_index": 28,
+          "score": 0.165108,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 8,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00014",
+          "chunk_index": 13,
+          "score": 0.162681,
+          "temporal_tier": "inactive",
+          "section": "6. 진정 절차",
+          "text": "성인\n소아"
+        },
+        {
+          "rank": 9,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00033",
+          "chunk_index": 32,
+          "score": 0.147588,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "해당되는 진정 검사와 관련된 DPAR 기록을 입력한다."
+        },
+        {
+          "rank": 10,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00036",
+          "chunk_index": 35,
+          "score": 0.147588,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "해당되는 진정 검사와 관련된 DPAR 기록을 입력한다."
+        }
+      ],
+      "rrf_top": [
+        {
+          "rank": 1,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00031",
+          "chunk_index": 30,
+          "score": 0.016393,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "T-PCRA 6ml 경구 복용함"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00030",
+          "chunk_index": 29,
+          "score": 0.016129,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "S | 진정 전 V/S BP: 90/60mmHg, HR:150회/분 RR:26회/분, SpO2 97% 측정됨 T-PCRA 6ml 경구"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00042",
+          "chunk_index": 41,
+          "score": 0.015873,
+          "temporal_tier": "inactive",
+          "section": "8. 외래에서의 소아 진정치료 절차",
+          "text": "8. 외래에서의 소아 진정치료 절차"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00013",
+          "chunk_index": 12,
+          "score": 0.015625,
+          "temporal_tier": "inactive",
+          "section": "6. 진정 절차",
+          "text": "6. 진정 절차\n1) 진정 QSED 처방을 확인한다."
+        },
+        {
+          "rank": 5,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00032",
+          "chunk_index": 31,
+          "score": 0.015385,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "S | T-PCRA 6ml 경구 복용 후 진정 상태로 간호사 OOO 동행하여 S-Car 타고 MRI실 내려감"
+        },
+        {
+          "rank": 6,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00035",
+          "chunk_index": 34,
+          "score": 0.015152,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "S | MRI 검사 종료 후 간호사 OOO 동행하여 S-Car 타고 병실로 돌아옴 진정된 상태로 V/S HR:108회/분, RR: 24회/분, SpO2 97% 측정됨. 진정 후 안내문 보호자(모)에게 제공하며 교육함"
+        },
+        {
+          "rank": 7,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00029",
+          "chunk_index": 28,
+          "score": 0.014925,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "[진정기록지]\n[간호기록]\n예시 ① 예시 ②"
+        },
+        {
+          "rank": 8,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00014",
+          "chunk_index": 13,
+          "score": 0.014706,
+          "temporal_tier": "inactive",
+          "section": "6. 진정 절차",
+          "text": "성인\n소아"
+        },
+        {
+          "rank": 9,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00033",
+          "chunk_index": 32,
+          "score": 0.014493,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "해당되는 진정 검사와 관련된 DPAR 기록을 입력한다."
+        },
+        {
+          "rank": 10,
+          "chunk_id": "eval-741858d2e9162acf8d38-chunk-00036",
+          "chunk_index": 35,
+          "score": 0.014286,
+          "temporal_tier": "inactive",
+          "section": "",
+          "text": "해당되는 진정 검사와 관련된 DPAR 기록을 입력한다."
+        }
+      ],
+      "rerank_seeds": [],
+      "context_hits": [],
+      "pre_budget": {
+        "sufficient": false,
+        "reason": "domain_or_clarification",
+        "hit_count": 0,
+        "groups": []
+      },
+      "selected_evidence": [],
+      "post_budget": null,
+      "selectable_source_units": 0,
+      "selection_slots": 0,
+      "budget": {
+        "reservation": null,
+        "cap": null,
+        "headroom": null,
+        "minimum_headroom": null
+      }
+    }
+  },
+  "paraphrases": [
+    {
+      "case_id": "P01",
+      "question": "진정간호 목적 알려줘",
+      "expected_kind": "purpose",
+      "actual_kind": "purpose",
+      "topic_words": [
+        "진정간호"
+      ],
+      "pre_budget": "supported",
+      "post_budget": "supported",
+      "reservation": 2540,
+      "headroom": 2580,
+      "pass": true
+    },
+    {
+      "case_id": "P02",
+      "question": "진정 간호는 왜 시행하나요?",
+      "expected_kind": "purpose",
+      "actual_kind": "purpose",
+      "topic_words": [
+        "진정간호"
+      ],
+      "pre_budget": "supported",
+      "post_budget": "supported",
+      "reservation": 2542,
+      "headroom": 2578,
+      "pass": true
+    },
+    {
+      "case_id": "P03",
+      "question": "진정의 목적이 뭐야?",
+      "expected_kind": "purpose",
+      "actual_kind": "purpose",
+      "topic_words": [
+        "진정"
+      ],
+      "pre_budget": "supported",
+      "post_budget": "supported",
+      "reservation": 2540,
+      "headroom": 2580,
+      "pass": true
+    },
+    {
+      "case_id": "P04",
+      "question": "진정 전에 뭘 준비해야 해?",
+      "expected_kind": "preparation",
+      "actual_kind": "preparation",
+      "topic_words": [
+        "진정"
+      ],
+      "pre_budget": "supported",
+      "post_budget": "supported",
+      "reservation": 2878,
+      "headroom": 2242,
+      "pass": true
+    },
+    {
+      "case_id": "P05",
+      "question": "진정 시행 전 확인할 것은?",
+      "expected_kind": "preparation",
+      "actual_kind": "preparation",
+      "topic_words": [
+        "진정"
+      ],
+      "pre_budget": "supported",
+      "post_budget": "supported",
+      "reservation": 2910,
+      "headroom": 2210,
+      "pass": true
+    },
+    {
+      "case_id": "P06",
+      "question": "진정 전 체크사항 알려줘",
+      "expected_kind": "preparation",
+      "actual_kind": "preparation",
+      "topic_words": [
+        "진정"
+      ],
+      "pre_budget": "supported",
+      "post_budget": "supported",
+      "reservation": 2876,
+      "headroom": 2244,
+      "pass": true
+    },
+    {
+      "case_id": "P07",
+      "question": "진정 시 주의할 점은?",
+      "expected_kind": "cautions",
+      "actual_kind": "cautions",
+      "topic_words": [
+        "진정"
+      ],
+      "pre_budget": "supported",
+      "post_budget": "supported",
+      "reservation": 2942,
+      "headroom": 2178,
+      "pass": true
+    },
+    {
+      "case_id": "P08",
+      "question": "진정간호에서 조심해야 할 것은?",
+      "expected_kind": "cautions",
+      "actual_kind": "cautions",
+      "topic_words": [
+        "진정간호"
+      ],
+      "pre_budget": "supported",
+      "post_budget": "supported",
+      "reservation": 2882,
+      "headroom": 2238,
+      "pass": true
+    },
+    {
+      "case_id": "P09",
+      "question": "진정 중 안전하게 봐야 할 항목은?",
+      "expected_kind": "cautions",
+      "actual_kind": "cautions",
+      "topic_words": [
+        "진정"
+      ],
+      "pre_budget": "supported",
+      "post_budget": "supported",
+      "reservation": 2632,
+      "headroom": 2488,
+      "pass": true
+    }
+  ],
+  "all_expected_passed": true,
+  "all_paraphrases_passed": true,
+  "q006_zero_call": true,
+  "minimum_headroom_passed": true
+}

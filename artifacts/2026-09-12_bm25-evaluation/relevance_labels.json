@@ -1,0 +1,256 @@
+{
+  "schema_version": 1,
+  "exported_at": "2026-09-12T16:41:40.670Z",
+  "source_generated_at": "2026-09-12T23:45:37+09:00",
+  "labels": {
+    "Q001::eval-741858d2e9162acf8d38-chunk-00002": {
+      "label": "irrelevant",
+      "note": "제목만 일치, 목적 내용은 없음"
+    },
+    "Q001::eval-741858d2e9162acf8d38-chunk-00003": {
+      "label": "relevant"
+    },
+    "Q001::eval-741858d2e9162acf8d38-chunk-00034": {
+      "label": "irrelevant",
+      "note": "진정 후 기록 관련 내용으로 목적 질문과 직접 관련 없음"
+    },
+    "Q001::eval-741858d2e9162acf8d38-chunk-00029": {
+      "label": "irrelevant",
+      "note": "기록 양식 예시로, 진정간호 목적에 대한 내용 없음"
+    },
+    "Q001::eval-741858d2e9162acf8d38-chunk-00001": {
+      "label": "irrelevant",
+      "note": "상위 문서 제목만 있고 진정간호 목적 내용 없음"
+    },
+    "Q001::eval-741858d2e9162acf8d38-chunk-00012": {
+      "label": "irrelevant",
+      "note": "상위 문서 제목만 있고 진정간호 목적 내용 없음"
+    },
+    "Q001::eval-741858d2e9162acf8d38-chunk-00018": {
+      "note": "상위 문서 제목만 있고 진정간호 목적 내용 없음",
+      "label": "irrelevant"
+    },
+    "Q001::eval-741858d2e9162acf8d38-chunk-00038": {
+      "note": "상위 문서 제목만 있고 진정간호 목적 내용 없음",
+      "label": "irrelevant"
+    },
+    "Q001::eval-741858d2e9162acf8d38-chunk-00032": {
+      "label": "irrelevant",
+      "note": "진정 후 환자 이동·간호기록 사례로, 진정간호 목적과 직접 관련 없음"
+    },
+    "Q001::eval-741858d2e9162acf8d38-chunk-00019": {
+      "label": "irrelevant",
+      "note": "진정간호 목적을 직접 설명하지는 않지만 진정 전·중·후 평가 및 모니터링 관련 내용 포함"
+    },
+    "Q001::eval-741858d2e9162acf8d38-chunk-00020": {
+      "label": "irrelevant",
+      "note": "진정간호 목적을 직접 설명하지 않고, 진정 전 평가·모니터링 및 투여 절차를 설명함"
+    },
+    "Q001::eval-741858d2e9162acf8d38-chunk-00021": {
+      "label": "irrelevant",
+      "note": "진정간호 목적을 직접 설명하지 않고, 진정 약물 투여 및 진정 중 모니터링 절차를 설명함"
+    },
+    "Q001::eval-741858d2e9162acf8d38-chunk-00028": {
+      "label": "irrelevant",
+      "note": "진정 후 교육 및 퇴실 관리 내용으로, 진정간호 목적을 직접 설명하지 않음"
+    },
+    "Q001::eval-741858d2e9162acf8d38-chunk-00023": {
+      "label": "irrelevant",
+      "note": "진정 전 평가·약물 투여·기록 절차로, 진정간호 목적을 직접 설명하지 않음"
+    },
+    "Q002::eval-741858d2e9162acf8d38-chunk-00002": {
+      "label": "irrelevant"
+    },
+    "Q002::eval-741858d2e9162acf8d38-chunk-00013": {
+      "label": "partially_relevant",
+      "note": "진정 절차의 첫 단계만 포함되어 있어 전체 절차 답변에는 불완전함"
+    },
+    "Q002::eval-741858d2e9162acf8d38-chunk-00042": {
+      "label": "partially_relevant",
+      "note": "진정 절차 관련 제목이지만 실제 절차 내용은 없고, 외래 소아 진정치료 섹션 제목만 포함됨"
+    },
+    "Q002::eval-741858d2e9162acf8d38-chunk-00014": {
+      "label": "irrelevant"
+    },
+    "Q002::eval-741858d2e9162acf8d38-chunk-00034": {
+      "label": "irrelevant"
+    },
+    "Q002::eval-741858d2e9162acf8d38-chunk-00001": {
+      "label": "irrelevant"
+    },
+    "Q002::eval-741858d2e9162acf8d38-chunk-00029": {
+      "label": "irrelevant"
+    },
+    "Q002::eval-741858d2e9162acf8d38-chunk-00012": {
+      "label": "irrelevant"
+    },
+    "Q002::eval-741858d2e9162acf8d38-chunk-00038": {
+      "label": "irrelevant"
+    },
+    "Q002::eval-741858d2e9162acf8d38-chunk-00019": {
+      "label": "partially_relevant",
+      "note": "진정 전·중·후 평가·모니터링·기록 단계는 포함하지만 전체 진정 절차를 모두 설명하지는 않음"
+    },
+    "Q002::eval-741858d2e9162acf8d38-chunk-00020": {
+      "label": "partially_relevant",
+      "note": "진정 전 평가·기록 및 진정 약물 투여 단계는 포함하지만 전체 절차를 모두 설명하지는 않음"
+    },
+    "Q002::eval-741858d2e9162acf8d38-chunk-00021": {
+      "label": "partially_relevant",
+      "note": "진정 약물 투여와 진정 중 모니터링·기록 단계는 포함하지만 전체 절차를 모두 설명하지는 않음"
+    },
+    "Q002::eval-741858d2e9162acf8d38-chunk-00028": {
+      "label": "partially_relevant",
+      "note": "진정 후 퇴실 교육과 사후관리 단계는 포함하지만 전체 진정 절차를 설명하지는 않음"
+    },
+    "Q003::eval-741858d2e9162acf8d38-chunk-00026": {
+      "label": "irrelevant",
+      "note": "진정 중/검사 중 모니터링 내용이지, 진정 전 준비사항 자체는 아님."
+    },
+    "Q003::eval-741858d2e9162acf8d38-chunk-00013": {
+      "label": "relevant"
+    },
+    "Q003::eval-741858d2e9162acf8d38-chunk-00016": {
+      "label": "relevant"
+    },
+    "Q003::eval-741858d2e9162acf8d38-chunk-00015": {
+      "label": "relevant"
+    },
+    "Q003::eval-741858d2e9162acf8d38-chunk-00004": {
+      "label": "irrelevant",
+      "note": "준비사항 자체를 말하진 않고 관련 규정 위치만 안내"
+    },
+    "Q003::eval-741858d2e9162acf8d38-chunk-00019": {
+      "label": "partially_relevant",
+      "note": "진정 전 내용이 일부 포함되지만 질문보다 범위가 넓고 준비사항 전체는 아님"
+    },
+    "Q003::eval-741858d2e9162acf8d38-chunk-00020": {
+      "label": "partially_relevant",
+      "note": "전처치/평가 항목 일부는 포함되지만, 이후 투여 내용까지 섞임."
+    },
+    "Q003::eval-741858d2e9162acf8d38-chunk-00008": {
+      "label": "irrelevant"
+    },
+    "Q003::eval-741858d2e9162acf8d38-chunk-00017": {
+      "label": "irrelevant"
+    },
+    "Q003::eval-741858d2e9162acf8d38-chunk-00034": {
+      "label": "irrelevant"
+    },
+    "Q004::eval-741858d2e9162acf8d38-chunk-00003": {
+      "label": "relevant"
+    },
+    "Q004::eval-741858d2e9162acf8d38-chunk-00034": {
+      "label": "irrelevant"
+    },
+    "Q004::eval-741858d2e9162acf8d38-chunk-00020": {
+      "label": "irrelevant"
+    },
+    "Q004::eval-741858d2e9162acf8d38-chunk-00021": {
+      "label": "irrelevant"
+    },
+    "Q004::eval-741858d2e9162acf8d38-chunk-00032": {
+      "label": "irrelevant"
+    },
+    "Q004::eval-741858d2e9162acf8d38-chunk-00013": {
+      "label": "irrelevant"
+    },
+    "Q004::eval-741858d2e9162acf8d38-chunk-00016": {
+      "label": "irrelevant"
+    },
+    "Q004::eval-741858d2e9162acf8d38-chunk-00019": {
+      "label": "irrelevant"
+    },
+    "Q004::eval-741858d2e9162acf8d38-chunk-00015": {
+      "label": "irrelevant"
+    },
+    "Q004::eval-741858d2e9162acf8d38-chunk-00004": {
+      "label": "irrelevant"
+    },
+    "Q004::eval-741858d2e9162acf8d38-chunk-00023": {
+      "label": "irrelevant"
+    },
+    "Q004::eval-741858d2e9162acf8d38-chunk-00028": {
+      "label": "irrelevant"
+    },
+    "Q005::eval-741858d2e9162acf8d38-chunk-00002": {
+      "label": "irrelevant"
+    },
+    "Q005::eval-741858d2e9162acf8d38-chunk-00028": {
+      "label": "relevant",
+      "note": "진정 후 주의 증상·합병증·생활 및 응급상황 대처 교육을 포함함"
+    },
+    "Q005::eval-741858d2e9162acf8d38-chunk-00015": {
+      "label": "relevant",
+      "note": "진정 전 환자 상태 평가와 모니터링에 관한 안전 확인 사항"
+    },
+    "Q005::eval-741858d2e9162acf8d38-chunk-00017": {
+      "label": "irrelevant"
+    },
+    "Q005::eval-741858d2e9162acf8d38-chunk-00026": {
+      "label": "relevant",
+      "note": "모니터링 장비 사용이 어려운 상황의 대체 관찰·기록 방법으로 직접적인 주의사항"
+    },
+    "Q005::eval-741858d2e9162acf8d38-chunk-00016": {
+      "label": "partially_relevant",
+      "note": "진정 전 필수 절차이지만 주의사항 자체를 직접 설명하지는 않음"
+    },
+    "Q005::eval-741858d2e9162acf8d38-chunk-00007": {
+      "label": "partially_relevant",
+      "note": "안전 및 응급상황과 관련되지만 구체적인 진정간호 주의사항은 아님"
+    },
+    "Q005::eval-741858d2e9162acf8d38-chunk-00034": {
+      "label": "irrelevant",
+      "note": "기록 예시로 주의사항 내용 없음"
+    },
+    "Q005::eval-741858d2e9162acf8d38-chunk-00029": {
+      "label": "irrelevant",
+      "note": "대상 약물 목록만 있고 주의사항 없음"
+    },
+    "Q005::eval-741858d2e9162acf8d38-chunk-00005": {
+      "label": "irrelevant",
+      "note": "진정 대상과 적용 범위 내용으로 주의사항과 직접 관련 없음"
+    },
+    "Q005::eval-741858d2e9162acf8d38-chunk-00024": {
+      "label": "relevant",
+      "note": "진정 중 호흡수·맥박·산소포화도·의식상태 모니터링 주기와 필요 시 강화 기준을 포함함"
+    },
+    "Q005::eval-741858d2e9162acf8d38-chunk-00025": {
+      "label": "relevant",
+      "note": "진정 중 이상징후 발생 시 강화 모니터링 기준과 진정 후 회복 모니터링을 포함함"
+    },
+    "Q006::eval-741858d2e9162acf8d38-chunk-00001": {
+      "label": "irrelevant"
+    },
+    "Q006::eval-741858d2e9162acf8d38-chunk-00002": {
+      "label": "irrelevant"
+    },
+    "Q006::eval-741858d2e9162acf8d38-chunk-00003": {
+      "label": "irrelevant"
+    },
+    "Q006::eval-741858d2e9162acf8d38-chunk-00004": {
+      "label": "irrelevant"
+    },
+    "Q006::eval-741858d2e9162acf8d38-chunk-00006": {
+      "label": "irrelevant"
+    },
+    "Q006::eval-741858d2e9162acf8d38-chunk-00007": {
+      "label": "irrelevant"
+    },
+    "Q006::eval-741858d2e9162acf8d38-chunk-00008": {
+      "label": "irrelevant"
+    },
+    "Q006::eval-741858d2e9162acf8d38-chunk-00009": {
+      "label": "irrelevant"
+    },
+    "Q006::eval-741858d2e9162acf8d38-chunk-00010": {
+      "label": "irrelevant"
+    },
+    "Q006::eval-741858d2e9162acf8d38-chunk-00005": {
+      "label": "irrelevant"
+    },
+    "Q002::eval-741858d2e9162acf8d38-chunk-00018": {
+      "label": "irrelevant"
+    }
+  }
+}

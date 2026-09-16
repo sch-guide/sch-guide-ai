@@ -1,0 +1,280 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>RAG Pilot Query Generalization</title>
+<style>body{font:14px system-ui;margin:24px;line-height:1.5}table{border-collapse:collapse;width:100%;margin:12px 0}th,td{border:1px solid #ccc;padding:6px;vertical-align:top}pre{white-space:pre-wrap;margin:0;max-width:760px}section{border-top:3px solid #333;margin-top:30px;padding-top:12px}.pass{color:#08752f;font-weight:700}.fail{color:#b00020;font-weight:700}details{margin:12px 0}</style></head><body>
+<h1>Q001~Q006 Pilot Query Generalization 무호출 검수</h1>
+<p>실제 Groq 호출 0회. 로컬 승인 corpus와 MockTransport만 사용했다.</p>
+<table><tr><th>Case</th><th>질문</th><th>기대</th><th>기존</th><th>현재 pre</th><th>현재 post</th><th>Mock answerable</th><th>Mock calls</th><th>판정</th></tr><tr><td>Q001</td><td>진정간호 목적은?</td><td>True</td><td>supported</td><td>supported</td><td>supported</td><td>True</td><td>1</td><td class="pass">PASS</td></tr><tr><td>Q002</td><td>진정간호 절차는?</td><td>True</td><td>supported</td><td>supported</td><td>supported</td><td>True</td><td>1</td><td class="pass">PASS</td></tr><tr><td>Q003</td><td>진정 전 준비사항은?</td><td>True</td><td>incomplete_semantic_block</td><td>incomplete_semantic_block</td><td>-</td><td>False</td><td>0</td><td class="fail">FAIL</td></tr><tr><td>Q004</td><td>진정 간호의 목적은 무엇인가요?</td><td>True</td><td>incomplete_semantic_block</td><td>incomplete_semantic_block</td><td>-</td><td>False</td><td>0</td><td class="fail">FAIL</td></tr><tr><td>Q005</td><td>진정간호 주의사항은?</td><td>True</td><td>no_topic_evidence</td><td>no_topic_evidence</td><td>-</td><td>False</td><td>0</td><td class="fail">FAIL</td></tr><tr><td>Q006</td><td>화성 우주선의 궤도 계산 공식은?</td><td>False</td><td>domain_or_clarification</td><td>domain_or_clarification</td><td>-</td><td>False</td><td>0</td><td class="pass">PASS</td></tr></table>
+<h2>표현 변형</h2><table><tr><th>ID</th><th>질문</th><th>intent</th><th>topic</th><th>pre</th><th>post</th><th>reservation</th><th>headroom</th><th>판정</th></tr><tr><td>P01</td><td>진정간호 목적 알려줘</td><td>fact</td><td>[&#x27;진정간호&#x27;]</td><td>supported</td><td>supported</td><td>2540</td><td>2580</td><td class="fail">FAIL</td></tr><tr><td>P02</td><td>진정 간호는 왜 시행하나요?</td><td>fact</td><td>[&#x27;진정&#x27;, &#x27;시행하나요&#x27;]</td><td>incomplete_semantic_block</td><td>None</td><td>None</td><td>None</td><td class="fail">FAIL</td></tr><tr><td>P03</td><td>진정의 목적이 뭐야?</td><td>fact</td><td>[&#x27;진정&#x27;, &#x27;뭐야&#x27;]</td><td>supported</td><td>supported</td><td>4447</td><td>673</td><td class="fail">FAIL</td></tr><tr><td>P04</td><td>진정 전에 뭘 준비해야 해?</td><td>materials</td><td>[&#x27;진정&#x27;, &#x27;전에&#x27;, &#x27;준비해야&#x27;]</td><td>incomplete_semantic_block</td><td>None</td><td>None</td><td>None</td><td class="fail">FAIL</td></tr><tr><td>P05</td><td>진정 시행 전 확인할 것은?</td><td>fact</td><td>[&#x27;진정&#x27;, &#x27;확인할&#x27;, &#x27;것은&#x27;]</td><td>incomplete_semantic_block</td><td>None</td><td>None</td><td>None</td><td class="fail">FAIL</td></tr><tr><td>P06</td><td>진정 전 체크사항 알려줘</td><td>fact</td><td>[&#x27;진정&#x27;, &#x27;체크사항&#x27;]</td><td>incomplete_semantic_block</td><td>None</td><td>None</td><td>None</td><td class="fail">FAIL</td></tr><tr><td>P07</td><td>진정 시 주의할 점은?</td><td>cautions</td><td>[&#x27;진정&#x27;, &#x27;주의할&#x27;, &#x27;점은&#x27;]</td><td>incomplete_semantic_block</td><td>None</td><td>None</td><td>None</td><td class="fail">FAIL</td></tr><tr><td>P08</td><td>진정간호에서 조심해야 할 것은?</td><td>fact</td><td>[&#x27;진정간호&#x27;, &#x27;조심해야&#x27;, &#x27;것은&#x27;]</td><td>no_topic_evidence</td><td>None</td><td>None</td><td>None</td><td class="fail">FAIL</td></tr><tr><td>P09</td><td>진정 중 안전하게 봐야 할 항목은?</td><td>fact</td><td>[&#x27;진정&#x27;, &#x27;안전하게&#x27;, &#x27;봐야&#x27;, &#x27;항목&#x27;]</td><td>incomplete_semantic_block</td><td>None</td><td>None</td><td>None</td><td class="fail">FAIL</td></tr></table>
+
+<section><h2>Q003 · 진정 전 준비사항은?</h2>
+<p>kind=fact · domain=unknown · focus=()</p>
+<p>topic=[&#x27;진정&#x27;, &#x27;준비사항&#x27;] · temporal=before</p>
+<p>pre=incomplete_semantic_block · post=- · selected chunks=0</p>
+<h3>Evidence groups</h3><ul><li>eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00014 · common · 15~15 · complete=True</li><li>eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00013 · common · 14~14 · complete=True</li><li>eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00019 · common · 27~28 · complete=True</li><li>eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00004 · common · 3~3 · complete=True</li><li>eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00018 · pediatric · 22~26 · complete=False</li><li>eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00017 · adult · 18~19 · complete=False</li><li>eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00015 · adult · 16~16 · complete=True</li></ul>
+<details><summary>BM25 Top 10</summary><table><tr><th>rank</th><th>index</th><th>chunk</th><th>score</th><th>tier</th><th>section</th><th>text</th></tr><tr><td>1</td><td>15</td><td>eval-741858d2e9162acf8d38-chunk-00016</td><td>0.357257</td><td>match</td><td>2) 진정 치료를 수행하는 의사는 진정 치료 전</td><td><pre>3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다.</pre></td></tr><tr><td>2</td><td>14</td><td>eval-741858d2e9162acf8d38-chunk-00015</td><td>0.353008</td><td>match</td><td>2) 진정 치료를 수행하는 의사는 진정 치료 전</td><td><pre>2) 진정 치료를 수행하는 의사는 진정 치료 전
+진정 전 환자 평가서를 이용하여 환자 상태를 평가하고 모니터링하여 적합한 진정 치료를 계획한다.
+* 의사가 작성한 진정 전 환자평가서 확인 방법</pre></td></tr><tr><td>3</td><td>18</td><td>eval-741858d2e9162acf8d38-chunk-00019</td><td>0.344069</td><td>match</td><td>4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후</td><td><pre>4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후  
+   환자 상태를 평가하고 모니터링하여 기록한다.
+* 진정 평가 기록지(동의서 및 기타 출력서식 출력 → 작성 후 OCR 반납)
+* 진정 중 서면 기록지 출력 방법</pre></td></tr><tr><td>4</td><td>19</td><td>eval-741858d2e9162acf8d38-chunk-00020</td><td>0.343435</td><td>match</td><td>4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후</td><td><pre>* 진정 중 서면 기록지 출력 방법
+(출력물을 지참하여 검사실에서 수기로 작성 후 EMR 진정 기록지에 입력한다.)
+진정 기록지 작성 방법 [성인]
+① 진정 치료 전 
+ 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.
+② 진정 약물 투여</pre></td></tr><tr><td>5</td><td>16</td><td>eval-741858d2e9162acf8d38-chunk-00017</td><td>0.331798</td><td>match</td><td>2) 진정 치료를 수행하는 의사는 진정 치료 전</td><td><pre>성인 | 소아</pre></td></tr><tr><td>6</td><td>20</td><td>eval-741858d2e9162acf8d38-chunk-00021</td><td>0.324871</td><td>match</td><td>4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후</td><td><pre>② 진정 약물 투여
+ 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.
+③ 진정 치료 중 
+ 15분 간격으로 활력징후, 산소포화도, 의식상태(MOAA/S scale)를 평가하고 모니터링하여 
+  기록한다.
+④ 진정 치료 후</pre></td></tr><tr><td>7</td><td>22</td><td>eval-741858d2e9162acf8d38-chunk-00023</td><td>0.305681</td><td>match</td><td>-</td><td><pre>간호실무지침
+진정 기록지 작성 방법 [소아]
+① 진정 치료 전 
+ 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.
+② 진정 약물 투여
+ 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.
+③ 진정 치료 중</pre></td></tr><tr><td>8</td><td>2</td><td>eval-741858d2e9162acf8d38-chunk-00003</td><td>0.297226</td><td>match</td><td>1. 목적</td><td><pre>1. 목적
+저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의
+상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다.</pre></td></tr><tr><td>9</td><td>21</td><td>eval-741858d2e9162acf8d38-chunk-00022</td><td>0.280805</td><td>match</td><td>4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후</td><td><pre>기록한다.
+④ 진정 치료 후
+ 회복 시까지 활력징후와 회복 상태를 15분 간격으로 평가하고 모니터링하여 기록한다.
+⑤ 회복실이 없는 검사실에서 검사를 진행한 입원환자는 입원실로 이동하여 모니터링을 한다.</pre></td></tr><tr><td>10</td><td>29</td><td>eval-741858d2e9162acf8d38-chunk-00030</td><td>0.268636</td><td>match</td><td>-</td><td><pre>S | 진정 전 V/S BP: 90/60mmHg, HR:150회/분 RR:26회/분, SpO2 97% 측정됨 T-PCRA 6ml 경구</pre></td></tr></table></details>
+<details><summary>Semantic Top 10</summary><table><tr><th>rank</th><th>index</th><th>chunk</th><th>score</th><th>tier</th><th>section</th><th>text</th></tr><tr><td>1</td><td>1</td><td>eval-741858d2e9162acf8d38-chunk-00002</td><td>0.658064</td><td>inactive</td><td>15. 진정간호</td><td><pre>15. 진정간호</pre></td></tr><tr><td>2</td><td>13</td><td>eval-741858d2e9162acf8d38-chunk-00014</td><td>0.635251</td><td>inactive</td><td>6. 진정 절차</td><td><pre>성인
+소아</pre></td></tr><tr><td>3</td><td>0</td><td>eval-741858d2e9162acf8d38-chunk-00001</td><td>0.634367</td><td>inactive</td><td>-</td><td><pre>간호실무지침</pre></td></tr><tr><td>4</td><td>11</td><td>eval-741858d2e9162acf8d38-chunk-00012</td><td>0.634367</td><td>inactive</td><td>-</td><td><pre>간호실무지침</pre></td></tr><tr><td>5</td><td>17</td><td>eval-741858d2e9162acf8d38-chunk-00018</td><td>0.634367</td><td>inactive</td><td>-</td><td><pre>간호실무지침</pre></td></tr><tr><td>6</td><td>37</td><td>eval-741858d2e9162acf8d38-chunk-00038</td><td>0.634367</td><td>inactive</td><td>-</td><td><pre>간호실무지침</pre></td></tr><tr><td>7</td><td>8</td><td>eval-741858d2e9162acf8d38-chunk-00009</td><td>0.546577</td><td>inactive</td><td>5. 진정 대상 의약품 목록</td><td><pre>성인 | 소아</pre></td></tr><tr><td>8</td><td>16</td><td>eval-741858d2e9162acf8d38-chunk-00017</td><td>0.546577</td><td>inactive</td><td>2) 진정 치료를 수행하는 의사는 진정 치료 전</td><td><pre>성인 | 소아</pre></td></tr><tr><td>9</td><td>41</td><td>eval-741858d2e9162acf8d38-chunk-00042</td><td>0.540817</td><td>inactive</td><td>8. 외래에서의 소아 진정치료 절차</td><td><pre>8. 외래에서의 소아 진정치료 절차</pre></td></tr><tr><td>10</td><td>6</td><td>eval-741858d2e9162acf8d38-chunk-00007</td><td>0.510765</td><td>inactive</td><td>4. 범위</td><td><pre>감시가 가능한 경우, 의사의 판단 하에 응급치료가 필요한 경우</pre></td></tr></table></details>
+<details><summary>RRF Top 10</summary><table><tr><th>rank</th><th>index</th><th>chunk</th><th>score</th><th>tier</th><th>section</th><th>text</th></tr><tr><td>1</td><td>16</td><td>eval-741858d2e9162acf8d38-chunk-00017</td><td>0.03009</td><td>inactive</td><td>2) 진정 치료를 수행하는 의사는 진정 치료 전</td><td><pre>성인 | 소아</pre></td></tr><tr><td>2</td><td>13</td><td>eval-741858d2e9162acf8d38-chunk-00014</td><td>0.029828</td><td>inactive</td><td>6. 진정 절차</td><td><pre>성인
+소아</pre></td></tr><tr><td>3</td><td>15</td><td>eval-741858d2e9162acf8d38-chunk-00016</td><td>0.02938</td><td>inactive</td><td>2) 진정 치료를 수행하는 의사는 진정 치료 전</td><td><pre>3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다.</pre></td></tr><tr><td>4</td><td>14</td><td>eval-741858d2e9162acf8d38-chunk-00015</td><td>0.028787</td><td>inactive</td><td>2) 진정 치료를 수행하는 의사는 진정 치료 전</td><td><pre>2) 진정 치료를 수행하는 의사는 진정 치료 전
+진정 전 환자 평가서를 이용하여 환자 상태를 평가하고 모니터링하여 적합한 진정 치료를 계획한다.
+* 의사가 작성한 진정 전 환자평가서 확인 방법</pre></td></tr><tr><td>5</td><td>8</td><td>eval-741858d2e9162acf8d38-chunk-00009</td><td>0.028439</td><td>inactive</td><td>5. 진정 대상 의약품 목록</td><td><pre>성인 | 소아</pre></td></tr><tr><td>6</td><td>19</td><td>eval-741858d2e9162acf8d38-chunk-00020</td><td>0.02739</td><td>inactive</td><td>4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후</td><td><pre>* 진정 중 서면 기록지 출력 방법
+(출력물을 지참하여 검사실에서 수기로 작성 후 EMR 진정 기록지에 입력한다.)
+진정 기록지 작성 방법 [성인]
+① 진정 치료 전 
+ 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.
+② 진정 약물 투여</pre></td></tr><tr><td>7</td><td>22</td><td>eval-741858d2e9162acf8d38-chunk-00023</td><td>0.027271</td><td>inactive</td><td>-</td><td><pre>간호실무지침
+진정 기록지 작성 방법 [소아]
+① 진정 치료 전 
+ 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.
+② 진정 약물 투여
+ 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.
+③ 진정 치료 중</pre></td></tr><tr><td>8</td><td>3</td><td>eval-741858d2e9162acf8d38-chunk-00004</td><td>0.027047</td><td>inactive</td><td>2. 규정, 지침</td><td><pre>2. 규정, 지침
+• 인증 규정 – 5장. 수술/마취/진정 – 04-10. 성인 진정 치료 규정
+• 인증 규정 – 5장. 수술/마취/진정 – 04-10. 소아 진정 치료 규정</pre></td></tr><tr><td>9</td><td>2</td><td>eval-741858d2e9162acf8d38-chunk-00003</td><td>0.026754</td><td>inactive</td><td>1. 목적</td><td><pre>1. 목적
+저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의
+상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다.</pre></td></tr><tr><td>10</td><td>20</td><td>eval-741858d2e9162acf8d38-chunk-00021</td><td>0.026515</td><td>inactive</td><td>4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후</td><td><pre>② 진정 약물 투여
+ 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.
+③ 진정 치료 중 
+ 15분 간격으로 활력징후, 산소포화도, 의식상태(MOAA/S scale)를 평가하고 모니터링하여 
+  기록한다.
+④ 진정 치료 후</pre></td></tr></table></details>
+<details open><summary>Rerank seeds</summary><table><tr><th>rank</th><th>index</th><th>chunk</th><th>score</th><th>tier</th><th>section</th><th>text</th></tr><tr><td>1</td><td>15</td><td>eval-741858d2e9162acf8d38-chunk-00016</td><td>0.054747</td><td>-</td><td>2) 진정 치료를 수행하는 의사는 진정 치료 전</td><td><pre>3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다.</pre></td></tr><tr><td>2</td><td>14</td><td>eval-741858d2e9162acf8d38-chunk-00015</td><td>0.053985</td><td>-</td><td>2) 진정 치료를 수행하는 의사는 진정 치료 전</td><td><pre>2) 진정 치료를 수행하는 의사는 진정 치료 전
+진정 전 환자 평가서를 이용하여 환자 상태를 평가하고 모니터링하여 적합한 진정 치료를 계획한다.
+* 의사가 작성한 진정 전 환자평가서 확인 방법</pre></td></tr><tr><td>3</td><td>28</td><td>eval-741858d2e9162acf8d38-chunk-00029</td><td>0.052853</td><td>-</td><td>-</td><td><pre>[진정기록지]
+[간호기록]
+예시 ① 예시 ②</pre></td></tr><tr><td>4</td><td>3</td><td>eval-741858d2e9162acf8d38-chunk-00004</td><td>0.052579</td><td>-</td><td>2. 규정, 지침</td><td><pre>2. 규정, 지침
+• 인증 규정 – 5장. 수술/마취/진정 – 04-10. 성인 진정 치료 규정
+• 인증 규정 – 5장. 수술/마취/진정 – 04-10. 소아 진정 치료 규정</pre></td></tr><tr><td>5</td><td>22</td><td>eval-741858d2e9162acf8d38-chunk-00023</td><td>0.052262</td><td>-</td><td>-</td><td><pre>간호실무지침
+진정 기록지 작성 방법 [소아]
+① 진정 치료 전 
+ 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.
+② 진정 약물 투여
+ 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.
+③ 진정 치료 중</pre></td></tr><tr><td>6</td><td>19</td><td>eval-741858d2e9162acf8d38-chunk-00020</td><td>0.052052</td><td>-</td><td>4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후</td><td><pre>* 진정 중 서면 기록지 출력 방법
+(출력물을 지참하여 검사실에서 수기로 작성 후 EMR 진정 기록지에 입력한다.)
+진정 기록지 작성 방법 [성인]
+① 진정 치료 전 
+ 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.
+② 진정 약물 투여</pre></td></tr></table></details>
+</section>
+<section><h2>Q004 · 진정 간호의 목적은 무엇인가요?</h2>
+<p>kind=fact · domain=hospital · focus=(&#x27;목적&#x27;,)</p>
+<p>topic=[&#x27;진정&#x27;] · temporal=None</p>
+<p>pre=incomplete_semantic_block · post=- · selected chunks=0</p>
+<h3>Evidence groups</h3><ul><li>eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00003 · common · 2~2 · complete=True</li><li>eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00023 · common · 33~33 · complete=True</li><li>eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00026 · common · 36~36 · complete=True</li><li>eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00019 · common · 27~28 · complete=True</li><li>eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00014 · common · 15~15 · complete=True</li><li>eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00021 · common · 31~31 · complete=True</li><li>eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00024 · common · 34~34 · complete=True</li><li>eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00018 · common · 25~26 · complete=False</li><li>eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00013 · common · 14~14 · complete=True</li><li>eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00022 · common · 32~32 · complete=True</li></ul>
+<details><summary>BM25 Top 10</summary><table><tr><th>rank</th><th>index</th><th>chunk</th><th>score</th><th>tier</th><th>section</th><th>text</th></tr><tr><td>1</td><td>2</td><td>eval-741858d2e9162acf8d38-chunk-00003</td><td>5.757761</td><td>inactive</td><td>1. 목적</td><td><pre>1. 목적
+저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의
+상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다.</pre></td></tr><tr><td>2</td><td>33</td><td>eval-741858d2e9162acf8d38-chunk-00034</td><td>0.82125</td><td>inactive</td><td>-</td><td><pre>간호실무지침
+진정 기록 [진정 후]
+[진정기록지]
+[간호기록]
+예시 ① 예시 ②</pre></td></tr><tr><td>3</td><td>18</td><td>eval-741858d2e9162acf8d38-chunk-00019</td><td>0.648671</td><td>inactive</td><td>4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후</td><td><pre>4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후  
+   환자 상태를 평가하고 모니터링하여 기록한다.
+* 진정 평가 기록지(동의서 및 기타 출력서식 출력 → 작성 후 OCR 반납)
+* 진정 중 서면 기록지 출력 방법</pre></td></tr><tr><td>4</td><td>31</td><td>eval-741858d2e9162acf8d38-chunk-00032</td><td>0.614741</td><td>inactive</td><td>-</td><td><pre>S | T-PCRA 6ml 경구 복용 후 진정 상태로 간호사 OOO 동행하여 S-Car 타고 MRI실 내려감</pre></td></tr><tr><td>5</td><td>22</td><td>eval-741858d2e9162acf8d38-chunk-00023</td><td>0.542451</td><td>inactive</td><td>-</td><td><pre>간호실무지침
+진정 기록지 작성 방법 [소아]
+① 진정 치료 전 
+ 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.
+② 진정 약물 투여
+ 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.
+③ 진정 치료 중</pre></td></tr><tr><td>6</td><td>19</td><td>eval-741858d2e9162acf8d38-chunk-00020</td><td>0.536056</td><td>inactive</td><td>4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후</td><td><pre>* 진정 중 서면 기록지 출력 방법
+(출력물을 지참하여 검사실에서 수기로 작성 후 EMR 진정 기록지에 입력한다.)
+진정 기록지 작성 방법 [성인]
+① 진정 치료 전 
+ 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.
+② 진정 약물 투여</pre></td></tr><tr><td>7</td><td>20</td><td>eval-741858d2e9162acf8d38-chunk-00021</td><td>0.529483</td><td>inactive</td><td>4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후</td><td><pre>② 진정 약물 투여
+ 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.
+③ 진정 치료 중 
+ 15분 간격으로 활력징후, 산소포화도, 의식상태(MOAA/S scale)를 평가하고 모니터링하여 
+  기록한다.
+④ 진정 치료 후</pre></td></tr><tr><td>8</td><td>27</td><td>eval-741858d2e9162acf8d38-chunk-00028</td><td>0.520732</td><td>inactive</td><td>-</td><td><pre>간호실무지침
+퇴실 시 교육
+Ÿ 주의해야 할 주요증상 및 징후
+Ÿ 발생할 수 있는 합병증
+Ÿ 식사, 약물복용, 일상 활동 등
+Ÿ 응급상황 발생 시 일차적인 처치 방법 및 연락처
+진정 기록 [진정 중]
+[진정기록지]</pre></td></tr><tr><td>9</td><td>34</td><td>eval-741858d2e9162acf8d38-chunk-00035</td><td>0.48828</td><td>inactive</td><td>-</td><td><pre>S | MRI 검사 종료 후 간호사 OOO 동행하여 S-Car 타고 병실로 돌아옴 진정된 상태로 V/S HR:108회/분, RR: 24회/분, SpO2 97% 측정됨. 진정 후 안내문 보호자(모)에게 제공하며 교육함</pre></td></tr><tr><td>10</td><td>21</td><td>eval-741858d2e9162acf8d38-chunk-00022</td><td>0.482001</td><td>inactive</td><td>4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후</td><td><pre>기록한다.
+④ 진정 치료 후
+ 회복 시까지 활력징후와 회복 상태를 15분 간격으로 평가하고 모니터링하여 기록한다.
+⑤ 회복실이 없는 검사실에서 검사를 진행한 입원환자는 입원실로 이동하여 모니터링을 한다.</pre></td></tr></table></details>
+<details><summary>Semantic Top 10</summary><table><tr><th>rank</th><th>index</th><th>chunk</th><th>score</th><th>tier</th><th>section</th><th>text</th></tr><tr><td>1</td><td>0</td><td>eval-741858d2e9162acf8d38-chunk-00001</td><td>0.804054</td><td>inactive</td><td>-</td><td><pre>간호실무지침</pre></td></tr><tr><td>2</td><td>11</td><td>eval-741858d2e9162acf8d38-chunk-00012</td><td>0.804054</td><td>inactive</td><td>-</td><td><pre>간호실무지침</pre></td></tr><tr><td>3</td><td>17</td><td>eval-741858d2e9162acf8d38-chunk-00018</td><td>0.804054</td><td>inactive</td><td>-</td><td><pre>간호실무지침</pre></td></tr><tr><td>4</td><td>37</td><td>eval-741858d2e9162acf8d38-chunk-00038</td><td>0.804054</td><td>inactive</td><td>-</td><td><pre>간호실무지침</pre></td></tr><tr><td>5</td><td>1</td><td>eval-741858d2e9162acf8d38-chunk-00002</td><td>0.728321</td><td>inactive</td><td>15. 진정간호</td><td><pre>15. 진정간호</pre></td></tr><tr><td>6</td><td>33</td><td>eval-741858d2e9162acf8d38-chunk-00034</td><td>0.687806</td><td>inactive</td><td>-</td><td><pre>간호실무지침
+진정 기록 [진정 후]
+[진정기록지]
+[간호기록]
+예시 ① 예시 ②</pre></td></tr><tr><td>7</td><td>36</td><td>eval-741858d2e9162acf8d38-chunk-00037</td><td>0.632125</td><td>inactive</td><td>-</td><td><pre>간호실무지침
+[실제 예시]
+진정 후 안내문
+Ÿ 구두 및 서면으로 교육한다.
+Ÿ 소아진정 시 필요에 따라 보호자의 도움을 받을 수 있으며, 퇴실 시 보호자 또는 대리인이 
+동행한다.</pre></td></tr><tr><td>8</td><td>15</td><td>eval-741858d2e9162acf8d38-chunk-00016</td><td>0.60221</td><td>inactive</td><td>2) 진정 치료를 수행하는 의사는 진정 치료 전</td><td><pre>3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다.</pre></td></tr><tr><td>9</td><td>2</td><td>eval-741858d2e9162acf8d38-chunk-00003</td><td>0.581685</td><td>inactive</td><td>1. 목적</td><td><pre>1. 목적
+저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의
+상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다.</pre></td></tr><tr><td>10</td><td>28</td><td>eval-741858d2e9162acf8d38-chunk-00029</td><td>0.578562</td><td>inactive</td><td>-</td><td><pre>[진정기록지]
+[간호기록]
+예시 ① 예시 ②</pre></td></tr></table></details>
+<details><summary>RRF Top 10</summary><table><tr><th>rank</th><th>index</th><th>chunk</th><th>score</th><th>tier</th><th>section</th><th>text</th></tr><tr><td>1</td><td>33</td><td>eval-741858d2e9162acf8d38-chunk-00034</td><td>0.031281</td><td>inactive</td><td>-</td><td><pre>간호실무지침
+진정 기록 [진정 후]
+[진정기록지]
+[간호기록]
+예시 ① 예시 ②</pre></td></tr><tr><td>2</td><td>2</td><td>eval-741858d2e9162acf8d38-chunk-00003</td><td>0.030886</td><td>inactive</td><td>1. 목적</td><td><pre>1. 목적
+저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의
+상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다.</pre></td></tr><tr><td>3</td><td>36</td><td>eval-741858d2e9162acf8d38-chunk-00037</td><td>0.028814</td><td>inactive</td><td>-</td><td><pre>간호실무지침
+[실제 예시]
+진정 후 안내문
+Ÿ 구두 및 서면으로 교육한다.
+Ÿ 소아진정 시 필요에 따라 보호자의 도움을 받을 수 있으며, 퇴실 시 보호자 또는 대리인이 
+동행한다.</pre></td></tr><tr><td>4</td><td>27</td><td>eval-741858d2e9162acf8d38-chunk-00028</td><td>0.02879</td><td>inactive</td><td>-</td><td><pre>간호실무지침
+퇴실 시 교육
+Ÿ 주의해야 할 주요증상 및 징후
+Ÿ 발생할 수 있는 합병증
+Ÿ 식사, 약물복용, 일상 활동 등
+Ÿ 응급상황 발생 시 일차적인 처치 방법 및 연락처
+진정 기록 [진정 중]
+[진정기록지]</pre></td></tr><tr><td>5</td><td>22</td><td>eval-741858d2e9162acf8d38-chunk-00023</td><td>0.028718</td><td>inactive</td><td>-</td><td><pre>간호실무지침
+진정 기록지 작성 방법 [소아]
+① 진정 치료 전 
+ 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.
+② 진정 약물 투여
+ 처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.
+③ 진정 치료 중</pre></td></tr><tr><td>6</td><td>18</td><td>eval-741858d2e9162acf8d38-chunk-00019</td><td>0.028373</td><td>inactive</td><td>4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후</td><td><pre>4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후  
+   환자 상태를 평가하고 모니터링하여 기록한다.
+* 진정 평가 기록지(동의서 및 기타 출력서식 출력 → 작성 후 OCR 반납)
+* 진정 중 서면 기록지 출력 방법</pre></td></tr><tr><td>7</td><td>28</td><td>eval-741858d2e9162acf8d38-chunk-00029</td><td>0.02837</td><td>inactive</td><td>-</td><td><pre>[진정기록지]
+[간호기록]
+예시 ① 예시 ②</pre></td></tr><tr><td>8</td><td>15</td><td>eval-741858d2e9162acf8d38-chunk-00016</td><td>0.028219</td><td>inactive</td><td>2) 진정 치료를 수행하는 의사는 진정 치료 전</td><td><pre>3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다.</pre></td></tr><tr><td>9</td><td>31</td><td>eval-741858d2e9162acf8d38-chunk-00032</td><td>0.02782</td><td>inactive</td><td>-</td><td><pre>S | T-PCRA 6ml 경구 복용 후 진정 상태로 간호사 OOO 동행하여 S-Car 타고 MRI실 내려감</pre></td></tr><tr><td>10</td><td>14</td><td>eval-741858d2e9162acf8d38-chunk-00015</td><td>0.027222</td><td>inactive</td><td>2) 진정 치료를 수행하는 의사는 진정 치료 전</td><td><pre>2) 진정 치료를 수행하는 의사는 진정 치료 전
+진정 전 환자 평가서를 이용하여 환자 상태를 평가하고 모니터링하여 적합한 진정 치료를 계획한다.
+* 의사가 작성한 진정 전 환자평가서 확인 방법</pre></td></tr></table></details>
+<details open><summary>Rerank seeds</summary><table><tr><th>rank</th><th>index</th><th>chunk</th><th>score</th><th>tier</th><th>section</th><th>text</th></tr><tr><td>1</td><td>2</td><td>eval-741858d2e9162acf8d38-chunk-00003</td><td>0.12054</td><td>-</td><td>1. 목적</td><td><pre>1. 목적
+저혈압, 호흡 기능 억제 등 진정 치료 부작용의 발생을 예방하기 위해 적격한 자가 진정 전 환자의
+상태를 평가하고 안전하게 진정 치료를 수행하기 위함이다.</pre></td></tr><tr><td>2</td><td>33</td><td>eval-741858d2e9162acf8d38-chunk-00034</td><td>0.081783</td><td>-</td><td>-</td><td><pre>간호실무지침
+진정 기록 [진정 후]
+[진정기록지]
+[간호기록]
+예시 ① 예시 ②</pre></td></tr><tr><td>3</td><td>36</td><td>eval-741858d2e9162acf8d38-chunk-00037</td><td>0.078871</td><td>-</td><td>-</td><td><pre>간호실무지침
+[실제 예시]
+진정 후 안내문
+Ÿ 구두 및 서면으로 교육한다.
+Ÿ 소아진정 시 필요에 따라 보호자의 도움을 받을 수 있으며, 퇴실 시 보호자 또는 대리인이 
+동행한다.</pre></td></tr><tr><td>4</td><td>27</td><td>eval-741858d2e9162acf8d38-chunk-00028</td><td>0.078128</td><td>-</td><td>-</td><td><pre>간호실무지침
+퇴실 시 교육
+Ÿ 주의해야 할 주요증상 및 징후
+Ÿ 발생할 수 있는 합병증
+Ÿ 식사, 약물복용, 일상 활동 등
+Ÿ 응급상황 발생 시 일차적인 처치 방법 및 연락처
+진정 기록 [진정 중]
+[진정기록지]</pre></td></tr><tr><td>5</td><td>15</td><td>eval-741858d2e9162acf8d38-chunk-00016</td><td>0.078037</td><td>-</td><td>2) 진정 치료를 수행하는 의사는 진정 치료 전</td><td><pre>3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다.</pre></td></tr><tr><td>6</td><td>28</td><td>eval-741858d2e9162acf8d38-chunk-00029</td><td>0.077999</td><td>-</td><td>-</td><td><pre>[진정기록지]
+[간호기록]
+예시 ① 예시 ②</pre></td></tr></table></details>
+</section>
+<section><h2>Q005 · 진정간호 주의사항은?</h2>
+<p>kind=cautions · domain=hospital · focus=(&#x27;주의&#x27;, &#x27;주의사항&#x27;, &#x27;금기&#x27;, &#x27;관찰&#x27;, &#x27;보고&#x27;)</p>
+<p>topic=[&#x27;진정간호&#x27;] · temporal=None</p>
+<p>pre=no_topic_evidence · post=- · selected chunks=0</p>
+<h3>Evidence groups</h3><ul><li>없음</li></ul>
+<details><summary>BM25 Top 10</summary><table><tr><th>rank</th><th>index</th><th>chunk</th><th>score</th><th>tier</th><th>section</th><th>text</th></tr><tr><td>1</td><td>27</td><td>eval-741858d2e9162acf8d38-chunk-00028</td><td>1.037273</td><td>inactive</td><td>-</td><td><pre>간호실무지침
+퇴실 시 교육
+Ÿ 주의해야 할 주요증상 및 징후
+Ÿ 발생할 수 있는 합병증
+Ÿ 식사, 약물복용, 일상 활동 등
+Ÿ 응급상황 발생 시 일차적인 처치 방법 및 연락처
+진정 기록 [진정 중]
+[진정기록지]</pre></td></tr><tr><td>2</td><td>25</td><td>eval-741858d2e9162acf8d38-chunk-00026</td><td>0.586045</td><td>inactive</td><td>-</td><td><pre>기록한다.
+⑤ 회복실이 없는 검사실에서 검사를 진행한 입원환자는 입원실로 이동하여 모니터링을 한다.
+공통사항
+Ÿ 진정 치료 진행 시 Patient Monitor를 연결하지 못하는 경우 Oxymetry를 통해 맥박과 산소 
+포화도를 확인하여 기록한다. 검사 중으로 호흡수 측정하지 못할 경우 ‘검사 중’으로 기록 한다.</pre></td></tr><tr><td>3</td><td>14</td><td>eval-741858d2e9162acf8d38-chunk-00015</td><td>0.564103</td><td>inactive</td><td>2) 진정 치료를 수행하는 의사는 진정 치료 전</td><td><pre>2) 진정 치료를 수행하는 의사는 진정 치료 전
+진정 전 환자 평가서를 이용하여 환자 상태를 평가하고 모니터링하여 적합한 진정 치료를 계획한다.
+* 의사가 작성한 진정 전 환자평가서 확인 방법</pre></td></tr><tr><td>4</td><td>16</td><td>eval-741858d2e9162acf8d38-chunk-00017</td><td>0.542311</td><td>inactive</td><td>2) 진정 치료를 수행하는 의사는 진정 치료 전</td><td><pre>성인 | 소아</pre></td></tr><tr><td>5</td><td>33</td><td>eval-741858d2e9162acf8d38-chunk-00034</td><td>0.53223</td><td>inactive</td><td>-</td><td><pre>간호실무지침
+진정 기록 [진정 후]
+[진정기록지]
+[간호기록]
+예시 ① 예시 ②</pre></td></tr><tr><td>6</td><td>6</td><td>eval-741858d2e9162acf8d38-chunk-00007</td><td>0.472921</td><td>inactive</td><td>4. 범위</td><td><pre>감시가 가능한 경우, 의사의 판단 하에 응급치료가 필요한 경우</pre></td></tr><tr><td>7</td><td>28</td><td>eval-741858d2e9162acf8d38-chunk-00029</td><td>0.46475</td><td>inactive</td><td>-</td><td><pre>[진정기록지]
+[간호기록]
+예시 ① 예시 ②</pre></td></tr><tr><td>8</td><td>15</td><td>eval-741858d2e9162acf8d38-chunk-00016</td><td>0.455691</td><td>inactive</td><td>2) 진정 치료를 수행하는 의사는 진정 치료 전</td><td><pre>3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다.</pre></td></tr><tr><td>9</td><td>31</td><td>eval-741858d2e9162acf8d38-chunk-00032</td><td>0.397465</td><td>inactive</td><td>-</td><td><pre>S | T-PCRA 6ml 경구 복용 후 진정 상태로 간호사 OOO 동행하여 S-Car 타고 MRI실 내려감</pre></td></tr><tr><td>10</td><td>4</td><td>eval-741858d2e9162acf8d38-chunk-00005</td><td>0.364556</td><td>inactive</td><td>3. 대상</td><td><pre>3. 대상
+1) 성인 : 입원하여 시행함을 원칙으로 한다. 단, 의사의 판단 하에 필요시 외래에서 시행할 수 있다.
+2) 소아 : 만 12세 이하의 소아, 외래에서 시행 시 외래 소아진정 process를 따른다.</pre></td></tr></table></details>
+<details><summary>Semantic Top 10</summary><table><tr><th>rank</th><th>index</th><th>chunk</th><th>score</th><th>tier</th><th>section</th><th>text</th></tr><tr><td>1</td><td>0</td><td>eval-741858d2e9162acf8d38-chunk-00001</td><td>0.873998</td><td>inactive</td><td>-</td><td><pre>간호실무지침</pre></td></tr><tr><td>2</td><td>11</td><td>eval-741858d2e9162acf8d38-chunk-00012</td><td>0.873998</td><td>inactive</td><td>-</td><td><pre>간호실무지침</pre></td></tr><tr><td>3</td><td>17</td><td>eval-741858d2e9162acf8d38-chunk-00018</td><td>0.873998</td><td>inactive</td><td>-</td><td><pre>간호실무지침</pre></td></tr><tr><td>4</td><td>37</td><td>eval-741858d2e9162acf8d38-chunk-00038</td><td>0.873998</td><td>inactive</td><td>-</td><td><pre>간호실무지침</pre></td></tr><tr><td>5</td><td>1</td><td>eval-741858d2e9162acf8d38-chunk-00002</td><td>0.746955</td><td>inactive</td><td>15. 진정간호</td><td><pre>15. 진정간호</pre></td></tr><tr><td>6</td><td>33</td><td>eval-741858d2e9162acf8d38-chunk-00034</td><td>0.742311</td><td>inactive</td><td>-</td><td><pre>간호실무지침
+진정 기록 [진정 후]
+[진정기록지]
+[간호기록]
+예시 ① 예시 ②</pre></td></tr><tr><td>7</td><td>27</td><td>eval-741858d2e9162acf8d38-chunk-00028</td><td>0.674885</td><td>inactive</td><td>-</td><td><pre>간호실무지침
+퇴실 시 교육
+Ÿ 주의해야 할 주요증상 및 징후
+Ÿ 발생할 수 있는 합병증
+Ÿ 식사, 약물복용, 일상 활동 등
+Ÿ 응급상황 발생 시 일차적인 처치 방법 및 연락처
+진정 기록 [진정 중]
+[진정기록지]</pre></td></tr><tr><td>8</td><td>6</td><td>eval-741858d2e9162acf8d38-chunk-00007</td><td>0.644234</td><td>inactive</td><td>4. 범위</td><td><pre>감시가 가능한 경우, 의사의 판단 하에 응급치료가 필요한 경우</pre></td></tr><tr><td>9</td><td>36</td><td>eval-741858d2e9162acf8d38-chunk-00037</td><td>0.639311</td><td>inactive</td><td>-</td><td><pre>간호실무지침
+[실제 예시]
+진정 후 안내문
+Ÿ 구두 및 서면으로 교육한다.
+Ÿ 소아진정 시 필요에 따라 보호자의 도움을 받을 수 있으며, 퇴실 시 보호자 또는 대리인이 
+동행한다.</pre></td></tr><tr><td>10</td><td>15</td><td>eval-741858d2e9162acf8d38-chunk-00016</td><td>0.617401</td><td>inactive</td><td>2) 진정 치료를 수행하는 의사는 진정 치료 전</td><td><pre>3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다.</pre></td></tr></table></details>
+<details><summary>RRF Top 10</summary><table><tr><th>rank</th><th>index</th><th>chunk</th><th>score</th><th>tier</th><th>section</th><th>text</th></tr><tr><td>1</td><td>27</td><td>eval-741858d2e9162acf8d38-chunk-00028</td><td>0.031319</td><td>inactive</td><td>-</td><td><pre>간호실무지침
+퇴실 시 교육
+Ÿ 주의해야 할 주요증상 및 징후
+Ÿ 발생할 수 있는 합병증
+Ÿ 식사, 약물복용, 일상 활동 등
+Ÿ 응급상황 발생 시 일차적인 처치 방법 및 연락처
+진정 기록 [진정 중]
+[진정기록지]</pre></td></tr><tr><td>2</td><td>33</td><td>eval-741858d2e9162acf8d38-chunk-00034</td><td>0.030536</td><td>inactive</td><td>-</td><td><pre>간호실무지침
+진정 기록 [진정 후]
+[진정기록지]
+[간호기록]
+예시 ① 예시 ②</pre></td></tr><tr><td>3</td><td>14</td><td>eval-741858d2e9162acf8d38-chunk-00015</td><td>0.029958</td><td>inactive</td><td>2) 진정 치료를 수행하는 의사는 진정 치료 전</td><td><pre>2) 진정 치료를 수행하는 의사는 진정 치료 전
+진정 전 환자 평가서를 이용하여 환자 상태를 평가하고 모니터링하여 적합한 진정 치료를 계획한다.
+* 의사가 작성한 진정 전 환자평가서 확인 방법</pre></td></tr><tr><td>4</td><td>6</td><td>eval-741858d2e9162acf8d38-chunk-00007</td><td>0.029857</td><td>inactive</td><td>4. 범위</td><td><pre>감시가 가능한 경우, 의사의 판단 하에 응급치료가 필요한 경우</pre></td></tr><tr><td>5</td><td>15</td><td>eval-741858d2e9162acf8d38-chunk-00016</td><td>0.028992</td><td>inactive</td><td>2) 진정 치료를 수행하는 의사는 진정 치료 전</td><td><pre>3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다.</pre></td></tr><tr><td>6</td><td>28</td><td>eval-741858d2e9162acf8d38-chunk-00029</td><td>0.028814</td><td>inactive</td><td>-</td><td><pre>[진정기록지]
+[간호기록]
+예시 ① 예시 ②</pre></td></tr><tr><td>7</td><td>16</td><td>eval-741858d2e9162acf8d38-chunk-00017</td><td>0.028783</td><td>inactive</td><td>2) 진정 치료를 수행하는 의사는 진정 치료 전</td><td><pre>성인 | 소아</pre></td></tr><tr><td>8</td><td>36</td><td>eval-741858d2e9162acf8d38-chunk-00037</td><td>0.027651</td><td>inactive</td><td>-</td><td><pre>간호실무지침
+[실제 예시]
+진정 후 안내문
+Ÿ 구두 및 서면으로 교육한다.
+Ÿ 소아진정 시 필요에 따라 보호자의 도움을 받을 수 있으며, 퇴실 시 보호자 또는 대리인이 
+동행한다.</pre></td></tr><tr><td>9</td><td>25</td><td>eval-741858d2e9162acf8d38-chunk-00026</td><td>0.027493</td><td>inactive</td><td>-</td><td><pre>기록한다.
+⑤ 회복실이 없는 검사실에서 검사를 진행한 입원환자는 입원실로 이동하여 모니터링을 한다.
+공통사항
+Ÿ 진정 치료 진행 시 Patient Monitor를 연결하지 못하는 경우 Oxymetry를 통해 맥박과 산소 
+포화도를 확인하여 기록한다. 검사 중으로 호흡수 측정하지 못할 경우 ‘검사 중’으로 기록 한다.</pre></td></tr><tr><td>10</td><td>31</td><td>eval-741858d2e9162acf8d38-chunk-00032</td><td>0.027151</td><td>inactive</td><td>-</td><td><pre>S | T-PCRA 6ml 경구 복용 후 진정 상태로 간호사 OOO 동행하여 S-Car 타고 MRI실 내려감</pre></td></tr></table></details>
+<details open><summary>Rerank seeds</summary><table><tr><th>rank</th><th>index</th><th>chunk</th><th>score</th><th>tier</th><th>section</th><th>text</th></tr><tr><td>1</td><td>27</td><td>eval-741858d2e9162acf8d38-chunk-00028</td><td>0.044718</td><td>-</td><td>-</td><td><pre>간호실무지침
+퇴실 시 교육
+Ÿ 주의해야 할 주요증상 및 징후
+Ÿ 발생할 수 있는 합병증
+Ÿ 식사, 약물복용, 일상 활동 등
+Ÿ 응급상황 발생 시 일차적인 처치 방법 및 연락처
+진정 기록 [진정 중]
+[진정기록지]</pre></td></tr><tr><td>2</td><td>33</td><td>eval-741858d2e9162acf8d38-chunk-00034</td><td>0.036475</td><td>-</td><td>-</td><td><pre>간호실무지침
+진정 기록 [진정 후]
+[진정기록지]
+[간호기록]
+예시 ① 예시 ②</pre></td></tr><tr><td>3</td><td>6</td><td>eval-741858d2e9162acf8d38-chunk-00007</td><td>0.035011</td><td>-</td><td>4. 범위</td><td><pre>감시가 가능한 경우, 의사의 판단 하에 응급치료가 필요한 경우</pre></td></tr><tr><td>4</td><td>14</td><td>eval-741858d2e9162acf8d38-chunk-00015</td><td>0.034831</td><td>-</td><td>2) 진정 치료를 수행하는 의사는 진정 치료 전</td><td><pre>2) 진정 치료를 수행하는 의사는 진정 치료 전
+진정 전 환자 평가서를 이용하여 환자 상태를 평가하고 모니터링하여 적합한 진정 치료를 계획한다.
+* 의사가 작성한 진정 전 환자평가서 확인 방법</pre></td></tr><tr><td>5</td><td>15</td><td>eval-741858d2e9162acf8d38-chunk-00016</td><td>0.033931</td><td>-</td><td>2) 진정 치료를 수행하는 의사는 진정 치료 전</td><td><pre>3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다.</pre></td></tr><tr><td>6</td><td>28</td><td>eval-741858d2e9162acf8d38-chunk-00029</td><td>0.03368</td><td>-</td><td>-</td><td><pre>[진정기록지]
+[간호기록]
+예시 ① 예시 ②</pre></td></tr></table></details>
+</section>
+</body></html>

@@ -1,0 +1,46 @@
+﻿id,category,question,expected_behavior,expected_intent,expected_topic,expected_branch,expected_phase,expected_qualifier,actual_kind,actual_domain,actual_topic,actual_branches,actual_requested_phase,pre_budget_reason,post_budget_reason,selected_evidence_count,pass,failure_category
+PROC01,procedure,진정절차 알려줘,answer,procedure,진정간호,both,,full_procedure,procedure,hospital,진정간호,"adult,pediatric",,supported,supported,12,True,
+PROC02,procedure,진정은 어떻게 해?,answer,procedure,진정간호,both,,full_procedure,procedure,hospital,진정간호,"adult,pediatric",,supported,supported,12,True,
+PROC03,procedure,진정 진행 순서는?,answer,procedure,진정간호,both,,full_procedure,procedure,hospital,진정간호,"adult,pediatric",,supported,supported,12,True,
+PROC04,procedure,진정 방법 알려줘,answer,procedure,진정간호,both,,full_procedure,procedure,hospital,진정간호,"adult,pediatric",,supported,supported,12,True,
+PROC05,procedure,진정간호는 어떤 순서로 시행해?,answer,procedure,진정간호,both,,full_procedure,procedure,hospital,진정간호,,,no_topic_evidence,,0,False,pre_budget:no_topic_evidence
+PURP01,purpose,진정 목적은?,answer,purpose,진정간호,any,,purpose,purpose,hospital,진정간호,,,supported,supported,1,True,
+PURP02,purpose,진정 왜 해?,answer,purpose,진정간호,any,,purpose,fact,hospital,진정간호,,,no_topic_evidence,,0,False,intent_mismatch
+PURP03,purpose,진정하는 이유 알려줘,answer,purpose,진정간호,any,,purpose,purpose,unknown,"진정하,이유",,,no_topic_evidence,,0,False,domain_not_hospital
+PURP04,purpose,진정간호를 시행하는 목적이 뭐야?,answer,purpose,진정간호,any,,purpose,purpose,hospital,진정간호,,,supported,supported,1,True,
+PREP01,preparation,진정 전에 뭐 확인해?,answer,preparation,진정간호,any,before,pre_sedation_check,preparation,hospital,진정간호,,,supported,supported,2,False,temporal_qualifier_mismatch
+PREP02,preparation,진정 준비 알려줘,answer,preparation,진정간호,any,,preparation,preparation,hospital,진정간호,,,supported,supported,2,True,
+PREP03,preparation,진정 전 체크사항은?,answer,preparation,진정간호,any,before,pre_sedation_check,preparation,hospital,진정간호,,before,supported,supported,3,True,
+PREP04,preparation,진정 전에 환자 상태를 어떻게 확인해?,answer,preparation,진정간호,any,before,patient_assessment,preparation,hospital,진정간호,,,supported,supported,4,False,temporal_qualifier_mismatch
+PREP05,preparation,진정 시행 전에 준비할 것은?,answer,preparation,진정간호,any,before,preparation,preparation,hospital,진정간호,,,supported,supported,2,False,temporal_qualifier_mismatch
+CAUT01,cautions,진정할 때 주의할 점은?,answer,cautions,진정간호,any,,safety,cautions,hospital,진정간호,,,supported,supported,1,True,
+CAUT02,cautions,진정 중 조심할 것은?,answer,cautions,진정간호,any,during,safety,cautions,hospital,진정간호,,during,supported,supported,1,True,
+CAUT03,cautions,진정 안전하게 보려면 뭐 확인해?,answer,cautions,진정간호,any,,safety_monitoring,cautions,hospital,진정간호,,,supported,supported,1,True,
+CAUT04,cautions,진정간호 주의사항 알려줘,answer,cautions,진정간호,any,,cautions,cautions,hospital,진정간호,,,supported,supported,1,True,
+CAUT05,cautions,진정 후 이상 증상은 무엇을 봐야 해?,answer,cautions,진정간호,any,after,post_sedation_symptoms,fact,hospital,진정간호,,after,no_topic_evidence,,0,False,intent_mismatch
+SUM01,summary_broad,진정에 대해 알려줘,answer,summary,진정간호,both,,broad_summary,fact,hospital,진정간호,,,no_topic_evidence,,0,False,intent_mismatch
+SUM02,summary_broad,소아 진정 알려줘,answer,summary,진정간호,pediatric,,branch_summary,fact,hospital,진정간호,,,no_topic_evidence,,0,False,intent_mismatch
+SUM03,summary_broad,성인 진정 알려줘,answer,summary,진정간호,adult,,branch_summary,fact,hospital,진정간호,,,no_topic_evidence,,0,False,intent_mismatch
+SUM04,summary_broad,진정간호 전체적으로 설명해줘,answer,summary,진정간호,both,,broad_summary,fact,hospital,진정간호,,,no_topic_evidence,,0,False,intent_mismatch
+SUM05,summary_broad,진정간호를 간단히 정리해줘,answer,summary,진정간호,both,,broad_summary,summary,hospital,진정간호,,,no_topic_evidence,,0,False,pre_budget:no_topic_evidence
+BR01,branch_specific,소아 진정 절차 알려줘,answer,procedure,진정간호,pediatric,,branch_procedure,procedure,hospital,진정간호,"adult,pediatric",,incomplete_semantic_block,,0,False,pre_budget:incomplete_semantic_block
+BR02,branch_specific,성인 진정 절차 알려줘,answer,procedure,진정간호,adult,,branch_procedure,procedure,hospital,진정간호,"adult,pediatric",,incomplete_semantic_block,,0,False,pre_budget:incomplete_semantic_block
+BR03,branch_specific,소아 진정 중 모니터링 알려줘,answer,cautions,진정간호,pediatric,during,monitoring,fact,hospital,진정간호,,during,no_topic_evidence,,0,False,intent_mismatch
+BR04,branch_specific,성인 진정 후 관찰 알려줘,answer,cautions,진정간호,adult,after,observation,cautions,hospital,진정간호,adult,after,supported,supported,5,True,
+BR05,branch_specific,소아 진정 전 확인사항 알려줘,answer,preparation,진정간호,pediatric,before,pre_sedation_check,fact,hospital,진정간호,,before,no_topic_evidence,,0,False,intent_mismatch
+BR06,branch_specific,성인 진정 중 투약과 관찰 방법은?,answer,procedure,진정간호,adult,during,medication_monitoring,cautions,hospital,진정간호,"adult,pediatric",during,supported,supported,11,False,intent_mismatch
+BR07,branch_specific,소아 진정 후 회복 관찰은?,answer,cautions,진정간호,pediatric,after,recovery_observation,cautions,hospital,진정간호,adult,after,supported,supported,6,False,branch_coverage_mismatch
+FACT01,fact_specific,소아 진정은 몇 분마다 확인해?,answer,fact,진정간호,pediatric,,monitoring_interval,fact,hospital,진정간호,,,no_topic_evidence,,0,False,pre_budget:no_topic_evidence
+FACT02,fact_specific,성인은 몇 분마다 모니터링해?,answer,fact,진정간호,adult,,monitoring_interval,fact,unknown,"성인,분마다,모니터링해",adult,,supported,supported,6,False,domain_not_hospital
+FACT03,fact_specific,진정 동의서는 언제 받아?,answer,fact,진정간호,any,,consent_timing,fact,hospital,진정간호,,,no_topic_evidence,,0,False,pre_budget:no_topic_evidence
+FACT04,fact_specific,진정 전 산소포화도 확인해?,answer,preparation,진정간호,any,before,oxygen_saturation,preparation,hospital,진정간호,,before,supported,supported,3,True,
+FACT05,fact_specific,진정 중 활력징후는 얼마나 자주 측정해?,answer,fact,진정간호,both,during,vital_sign_interval,fact,hospital,진정간호,,during,no_topic_evidence,,0,False,pre_budget:no_topic_evidence
+FACT06,fact_specific,진정 후 입원실로 이동하면 어떻게 관찰해?,answer,cautions,진정간호,any,after,transfer_observation,cautions,hospital,진정간호,,after,missing_requested_aspect,,0,False,pre_budget:missing_requested_aspect
+COMP01,comparison,성인과 소아 진정 차이 알려줘,answer,comparison,진정간호,both,,branch_comparison,comparison,hospital,진정간호,,,no_topic_evidence,,0,False,pre_budget:no_topic_evidence
+COMP02,comparison,성인과 소아 모니터링 간격 비교해줘,answer,comparison,진정간호,both,,monitoring_interval,comparison,unknown,"성인과,소아,모니터링,간격,비교해줘",adult,,supported,supported,7,False,domain_not_hospital
+COMP03,comparison,성인과 소아 진정 전 확인사항 비교해줘,answer,comparison,진정간호,both,before,pre_sedation_check,comparison,hospital,진정간호,,before,no_topic_evidence,,0,False,pre_budget:no_topic_evidence
+COMP04,comparison,성인과 소아 진정 후 관찰 방법이 어떻게 달라?,answer,comparison,진정간호,both,after,post_sedation_observation,cautions,hospital,진정간호,,after,missing_requested_aspect,,0,False,intent_mismatch
+NEG01,negative_out_of_scope,화성 우주선 궤도 공식은?,abstain,fact,,none,,out_of_scope,fact,out_of_scope,"화성,우주선,궤도,공식",,,domain_or_clarification,,0,True,
+NEG02,negative_out_of_scope,오늘 서울 날씨 알려줘,abstain,fact,,none,,out_of_scope,fact,out_of_scope,"오늘,서울,날씨",,,domain_or_clarification,,0,True,
+NEG03,negative_out_of_scope,비트코인 가격 전망 알려줘,abstain,fact,,none,,out_of_scope,fact,out_of_scope,"비트코인,가격,전망",,,domain_or_clarification,,0,True,
+NEG04,negative_out_of_scope,진정간호 지침과 상관없는 축구 경기 결과 알려줘,abstain,fact,,none,,out_of_scope,fact,hospital,진정간호,,,no_topic_evidence,,0,False,negative_domain_not_out_of_scope

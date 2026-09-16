@@ -1,0 +1,21 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<title>SCHAT unsupported sentence Mock 검수</title><style>
+body{font-family:system-ui,sans-serif;max-width:1100px;margin:24px auto;padding:0 16px;color:#17202a}
+table{border-collapse:collapse;width:100%}th,td{border:1px solid #ccd1d1;padding:8px;text-align:left}
+th{background:#eef3f6}.pass{color:#196f3d;font-weight:700}
+</style></head><body><h1>Unsupported sentence / strict schema Mock 검수</h1>
+<p>실제 Groq 호출 0회 · 생성 2026-09-13T23:27:23+09:00</p>
+<p class="pass">schema descriptions: True</p>
+<h2>MockTransport 경계</h2><table><thead><tr><th>case</th><th>호출</th><th>answerable</th>
+<th>failure code</th><th>validation reason</th></tr></thead><tbody><tr><td>exact</td><td>1</td><td>True</td><td>None</td><td>None</td></tr><tr><td>ending_changed</td><td>1</td><td>False</td><td>AI_EVIDENCE</td><td>unsupported sentence</td></tr><tr><td>fragment</td><td>1</td><td>False</td><td>AI_EVIDENCE</td><td>unsupported sentence</td></tr><tr><td>punctuation_changed</td><td>1</td><td>False</td><td>AI_EVIDENCE</td><td>unsupported sentence</td></tr><tr><td>paraphrase</td><td>1</td><td>False</td><td>AI_EVIDENCE</td><td>unsupported sentence</td></tr><tr><td>partial_quote</td><td>1</td><td>False</td><td>AI_EVIDENCE</td><td>unsupported sentence</td></tr><tr><td>bad_chunk</td><td>1</td><td>False</td><td>AI_EVIDENCE</td><td>citation</td></tr><tr><td>bad_quote</td><td>1</td><td>False</td><td>AI_EVIDENCE</td><td>citation</td></tr><tr><td>number</td><td>1</td><td>False</td><td>AI_EVIDENCE</td><td>number</td></tr><tr><td>action</td><td>1</td><td>False</td><td>AI_EVIDENCE</td><td>unsupported action</td></tr><tr><td>source_order</td><td>1</td><td>False</td><td>AI_EVIDENCE</td><td>procedure source order</td></tr><tr><td>unit</td><td>1</td><td>False</td><td>AI_EVIDENCE</td><td>unit</td></tr></tbody></table>
+<h2>Q002 불변성</h2><ul>
+<li>selected chunks: 12</li>
+<li>pre required gold: 10/10</li>
+<li>post required gold: 10/10</li>
+<li>parent partial inclusion: 0</li>
+<li>required branches: adult, pediatric</li>
+<li>source order: True</li></ul>
+<h2>Budget</h2><ul><li>reservation: 4410 / 5120</li>
+<li>headroom: 710 (required 353)</li></ul>
+<h2>Q006</h2><p>MockTransport 호출: 0회</p>
+</body></html>

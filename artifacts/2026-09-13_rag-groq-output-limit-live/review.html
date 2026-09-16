@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SCHAT Groq Output Limit Live 평가</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 1100px; margin: 32px auto; padding: 0 20px; color: #1f2937; line-height: 1.55; }
+    h1, h2 { color: #111827; }
+    .notice { padding: 12px 16px; border-left: 4px solid #b45309; background: #fffbeb; }
+    .ok { color: #166534; font-weight: 700; }
+    .fail { color: #b91c1c; font-weight: 700; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0 28px; }
+    th, td { border: 1px solid #d1d5db; padding: 8px 10px; text-align: left; vertical-align: top; }
+    th { background: #f3f4f6; }
+    code { background: #f3f4f6; padding: 1px 4px; }
+  </style>
+</head>
+<body>
+  <h1>Q002 Groq Output Limit 단일 Live 평가</h1>
+  <p class="notice">Q002 실제 Groq 호출은 정확히 1회, Q006은 0회입니다. 재시도·fallback·추가 호출은 수행하지 않았습니다. API key, Authorization header, 전체 prompt와 raw response/content는 저장하지 않았습니다.</p>
+
+  <h2>호출 및 응답</h2>
+  <table>
+    <tr><th>항목</th><th>결과</th><th>판정</th></tr>
+    <tr><td>HTTP status</td><td>200</td><td class="ok">통과</td></tr>
+    <tr><td>반환 모델</td><td><code>openai/gpt-oss-20b</code></td><td class="ok">통과</td></tr>
+    <tr><td>finish_reason</td><td><code>stop</code></td><td class="ok">통과</td></tr>
+    <tr><td>prompt / completion / total</td><td>2445 / 835 / 3280</td><td class="ok">completion &lt; 2048</td></tr>
+    <tr><td>latency</td><td>1482.87 ms</td><td>기록</td></tr>
+    <tr><td>response_parse_stage</td><td><code>validation</code></td><td class="fail">complete 미도달</td></tr>
+    <tr><td>failure code</td><td><code>AI_EVIDENCE</code></td><td class="fail">안전 차단</td></tr>
+    <tr><td>failure detail</td><td>없음</td><td>response envelope 오류 아님</td></tr>
+    <tr><td>validation reason</td><td><code>unsupported sentence</code></td><td class="fail">원문 문장 계약 불충족</td></tr>
+  </table>
+
+  <h2>Evidence 및 Answer</h2>
+  <table>
+    <tr><th>항목</th><th>결과</th></tr>
+    <tr><td>선택 evidence</td><td>12 chunks</td></tr>
+    <tr><td>필수 gold recall</td><td class="ok">pre 10/10, post 10/10</td></tr>
+    <tr><td>answerable</td><td class="fail">false — 검증된 Answer 없음</td></tr>
+    <tr><td>statement 수</td><td>0 — 안전 차단 후 반환된 statement 기준</td></tr>
+    <tr><td>exact quote/chunk citation</td><td class="fail">정상 완료하지 못함</td></tr>
+    <tr><td>citation coverage</td><td>미평가 (기계적 산출 값 0.0)</td></tr>
+    <tr><td>source order</td><td>저장 값 true이나 statement 0건이므로 실질 검증 불가</td></tr>
+    <tr><td>근거 없는 숫자·단위·조건·행동</td><td>개별 유형 미평가; 최소 1개 unsupported sentence 감지</td></tr>
+  </table>
+
+  <h2>Q006</h2>
+  <table>
+    <tr><th>실제 Groq 호출</th><th>llm_called</th><th>차단 사유</th></tr>
+    <tr><td class="ok">0회</td><td>false</td><td><code>pre_llm:domain_or_clarification</code></td></tr>
+  </table>
+
+  <h2>선택 evidence chunk IDs</h2>
+  <ol>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00013</code></li>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00015</code></li>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00016</code></li>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00019</code></li>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00020</code></li>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00021</code></li>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00022</code></li>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00023</code></li>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00024</code></li>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00025</code></li>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00026</code></li>
+    <li><code>eval-741858d2e9162acf8d38-chunk-00027</code></li>
+  </ol>
+</body>
+</html>

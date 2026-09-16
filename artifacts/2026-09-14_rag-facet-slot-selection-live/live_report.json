@@ -1,0 +1,216 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-14T21:29:10+09:00",
+  "constraints": {
+    "retry": 0,
+    "fallback": 0,
+    "web_search": 0,
+    "maximum_actual_groq_calls": 5,
+    "raw_response_stored": false,
+    "prompt_stored": false,
+    "exact_source_unit_text_stored": false
+  },
+  "q006": {
+    "transport_calls": 0,
+    "llm_called": false,
+    "catalog_units": 0,
+    "fixed_abstention": "등록된 지침서에서 확인할 수 없습니다.",
+    "pass": true
+  },
+  "q002": {
+    "case_id": "Q002",
+    "question": "진정간호 절차는?",
+    "retrieved_hits": 12,
+    "selected_evidence_chunks": 12,
+    "selected_evidence_chunk_ids": [
+      "eval-741858d2e9162acf8d38-chunk-00013",
+      "eval-741858d2e9162acf8d38-chunk-00015",
+      "eval-741858d2e9162acf8d38-chunk-00016",
+      "eval-741858d2e9162acf8d38-chunk-00019",
+      "eval-741858d2e9162acf8d38-chunk-00020",
+      "eval-741858d2e9162acf8d38-chunk-00021",
+      "eval-741858d2e9162acf8d38-chunk-00022",
+      "eval-741858d2e9162acf8d38-chunk-00023",
+      "eval-741858d2e9162acf8d38-chunk-00024",
+      "eval-741858d2e9162acf8d38-chunk-00025",
+      "eval-741858d2e9162acf8d38-chunk-00026",
+      "eval-741858d2e9162acf8d38-chunk-00027"
+    ],
+    "actual_groq_calls": 1,
+    "http_status": 200,
+    "model_returned": "openai/gpt-oss-20b",
+    "finish_reason": "stop",
+    "latency_ms": 1669.46,
+    "tokens": {
+      "prompt_tokens": 2058,
+      "completion_tokens": 578,
+      "total_tokens": 2636
+    },
+    "reserved_tokens": 4259,
+    "response_parse_stage": "complete",
+    "failure_code": null,
+    "validation_reason": null,
+    "block_reason": null,
+    "selected_source_unit_count": 11,
+    "required_facet_count": 41,
+    "selected_facet_count": 41,
+    "group_counts": [
+      {
+        "prompt_group_id": "g1",
+        "branch": "common",
+        "required": true,
+        "selected_count": 1
+      },
+      {
+        "prompt_group_id": "g2",
+        "branch": "common",
+        "required": true,
+        "selected_count": 1
+      },
+      {
+        "prompt_group_id": "g3",
+        "branch": "common",
+        "required": true,
+        "selected_count": 1
+      },
+      {
+        "prompt_group_id": "g4",
+        "branch": "adult",
+        "required": true,
+        "selected_count": 5
+      },
+      {
+        "prompt_group_id": "g5",
+        "branch": "pediatric",
+        "required": true,
+        "selected_count": 3
+      }
+    ],
+    "coverage": {
+      "required_group_count": 5,
+      "covered_group_count": 5,
+      "required_branches": [
+        "adult",
+        "pediatric"
+      ],
+      "covered_branches": [
+        "adult",
+        "pediatric"
+      ],
+      "required_phase_count": 7,
+      "covered_phase_count": 7,
+      "required_action_count": 21,
+      "covered_action_count": 21,
+      "required_action_families": [
+        "assessment",
+        "execution",
+        "documentation",
+        "communication",
+        "monitoring",
+        "transfer"
+      ],
+      "selected_action_families": [
+        "assessment",
+        "execution",
+        "documentation",
+        "communication",
+        "monitoring",
+        "transfer"
+      ],
+      "complete": true,
+      "reason": ""
+    },
+    "server_answerable": true,
+    "verified_statement_count": 11,
+    "citation_coverage": 1.0,
+    "citation_assessment": "supported",
+    "duplicate_evidence": false,
+    "citation_branch_metadata": "server_evidence_group",
+    "source_order_reversal": 0,
+    "unsupported": {
+      "number": 0,
+      "unit": 0,
+      "condition": 0,
+      "negation": 0,
+      "action": 0
+    },
+    "citations": [
+      {
+        "document_name": "실무지침서_진정간호.pdf",
+        "page": 2,
+        "section": "6. 진정 절차"
+      },
+      {
+        "document_name": "실무지침서_진정간호.pdf",
+        "page": 2,
+        "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전"
+      },
+      {
+        "document_name": "실무지침서_진정간호.pdf",
+        "page": 2,
+        "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전"
+      },
+      {
+        "document_name": "실무지침서_진정간호.pdf",
+        "page": 3,
+        "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후"
+      },
+      {
+        "document_name": "실무지침서_진정간호.pdf",
+        "page": 3,
+        "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후"
+      },
+      {
+        "document_name": "실무지침서_진정간호.pdf",
+        "page": 3,
+        "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후"
+      },
+      {
+        "document_name": "실무지침서_진정간호.pdf",
+        "page": 3,
+        "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후"
+      },
+      {
+        "document_name": "실무지침서_진정간호.pdf",
+        "page": 4,
+        "section": ""
+      },
+      {
+        "document_name": "실무지침서_진정간호.pdf",
+        "page": 4,
+        "section": ""
+      },
+      {
+        "document_name": "실무지침서_진정간호.pdf",
+        "page": 4,
+        "section": ""
+      }
+    ],
+    "final_answer": {
+      "stored": false,
+      "answerable": true,
+      "statement_count": 11,
+      "sha256": "f64990b50aa35f48955db8e3ac7c158531e2e7336c4748c234f952fcb25b73fc"
+    },
+    "pass": true,
+    "retrieval_gold": {
+      "pre_required": {
+        "recalled": 10,
+        "total": 10,
+        "recall": 1.0
+      },
+      "post_required": {
+        "recalled": 10,
+        "total": 10,
+        "recall": 1.0
+      }
+    },
+    "prompt_budget": {
+      "reservation": 4259,
+      "headroom": 861
+    }
+  },
+  "q002_rag_complete": true,
+  "verdict": "Q002 기준 RAG 엔진 Live 완주",
+  "actual_groq_calls": 2
+}

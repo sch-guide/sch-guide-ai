@@ -1,0 +1,486 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-13T22:27:36+09:00",
+  "mode": "live-groq-single-call",
+  "actual_groq_calls": 1,
+  "constraints": {
+    "automatic_retry": false,
+    "fallback_model": false,
+    "web_search": false,
+    "request_token_budget": 3500,
+    "prompt_schema_version": 2
+  },
+  "q006": {
+    "question": "화성 우주선의 궤도 계산 공식은?",
+    "llm_called": false,
+    "transport_calls": 0,
+    "result": "등록된 지침서에서 확인할 수 없습니다.",
+    "abstention_reason": "pre_llm:domain_or_clarification"
+  },
+  "q002": {
+    "question": "진정간호 절차는?",
+    "model_requested": "openai/gpt-oss-20b",
+    "model_returned": "openai/gpt-oss-20b",
+    "http_status": 200,
+    "finish_reason": "length",
+    "llm_called": true,
+    "transport_calls": 1,
+    "latency_ms": 1312.0,
+    "input_tokens": 2445,
+    "output_tokens": 768,
+    "total_tokens": 3213,
+    "reserved_tokens": 3130,
+    "prompt_schema_version": 2,
+    "selected_evidence_chunk_ids": [
+      "eval-741858d2e9162acf8d38-chunk-00013",
+      "eval-741858d2e9162acf8d38-chunk-00015",
+      "eval-741858d2e9162acf8d38-chunk-00016",
+      "eval-741858d2e9162acf8d38-chunk-00019",
+      "eval-741858d2e9162acf8d38-chunk-00020",
+      "eval-741858d2e9162acf8d38-chunk-00021",
+      "eval-741858d2e9162acf8d38-chunk-00022",
+      "eval-741858d2e9162acf8d38-chunk-00023",
+      "eval-741858d2e9162acf8d38-chunk-00024",
+      "eval-741858d2e9162acf8d38-chunk-00025",
+      "eval-741858d2e9162acf8d38-chunk-00026",
+      "eval-741858d2e9162acf8d38-chunk-00027"
+    ],
+    "cited_chunk_ids": [],
+    "pre_gold_recall": {
+      "required": {
+        "recalled": 10,
+        "total": 10,
+        "recall": 1.0
+      },
+      "supplemental": {
+        "recalled": 2,
+        "total": 3,
+        "recall": 0.6666666666666666
+      },
+      "details": [
+        {
+          "stage_id": "common-order",
+          "label": "QSED 처방 확인",
+          "importance": "required",
+          "branch": "common",
+          "source_order": 1,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00013"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00013"
+          ]
+        },
+        {
+          "stage_id": "common-pre-assessment",
+          "label": "진정 전 환자 평가와 계획 수립",
+          "importance": "required",
+          "branch": "common",
+          "source_order": 2,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00015"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00015"
+          ]
+        },
+        {
+          "stage_id": "common-explanation-consent",
+          "label": "설명과 동의서 확인",
+          "importance": "required",
+          "branch": "common",
+          "source_order": 3,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00016"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00016"
+          ]
+        },
+        {
+          "stage_id": "common-record-scope",
+          "label": "진정 전·중·후 기록 범위",
+          "importance": "required",
+          "branch": "common",
+          "source_order": 4,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00019"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00019"
+          ]
+        },
+        {
+          "stage_id": "adult-before",
+          "label": "성인 진정 전 활력징후와 산소포화도 확인",
+          "importance": "required",
+          "branch": "adult",
+          "source_order": 5,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00020"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00020"
+          ]
+        },
+        {
+          "stage_id": "adult-during",
+          "label": "성인 진정 중 투약과 주기적 모니터링",
+          "importance": "required",
+          "branch": "adult",
+          "source_order": 6,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00021"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00021"
+          ]
+        },
+        {
+          "stage_id": "adult-after",
+          "label": "성인 진정 후 회복 모니터링과 이동",
+          "importance": "required",
+          "branch": "adult",
+          "source_order": 7,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00022"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00022"
+          ]
+        },
+        {
+          "stage_id": "pediatric-before",
+          "label": "소아 진정 전 활력징후 확인과 투약",
+          "importance": "required",
+          "branch": "pediatric",
+          "source_order": 8,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00023"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00023"
+          ]
+        },
+        {
+          "stage_id": "pediatric-during",
+          "label": "소아 진정 중 주기적 모니터링",
+          "importance": "required",
+          "branch": "pediatric",
+          "source_order": 9,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00024"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00024"
+          ]
+        },
+        {
+          "stage_id": "pediatric-after",
+          "label": "소아 조건별 혈압 측정과 진정 후 회복 모니터링",
+          "importance": "required",
+          "branch": "pediatric",
+          "source_order": 10,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00025"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00025"
+          ]
+        },
+        {
+          "stage_id": "pediatric-transfer-monitor",
+          "label": "소아 이동과 대체 모니터 적용",
+          "importance": "supplemental",
+          "branch": "pediatric",
+          "source_order": 11,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00026"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00026"
+          ]
+        },
+        {
+          "stage_id": "pediatric-discharge-record",
+          "label": "소아 퇴실 기록과 기준 확인",
+          "importance": "supplemental",
+          "branch": "pediatric",
+          "source_order": 12,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00027"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00027"
+          ]
+        },
+        {
+          "stage_id": "common-discharge-education",
+          "label": "귀가 시 퇴실 교육",
+          "importance": "supplemental",
+          "branch": "common",
+          "source_order": 13,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00028"
+          ],
+          "recalled": false,
+          "matched_chunk_ids": []
+        }
+      ]
+    },
+    "post_gold_recall": {
+      "required": {
+        "recalled": 10,
+        "total": 10,
+        "recall": 1.0
+      },
+      "supplemental": {
+        "recalled": 2,
+        "total": 3,
+        "recall": 0.6666666666666666
+      },
+      "details": [
+        {
+          "stage_id": "common-order",
+          "label": "QSED 처방 확인",
+          "importance": "required",
+          "branch": "common",
+          "source_order": 1,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00013"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00013"
+          ]
+        },
+        {
+          "stage_id": "common-pre-assessment",
+          "label": "진정 전 환자 평가와 계획 수립",
+          "importance": "required",
+          "branch": "common",
+          "source_order": 2,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00015"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00015"
+          ]
+        },
+        {
+          "stage_id": "common-explanation-consent",
+          "label": "설명과 동의서 확인",
+          "importance": "required",
+          "branch": "common",
+          "source_order": 3,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00016"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00016"
+          ]
+        },
+        {
+          "stage_id": "common-record-scope",
+          "label": "진정 전·중·후 기록 범위",
+          "importance": "required",
+          "branch": "common",
+          "source_order": 4,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00019"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00019"
+          ]
+        },
+        {
+          "stage_id": "adult-before",
+          "label": "성인 진정 전 활력징후와 산소포화도 확인",
+          "importance": "required",
+          "branch": "adult",
+          "source_order": 5,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00020"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00020"
+          ]
+        },
+        {
+          "stage_id": "adult-during",
+          "label": "성인 진정 중 투약과 주기적 모니터링",
+          "importance": "required",
+          "branch": "adult",
+          "source_order": 6,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00021"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00021"
+          ]
+        },
+        {
+          "stage_id": "adult-after",
+          "label": "성인 진정 후 회복 모니터링과 이동",
+          "importance": "required",
+          "branch": "adult",
+          "source_order": 7,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00022"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00022"
+          ]
+        },
+        {
+          "stage_id": "pediatric-before",
+          "label": "소아 진정 전 활력징후 확인과 투약",
+          "importance": "required",
+          "branch": "pediatric",
+          "source_order": 8,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00023"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00023"
+          ]
+        },
+        {
+          "stage_id": "pediatric-during",
+          "label": "소아 진정 중 주기적 모니터링",
+          "importance": "required",
+          "branch": "pediatric",
+          "source_order": 9,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00024"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00024"
+          ]
+        },
+        {
+          "stage_id": "pediatric-after",
+          "label": "소아 조건별 혈압 측정과 진정 후 회복 모니터링",
+          "importance": "required",
+          "branch": "pediatric",
+          "source_order": 10,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00025"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00025"
+          ]
+        },
+        {
+          "stage_id": "pediatric-transfer-monitor",
+          "label": "소아 이동과 대체 모니터 적용",
+          "importance": "supplemental",
+          "branch": "pediatric",
+          "source_order": 11,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00026"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00026"
+          ]
+        },
+        {
+          "stage_id": "pediatric-discharge-record",
+          "label": "소아 퇴실 기록과 기준 확인",
+          "importance": "supplemental",
+          "branch": "pediatric",
+          "source_order": 12,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00027"
+          ],
+          "recalled": true,
+          "matched_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00027"
+          ]
+        },
+        {
+          "stage_id": "common-discharge-education",
+          "label": "귀가 시 퇴실 교육",
+          "importance": "supplemental",
+          "branch": "common",
+          "source_order": 13,
+          "allowed_chunk_ids": [
+            "eval-741858d2e9162acf8d38-chunk-00028"
+          ],
+          "recalled": false,
+          "matched_chunk_ids": []
+        }
+      ]
+    },
+    "statement_count": 0,
+    "statements": [],
+    "citation_coverage": 0.0,
+    "exact_citation_validation": null,
+    "source_ordered": null,
+    "validation_passed": false,
+    "request_error": "AI_INCOMPLETE",
+    "failure_code": "AI_INCOMPLETE",
+    "validation_reason": null,
+    "abstention_reason": null,
+    "answerable": false,
+    "trace_summary": {
+      "stage": "llm_request",
+      "budget_assessment": "supported",
+      "estimated_request_tokens": 3130,
+      "request_token_headroom": 370,
+      "required_group_keys": [
+        "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00011",
+        "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00013",
+        "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00014",
+        "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00017",
+        "eval-741858d2e9162acf8d38:eval-741858d2e9162acf8d38-parent-00018"
+      ],
+      "response_http_status": 200,
+      "response_model": "openai/gpt-oss-20b",
+      "response_usage": {
+        "prompt_tokens": 2445,
+        "completion_tokens": 768,
+        "total_tokens": 3213
+      },
+      "finish_reason": "length",
+      "llm_error_code": "AI_INCOMPLETE",
+      "response_parse_stage": "finish",
+      "response_failure_detail": "finish_reason",
+      "response_json_succeeded": true,
+      "response_top_level_type": "object",
+      "response_choices_present": true,
+      "response_choices_count": 1,
+      "response_choice0_type": "object",
+      "response_finish_reason_present": true,
+      "response_message_present": null,
+      "response_message_type": null,
+      "response_content_present": null,
+      "response_content_type": null,
+      "response_content_char_count": null,
+      "response_refusal_present": null,
+      "response_refusal_non_null": null
+    }
+  }
+}

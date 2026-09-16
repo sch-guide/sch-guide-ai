@@ -1,0 +1,17 @@
+{
+  "classification": "schema rejection",
+  "classification_scope": "Groq request/structured-output schema boundary",
+  "confirmed_stage": "HTTP response before response JSON parsing",
+  "http_status": 400,
+  "response_parse_stage": "http",
+  "failure_code": "AI_SERVER",
+  "specific_provider_rejection_reason_confirmed": false,
+  "provider_error_body_inspected_or_saved": false,
+  "q006_actual_transport_calls": 0,
+  "q002_actual_groq_calls": 1,
+  "automatic_retry_calls": 0,
+  "fallback_calls": 0,
+  "web_search_calls": 0,
+  "additional_groq_calls_after_failure": 0,
+  "production_code_changed_after_live_failure": false
+}

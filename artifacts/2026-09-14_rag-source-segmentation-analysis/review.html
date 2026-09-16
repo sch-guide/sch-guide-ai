@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Q002 Source Unit 43개 검수</title>
+  <style>
+    :root { color-scheme: light; --ok:#e9f8ee; --no:#fff0f0; --warn:#fff7d6; --line:#d8dee8; --ink:#172033; }
+    body { margin:0; font-family:system-ui,"Malgun Gothic",sans-serif; color:var(--ink); background:#f5f7fb; }
+    main { max-width:1500px; margin:auto; padding:28px; }
+    h1 { margin:0 0 8px; font-size:1.75rem; }
+    .meta,.note { background:white; border:1px solid var(--line); border-radius:10px; padding:14px 18px; margin:14px 0; }
+    .summary { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; margin:16px 0; }
+    .card { background:white; border:1px solid var(--line); border-radius:10px; padding:14px; }
+    .card strong { display:block; font-size:1.45rem; margin-top:4px; }
+    table { width:100%; border-collapse:collapse; background:white; font-size:14px; }
+    th,td { border:1px solid var(--line); padding:8px; vertical-align:top; }
+    th { position:sticky; top:0; background:#24324a; color:white; z-index:1; }
+    td.text { min-width:480px; white-space:pre-wrap; line-height:1.45; }
+    tr.ok { background:var(--ok); }
+    tr.no { background:var(--no); }
+    tr.warn { background:var(--warn); }
+    code { white-space:nowrap; }
+    .yes { color:#08752c; font-weight:700; } .false { color:#ad1f1f; font-weight:700; }
+    .focus td:first-child { box-shadow:inset 5px 0 #8a5a00; }
+    footer { color:#596579; margin:18px 0; }
+  </style>
+</head>
+<body><main>
+  <h1>Q002 selected evidence — source unit 43개 수동 검수</h1>
+  <div class="meta">
+    <div>기준: 현재 <code>source_sentences()</code>, selected evidence 12 chunks</div>
+    <div>생성일: 2026-09-14 · 실제 Groq 호출 0회 · production 코드 변경 없음</div>
+    <div>branch는 현재 EvidenceGroup 파생값이다. <code>00019</code>는 gold상 common stage지만 adult marker가 있는 동일 parent group에 묶여 현재 group branch는 adult다.</div>
+  </div>
+  <div class="summary">
+    <div class="card">Raw units<strong>43</strong></div>
+    <div class="card">현재 selectable 예상<strong>19</strong></div>
+    <div class="card">Heading/header/caption<strong>16</strong></div>
+    <div class="card">Orphan fragment<strong>2</strong></div>
+    <div class="card">과분할 unit<strong>6 (3쌍)</strong></div>
+  </div>
+  <div class="note">색상: 초록=현재 선택 가능 예상, 빨강=선택 부적합, 노랑=결합 후 선택 가능. 굵은 왼쪽 표시는 요청된 gold 집중 검토 unit이다.</div>
+  <table>
+    <thead><tr><th>#</th><th>chunk_id</th><th>position</th><th>branch</th><th>원문</th><th>selectable 예상</th><th>분할 이상/분류</th></tr></thead>
+    <tbody>
+      <tr class="no"><td>1</td><td><code>00013</code></td><td>1</td><td>common</td><td class="text">6. 진정 절차</td><td class="false">false</td><td>section heading을 unit으로 반환</td></tr>
+      <tr class="ok"><td>2</td><td><code>00013</code></td><td>2</td><td>common</td><td class="text">1) 진정 QSED 처방을 확인한다.</td><td class="yes">true</td><td>완전한 번호 action 문장</td></tr>
+      <tr class="ok"><td>3</td><td><code>00015</code></td><td>1</td><td>common</td><td class="text">2) 진정 치료를 수행하는 의사는 진정 치료 전 진정 전 환자 평가서를 이용하여 환자 상태를 평가하고 모니터링하여 적합한 진정 치료를 계획한다.</td><td class="yes">true</td><td>wrapped line 결합 정상</td></tr>
+      <tr class="no"><td>4</td><td><code>00015</code></td><td>2</td><td>common</td><td class="text">* 의사가 작성한 진정 전 환자평가서 확인 방법</td><td class="false">false</td><td>caption/방법 heading</td></tr>
+      <tr class="ok"><td>5</td><td><code>00016</code></td><td>1</td><td>common</td><td class="text">3) 계획한 진정 치료에 대해 설명하고 진정 동의서를 받는다.</td><td class="yes">true</td><td>완전한 번호 action 문장</td></tr>
+      <tr class="ok"><td>6</td><td><code>00019</code></td><td>1</td><td>adult (group)</td><td class="text">4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후 환자 상태를 평가하고 모니터링하여 기록한다.</td><td class="yes">true</td><td>문장 결합 정상; gold branch는 common</td></tr>
+      <tr class="no"><td>7</td><td><code>00019</code></td><td>2</td><td>adult (group)</td><td class="text">* 진정 평가 기록지(동의서 및 기타 출력서식 출력 → 작성 후 OCR 반납)</td><td class="false">false</td><td>caption/명사구; 독립 답변 문장 아님</td></tr>
+      <tr class="no"><td>8</td><td><code>00019</code></td><td>3</td><td>adult (group)</td><td class="text">* 진정 중 서면 기록지 출력 방법</td><td class="false">false</td><td>caption; 다음 chunk #1과 중복</td></tr>
+      <tr class="no"><td>9</td><td><code>00020</code></td><td>1</td><td>adult</td><td class="text">* 진정 중 서면 기록지 출력 방법</td><td class="false">false</td><td>caption; 이전 chunk와 중복</td></tr>
+      <tr class="ok"><td>10</td><td><code>00020</code></td><td>2</td><td>adult</td><td class="text">(출력물을 지참하여 검사실에서 수기로 작성 후 EMR 진정 기록지에 입력한다.)</td><td class="yes">true</td><td>괄호형이지만 의미 완결</td></tr>
+      <tr class="no"><td>11</td><td><code>00020</code></td><td>3</td><td>adult</td><td class="text">진정 기록지 작성 방법 [성인]</td><td class="false">false</td><td>branch heading</td></tr>
+      <tr class="ok"><td>12</td><td><code>00020</code></td><td>4</td><td>adult</td><td class="text">① 진정 치료 전 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.</td><td class="yes">true</td><td>번호 heading+action 결합 정상</td></tr>
+      <tr class="no"><td>13</td><td><code>00020</code></td><td>5</td><td>adult</td><td class="text">② 진정 약물 투여</td><td class="false">false</td><td>단계 heading; 다음 chunk #1과 중복</td></tr>
+      <tr class="no"><td>14</td><td><code>00021</code></td><td>1</td><td>adult</td><td class="text">② 진정 약물 투여</td><td class="false">false</td><td>단계 heading</td></tr>
+      <tr class="ok focus"><td>15</td><td><code>00021</code></td><td>2</td><td>adult</td><td class="text">처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.</td><td class="yes">true</td><td>gold 집중: 완전 action 문장</td></tr>
+      <tr class="no"><td>16</td><td><code>00021</code></td><td>3</td><td>adult</td><td class="text">③ 진정 치료 중</td><td class="false">false</td><td>단계 heading</td></tr>
+      <tr class="ok focus"><td>17</td><td><code>00021</code></td><td>4</td><td>adult</td><td class="text">15분 간격으로 활력징후, 산소포화도, 의식상태(MOAA/S scale)를 평가하고 모니터링하여 기록한다.</td><td class="yes">true</td><td>gold 집중: wrapped line 결합 정상</td></tr>
+      <tr class="no"><td>18</td><td><code>00021</code></td><td>5</td><td>adult</td><td class="text">④ 진정 치료 후</td><td class="false">false</td><td>단계 heading</td></tr>
+      <tr class="no"><td>19</td><td><code>00022</code></td><td>1</td><td>adult</td><td class="text">기록한다.</td><td class="false">false</td><td>orphan overlap continuation</td></tr>
+      <tr class="ok focus"><td>20</td><td><code>00022</code></td><td>2</td><td>adult</td><td class="text">④ 진정 치료 후 회복 시까지 활력징후와 회복 상태를 15분 간격으로 평가하고 모니터링하여 기록한다.</td><td class="yes">true</td><td>gold 집중: 번호 heading+action 완전</td></tr>
+      <tr class="ok focus"><td>21</td><td><code>00022</code></td><td>3</td><td>adult</td><td class="text">⑤ 회복실이 없는 검사실에서 검사를 진행한 입원환자는 입원실로 이동하여 모니터링을 한다.</td><td class="yes">true</td><td>gold 집중: 완전 action 문장</td></tr>
+      <tr class="no"><td>22</td><td><code>00023</code></td><td>1</td><td>pediatric</td><td class="text">간호실무지침</td><td class="false">false</td><td>running header</td></tr>
+      <tr class="no"><td>23</td><td><code>00023</code></td><td>2</td><td>pediatric</td><td class="text">진정 기록지 작성 방법 [소아]</td><td class="false">false</td><td>branch heading</td></tr>
+      <tr class="ok focus"><td>24</td><td><code>00023</code></td><td>3</td><td>pediatric</td><td class="text">① 진정 치료 전 활력징후와 산소포화도를 평가하고 모니터링하여 기록한다.</td><td class="yes">true</td><td>gold 집중: 완전 단계 문장</td></tr>
+      <tr class="no"><td>25</td><td><code>00023</code></td><td>4</td><td>pediatric</td><td class="text">② 진정 약물 투여</td><td class="false">false</td><td>단계 heading</td></tr>
+      <tr class="ok focus"><td>26</td><td><code>00023</code></td><td>5</td><td>pediatric</td><td class="text">처방 받은 약물을 투약하고 약품명, 용량, 용법을 기록하고 서명한다.</td><td class="yes">true</td><td>gold 집중: 완전 action 문장</td></tr>
+      <tr class="no"><td>27</td><td><code>00023</code></td><td>6</td><td>pediatric</td><td class="text">③ 진정 치료 중</td><td class="false">false</td><td>단계 heading; 다음 chunk #1과 중복</td></tr>
+      <tr class="no"><td>28</td><td><code>00024</code></td><td>1</td><td>pediatric</td><td class="text">③ 진정 치료 중</td><td class="false">false</td><td>단계 heading</td></tr>
+      <tr class="ok focus"><td>29</td><td><code>00024</code></td><td>2</td><td>pediatric</td><td class="text">10분 간격으로 호흡수, 맥박, 산소포화도, 의식상태(MOAA/S scale)를 평가하고 모니터링하여 기록한다.</td><td class="yes">true</td><td>gold 집중: wrapped line 결합 정상</td></tr>
+      <tr class="ok"><td>30</td><td><code>00024</code></td><td>3</td><td>pediatric</td><td class="text">- 필요시 해당과 의사의 판단 하에 5분 간격으로 평가, 기록한다.</td><td class="yes">true</td><td>완전한 조건부 bullet</td></tr>
+      <tr class="warn focus"><td>31</td><td><code>00025</code></td><td>1</td><td>pediatric</td><td class="text">- 혈압은 진정 치료 중, 후 필요시(산소포화도 95% 미만, 정상 심박수 범위를 벗어날 때)</td><td class="false">false</td><td>gold 집중: 과분할 앞부분; #2와 결합 필요</td></tr>
+      <tr class="warn focus"><td>32</td><td><code>00025</code></td><td>2</td><td>pediatric</td><td class="text">해당과 의사의 판단 하에 5분 간격으로 평가하고 기록한다.</td><td class="false">false</td><td>gold 집중: 과분할 뒷부분; #1과 결합 필요</td></tr>
+      <tr class="ok focus"><td>33</td><td><code>00025</code></td><td>3</td><td>pediatric</td><td class="text">④ 진정 치료 후 회복 시까지 호흡수, 맥박, 산소포화도와 회복상태를 10분 간격으로 평가하고 모니터링하여 기록한다.</td><td class="yes">true</td><td>gold 집중: wrapped line 결합 정상</td></tr>
+      <tr class="no"><td>34</td><td><code>00026</code></td><td>1</td><td>pediatric</td><td class="text">기록한다.</td><td class="false">false</td><td>orphan overlap continuation</td></tr>
+      <tr class="ok"><td>35</td><td><code>00026</code></td><td>2</td><td>pediatric</td><td class="text">⑤ 회복실이 없는 검사실에서 검사를 진행한 입원환자는 입원실로 이동하여 모니터링을 한다.</td><td class="yes">true</td><td>완전 action 문장</td></tr>
+      <tr class="no"><td>36</td><td><code>00026</code></td><td>3</td><td>pediatric</td><td class="text">공통사항</td><td class="false">false</td><td>heading</td></tr>
+      <tr class="warn"><td>37</td><td><code>00026</code></td><td>4</td><td>pediatric</td><td class="text">Ÿ 진정 치료 진행 시 Patient Monitor를 연결하지 못하는 경우 Oxymetry를 통해 맥박과 산소</td><td class="false">false</td><td>과분할 앞부분; Ÿ bullet과 wrapped line</td></tr>
+      <tr class="warn"><td>38</td><td><code>00026</code></td><td>5</td><td>pediatric</td><td class="text">포화도를 확인하여 기록한다.</td><td class="false">false</td><td>과분할 뒷부분; #4와 결합 필요</td></tr>
+      <tr class="ok"><td>39</td><td><code>00026</code></td><td>6</td><td>pediatric</td><td class="text">검사 중으로 호흡수 측정하지 못할 경우 ‘검사 중’으로 기록 한다.</td><td class="yes">true</td><td>완전 조건부 문장</td></tr>
+      <tr class="ok"><td>40</td><td><code>00027</code></td><td>1</td><td>pediatric</td><td class="text">Ÿ 퇴실 기록 : 퇴실 장소(검사실), 퇴실 시간(검사실 퇴실 시간)</td><td class="yes">true</td><td>독립적으로 완결된 표형 행</td></tr>
+      <tr class="ok"><td>41</td><td><code>00027</code></td><td>2</td><td>pediatric</td><td class="text">Ÿ 진정 회복 후 퇴실 기준은 Modified Aldrete Score 9점 이상이다.</td><td class="yes">true</td><td>완전 기준 문장</td></tr>
+      <tr class="warn"><td>42</td><td><code>00027</code></td><td>3</td><td>pediatric</td><td class="text">Ÿ 필요 시 퇴실 기준을 만족하지 못해도 의사의 판단에 따라 퇴실할 수 있으며 퇴실 기록에</td><td class="false">false</td><td>과분할 앞부분; #4와 결합 필요</td></tr>
+      <tr class="warn"><td>43</td><td><code>00027</code></td><td>4</td><td>pediatric</td><td class="text">그 사유를 기록한다.</td><td class="false">false</td><td>과분할 뒷부분; #3과 결합 필요</td></tr>
+    </tbody>
+  </table>
+  <footer>이 HTML은 사람이 segmentation과 예상 eligibility를 검수하기 위한 정적 산출물이다. 판정은 production 코드에 반영되지 않았다.</footer>
+</main></body></html>

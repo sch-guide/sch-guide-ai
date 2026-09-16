@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-14T15:57:55+09:00",
+  "scope": "synthetic exact-signature fixtures; no external call",
+  "signature": [
+    "document_id",
+    "server_branch",
+    "clean(cited_text).casefold()"
+  ],
+  "cases": {
+    "same_source_unit_id": "selection_duplicate_id",
+    "different_group_exact_same_document_branch": 1,
+    "different_document": 0,
+    "different_branch": 0,
+    "semantic_only_different_text": 0,
+    "heading_loss_without_metadata": 1,
+    "heading_loss_with_server_metadata": 0
+  },
+  "passed": true
+}

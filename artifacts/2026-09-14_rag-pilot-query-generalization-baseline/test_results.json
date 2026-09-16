@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "evaluated_at": "2026-09-14",
+  "scope": "test-first baseline; production generalization changes not applied",
+  "actual_groq_calls": 0,
+  "focused_boundaries": {
+    "command_scope": "Q001/Q004 equivalence, Q003 pre-sedation, preparation/caution paraphrases, Q006 boundaries",
+    "passed": 2,
+    "failed": 4,
+    "deselected": 31,
+    "warnings": 2,
+    "failures": [
+      {
+        "test": "Q001 and Q004 identical evidence assessment",
+        "reason": "Q001=supported, Q004=incomplete_semantic_block"
+      },
+      {
+        "test": "Q003 pre-sedation evidence sufficient",
+        "reason": "kind=fact instead of preparation; pre=incomplete_semantic_block"
+      },
+      {
+        "test": "preparation paraphrases share supported evidence",
+        "reason": "kind varies between fact/materials; pre=incomplete_semantic_block"
+      },
+      {
+        "test": "caution paraphrases share safety evidence",
+        "reason": "kind varies between fact/cautions; pre=no_topic_evidence or incomplete_semantic_block"
+      }
+    ]
+  },
+  "new_test_file_baseline": {
+    "passed": 7,
+    "failed": 26,
+    "warnings": 2
+  },
+  "existing_regression_without_new_red_tests": {
+    "passed": 309,
+    "skipped": 1,
+    "warnings": 2,
+    "basetemp": "artifacts/2026-09-14_rag-pilot-query-generalization-baseline/pytest-tmp"
+  },
+  "ruff": "passed",
+  "q006_zero_call": true
+}

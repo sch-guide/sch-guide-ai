@@ -1,0 +1,596 @@
+[
+  {
+    "case": "exact",
+    "question": "PCN irrigation 교육 방법을 알려줘",
+    "query": "PCN irrigation 교육 방법을 알려줘",
+    "kind": "procedure",
+    "evidence_sufficient": true,
+    "evidence_reason": "supported",
+    "expected": [
+      "pcn"
+    ],
+    "search_seconds": 0.088,
+    "hits": [
+      {
+        "chunk_id": "pcn",
+        "document": "가상교육안내.pdf",
+        "page": 1,
+        "text": "PCN irrigation 교육 방법: 용어 카드를 읽고 교육 확인표에 표시합니다.",
+        "similarity": 0.5572,
+        "bm25": 5.9528,
+        "rrf": 0.0325,
+        "rerank": 0.065
+      },
+      {
+        "chunk_id": "pcn-extra",
+        "document": "가상보충안내.pdf",
+        "page": 1,
+        "text": "PCN irrigation 교육을 마친 뒤 교육 설문을 작성합니다.",
+        "similarity": 0.5828,
+        "bm25": 4.817,
+        "rrf": 0.0325,
+        "rerank": 0.0552
+      }
+    ],
+    "retrieval_pass": true,
+    "answer": {
+      "answerable": true,
+      "statements": [
+        {
+          "text": "PCN irrigation 교육 방법: 용어 카드를 읽고 교육 확인표에 표시합니다.",
+          "evidence": [
+            {
+              "chunk_id": "pcn",
+              "quote": "PCN irrigation 교육 방법: 용어 카드를 읽고 교육 확인표에 표시합니다."
+            }
+          ],
+          "label": ""
+        }
+      ],
+      "format": "paragraph",
+      "conflict": false
+    },
+    "final_text": "PCN irrigation 교육 방법: 용어 카드를 읽고 교육 확인표에 표시합니다.",
+    "sent_source_ids": [
+      "pcn",
+      "pcn-extra"
+    ],
+    "answer_mode": "fixture",
+    "total_seconds": 0.092
+  },
+  {
+    "case": "abbreviation",
+    "question": "VRE 교육은 어떤 카드를 사용해?",
+    "query": "VRE 교육은 어떤 카드를 사용해?",
+    "kind": "fact",
+    "evidence_sufficient": true,
+    "evidence_reason": "supported",
+    "expected": [
+      "vre"
+    ],
+    "search_seconds": 0.045,
+    "hits": [
+      {
+        "chunk_id": "vre",
+        "document": "가상감염교육.pdf",
+        "page": 4,
+        "text": "VRE 교육은 장알균 용어 카드를 사용합니다. CRE 교육은 장내세균 용어 카드를 사용합니다.",
+        "similarity": 0.1958,
+        "bm25": 8.7255,
+        "rrf": 0.0323,
+        "rerank": 0.0488
+      }
+    ],
+    "retrieval_pass": true,
+    "answer": {
+      "answerable": true,
+      "statements": [
+        {
+          "text": "VRE 교육은 장알균 용어 카드를 사용합니다.",
+          "evidence": [
+            {
+              "chunk_id": "vre",
+              "quote": "VRE 교육은 장알균 용어 카드를 사용합니다."
+            }
+          ],
+          "label": ""
+        },
+        {
+          "text": "CRE 교육은 장내세균 용어 카드를 사용합니다.",
+          "evidence": [
+            {
+              "chunk_id": "vre",
+              "quote": "CRE 교육은 장내세균 용어 카드를 사용합니다."
+            }
+          ],
+          "label": ""
+        }
+      ],
+      "format": "paragraph",
+      "conflict": false
+    },
+    "final_text": "VRE 교육은 장알균 용어 카드를 사용합니다.\nCRE 교육은 장내세균 용어 카드를 사용합니다.",
+    "sent_source_ids": [
+      "vre"
+    ],
+    "answer_mode": "fixture",
+    "total_seconds": 0.046
+  },
+  {
+    "case": "mixed",
+    "question": "반코마이신 Vancomycin 교육 주의사항은?",
+    "query": "반코마이신 Vancomycin 교육 주의사항은?",
+    "kind": "cautions",
+    "evidence_sufficient": true,
+    "evidence_reason": "supported",
+    "expected": [
+      "drug"
+    ],
+    "search_seconds": 0.025,
+    "hits": [
+      {
+        "chunk_id": "drug",
+        "document": "가상약물교육.pdf",
+        "page": 1,
+        "text": "Vancomycin 교육 주의사항: 반코마이신 교육 카드를 실제 투약 지시로 사용하지 않습니다.",
+        "similarity": 0.7596,
+        "bm25": 10.113,
+        "rrf": 0.0328,
+        "rerank": 0.0819
+      }
+    ],
+    "retrieval_pass": true,
+    "answer": {
+      "answerable": true,
+      "statements": [
+        {
+          "text": "Vancomycin 교육 주의사항: 반코마이신 교육 카드를 실제 투약 지시로 사용하지 않습니다.",
+          "evidence": [
+            {
+              "chunk_id": "drug",
+              "quote": "Vancomycin 교육 주의사항: 반코마이신 교육 카드를 실제 투약 지시로 사용하지 않습니다."
+            }
+          ],
+          "label": ""
+        }
+      ],
+      "format": "paragraph",
+      "conflict": false
+    },
+    "final_text": "Vancomycin 교육 주의사항: 반코마이신 교육 카드를 실제 투약 지시로 사용하지 않습니다.",
+    "sent_source_ids": [
+      "drug"
+    ],
+    "answer_mode": "fixture",
+    "total_seconds": 0.026
+  },
+  {
+    "case": "typo",
+    "question": "PCN irrigaton 교육 방법은?",
+    "query": "PCN irrigation 교육 방법은?",
+    "kind": "procedure",
+    "evidence_sufficient": true,
+    "evidence_reason": "supported",
+    "expected": [
+      "pcn"
+    ],
+    "search_seconds": 0.038,
+    "hits": [
+      {
+        "chunk_id": "pcn",
+        "document": "가상교육안내.pdf",
+        "page": 1,
+        "text": "PCN irrigation 교육 방법: 용어 카드를 읽고 교육 확인표에 표시합니다.",
+        "similarity": 0.5572,
+        "bm25": 5.9528,
+        "rrf": 0.0325,
+        "rerank": 0.065
+      },
+      {
+        "chunk_id": "pcn-extra",
+        "document": "가상보충안내.pdf",
+        "page": 1,
+        "text": "PCN irrigation 교육을 마친 뒤 교육 설문을 작성합니다.",
+        "similarity": 0.5828,
+        "bm25": 4.817,
+        "rrf": 0.0325,
+        "rerank": 0.0552
+      }
+    ],
+    "retrieval_pass": true,
+    "answer": {
+      "answerable": true,
+      "statements": [
+        {
+          "text": "PCN irrigation 교육 방법: 용어 카드를 읽고 교육 확인표에 표시합니다.",
+          "evidence": [
+            {
+              "chunk_id": "pcn",
+              "quote": "PCN irrigation 교육 방법: 용어 카드를 읽고 교육 확인표에 표시합니다."
+            }
+          ],
+          "label": ""
+        }
+      ],
+      "format": "paragraph",
+      "conflict": false
+    },
+    "final_text": "PCN irrigation 교육 방법: 용어 카드를 읽고 교육 확인표에 표시합니다.",
+    "sent_source_ids": [
+      "pcn",
+      "pcn-extra"
+    ],
+    "answer_mode": "fixture",
+    "total_seconds": 0.039
+  },
+  {
+    "case": "materials",
+    "question": "thoracentesis 교육 준비물 뭐야?",
+    "query": "thoracentesis 교육 준비물 뭐야?",
+    "kind": "materials",
+    "evidence_sufficient": true,
+    "evidence_reason": "supported",
+    "expected": [
+      "materials"
+    ],
+    "search_seconds": 0.023,
+    "hits": [
+      {
+        "chunk_id": "materials",
+        "document": "가상교육안내.pdf",
+        "page": 2,
+        "text": "thoracentesis 교육 준비물은 용어 카드와 교육 확인표입니다. 실제 시술 준비물에 관한 지침은 아닙니다.",
+        "similarity": 0.3795,
+        "bm25": 8.1359,
+        "rrf": 0.0328,
+        "rerank": 0.085
+      }
+    ],
+    "retrieval_pass": true,
+    "answer": {
+      "answerable": true,
+      "statements": [
+        {
+          "text": "thoracentesis 교육 준비물은 용어 카드와 교육 확인표입니다.",
+          "evidence": [
+            {
+              "chunk_id": "materials",
+              "quote": "thoracentesis 교육 준비물은 용어 카드와 교육 확인표입니다."
+            }
+          ],
+          "label": ""
+        },
+        {
+          "text": "실제 시술 준비물에 관한 지침은 아닙니다.",
+          "evidence": [
+            {
+              "chunk_id": "materials",
+              "quote": "실제 시술 준비물에 관한 지침은 아닙니다."
+            }
+          ],
+          "label": ""
+        }
+      ],
+      "format": "paragraph",
+      "conflict": false
+    },
+    "final_text": "thoracentesis 교육 준비물은 용어 카드와 교육 확인표입니다.\n실제 시술 준비물에 관한 지침은 아닙니다.",
+    "sent_source_ids": [
+      "materials"
+    ],
+    "answer_mode": "fixture",
+    "total_seconds": 0.023
+  },
+  {
+    "case": "procedure",
+    "question": "CRE 격리 교육 어떻게 해?",
+    "query": "CRE 격리 교육 어떻게 해?",
+    "kind": "procedure",
+    "evidence_sufficient": true,
+    "evidence_reason": "supported",
+    "expected": [
+      "cre"
+    ],
+    "search_seconds": 0.05,
+    "hits": [
+      {
+        "chunk_id": "cre",
+        "document": "가상감염교육.pdf",
+        "page": 2,
+        "text": "CRE 격리 교육 방법: CRE 교육 안내문을 읽고 학습 확인표를 확인합니다.",
+        "similarity": 0.18,
+        "bm25": 3.8861,
+        "rrf": 0.032,
+        "rerank": 0.0627
+      },
+      {
+        "chunk_id": "release",
+        "document": "가상감염교육.pdf",
+        "page": 3,
+        "text": "CRE 격리 교육 종료 기준: 학습 확인표 제출을 확인한 후 교육을 종료합니다.",
+        "similarity": 0.1264,
+        "bm25": 3.6464,
+        "rrf": 0.0313,
+        "rerank": 0.0516
+      },
+      {
+        "chunk_id": "vre",
+        "document": "가상감염교육.pdf",
+        "page": 4,
+        "text": "VRE 교육은 장알균 용어 카드를 사용합니다. CRE 교육은 장내세균 용어 카드를 사용합니다.",
+        "similarity": 0.2416,
+        "bm25": 4.3203,
+        "rrf": 0.0325,
+        "rerank": 0.0473
+      }
+    ],
+    "retrieval_pass": true,
+    "answer": {
+      "answerable": true,
+      "statements": [
+        {
+          "text": "CRE 격리 교육 방법: CRE 교육 안내문을 읽고 학습 확인표를 확인합니다.",
+          "evidence": [
+            {
+              "chunk_id": "cre",
+              "quote": "CRE 격리 교육 방법: CRE 교육 안내문을 읽고 학습 확인표를 확인합니다."
+            }
+          ],
+          "label": ""
+        }
+      ],
+      "format": "paragraph",
+      "conflict": false
+    },
+    "final_text": "CRE 격리 교육 방법: CRE 교육 안내문을 읽고 학습 확인표를 확인합니다.",
+    "sent_source_ids": [
+      "cre",
+      "release",
+      "vre"
+    ],
+    "answer_mode": "fixture",
+    "total_seconds": 0.051
+  },
+  {
+    "case": "comparison",
+    "question": "CRE 교육과 VRE 교육에서 쓰는 카드를 비교해줘",
+    "query": "CRE 교육과 VRE 교육에서 쓰는 카드를 비교해줘",
+    "kind": "comparison",
+    "evidence_sufficient": true,
+    "evidence_reason": "supported",
+    "expected": [
+      "vre"
+    ],
+    "search_seconds": 0.073,
+    "hits": [
+      {
+        "chunk_id": "vre",
+        "document": "가상감염교육.pdf",
+        "page": 4,
+        "text": "VRE 교육은 장알균 용어 카드를 사용합니다. CRE 교육은 장내세균 용어 카드를 사용합니다.",
+        "similarity": 0.1344,
+        "bm25": 11.9679,
+        "rrf": 0.0323,
+        "rerank": 0.0453
+      },
+      {
+        "chunk_id": "cre",
+        "document": "가상감염교육.pdf",
+        "page": 2,
+        "text": "CRE 격리 교육 방법: CRE 교육 안내문을 읽고 학습 확인표를 확인합니다.",
+        "similarity": -0.0203,
+        "bm25": 2.3885,
+        "rrf": 0.031,
+        "rerank": 0.037
+      },
+      {
+        "chunk_id": "release",
+        "document": "가상감염교육.pdf",
+        "page": 3,
+        "text": "CRE 격리 교육 종료 기준: 학습 확인표 제출을 확인한 후 교육을 종료합니다.",
+        "similarity": -0.0697,
+        "bm25": 2.1695,
+        "rrf": 0.0306,
+        "rerank": 0.0366
+      }
+    ],
+    "retrieval_pass": true,
+    "answer": {
+      "answerable": true,
+      "statements": [
+        {
+          "text": "VRE 교육은 장알균 용어 카드를 사용합니다.",
+          "evidence": [
+            {
+              "chunk_id": "vre",
+              "quote": "VRE 교육은 장알균 용어 카드를 사용합니다."
+            }
+          ],
+          "label": ""
+        },
+        {
+          "text": "CRE 교육은 장내세균 용어 카드를 사용합니다.",
+          "evidence": [
+            {
+              "chunk_id": "vre",
+              "quote": "CRE 교육은 장내세균 용어 카드를 사용합니다."
+            }
+          ],
+          "label": ""
+        }
+      ],
+      "format": "paragraph",
+      "conflict": false
+    },
+    "final_text": "VRE 교육은 장알균 용어 카드를 사용합니다.\nCRE 교육은 장내세균 용어 카드를 사용합니다.",
+    "sent_source_ids": [
+      "vre",
+      "cre",
+      "release"
+    ],
+    "answer_mode": "fixture",
+    "total_seconds": 0.074
+  },
+  {
+    "case": "synthesis",
+    "question": "PCN irrigation 교육에 관한 여러 문서 내용을 종합해줘",
+    "query": "PCN irrigation 교육에 관한 여러 문서 내용을 종합해줘",
+    "kind": "synthesis",
+    "evidence_sufficient": true,
+    "evidence_reason": "supported",
+    "expected": [
+      "pcn",
+      "pcn-extra"
+    ],
+    "search_seconds": 0.044,
+    "hits": [
+      {
+        "chunk_id": "pcn-extra",
+        "document": "가상보충안내.pdf",
+        "page": 1,
+        "text": "PCN irrigation 교육을 마친 뒤 교육 설문을 작성합니다.",
+        "similarity": 0.4304,
+        "bm25": 4.6986,
+        "rrf": 0.0328,
+        "rerank": 0.0512
+      },
+      {
+        "chunk_id": "pcn",
+        "document": "가상교육안내.pdf",
+        "page": 1,
+        "text": "PCN irrigation 교육 방법: 용어 카드를 읽고 교육 확인표에 표시합니다.",
+        "similarity": 0.4176,
+        "bm25": 4.2778,
+        "rrf": 0.0323,
+        "rerank": 0.0506
+      }
+    ],
+    "retrieval_pass": true,
+    "answer": {
+      "answerable": true,
+      "statements": [
+        {
+          "text": "PCN irrigation 교육을 마친 뒤 교육 설문을 작성합니다.",
+          "evidence": [
+            {
+              "chunk_id": "pcn-extra",
+              "quote": "PCN irrigation 교육을 마친 뒤 교육 설문을 작성합니다."
+            }
+          ],
+          "label": ""
+        },
+        {
+          "text": "PCN irrigation 교육 방법: 용어 카드를 읽고 교육 확인표에 표시합니다.",
+          "evidence": [
+            {
+              "chunk_id": "pcn",
+              "quote": "PCN irrigation 교육 방법: 용어 카드를 읽고 교육 확인표에 표시합니다."
+            }
+          ],
+          "label": ""
+        }
+      ],
+      "format": "paragraph",
+      "conflict": false
+    },
+    "final_text": "PCN irrigation 교육을 마친 뒤 교육 설문을 작성합니다.\nPCN irrigation 교육 방법: 용어 카드를 읽고 교육 확인표에 표시합니다.",
+    "sent_source_ids": [
+      "pcn-extra",
+      "pcn"
+    ],
+    "answer_mode": "fixture",
+    "total_seconds": 0.044
+  },
+  {
+    "case": "followup",
+    "question": "그럼 교육 종료 기준은?",
+    "query": "CRE 격리 교육 어떻게 해? / 추가 질문: 그럼 교육 종료 기준은?",
+    "kind": "release",
+    "evidence_sufficient": true,
+    "evidence_reason": "supported",
+    "expected": [
+      "release"
+    ],
+    "search_seconds": 0.051,
+    "hits": [
+      {
+        "chunk_id": "release",
+        "document": "가상감염교육.pdf",
+        "page": 3,
+        "text": "CRE 격리 교육 종료 기준: 학습 확인표 제출을 확인한 후 교육을 종료합니다.",
+        "similarity": 0.2615,
+        "bm25": 8.0768,
+        "rrf": 0.032,
+        "rerank": 0.0766
+      },
+      {
+        "chunk_id": "cre",
+        "document": "가상감염교육.pdf",
+        "page": 2,
+        "text": "CRE 격리 교육 방법: CRE 교육 안내문을 읽고 학습 확인표를 확인합니다.",
+        "similarity": 0.2941,
+        "bm25": 3.8861,
+        "rrf": 0.0317,
+        "rerank": 0.051
+      },
+      {
+        "chunk_id": "vre",
+        "document": "가상감염교육.pdf",
+        "page": 4,
+        "text": "VRE 교육은 장알균 용어 카드를 사용합니다. CRE 교육은 장내세균 용어 카드를 사용합니다.",
+        "similarity": 0.3102,
+        "bm25": 4.3203,
+        "rrf": 0.0323,
+        "rerank": 0.046
+      }
+    ],
+    "retrieval_pass": true,
+    "answer": {
+      "answerable": true,
+      "statements": [
+        {
+          "text": "CRE 격리 교육 종료 기준: 학습 확인표 제출을 확인한 후 교육을 종료합니다.",
+          "evidence": [
+            {
+              "chunk_id": "release",
+              "quote": "CRE 격리 교육 종료 기준: 학습 확인표 제출을 확인한 후 교육을 종료합니다."
+            }
+          ],
+          "label": ""
+        }
+      ],
+      "format": "paragraph",
+      "conflict": false
+    },
+    "final_text": "CRE 격리 교육 종료 기준: 학습 확인표 제출을 확인한 후 교육을 종료합니다.",
+    "sent_source_ids": [
+      "release",
+      "cre",
+      "vre"
+    ],
+    "answer_mode": "fixture",
+    "total_seconds": 0.052
+  },
+  {
+    "case": "absent",
+    "question": "화성 우주선의 궤도 계산 공식은?",
+    "query": "화성 우주선의 궤도 계산 공식은?",
+    "kind": "fact",
+    "evidence_sufficient": false,
+    "evidence_reason": "domain_or_clarification",
+    "expected": [],
+    "search_seconds": 0.008,
+    "hits": [],
+    "retrieval_pass": true,
+    "answer": {
+      "answerable": false,
+      "statements": [],
+      "format": "paragraph",
+      "conflict": false
+    },
+    "final_text": "등록된 지침서에서 확인할 수 없습니다.",
+    "sent_source_ids": [],
+    "answer_mode": "fixture",
+    "total_seconds": 0.009
+  }
+]
