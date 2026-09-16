@@ -1,4 +1,4 @@
-﻿"""Q006 zero-call 뒤 Q002 1회, 성공 시 Q001/Q003/Q004/Q005를 각 1회 평가합니다.
+"""Q006 zero-call 뒤 Q002 1회, 성공 시 Q001/Q003/Q004/Q005를 각 1회 평가합니다.
 
 Raw response, prompt, API key, authorization header와 source-unit 원문은 저장하지 않습니다.
 """
@@ -41,7 +41,7 @@ from tools.rag_phase2_evaluate import _load_q002
 
 DEFAULT_OUTPUT = ROOT / "artifacts" / "2026-09-14_rag-procedure-answer-coverage"
 PILOT_IDS = ("Q001", "Q003", "Q004", "Q005")
-COMMON_STOP_CODES = {"AI_AUTH", "AI_SERVER", "AI_RESPONSE", "AI_TIMEOUT"}
+COMMON_STOP_CODES = {"AI_AUTH", "AI_SERVER", "AI_RESPONSE", "AI_TIMEOUT", "AI_LIMIT"}
 
 
 class EvaluationQuota:
@@ -72,17 +72,26 @@ class RejectTransport(httpx.BaseTransport):
 class OneCallTransport(httpx.BaseTransport):
     """한 case의 실제 HTTP를 최대 한 번만 허용합니다."""
 
-    def __init__(self, model, expected_chunk_ids):
+    def __init__(
+        self,
+        model,
+        expected_chunk_ids,
+        *,
+        expected_source_unit_fingerprints=None,
+        inner=None,
+    ):
         self.model = model
         self.expected_chunk_ids = set(expected_chunk_ids)
-        self.inner = httpx.HTTPTransport(retries=0)
+        self.expected_source_unit_fingerprints = dict(
+            expected_source_unit_fingerprints or {}
+        )
+        self.inner = inner or httpx.HTTPTransport(retries=0)
         self.calls = 0
         self.status_code = None
 
     def handle_request(self, request):
         if self.calls:
             raise RuntimeError("second request rejected")
-        self.calls += 1
         payload = json.loads(request.content)
         if payload.get("model") != self.model:
             raise RuntimeError("fallback model rejected")
@@ -90,16 +99,32 @@ class OneCallTransport(httpx.BaseTransport):
             raise RuntimeError("tool or web search rejected")
         if len(payload.get("messages", ())) != 2:
             raise RuntimeError("unexpected message count")
-        envelope = json.loads(
-            payload["messages"][1]["content"].split("Evidence groups (JSON):\n", 1)[1]
-        )
-        sent_ids = {
-            source["chunk_id"]
-            for group in envelope["groups"]
-            for source in group["sources"]
-        }
-        if sent_ids != self.expected_chunk_ids:
-            raise RuntimeError("prompt evidence differs from admitted evidence")
+        envelope = json.loads(payload["messages"][1]["content"].split("Evidence groups (JSON):\n", 1)[1])
+        if "source_units" in envelope:
+            units = envelope.get("source_units")
+            if not isinstance(units, list) or any(
+                not isinstance(unit, dict)
+                or set(unit) != {"id", "text"}
+                or not isinstance(unit["id"], str)
+                or not isinstance(unit["text"], str)
+                for unit in units
+            ):
+                raise RuntimeError("unexpected source-unit catalog")
+            actual = {
+                unit["id"]: hashlib.sha256(unit["text"].encode()).hexdigest()
+                for unit in units
+            }
+            if len(actual) != len(units) or actual != self.expected_source_unit_fingerprints:
+                raise RuntimeError("prompt source units differ from admitted evidence")
+        else:
+            sent_ids = {
+                source["chunk_id"]
+                for group in envelope.get("groups", ())
+                for source in group.get("sources", ())
+            }
+            if sent_ids != self.expected_chunk_ids:
+                raise RuntimeError("prompt evidence differs from admitted evidence")
+        self.calls += 1
         response = self.inner.handle_request(request)
         self.status_code = response.status_code
         return response
@@ -120,9 +145,7 @@ def safe_sources(answer, used_hits):
         return []
     by_id = {hit.chunk.id: hit.chunk for hit in used_hits}
     cited = dict.fromkeys(
-        evidence.chunk_id
-        for statement in answer.statements
-        for evidence in statement.evidence
+        evidence.chunk_id for statement in answer.statements for evidence in statement.evidence
     )
     return [
         {
@@ -137,26 +160,14 @@ def safe_sources(answer, used_hits):
 
 def coverage_summary(trace):
     coverage = trace.get("answer_coverage") or {}
-    required_groups = {
-        tuple_value(value) for value in coverage.get("required_group_keys", ())
-    }
-    selected_groups = {
-        tuple_value(value) for value in coverage.get("selected_group_keys", ())
-    }
+    required_groups = {tuple_value(value) for value in coverage.get("required_group_keys", ())}
+    selected_groups = {tuple_value(value) for value in coverage.get("selected_group_keys", ())}
     required_branches = set(coverage.get("required_branches", ()))
     selected_branches = set(coverage.get("selected_branches", ()))
-    required_phases = {
-        tuple(value) for value in coverage.get("required_phase_slots", ())
-    }
-    selected_phases = {
-        tuple(value) for value in coverage.get("selected_phase_slots", ())
-    }
-    required_actions = {
-        tuple(value) for value in coverage.get("required_action_slots", ())
-    }
-    selected_actions = {
-        tuple(value) for value in coverage.get("selected_action_slots", ())
-    }
+    required_phases = {tuple(value) for value in coverage.get("required_phase_slots", ())}
+    selected_phases = {tuple(value) for value in coverage.get("selected_phase_slots", ())}
+    required_actions = {tuple(value) for value in coverage.get("required_action_slots", ())}
+    selected_actions = {tuple(value) for value in coverage.get("selected_action_slots", ())}
     return {
         "required_group_count": len(required_groups),
         "covered_group_count": len(required_groups & selected_groups),
@@ -177,9 +188,20 @@ def tuple_value(value):
     return tuple(value) if isinstance(value, list) else value
 
 
-def run_case(case_id, question, hits, plan, expected_selected, settings):
+def run_case(
+    case_id,
+    question,
+    hits,
+    plan,
+    expected_selected,
+    settings,
+    *,
+    expected_source_unit_fingerprints=None,
+):
     transport = OneCallTransport(
-        settings.llm_model, [hit.chunk.id for hit in expected_selected]
+        settings.llm_model,
+        [hit.chunk.id for hit in expected_selected],
+        expected_source_unit_fingerprints=expected_source_unit_fingerprints,
     )
     quota = EvaluationQuota()
     trace = {}
@@ -202,16 +224,10 @@ def run_case(case_id, question, hits, plan, expected_selected, settings):
         error_code = safe_error_code(error, trace)
     latency_ms = round((time.perf_counter() - started) * 1000, 2)
     statements = len(answer.statements) if answer else 0
-    cited_statements = (
-        sum(bool(statement.evidence) for statement in answer.statements)
-        if answer
-        else 0
-    )
+    cited_statements = sum(bool(statement.evidence) for statement in answer.statements) if answer else 0
     citation_coverage = cited_statements / statements if statements else 0.0
-    public_answer = answer_text(answer) if answer else ""
-    source_order = bool(
-        answer and answer.answerable and trace.get("citation_assessment") == "supported"
-    )
+    public_answer = answer_text(answer) if answer and answer.answerable else ""
+    source_order = bool(answer and answer.answerable and trace.get("citation_assessment") == "supported")
     result = {
         "case_id": case_id,
         "question": question,
@@ -230,6 +246,8 @@ def run_case(case_id, question, hits, plan, expected_selected, settings):
         "validation_reason": trace.get("validation_reason"),
         "block_reason": trace.get("block_reason"),
         "selected_source_unit_count": trace.get("selected_source_unit_count"),
+        "required_facet_count": trace.get("response_selection_facet_count"),
+        "selected_facet_count": trace.get("selected_facet_count"),
         "group_counts": trace.get("selected_group_counts"),
         "coverage": coverage_summary(trace),
         "server_answerable": bool(answer and answer.answerable),
@@ -248,15 +266,11 @@ def run_case(case_id, question, hits, plan, expected_selected, settings):
             "stored": False,
             "answerable": bool(answer and answer.answerable),
             "statement_count": statements,
-            "sha256": hashlib.sha256(public_answer.encode()).hexdigest()
-            if public_answer
-            else None,
+            "sha256": hashlib.sha256(public_answer.encode()).hexdigest() if public_answer else None,
         },
     }
     result["pass"] = (
-        transport.calls == 0
-        and not result["server_answerable"]
-        and not result["failure_code"]
+        transport.calls == 0 and not result["server_answerable"] and not result["failure_code"]
     ) or (
         transport.calls == 1
         and result["http_status"] == 200
@@ -286,11 +300,10 @@ def q002_gate(result):
             result["response_parse_stage"] == "complete",
             result["failure_code"] is None,
             result["validation_reason"] is None,
+            result["required_facet_count"] == result["selected_facet_count"] > 0,
             1 <= selected_count <= 16,
             coverage["required_group_count"] == coverage["covered_group_count"] == 5,
-            set(coverage["required_branches"])
-            == set(coverage["covered_branches"])
-            == {"adult", "pediatric"},
+            set(coverage["required_branches"]) == set(coverage["covered_branches"]) == {"adult", "pediatric"},
             coverage["required_phase_count"] == coverage["covered_phase_count"] > 0,
             coverage["required_action_count"] == coverage["covered_action_count"] > 0,
             coverage["complete"] is True,
@@ -310,7 +323,7 @@ def prepare_q002():
     plan = plan_query(gold["question"], documents=[metadata])
     assessment = assess_evidence(plan, hits)
     trace = {}
-    _, selected = prompt_messages(
+    _, selected, catalog, contract = prompt_messages(
         plan.query,
         assessment.hits,
         14000,
@@ -318,18 +331,37 @@ def prepare_q002():
         plan=plan,
         groups=assessment.groups,
         trace=trace,
+        return_catalog=True,
+        return_contract=True,
     )
     after = assess_evidence(plan, selected)
     if not assessment.sufficient or not after.sufficient or len(selected) != 12:
         raise RuntimeError("Q002 evidence gate failed before live")
     headroom = trace["request_token_headroom"]
     required_headroom = max(256, math.ceil(trace["estimated_request_tokens"] * 0.08))
-    if (
-        trace["estimated_request_tokens"] > GROQ_REQUEST_TOKEN_BUDGET
-        or headroom < required_headroom
-    ):
+    if trace["estimated_request_tokens"] > GROQ_REQUEST_TOKEN_BUDGET or headroom < required_headroom:
         raise RuntimeError("Q002 budget gate failed before live")
-    return metadata, gold, hits, plan, selected, trace
+    allowed_ids = {
+        identifier
+        for slot in contract.slots
+        for identifier in getattr(slot, "eligible_source_unit_ids", ())
+    }
+    expected_source_unit_fingerprints = {
+        unit.source_unit_id: hashlib.sha256(unit.exact_text.encode()).hexdigest()
+        for unit in catalog
+        if unit.source_unit_id in allowed_ids
+    }
+    if not expected_source_unit_fingerprints:
+        raise RuntimeError("Q002 facet catalog is empty before live")
+    return (
+        metadata,
+        gold,
+        hits,
+        plan,
+        selected,
+        trace,
+        expected_source_unit_fingerprints,
+    )
 
 
 def pilot_corpus():
@@ -346,9 +378,7 @@ def retrieve(question, model, metadata, chunks, vectors):
     dense_positions = _stable_positions(dense_scores)
     bm25_scores = BM25Index(chunks).scores(plan.expanded)
     bm25_ranking = rank_bm25_candidates(plan.original, chunks, bm25_scores, limit=40)
-    bm25_positions = [
-        position for position in bm25_ranking.positions if bm25_scores[position] > 0
-    ]
+    bm25_positions = [position for position in bm25_ranking.positions if bm25_scores[position] > 0]
     fusion_scores = rrf(dense_positions, bm25_positions)
     candidates = [
         Hit(
@@ -382,35 +412,67 @@ def write_json(path, value):
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-def write_review(output, report, pilot):
-    q002 = report["q002"]
-    rows = (
+def _case_review_html(case):
+    final_answer = case.get("final_answer") or {}
+    answer = (
+        "검증된 답변 본문은 보안 정책에 따라 저장하지 않음"
+        if final_answer.get("answerable")
+        else "검증된 최종 답변 없음"
+    )
+    citations = case.get("citations") or []
+    citation_html = (
         "".join(
-            f"<tr><td>{escape(row['case_id'])}</td><td>{escape(row['question'])}</td>"
-            f"<td>{row['actual_groq_calls']}</td><td>{row['selected_source_unit_count']}</td>"
-            f"<td>{escape(str(row['server_answerable']))}</td><td>{escape(str(row['pass']))}</td></tr>"
-            for row in (pilot or {}).get("cases", ())
+            f"<li>{escape(str(source.get('document_name') or '-'))} · "
+            f"p.{escape(str(source.get('page') or '-'))} · "
+            f"{escape(str(source.get('section') or '-'))}</li>"
+            for source in citations
         )
-        or '<tr><td colspan="6">Q002 미통과로 pilot 미실행</td></tr>'
+        or "<li>표시할 검증 citation 없음</li>"
+    )
+    failure = next(
+        (case.get(key) for key in ("failure_code", "validation_reason", "block_reason") if case.get(key)),
+        "-",
+    )
+    coverage = case.get("coverage") or {}
+    tokens = json.dumps(case.get("tokens") or {}, ensure_ascii=False)
+    status = "PASS" if case.get("pass") else "FAIL"
+    status_class = "pass" if case.get("pass") else "fail"
+    return f'''<article class="case"><h2>{escape(str(case.get("case_id") or "-"))}</h2>
+<p><strong>질문</strong>: {escape(str(case.get("question") or "-"))}</p>
+<p class="{status_class}">{status}</p>
+<div class="answer"><strong>검증된 최종 답변</strong><br>{escape(answer)}</div>
+<h3>출처·citation</h3><ul>{citation_html}</ul>
+<table><tr><th>retrieval / selected evidence</th><td>{case.get("retrieved_hits")} / {case.get("selected_evidence_chunks")}</td></tr>
+<tr><th>selected source units</th><td>{case.get("selected_source_unit_count")}</td></tr>
+<tr><th>phase coverage</th><td>{coverage.get("covered_phase_count", 0)}/{coverage.get("required_phase_count", 0)}</td></tr>
+<tr><th>action coverage</th><td>{coverage.get("covered_action_count", 0)}/{coverage.get("required_action_count", 0)}</td></tr>
+<tr><th>HTTP / finish</th><td>{case.get("http_status")} / {escape(str(case.get("finish_reason")))}</td></tr>
+<tr><th>latency</th><td>{case.get("latency_ms")} ms</td></tr>
+<tr><th>token usage</th><td>{escape(tokens)}</td></tr>
+<tr><th>answerable / citation</th><td>{case.get("server_answerable")} / {float(case.get("citation_coverage") or 0) * 100:.1f}%</td></tr>
+<tr><th>실패 사유</th><td>{escape(str(failure))}</td></tr></table></article>'''
+
+
+def write_review(output, report, pilot):
+    cases = [report["q002"], *((pilot or {}).get("cases") or [])]
+    cards = "".join(_case_review_html(case) for case in cases)
+    pilot_note = (
+        "Q001/Q003/Q004/Q005 pilot 실행 완료"
+        if pilot and len(pilot.get("cases") or []) == len(PILOT_IDS)
+        else "Q002 미통과 또는 공통 오류로 일부/전체 pilot 미실행"
     )
     (output / "review.html").write_text(
-        f'''<!doctype html><html lang="ko"><head><meta charset="utf-8">
+        f"""<!doctype html><html lang="ko"><head><meta charset="utf-8">
 <title>SCHAT Procedure AnswerCoverage Live</title><style>
-body{{font-family:system-ui,sans-serif;max-width:1100px;margin:24px auto;padding:0 18px;color:#17202a}}
-table{{border-collapse:collapse;width:100%;margin:12px 0 28px}}th,td{{border:1px solid #ccd1d1;padding:8px;text-align:left}}
-th{{background:#eef3f6}}.pass{{color:#196f3d;font-weight:700}}.fail{{color:#a93226;font-weight:700}}
+body{{font-family:system-ui,sans-serif;max-width:1100px;margin:24px auto;padding:0 18px;color:#17202a;background:#f6f8fa}}
+h1,h2,h3{{color:#123b55}}.case{{background:white;border:1px solid #ccd1d1;border-radius:14px;padding:20px;margin:18px 0}}
+.answer{{white-space:pre-wrap;background:#eef6f7;border-radius:10px;padding:14px;line-height:1.65}}
+table{{border-collapse:collapse;width:100%;margin:12px 0}}th,td{{border:1px solid #ccd1d1;padding:8px;text-align:left}}
+th{{background:#eef3f6;width:28%}}.pass{{color:#196f3d;font-weight:700}}.fail{{color:#a93226;font-weight:700}}
 </style></head><body><h1>Broad procedure AnswerCoverage Live 검수</h1>
-<p>생성: {escape(report["generated_at"])}</p>
-<h2>Q002</h2><ul><li>실제 호출: {q002["actual_groq_calls"]}</li>
-<li>HTTP / finish: {q002["http_status"]} / {escape(str(q002["finish_reason"]))}</li>
-<li>selected units / statements: {q002["selected_source_unit_count"]} / {q002["verified_statement_count"]}</li>
-<li>citation coverage: {q002["citation_coverage"] * 100:.1f}%</li>
-<li>phase: {q002["coverage"]["covered_phase_count"]}/{q002["coverage"]["required_phase_count"]}</li>
-<li>action: {q002["coverage"]["covered_action_count"]}/{q002["coverage"]["required_action_count"]}</li>
-<li class="{"pass" if report["q002_rag_complete"] else "fail"}">Q002 RAG 완주: {report["q002_rag_complete"]}</li></ul>
-<h2>Pilot</h2><table><tr><th>ID</th><th>질문</th><th>호출</th><th>unit</th><th>answerable</th><th>PASS</th></tr>{rows}</table>
-<p>원문 답변, prompt, raw response와 비밀키는 이 보고서에 저장하지 않았습니다.</p>
-</body></html>''',
+<p>생성: {escape(report["generated_at"])}</p><p>{escape(pilot_note)}</p>{cards}
+<p>전체 prompt, raw provider response/content, API key와 Authorization header는 저장하지 않았습니다.</p>
+</body></html>""",
         encoding="utf-8",
     )
 
@@ -419,7 +481,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     args = parser.parse_args()
-    args.output.mkdir(parents=True, exist_ok=True)
+    args.output.mkdir(parents=True, exist_ok=False)
     generated_at = datetime.now().astimezone().isoformat(timespec="seconds")
     q006 = {
         "transport_calls": 0,
@@ -466,7 +528,15 @@ def main():
     try:
         settings = load_settings(use_streamlit=False)
         settings.llm_endpoint()
-        metadata, gold, hits, plan, selected, prompt_trace = prepare_q002()
+        (
+            metadata,
+            gold,
+            hits,
+            plan,
+            selected,
+            prompt_trace,
+            source_unit_fingerprints,
+        ) = prepare_q002()
         reject = RejectTransport()
         q006_trace = {}
         q006_answer, q006_hits = generate(
@@ -483,22 +553,24 @@ def main():
             "llm_called": q006_trace.get("llm_called", False),
             "catalog_units": 0,
             "fixed_abstention": answer_text(q006_answer),
-            "pass": reject.calls == 0
-            and q006_hits == []
-            and answer_text(q006_answer) == NO_GUIDELINE,
+            "pass": reject.calls == 0 and q006_hits == [] and answer_text(q006_answer) == NO_GUIDELINE,
         }
         report["q006"] = q006
         if not q006["pass"]:
             raise RuntimeError("Q006 zero-call gate failed")
 
-        q002 = run_case("Q002", gold["question"], hits, plan, selected, settings)
+        q002 = run_case(
+            "Q002",
+            gold["question"],
+            hits,
+            plan,
+            selected,
+            settings,
+            expected_source_unit_fingerprints=source_unit_fingerprints,
+        )
         q002["retrieval_gold"] = {
-            "pre_required": stage_recall(gold, [hit.chunk.id for hit in hits])[
-                "required"
-            ],
-            "post_required": stage_recall(gold, [hit.chunk.id for hit in selected])[
-                "required"
-            ],
+            "pre_required": stage_recall(gold, [hit.chunk.id for hit in hits])["required"],
+            "post_required": stage_recall(gold, [hit.chunk.id for hit in selected])["required"],
         }
         q002["prompt_budget"] = {
             "reservation": prompt_trace["estimated_request_tokens"],
@@ -521,9 +593,7 @@ def main():
                 plan, case_hits, case_selected, assessment, retrieval_trace = retrieve(
                     question, model, pilot_metadata, chunks, vectors
                 )
-                case = run_case(
-                    case_id, question, case_hits, plan, case_selected, settings
-                )
+                case = run_case(case_id, question, case_hits, plan, case_selected, settings)
                 case["retrieval"] = {
                     "evidence_sufficient": assessment.sufficient,
                     "evidence_reason": assessment.reason,
@@ -540,17 +610,12 @@ def main():
                     break
             pilot = {
                 "schema_version": 1,
-                "generated_at": datetime.now()
-                .astimezone()
-                .isoformat(timespec="seconds"),
+                "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
                 "cases": pilot_cases,
                 "stopped_on_common_error": stopped,
-                "actual_groq_calls": sum(
-                    case["actual_groq_calls"] for case in pilot_cases
-                ),
+                "actual_groq_calls": sum(case["actual_groq_calls"] for case in pilot_cases),
                 "all_executed_passed": (
-                    len(pilot_cases) == len(PILOT_IDS)
-                    and all(case["pass"] for case in pilot_cases)
+                    len(pilot_cases) == len(PILOT_IDS) and all(case["pass"] for case in pilot_cases)
                 ),
             }
     except Exception as error:  # noqa: BLE001 - always write the safe evaluation report.
@@ -559,9 +624,7 @@ def main():
             report["failure_code"] = type(error).__name__
     finally:
         pilot_calls = pilot["actual_groq_calls"] if pilot else 0
-        report["actual_groq_calls"] = (
-            report["q002"].get("actual_groq_calls", 0) + pilot_calls
-        )
+        report["actual_groq_calls"] = report["q002"].get("actual_groq_calls", 0) + pilot_calls
         write_json(args.output / "live_report.json", report)
         if pilot is not None:
             write_json(args.output / "pilot_report.json", pilot)
@@ -585,4 +648,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

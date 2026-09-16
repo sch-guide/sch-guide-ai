@@ -26,3 +26,45 @@ artifacts/
 node_modules/
 frontend/dist/
 *.tsbuildinfo
+.tmp/
+.pytest_tmp/
+.pytest-tmp-*/
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Environment / API keys
+.env
+.env.*
+!.env.example
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Pytest / test temp
+.pytest_cache/
+.pytest_tmp/
+.pytest-tmp-*/
+.tmp/
+.tmp-*/
+
+# Ruff / type checker cache
+.ruff_cache/
+.mypy_cache/
+
+# Streamlit secrets
+.streamlit/secrets.toml
+
+# Local databases / cache
+*.db
+*.sqlite
+*.sqlite3
+
+# OS / editor temp
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

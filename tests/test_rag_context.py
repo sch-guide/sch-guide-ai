@@ -3,7 +3,9 @@ from dataclasses import replace
 from pathlib import Path
 
 from mvp.context import expand_context
+from mvp.evidence import assess_evidence
 from mvp.library import Chunk, Hit
+from mvp.query import plan_query
 from tools.rag_phase1_evaluate import stage_recall
 
 
@@ -77,16 +79,19 @@ def test_non_procedure_keeps_seed_first_round_robin_order():
     assert [hit.chunk.id for hit in hits] == ['c', 'a', 'b']
 
 
-def test_non_procedure_duplicate_parent_part_still_counts_as_incomplete_when_truncated():
+def test_non_procedure_oversized_first_parent_is_not_partially_included():
     chunks = linked([
         chunk('a', '진정 목적을 설명하는 충분한 본문입니다.', 0, parent='purpose'),
         chunk('b', '진정 목적을 설명하는 충분한 본문입니다.', 1, parent='purpose'),
     ])
+    plan = plan_query('진정 목적은?')
 
-    hits = expand_context('진정 목적은?', [Hit(chunks[0], .9)], chunks, limit=1)
+    hits = expand_context(plan.query, [Hit(chunks[0], .9)], chunks, limit=1)
+    assessment = assess_evidence(plan, hits)
 
-    assert [hit.chunk.id for hit in hits] == ['a']
-    assert not hits[0].context_complete
+    assert hits == []
+    assert not assessment.sufficient
+    assert assessment.reason == 'no_topic_evidence'
 
 
 def test_expand_context_rejects_non_positive_limit():

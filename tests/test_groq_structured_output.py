@@ -168,8 +168,8 @@ def test_finish_reason_length_is_ai_incomplete_before_validation(tmp_path):
 def test_output_and_request_admission_limits_are_the_approved_values():
     assert OUTPUT_LIMIT == 2048
     assert GROQ_REQUEST_TOKEN_BUDGET == 5120
-    assert AI_VERSION == 18
-    assert RESPONSE_SELECTION_SCHEMA_VERSION == 4
+    assert AI_VERSION == 19
+    assert RESPONSE_SELECTION_SCHEMA_VERSION == 5
 
 
 @pytest.mark.parametrize("response", [

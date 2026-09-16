@@ -104,7 +104,7 @@ def test_prompt_budget_keeps_parent_group_atomic_and_records_optional_exclusion(
     assert trace['prompt_excluded_groups'] == [{
         'group_key': assessment.procedure_coverage.optional_group_keys[0],
         'required': False,
-        'reason': 'byte_budget',
+        'reason': 'not_required_by_facet_contract',
     }]
 
 
@@ -180,7 +180,7 @@ def test_compact_evidence_serialization_keeps_text_and_moves_shared_metadata_to_
 
     payload = json.loads(serialize_evidence_groups(groups))
 
-    assert payload['schema_version'] == 5
+    assert payload['schema_version'] == 6
     assert len(payload['groups']) == 1
     group = payload['groups'][0]
     assert group['document'] == first.document_name

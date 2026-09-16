@@ -4,6 +4,7 @@ import json
 import math
 from collections import Counter
 from dataclasses import replace
+from functools import lru_cache
 from pathlib import Path
 
 import httpx
@@ -20,10 +21,10 @@ from mvp.ai import (
     SOURCE_UNIT_SYSTEM,
     Answer,
     answer_text,
+    build_facet_selection_contract,
     build_selection_contract,
     generate,
     groq_answer_json_schema,
-    prompt_evidence_envelope,
     prompt_messages,
     validate_source_unit_selection,
 )
@@ -104,6 +105,64 @@ def response(contract, ids, *, overrides=None, extra=None):
     return json.dumps(value, ensure_ascii=False)
 
 
+def facet_contract_for(plan, assessment, catalog):
+    return build_facet_selection_contract(
+        plan, assessment.procedure_coverage, catalog,
+    )
+
+
+def facet_response(contract, ids, *, preserve_order=True):
+    target = tuple(ids)
+    if preserve_order:
+        @lru_cache(maxsize=None)
+        def visit(slot_index, introduced):
+            if slot_index == len(contract.slots):
+                return () if introduced == len(target) else None
+            allowed = set(contract.slots[slot_index].eligible_source_unit_ids)
+            choices = []
+            if introduced < len(target) and target[introduced] in allowed:
+                choices.append(target[introduced])
+            choices.extend(identifier for identifier in target[:introduced] if identifier in allowed)
+            for identifier in choices:
+                next_introduced = introduced + int(
+                    introduced < len(target) and identifier == target[introduced]
+                )
+                tail = visit(slot_index + 1, next_introduced)
+                if tail is not None:
+                    return (identifier,) + tail
+            return None
+
+        chosen = visit(0, 0)
+        assert chosen is not None, 'requested IDs cannot be introduced in source order'
+    else:
+        matched = {}
+
+        def place(identifier, visited):
+            for slot_index, slot in enumerate(contract.slots):
+                if slot_index in visited or identifier not in slot.eligible_source_unit_ids:
+                    continue
+                visited.add(slot_index)
+                if slot_index not in matched or place(matched[slot_index], visited):
+                    matched[slot_index] = identifier
+                    return True
+            return False
+
+        assert all(place(identifier, set()) for identifier in target)
+        chosen = tuple(
+            matched.get(index) or next(
+                identifier for identifier in target
+                if identifier in slot.eligible_source_unit_ids
+            )
+            for index, slot in enumerate(contract.slots)
+        )
+    return json.dumps({
+        'facet_selections': {
+            slot.prompt_facet_id: identifier
+            for slot, identifier in zip(contract.slots, chosen)
+        },
+    }, ensure_ascii=False)
+
+
 def run_mock(plan, hits, content, *, schema_valid=False):
     calls = []
     trace = {}
@@ -150,9 +209,10 @@ def test_prompt_and_answer_coverage_are_separate_and_budget_is_safe(q002):
     plan, hits, assessment, catalog, _, _, required_ids = q002
     trace = {}
 
-    messages, selected, prompt_catalog = prompt_messages(
+    messages, selected, prompt_catalog, contract = prompt_messages(
         plan.query, assessment.hits, 14000, token_budget=GROQ_REQUEST_TOKEN_BUDGET,
         plan=plan, groups=assessment.groups, trace=trace, return_catalog=True,
+        return_contract=True,
     )
 
     assert len(hits) == len(selected) == 12
@@ -160,41 +220,30 @@ def test_prompt_and_answer_coverage_are_separate_and_budget_is_safe(q002):
     assert len(assessment.procedure_coverage.input_required_unit_keys) == 23
     assert len(catalog) == len(prompt_catalog) == 40
     assert len(required_ids) == 14
-    assert all(next(unit for unit in catalog if unit.source_unit_id == item).selectable
-               for item in required_ids)
+    assert len(contract.slots) == 41
+    assert not [slot for slot in contract.slots if not slot.eligible_source_unit_ids]
     reservation = trace['estimated_request_tokens']
     assert reservation <= 5120
     assert trace['request_token_headroom'] >= max(256, math.ceil(reservation * .08))
     envelope = json.loads(messages[1]['content'].split('Evidence groups (JSON):\n', 1)[1])
-    assert envelope['schema_version'] == 5
+    assert envelope['schema_version'] == 6
     assert envelope['selection_policy'] == {
-        'goal': 'smallest_sufficient_subset',
-        'maximum_total': 16,
-        'selectable_means': 'eligible_not_mandatory',
-        'required_group_means': 'non_empty_sufficient_subset',
+        'goal': 'one_eligible_id_per_required_facet',
+        'maximum_distinct_total': 16,
+        'same_id_across_facets': 'allowed',
+        'source_order': 'required',
     }
-    assert prompt_evidence_envelope(
-        assessment.groups, prompt_catalog
-    )['selection_policy'] == envelope['selection_policy']
-    policy_json = json.dumps(envelope['selection_policy'], ensure_ascii=False).lower()
-    assert all(term not in policy_json for term in ('q002', 'gold', 'stage', 'chunk_id'))
-    assert not set(envelope['selection_policy']).intersection({
-        'expected_count', 'maximum_per_group', 'per_group_maximum', 'per_group_expected',
-    })
+    assert len(envelope['source_units']) == 21
+    assert all(set(unit) == {'id', 'text'} for unit in envelope['source_units'])
+    serialized = json.dumps(envelope, ensure_ascii=False).lower()
+    assert all(term not in serialized for term in ('q002', 'gold', 'stage', 'chunk_id'))
     system = ' '.join(SOURCE_UNIT_SYSTEM.lower().split())
-    assert 'selectable: eligible, not mandatory' in system
-    assert 'required: sufficient non-empty subset' in system
-    assert 'smallest sufficient set of at most 16 ids' in system
+    assert 'return only json facet_selections' in system
+    assert 'every schema facet key exactly once' in system
+    assert 'reuse the same id across facets' in system
     assert 'server decides answerability' in system
-    assert 'if impossible return all arrays empty' in system
-    assert 'return only json group_selections' in system
-    assert 'procedure_requirement' in system
-    assert 'answerable=false' not in system
-    assert all('required' in group and 'branch' in group for group in envelope['groups'])
-    assert sum(group['required'] for group in envelope['groups']) == len(
-        assessment.procedure_coverage.required_group_keys
-    )
-    assert sum(len(source['units']) for group in envelope['groups'] for source in group['sources']) == 40
+    assert 'output no text, quote, chunk id, metadata' in system
+    assert trace['response_schema_serialized_tokens'] > 0
 
 
 def test_catalog_keeps_context_units_but_marks_headings_and_orphans_non_selectable(q002):
@@ -208,20 +257,21 @@ def test_catalog_keeps_context_units_but_marks_headings_and_orphans_non_selectab
 
 
 def test_q002_required_gold_10_of_10_fits_fourteen_ids_and_reconstructs_exactly(q002):
-    plan, hits, _, catalog, contract, stages, required_ids = q002
+    plan, hits, assessment, catalog, _, stages, required_ids = q002
+    contract = facet_contract_for(plan, assessment, catalog)
 
     answer, selected, calls, trace, quota = run_mock(
-        plan, hits, response(contract, required_ids), schema_valid=True
+        plan, hits, facet_response(contract, required_ids), schema_valid=True
     )
 
     selected_set = set(required_ids)
     by_key = {(unit.chunk_id, unit.source_order[1]): unit for unit in catalog}
-    recalled = 0
-    for stage in stages:
-        alternatives = stage['source_unit_requirements']
-        if any(all(by_key[(item['chunk_id'], item['source_unit_position'])].source_unit_id
-                   in selected_set for item in alternative['all_of']) for alternative in alternatives):
-            recalled += 1
+    recalled = sum(
+        any(all(by_key[(item['chunk_id'], item['source_unit_position'])].source_unit_id
+                in selected_set for item in alternative['all_of'])
+            for alternative in stage['source_unit_requirements'])
+        for stage in stages
+    )
     by_id = {unit.source_unit_id: unit for unit in catalog}
     expected = [by_id[item] for item in required_ids]
     assert recalled == 10
@@ -233,40 +283,38 @@ def test_q002_required_gold_10_of_10_fits_fourteen_ids_and_reconstructs_exactly(
     assert [statement.evidence[0].quote for statement in answer.statements] == [
         unit.exact_text for unit in expected
     ]
-    assert [statement.evidence[0].chunk_id for statement in answer.statements] == [
-        unit.chunk_id for unit in expected
-    ]
     assert trace['response_parse_stage'] == 'complete'
     assert trace['answer_coverage']['complete'] is True
-    assert trace['response_selection_schema_version'] == 4
+    assert trace['response_selection_schema_version'] == 5
+    assert trace['selected_facet_count'] == 41
+    assert trace['selected_source_unit_count'] == 14
     assert trace['citation_assessment'] == 'supported'
     assert trace['citation_branch_metadata'] == 'server_evidence_group'
     assert quota.reservations and quota.reservations[0] < 5120
 
 
-def test_provider_schema_keeps_all_group_slots_required_and_enum_scoped(q002):
-    _, _, assessment, catalog, contract, _, _ = q002
+def test_provider_schema_keeps_all_facet_slots_required_and_enum_scoped(q002):
+    plan, _, assessment, catalog, _, _, _ = q002
+    contract = facet_contract_for(plan, assessment, catalog)
     schema = groq_answer_json_schema(contract)
-    groups = schema['properties']['group_selections']
-    slots = groups['properties']
+    facets = schema['properties']['facet_selections']
+    slots = facets['properties']
 
-    assert len(contract.slots) == 5
-    assert set(slots) == {f'g{index}' for index in range(1, 6)}
-    assert set(groups['required']) == set(slots)
+    assert len(contract.slots) == 41
+    assert set(slots) == {f'f{index:02d}' for index in range(1, 42)}
+    assert set(facets['required']) == set(slots)
+    assert facets['additionalProperties'] is False
     for slot in contract.slots:
-        assert slots[slot.prompt_group_id]['items']['enum'] == list(
-            slot.selectable_source_unit_ids
-        )
-        assert set(slots[slot.prompt_group_id]) == {'type', 'items'}
-    assert {slot.branch for slot in contract.slots if slot.required} >= {'adult', 'pediatric'}
-    assert tuple(slot.group_key for slot in contract.slots) == tuple(
-        group.key for group in assessment.groups
-    )
-    assert tuple(unit.group_key for unit in catalog if unit.selectable)
+        assert slots[slot.prompt_facet_id] == {
+            'type': 'string', 'enum': list(slot.eligible_source_unit_ids),
+        }
+        assert slot.eligible_source_unit_ids
+    assert set(schema) == {'type', 'properties', 'required', 'additionalProperties'}
 
 
 def test_provider_schema_omits_unconfirmed_constraint_keywords(q002):
-    _, _, _, _, contract, _, _ = q002
+    plan, _, assessment, catalog, _, _, _ = q002
+    contract = facet_contract_for(plan, assessment, catalog)
     schema = groq_answer_json_schema(contract)
     keys = set()
 
@@ -289,45 +337,120 @@ def test_provider_schema_omits_unconfirmed_constraint_keywords(q002):
     })
 
 
-@pytest.mark.parametrize('branch', ['adult', 'pediatric'])
-def test_required_branch_empty_array_fails_closed(q002, branch):
-    plan, hits, _, _, contract, _, required_ids = q002
-    slot = next(item for item in contract.slots if item.required and item.branch == branch)
-    content = response(contract, required_ids, overrides={slot.prompt_group_id: []})
+def test_missing_required_facet_property_fails_closed(q002):
+    plan, hits, assessment, catalog, _, _, required_ids = q002
+    contract = facet_contract_for(plan, assessment, catalog)
+    value = json.loads(facet_response(contract, required_ids))
+    value['facet_selections'].pop(contract.slots[0].prompt_facet_id)
 
-    answer, _, calls, trace, _ = run_mock(plan, hits, content)
+    answer, _, calls, trace, _ = run_mock(plan, hits, json.dumps(value))
 
     assert len(calls) == 1
     assert not answer.answerable
-    assert trace['validation_reason'] == 'selection_branch'
+    assert trace['validation_reason'] == 'selection_schema'
 
 
-def test_required_common_group_empty_array_fails_closed(q002):
-    plan, hits, _, _, contract, _, required_ids = q002
-    slot = next(item for item in contract.slots if item.required and item.branch == 'common')
-    content = response(contract, required_ids, overrides={slot.prompt_group_id: []})
+def test_allowlist_outside_id_fails_closed(q002):
+    plan, hits, assessment, catalog, _, _, required_ids = q002
+    contract = facet_contract_for(plan, assessment, catalog)
+    value = json.loads(facet_response(contract, required_ids))
+    value['facet_selections'][contract.slots[0].prompt_facet_id] = 'su999'
 
-    answer, _, _, trace, _ = run_mock(plan, hits, content)
+    answer, _, calls, trace, _ = run_mock(plan, hits, json.dumps(value))
 
+    assert len(calls) == 1
     assert not answer.answerable
-    assert trace['validation_reason'] == 'selection_missing_group'
+    assert trace['validation_reason'] == 'selection_wrong_facet'
 
 
 def test_all_twenty_one_selectable_units_are_blocked_without_truncation(q002):
-    plan, hits, _, catalog, contract, _, _ = q002
-    all_selectable_ids = [
-        unit.source_unit_id for unit in catalog if unit.selectable
-    ]
+    plan, hits, assessment, catalog, _, _, _ = q002
+    contract = facet_contract_for(plan, assessment, catalog)
+    all_selectable_ids = [unit.source_unit_id for unit in catalog if unit.selectable]
 
     assert len(all_selectable_ids) == 21
     answer, _, calls, trace, _ = run_mock(
-        plan, hits, response(contract, all_selectable_ids), schema_valid=True
+        plan, hits, facet_response(contract, all_selectable_ids, preserve_order=False),
+        schema_valid=True,
     )
 
     assert len(calls) == 1
     assert not answer.answerable
     assert trace['validation_reason'] == 'selection_limit'
     assert trace['selected_source_unit_count'] == 21
+
+
+def test_minimum_ten_distinct_ids_cover_all_facets_and_canonicalize(q002):
+    plan, _, assessment, catalog, _, _, _ = q002
+    contract = facet_contract_for(plan, assessment, catalog)
+    minimum_ids = (
+        'su002', 'su003', 'su005', 'su012', 'su017',
+        'su020', 'su021', 'su024', 'su029', 'su032',
+    )
+    raw = facet_response(contract, minimum_ids)
+    trace = {}
+
+    selection, units = validate_source_unit_selection(
+        raw, catalog, contract, assessment.procedure_coverage, plan, trace=trace,
+    )
+
+    assert len(selection.facet_selections) == 41
+    assert len(units) == 10
+    assert [unit.source_unit_id for unit in units] == list(minimum_ids)
+    assert trace['answer_coverage']['complete'] is True
+
+
+def test_q002_eleven_source_units_keep_exact_identity_in_presentation_sidecar(q002):
+    plan, hits, assessment, catalog, _, _, _ = q002
+    contract = facet_contract_for(plan, assessment, catalog)
+    eleven_ids = (
+        'su002', 'su003', 'su005', 'su006', 'su012', 'su017',
+        'su020', 'su021', 'su024', 'su029', 'su032',
+    )
+    by_id = {unit.source_unit_id: unit for unit in catalog}
+
+    answer, _, calls, trace, _ = run_mock(
+        plan, hits, facet_response(contract, eleven_ids), schema_valid=True,
+    )
+
+    assert len(calls) == 1
+    assert trace['selected_source_unit_count'] == 11
+    assert len(answer.statements) == 11
+    assert [item.source_unit_id for item in answer.presentation.statements] == list(eleven_ids)
+    assert [item.statement_index for item in answer.presentation.statements] == list(range(11))
+    assert [statement.text for statement in answer.statements] == [
+        by_id[identifier].exact_text for identifier in eleven_ids
+    ]
+    assert [statement.evidence[0].quote for statement in answer.statements] == [
+        by_id[identifier].exact_text for identifier in eleven_ids
+    ]
+    assert [statement.evidence[0].chunk_id for statement in answer.statements] == [
+        by_id[identifier].chunk_id for identifier in eleven_ids
+    ]
+    assert [item.source_order for item in answer.presentation.statements] == sorted(
+        item.source_order for item in answer.presentation.statements
+    )
+
+
+def test_seventeen_distinct_ids_fail_selection_limit(q002):
+    plan, hits, assessment, catalog, _, _, required_ids = q002
+    contract = facet_contract_for(plan, assessment, catalog)
+    by_id = {unit.source_unit_id: unit for unit in catalog}
+    extras = [
+        unit.source_unit_id for unit in catalog
+        if unit.selectable and unit.source_unit_id not in required_ids
+    ][:3]
+    seventeen = sorted(required_ids + extras, key=lambda identifier: by_id[identifier].source_order)
+    answer, _, calls, trace, _ = run_mock(
+        plan, hits, facet_response(contract, seventeen, preserve_order=False),
+        schema_valid=True,
+    )
+
+    assert len(set(seventeen)) == 17
+    assert len(calls) == 1
+    assert not answer.answerable
+    assert trace['validation_reason'] == 'selection_limit'
+    assert trace['selected_source_unit_count'] == 17
 
 
 def test_live_group_count_observer_keeps_counts_without_source_unit_ids(q002):
@@ -355,7 +478,7 @@ def test_live_group_count_observer_keeps_counts_without_source_unit_ids(q002):
     ('extra_text', 'selection_schema'),
 ])
 def test_invalid_group_selections_fail_closed(q002, mutation, reason):
-    plan, hits, _, catalog, contract, _, required_ids = q002
+    plan, hits, assessment, catalog, contract, _, required_ids = q002
     ids = list(required_ids)
     overrides = {}
     extra = None
@@ -392,30 +515,31 @@ def test_invalid_group_selections_fail_closed(q002, mutation, reason):
     elif mutation == 'extra_text':
         extra = {'statement': {'text': 'forbidden'}}
 
-    answer, _, calls, trace, _ = run_mock(
-        plan, hits, response(contract, ids, overrides=overrides, extra=extra)
-    )
-
-    assert len(calls) == 1
-    assert not answer.answerable
-    assert trace['llm_error_code'] == 'AI_EVIDENCE'
+    trace = {}
+    with pytest.raises(GuideError, match='AI_EVIDENCE'):
+        validate_source_unit_selection(
+            response(contract, ids, overrides=overrides, extra=extra),
+            catalog, contract, assessment.procedure_coverage, plan, trace=trace,
+        )
     assert trace['validation_reason'] == reason
 
 
 def test_global_source_order_is_checked_without_server_reordering(q002):
-    plan, _, assessment, catalog, contract, _, required_ids = q002
-    selected = [next(unit for unit in catalog if unit.source_unit_id == item)
-                for item in required_ids]
-    later = selected[-1]
-    altered_catalog = tuple(
-        replace(unit, source_order=(0, 1)) if unit.source_unit_id == later.source_unit_id else unit
-        for unit in catalog
-    )
+    plan, _, assessment, catalog, _, _, required_ids = q002
+    contract = facet_contract_for(plan, assessment, catalog)
+    value = json.loads(facet_response(contract, required_ids))
+    second = contract.slots[1]
+    third = contract.slots[2]
+    later = second.eligible_source_unit_ids[-1]
+    earlier = value['facet_selections'][third.prompt_facet_id]
+    by_id = {unit.source_unit_id: unit for unit in catalog}
+    assert by_id[later].source_order > by_id[earlier].source_order
+    value['facet_selections'][second.prompt_facet_id] = later
     trace = {}
 
     with pytest.raises(GuideError, match='AI_EVIDENCE'):
         validate_source_unit_selection(
-            response(contract, required_ids), altered_catalog, contract,
+            json.dumps(value), catalog, contract,
             assessment.procedure_coverage, plan, trace=trace,
         )
 
@@ -423,7 +547,8 @@ def test_global_source_order_is_checked_without_server_reordering(q002):
 
 
 def test_prompt_coverage_and_selection_contract_drift_fails_closed(q002):
-    plan, _, assessment, catalog, contract, _, required_ids = q002
+    plan, _, assessment, catalog, _, _, required_ids = q002
+    contract = facet_contract_for(plan, assessment, catalog)
     drifted = replace(
         assessment.procedure_coverage,
         required_group_keys=assessment.procedure_coverage.required_group_keys[:-1],
@@ -432,26 +557,29 @@ def test_prompt_coverage_and_selection_contract_drift_fails_closed(q002):
 
     with pytest.raises(GuideError, match='AI_EVIDENCE'):
         validate_source_unit_selection(
-            response(contract, required_ids), catalog, contract, drifted, plan, trace=trace,
+            facet_response(contract, required_ids), catalog, contract, drifted, plan, trace=trace,
         )
 
     assert trace['validation_reason'] == 'selection_contract_drift'
 
 
-def test_all_empty_group_selections_are_server_derived_abstention(q002):
-    plan, hits, _, _, contract, _, _ = q002
-    content = response(contract, [])
+def test_empty_facet_selection_object_fails_closed(q002):
+    plan, hits, _, _, _, _, _ = q002
 
-    answer, _, _, trace, _ = run_mock(plan, hits, content)
+    answer, _, calls, trace, _ = run_mock(
+        plan, hits, json.dumps({'facet_selections': {}}),
+    )
 
+    assert len(calls) == 1
     assert not answer.answerable
-    assert trace['validation_reason'] == 'selection_empty'
+    assert trace['validation_reason'] == 'selection_schema'
 
 
 def test_reconstruction_still_fails_closed_on_bad_citation(q002, monkeypatch):
     import mvp.ai as ai_module
 
-    plan, hits, _, _, contract, _, required_ids = q002
+    plan, hits, assessment, catalog, _, _, required_ids = q002
+    contract = facet_contract_for(plan, assessment, catalog)
     original = ai_module.reconstruct_source_unit_answer
 
     def bad_reconstruction(selection, units, current_plan, conflicts):
@@ -464,7 +592,7 @@ def test_reconstruction_still_fails_closed_on_bad_citation(q002, monkeypatch):
         return answer.model_copy(update={'statements': statements})
 
     monkeypatch.setattr(ai_module, 'reconstruct_source_unit_answer', bad_reconstruction)
-    answer, _, calls, trace, _ = run_mock(plan, hits, response(contract, required_ids))
+    answer, _, calls, trace, _ = run_mock(plan, hits, facet_response(contract, required_ids))
 
     assert len(calls) == 1
     assert not answer.answerable
@@ -473,39 +601,37 @@ def test_reconstruction_still_fails_closed_on_bad_citation(q002, monkeypatch):
 
 
 def test_selection_schema_forbids_model_generated_answer_fields_and_versions_are_current(q002):
-    _, _, _, _, contract, _, required_ids = q002
+    plan, _, assessment, catalog, _, _, required_ids = q002
+    contract = facet_contract_for(plan, assessment, catalog)
     schema = groq_answer_json_schema(contract)
-    valid = json.loads(response(contract, required_ids))
+    valid = json.loads(facet_response(contract, required_ids))
 
     Draft202012Validator.check_schema(schema)
     validator = Draft202012Validator(schema)
     validator.validate(valid)
-    required_slot = next(slot for slot in contract.slots if slot.required)
+    required_slot = contract.slots[0]
     missing_required = json.loads(json.dumps(valid))
-    missing_required['group_selections'][required_slot.prompt_group_id] = []
-    validator.validate(missing_required)
+    missing_required['facet_selections'].pop(required_slot.prompt_facet_id)
+    with pytest.raises(JSONSchemaError):
+        validator.validate(missing_required)
     wrong_slot = json.loads(json.dumps(valid))
-    other_slot = next(slot for slot in contract.slots if slot != required_slot)
-    wrong_slot['group_selections'][other_slot.prompt_group_id] = [
-        required_slot.selectable_source_unit_ids[0]
-    ]
+    wrong_slot['facet_selections'][required_slot.prompt_facet_id] = 'su999'
     with pytest.raises(JSONSchemaError):
         validator.validate(wrong_slot)
-    for forbidden in ('text', 'quote', 'chunk_id', 'branch', 'group_key', 'source_order', 'label'):
+    for forbidden in ('text', 'quote', 'chunk_id', 'branch', 'phase', 'action',
+                      'source_order', 'label'):
         invalid = dict(valid)
         invalid[forbidden] = 'forbidden'
         with pytest.raises(JSONSchemaError):
             validator.validate(invalid)
-    empty_value = {
-        'group_selections': {slot.prompt_group_id: [] for slot in contract.slots},
-    }
-    validator.validate(empty_value)
+    extra_facet = json.loads(json.dumps(valid))
+    extra_facet['facet_selections']['f99'] = required_ids[0]
     with pytest.raises(JSONSchemaError):
-        validator.validate({'answerable': False, **empty_value})
+        validator.validate(extra_facet)
     assert Answer.model_json_schema()['properties']['statements']['maxItems'] == 16
-    assert AI_VERSION == 18
-    assert PROMPT_EVIDENCE_SCHEMA_VERSION == 5
-    assert RESPONSE_SELECTION_SCHEMA_VERSION == 4
+    assert AI_VERSION == 19
+    assert PROMPT_EVIDENCE_SCHEMA_VERSION == 6
+    assert RESPONSE_SELECTION_SCHEMA_VERSION == 5
 
 
 def test_q006_builds_no_catalog_and_never_calls_transport():

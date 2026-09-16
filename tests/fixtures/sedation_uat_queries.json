@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "description": "진정간호 실사용 표현의 retrieval/evidence 일반화 UAT 세트. production 코드에서 읽지 않는다.",
+  "cases": [
+    {"id": "PROC01", "category": "procedure", "question": "진정절차 알려줘", "expected_behavior": "answer", "expected_intent": "procedure", "expected_topic": "진정간호", "expected_branch": "both", "expected_phase": null, "expected_qualifier": "full_procedure"},
+    {"id": "PROC02", "category": "procedure", "question": "진정은 어떻게 해?", "expected_behavior": "answer", "expected_intent": "procedure", "expected_topic": "진정간호", "expected_branch": "both", "expected_phase": null, "expected_qualifier": "full_procedure"},
+    {"id": "PROC03", "category": "procedure", "question": "진정 진행 순서는?", "expected_behavior": "answer", "expected_intent": "procedure", "expected_topic": "진정간호", "expected_branch": "both", "expected_phase": null, "expected_qualifier": "full_procedure"},
+    {"id": "PROC04", "category": "procedure", "question": "진정 방법 알려줘", "expected_behavior": "answer", "expected_intent": "procedure", "expected_topic": "진정간호", "expected_branch": "both", "expected_phase": null, "expected_qualifier": "full_procedure"},
+    {"id": "PROC05", "category": "procedure", "question": "진정간호는 어떤 순서로 시행해?", "expected_behavior": "answer", "expected_intent": "procedure", "expected_topic": "진정간호", "expected_branch": "both", "expected_phase": null, "expected_qualifier": "full_procedure"},
+
+    {"id": "PURP01", "category": "purpose", "question": "진정 목적은?", "expected_behavior": "answer", "expected_intent": "purpose", "expected_topic": "진정간호", "expected_branch": "any", "expected_phase": null, "expected_qualifier": "purpose"},
+    {"id": "PURP02", "category": "purpose", "question": "진정 왜 해?", "expected_behavior": "answer", "expected_intent": "purpose", "expected_topic": "진정간호", "expected_branch": "any", "expected_phase": null, "expected_qualifier": "purpose"},
+    {"id": "PURP03", "category": "purpose", "question": "진정하는 이유 알려줘", "expected_behavior": "answer", "expected_intent": "purpose", "expected_topic": "진정간호", "expected_branch": "any", "expected_phase": null, "expected_qualifier": "purpose"},
+    {"id": "PURP04", "category": "purpose", "question": "진정간호를 시행하는 목적이 뭐야?", "expected_behavior": "answer", "expected_intent": "purpose", "expected_topic": "진정간호", "expected_branch": "any", "expected_phase": null, "expected_qualifier": "purpose"},
+
+    {"id": "PREP01", "category": "preparation", "question": "진정 전에 뭐 확인해?", "expected_behavior": "answer", "expected_intent": "preparation", "expected_topic": "진정간호", "expected_branch": "any", "expected_phase": "before", "expected_qualifier": "pre_sedation_check"},
+    {"id": "PREP02", "category": "preparation", "question": "진정 준비 알려줘", "expected_behavior": "answer", "expected_intent": "preparation", "expected_topic": "진정간호", "expected_branch": "any", "expected_phase": null, "expected_qualifier": "preparation"},
+    {"id": "PREP03", "category": "preparation", "question": "진정 전 체크사항은?", "expected_behavior": "answer", "expected_intent": "preparation", "expected_topic": "진정간호", "expected_branch": "any", "expected_phase": "before", "expected_qualifier": "pre_sedation_check"},
+    {"id": "PREP04", "category": "preparation", "question": "진정 전에 환자 상태를 어떻게 확인해?", "expected_behavior": "answer", "expected_intent": "preparation", "expected_topic": "진정간호", "expected_branch": "any", "expected_phase": "before", "expected_qualifier": "patient_assessment"},
+    {"id": "PREP05", "category": "preparation", "question": "진정 시행 전에 준비할 것은?", "expected_behavior": "answer", "expected_intent": "preparation", "expected_topic": "진정간호", "expected_branch": "any", "expected_phase": "before", "expected_qualifier": "preparation"},
+
+    {"id": "CAUT01", "category": "cautions", "question": "진정할 때 주의할 점은?", "expected_behavior": "answer", "expected_intent": "cautions", "expected_topic": "진정간호", "expected_branch": "any", "expected_phase": null, "expected_qualifier": "safety"},
+    {"id": "CAUT02", "category": "cautions", "question": "진정 중 조심할 것은?", "expected_behavior": "answer", "expected_intent": "cautions", "expected_topic": "진정간호", "expected_branch": "any", "expected_phase": "during", "expected_qualifier": "safety"},
+    {"id": "CAUT03", "category": "cautions", "question": "진정 안전하게 보려면 뭐 확인해?", "expected_behavior": "answer", "expected_intent": "cautions", "expected_topic": "진정간호", "expected_branch": "any", "expected_phase": null, "expected_qualifier": "safety_monitoring"},
+    {"id": "CAUT04", "category": "cautions", "question": "진정간호 주의사항 알려줘", "expected_behavior": "answer", "expected_intent": "cautions", "expected_topic": "진정간호", "expected_branch": "any", "expected_phase": null, "expected_qualifier": "cautions"},
+    {"id": "CAUT05", "category": "cautions", "question": "진정 후 이상 증상은 무엇을 봐야 해?", "expected_behavior": "answer", "expected_intent": "cautions", "expected_topic": "진정간호", "expected_branch": "any", "expected_phase": "after", "expected_qualifier": "post_sedation_symptoms"},
+
+    {"id": "SUM01", "category": "summary_broad", "question": "진정에 대해 알려줘", "expected_behavior": "answer", "expected_intent": "summary", "expected_topic": "진정간호", "expected_branch": "both", "expected_phase": null, "expected_qualifier": "broad_summary"},
+    {"id": "SUM02", "category": "summary_broad", "question": "소아 진정 알려줘", "expected_behavior": "answer", "expected_intent": "summary", "expected_topic": "진정간호", "expected_branch": "pediatric", "expected_phase": null, "expected_qualifier": "branch_summary"},
+    {"id": "SUM03", "category": "summary_broad", "question": "성인 진정 알려줘", "expected_behavior": "answer", "expected_intent": "summary", "expected_topic": "진정간호", "expected_branch": "adult", "expected_phase": null, "expected_qualifier": "branch_summary"},
+    {"id": "SUM04", "category": "summary_broad", "question": "진정간호 전체적으로 설명해줘", "expected_behavior": "answer", "expected_intent": "summary", "expected_topic": "진정간호", "expected_branch": "both", "expected_phase": null, "expected_qualifier": "broad_summary"},
+    {"id": "SUM05", "category": "summary_broad", "question": "진정간호를 간단히 정리해줘", "expected_behavior": "answer", "expected_intent": "summary", "expected_topic": "진정간호", "expected_branch": "both", "expected_phase": null, "expected_qualifier": "broad_summary"},
+
+    {"id": "BR01", "category": "branch_specific", "question": "소아 진정 절차 알려줘", "expected_behavior": "answer", "expected_intent": "procedure", "expected_topic": "진정간호", "expected_branch": "pediatric", "expected_phase": null, "expected_qualifier": "branch_procedure"},
+    {"id": "BR02", "category": "branch_specific", "question": "성인 진정 절차 알려줘", "expected_behavior": "answer", "expected_intent": "procedure", "expected_topic": "진정간호", "expected_branch": "adult", "expected_phase": null, "expected_qualifier": "branch_procedure"},
+    {"id": "BR03", "category": "branch_specific", "question": "소아 진정 중 모니터링 알려줘", "expected_behavior": "answer", "expected_intent": "cautions", "expected_topic": "진정간호", "expected_branch": "pediatric", "expected_phase": "during", "expected_qualifier": "monitoring"},
+    {"id": "BR04", "category": "branch_specific", "question": "성인 진정 후 관찰 알려줘", "expected_behavior": "answer", "expected_intent": "cautions", "expected_topic": "진정간호", "expected_branch": "adult", "expected_phase": "after", "expected_qualifier": "observation"},
+    {"id": "BR05", "category": "branch_specific", "question": "소아 진정 전 확인사항 알려줘", "expected_behavior": "answer", "expected_intent": "preparation", "expected_topic": "진정간호", "expected_branch": "pediatric", "expected_phase": "before", "expected_qualifier": "pre_sedation_check"},
+    {"id": "BR06", "category": "branch_specific", "question": "성인 진정 중 투약과 관찰 방법은?", "expected_behavior": "answer", "expected_intent": "procedure", "expected_topic": "진정간호", "expected_branch": "adult", "expected_phase": "during", "expected_qualifier": "medication_monitoring"},
+    {"id": "BR07", "category": "branch_specific", "question": "소아 진정 후 회복 관찰은?", "expected_behavior": "answer", "expected_intent": "cautions", "expected_topic": "진정간호", "expected_branch": "pediatric", "expected_phase": "after", "expected_qualifier": "recovery_observation"},
+
+    {"id": "FACT01", "category": "fact_specific", "question": "소아 진정은 몇 분마다 확인해?", "expected_behavior": "answer", "expected_intent": "fact", "expected_topic": "진정간호", "expected_branch": "pediatric", "expected_phase": null, "expected_qualifier": "monitoring_interval"},
+    {"id": "FACT02", "category": "fact_specific", "question": "성인은 몇 분마다 모니터링해?", "expected_behavior": "answer", "expected_intent": "fact", "expected_topic": "진정간호", "expected_branch": "adult", "expected_phase": null, "expected_qualifier": "monitoring_interval"},
+    {"id": "FACT03", "category": "fact_specific", "question": "진정 동의서는 언제 받아?", "expected_behavior": "answer", "expected_intent": "fact", "expected_topic": "진정간호", "expected_branch": "any", "expected_phase": null, "expected_qualifier": "consent_timing"},
+    {"id": "FACT04", "category": "fact_specific", "question": "진정 전 산소포화도 확인해?", "expected_behavior": "answer", "expected_intent": "preparation", "expected_topic": "진정간호", "expected_branch": "any", "expected_phase": "before", "expected_qualifier": "oxygen_saturation"},
+    {"id": "FACT05", "category": "fact_specific", "question": "진정 중 활력징후는 얼마나 자주 측정해?", "expected_behavior": "answer", "expected_intent": "fact", "expected_topic": "진정간호", "expected_branch": "both", "expected_phase": "during", "expected_qualifier": "vital_sign_interval"},
+    {"id": "FACT06", "category": "fact_specific", "question": "진정 후 입원실로 이동하면 어떻게 관찰해?", "expected_behavior": "answer", "expected_intent": "cautions", "expected_topic": "진정간호", "expected_branch": "any", "expected_phase": "after", "expected_qualifier": "transfer_observation"},
+
+    {"id": "COMP01", "category": "comparison", "question": "성인과 소아 진정 차이 알려줘", "expected_behavior": "answer", "expected_intent": "comparison", "expected_topic": "진정간호", "expected_branch": "both", "expected_phase": null, "expected_qualifier": "branch_comparison"},
+    {"id": "COMP02", "category": "comparison", "question": "성인과 소아 모니터링 간격 비교해줘", "expected_behavior": "answer", "expected_intent": "comparison", "expected_topic": "진정간호", "expected_branch": "both", "expected_phase": null, "expected_qualifier": "monitoring_interval"},
+    {"id": "COMP03", "category": "comparison", "question": "성인과 소아 진정 전 확인사항 비교해줘", "expected_behavior": "answer", "expected_intent": "comparison", "expected_topic": "진정간호", "expected_branch": "both", "expected_phase": "before", "expected_qualifier": "pre_sedation_check"},
+    {"id": "COMP04", "category": "comparison", "question": "성인과 소아 진정 후 관찰 방법이 어떻게 달라?", "expected_behavior": "answer", "expected_intent": "comparison", "expected_topic": "진정간호", "expected_branch": "both", "expected_phase": "after", "expected_qualifier": "post_sedation_observation"},
+
+    {"id": "NEG01", "category": "negative_out_of_scope", "question": "화성 우주선 궤도 공식은?", "expected_behavior": "abstain", "expected_intent": "fact", "expected_topic": null, "expected_branch": "none", "expected_phase": null, "expected_qualifier": "out_of_scope"},
+    {"id": "NEG02", "category": "negative_out_of_scope", "question": "오늘 서울 날씨 알려줘", "expected_behavior": "abstain", "expected_intent": "fact", "expected_topic": null, "expected_branch": "none", "expected_phase": null, "expected_qualifier": "out_of_scope"},
+    {"id": "NEG03", "category": "negative_out_of_scope", "question": "비트코인 가격 전망 알려줘", "expected_behavior": "abstain", "expected_intent": "fact", "expected_topic": null, "expected_branch": "none", "expected_phase": null, "expected_qualifier": "out_of_scope"},
+    {"id": "NEG04", "category": "negative_out_of_scope", "question": "진정간호 지침과 상관없는 축구 경기 결과 알려줘", "expected_behavior": "abstain", "expected_intent": "fact", "expected_topic": null, "expected_branch": "none", "expected_phase": null, "expected_qualifier": "out_of_scope"}
+  ]
+}

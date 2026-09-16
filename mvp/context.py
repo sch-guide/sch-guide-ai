@@ -167,26 +167,67 @@ def _expand_procedure_context(seeds, chunks, limit):
     return _complete_context(ordered, chunks, preserve_branches=True)
 
 
+def _expand_non_procedure_context(seeds, chunks, limit):
+    """Parent metadata가 있으면 의미 block을 부분 포함하지 않고 원자적으로 선택합니다."""
+    if not any(seed.chunk.parent_id for seed in seeds):
+        selected, seen = [], set()
+        groups = [
+            [seed.chunk] + [chunk for chunk in neighbors(seed.chunk, chunks)
+                            if chunk.id != seed.chunk.id]
+            for seed in seeds
+        ]
+        for depth in range(max((len(group) for group in groups), default=0)):
+            for seed, group in zip(seeds, groups, strict=True):
+                if depth >= len(group):
+                    continue
+                chunk = group[depth]
+                signature = _exact_signature(chunk)
+                if signature not in seen:
+                    selected.append(seed if depth == 0 else replace(
+                        seed, chunk=chunk, lexical=0, bm25_score=0, context_only=True,
+                    ))
+                    seen.add(signature)
+                if len(selected) >= limit:
+                    return _complete_context(selected, chunks)
+        return _complete_context(selected, chunks)
+
+    seed_by_id = {seed.chunk.id: seed for seed in seeds}
+    document_order = {
+        document_id: position for position, document_id in enumerate(
+            dict.fromkeys(seed.chunk.document_id for seed in seeds)
+        )
+    }
+    selected, selected_ids, seen_groups = [], set(), set()
+    for seed in seeds:
+        key = (seed.chunk.document_id, seed.chunk.parent_id or seed.chunk.id)
+        if key in seen_groups:
+            continue
+        seen_groups.add(key)
+        group = (_parent_group(seed.chunk, chunks)
+                 if seed.chunk.parent_id else neighbors(seed.chunk, chunks))
+        additions = [chunk for chunk in group if chunk.id not in selected_ids]
+        if len(selected) + len(additions) > limit:
+            if not selected:
+                # 가장 관련도 높은 첫 parent조차 통째로 담을 수 없으면 부분
+                # context를 만들지 않는다. 빈 결과는 기존 evidence gate에서
+                # fail closed되며 어느 parent 조각도 prompt로 진행하지 않는다.
+                return []
+            continue
+        for chunk in additions:
+            selected.append(seed_by_id.get(chunk.id) or replace(
+                seed, chunk=chunk, lexical=0, bm25_score=0, context_only=True,
+            ))
+            selected_ids.add(chunk.id)
+    selected.sort(key=lambda hit: (
+        document_order.get(hit.chunk.document_id, len(document_order)), hit.chunk.index
+    ))
+    return _complete_context(selected, chunks)
+
+
 def expand_context(question, seeds, chunks, limit=12):
     # 같은 항목의 문맥만 유지하고 다른 문서로 확장하지 않습니다.
     if limit < 1:
         raise ValueError('limit은 1 이상이어야 합니다.')
     if _procedure_question(question):
         return _expand_procedure_context(seeds, chunks, limit)
-
-    selected, seen = [], set()
-    groups = [[s.chunk] + [c for c in neighbors(s.chunk, chunks) if c.id != s.chunk.id] for s in seeds]
-    # 검색 후보를 먼저 확보한 뒤 앞뒤를 추가하여 여러 문서의 비교 근거를 남깁니다.
-    for depth in range(max((len(g) for g in groups), default=0)):
-        for seed, group in zip(seeds, groups, strict=True):
-            if depth >= len(group):
-                continue
-            chunk = group[depth]
-            signature = (chunk.document_id, chunk.page, chunk.location, clean(chunk.text))
-            if signature not in seen:
-                selected.append(seed if depth == 0 else replace(seed, chunk=chunk, lexical=0,
-                                                               bm25_score=0, context_only=True))
-                seen.add(signature)
-            if len(selected) >= limit:
-                return _complete_context(selected, chunks)
-    return _complete_context(selected, chunks)
+    return _expand_non_procedure_context(seeds, chunks, limit)

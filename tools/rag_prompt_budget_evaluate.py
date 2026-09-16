@@ -8,6 +8,7 @@ import json
 import math
 import re
 from datetime import datetime
+from functools import lru_cache
 from html import escape
 
 import httpx
@@ -17,8 +18,9 @@ from mvp.ai import (
     OUTPUT_LIMIT,
     PROMPT_EVIDENCE_SCHEMA_VERSION,
     SYSTEM,
+    FacetSlotSelectionContract,
     answer_text,
-    estimated_tokens,
+    estimated_request_tokens,
     evidence_group_token_rows,
     generate,
     prompt_messages,
@@ -95,6 +97,10 @@ def parent_partial_count(groups, selected_ids):
 def compact_sources(messages):
     content = messages[1]['content'].split('Evidence groups (JSON):\n', 1)[1]
     envelope = json.loads(content)
+    if 'source_units' in envelope:
+        return envelope, {
+            unit['id']: unit['text'] for unit in envelope['source_units']
+        }
     return envelope, {
         source['chunk_id']: [unit['text'] for unit in source['units']]
         for group in envelope['groups']
@@ -102,14 +108,47 @@ def compact_sources(messages):
     }
 
 
+def facet_response(contract, identifiers):
+    target = tuple(identifiers)
+
+    @lru_cache(maxsize=None)
+    def visit(slot_index, introduced):
+        if slot_index == len(contract.slots):
+            return () if introduced == len(target) else None
+        allowed = set(contract.slots[slot_index].eligible_source_unit_ids)
+        choices = []
+        if introduced < len(target) and target[introduced] in allowed:
+            choices.append(target[introduced])
+        choices.extend(identifier for identifier in target[:introduced] if identifier in allowed)
+        for identifier in choices:
+            next_introduced = introduced + int(
+                introduced < len(target) and identifier == target[introduced]
+            )
+            tail = visit(slot_index + 1, next_introduced)
+            if tail is not None:
+                return (identifier,) + tail
+        return None
+
+    chosen = visit(0, 0)
+    if chosen is None:
+        raise RuntimeError('Q002 gold IDs cannot satisfy facet contract in source order')
+    return json.dumps({
+        'facet_selections': {
+            slot.prompt_facet_id: identifier
+            for slot, identifier in zip(contract.slots, chosen)
+        },
+    }, ensure_ascii=False)
+
+
 def build_report():
     metadata, gold, hits = _load_q002()
     plan = plan_query(gold['question'], documents=[metadata])
     before = assess_evidence(plan, hits)
     trace = {}
-    messages, selected = prompt_messages(
+    messages, selected, prompt_catalog, selection_contract = prompt_messages(
         plan.query, before.hits, 14000, token_budget=GROQ_REQUEST_TOKEN_BUDGET,
         plan=plan, groups=before.groups, trace=trace,
+        return_catalog=True, return_contract=True,
     )
     after = assess_evidence(plan, selected)
     catalog = build_source_unit_catalog(after.groups)
@@ -121,9 +160,16 @@ def build_report():
         for item in requirement['all_of']
     }
     selected_ids = {hit.chunk.id for hit in selected}
-    original = {hit.chunk.id: source_sentences(hit.chunk.text) for hit in before.hits}
     envelope, serialized = compact_sources(messages)
-    reserved = estimated_tokens(messages, 'groq_free')
+    if isinstance(selection_contract, FacetSlotSelectionContract):
+        original = {
+            unit.source_unit_id: unit.exact_text
+            for unit in prompt_catalog
+            if unit.source_unit_id in serialized
+        }
+    else:
+        original = {hit.chunk.id: source_sentences(hit.chunk.text) for hit in before.hits}
+    reserved = estimated_request_tokens(messages, 'groq_free', selection_contract)
     required_headroom = max(256, math.ceil(reserved * .08))
 
     calls = []
@@ -137,17 +183,26 @@ def build_report():
         request_envelope, request_sources = compact_sources(request_messages)
         assert request_envelope['schema_version'] == PROMPT_EVIDENCE_SCHEMA_VERSION
         assert request_sources == original
-        group_selections = {}
-        for group in request_envelope['groups']:
-            group_selections[group['group_id']] = [
-                unit['id']
-                for source in group['sources']
-                for unit in source['units']
-                if unit['id'] in gold_ids
-            ]
-        content = json.dumps({
-            'group_selections': group_selections,
-        }, ensure_ascii=False)
+        if isinstance(selection_contract, FacetSlotSelectionContract):
+            content = facet_response(selection_contract, sorted(
+                gold_ids,
+                key=lambda identifier: next(
+                    unit.source_order for unit in prompt_catalog
+                    if unit.source_unit_id == identifier
+                ),
+            ))
+        else:
+            group_selections = {}
+            for group in request_envelope['groups']:
+                group_selections[group['group_id']] = [
+                    unit['id']
+                    for source in group['sources']
+                    for unit in source['units']
+                    if unit['id'] in gold_ids
+                ]
+            content = json.dumps({
+                'group_selections': group_selections,
+            }, ensure_ascii=False)
         return httpx.Response(200, json={
             'model': 'openai/gpt-oss-20b',
             'choices': [{

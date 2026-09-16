@@ -3,8 +3,9 @@
 import re
 import unicodedata
 from dataclasses import dataclass
+from typing import Literal
 
-from mvp.library import INTENT_TERMS, anchors, clean, compatible, has_substantive_body, term_matches, terms
+from mvp.library import INTENT_TERMS, anchors, clean, compatible, has_substantive_body, term_matches
 
 PROCEDURE_ACTION = (
     r'(?:확인|작성|시행|세척|교체|준비|연결|제거|소독|측정|주입|투여|기록|보고|표시|사용|'
@@ -20,13 +21,26 @@ ASPECTS = (
     (r'주기|간격|몇\s*회|몇\s*번|얼마나\s*자주', r'주기|간격|매일|매주|\d+\s*(?:시간|분|일|회|번)'),
     (r'해제|종료\s*기준|중단\s*기준', r'해제|종료|중단|중지'),
     (r'준비물|준비할\s*물품', r'준비|물품'),
-    (r'주의사항|금기', r'주의|금기|금지|않|말아|해서는\s*안'),
-    (r'목적|정의', r'목적|정의|이란|란\s'),
+    (r'준비사항|체크\s*사항|뭘\s*준비|(?:사전|이전|전(?:에|에는|의|\s)).{0,20}(?:준비|확인)',
+     r'준비|확인|평가|설명|동의|계획'),
+    (r'주의사항|금기|주의할|조심|안전하게.{0,12}(?:봐야|확인|관찰)',
+     r'주의|금기|금지|않|말아|해서는\s*안|관찰|모니터링|감시|증상|징후|합병증|응급'),
+    (r'목적|정의|왜\s*(?:시행|수행|하|필요)', r'목적|정의|이란|란\s|예방|위해'),
     (r'방법|절차|순서|어떻게', PROCEDURE_ACTION),
 )
 GENERIC = INTENT_TERMS | {'교육', '안내', '지침서', '문서', '등록된', '병원', '환자', '직원',
                          '요약', '정리', '쉽게', '종합', '여러', '자료', '어떤', '뭐야', '무엇',
-                         '전', '후', '교육은', '쓰는', '알려', '사용해', '확인해', '사용법'}
+                         '전', '후', '교육은', '쓰는', '알려', '사용해', '확인해', '사용법',
+                         '왜', '준비사항', '준비해야', '체크사항', '확인할', '주의할', '점은',
+                         '조심해야', '안전하게', '봐야', '항목', '것은', '뭘'}
+
+_ASPECT_SUPPORT = {
+    'materials': r'준비|물품',
+    'preparation': r'준비|확인|평가|설명|동의|계획',
+    'cautions': r'주의|금기|금지|않|말아|해서는\s*안|관찰|모니터링|감시|증상|징후|합병증|응급',
+    'purpose': r'목적|정의|이란|란\s|예방|위해',
+    'release': r'해제|종료|중단|중지',
+}
 
 
 @dataclass(frozen=True)
@@ -94,6 +108,22 @@ class ProcedureAnswerRequirement:
     source_order_required: bool
     capacity_valid: bool
     capacity_witness_size: int
+
+
+FacetKind = Literal[
+    'group', 'branch', 'phase', 'phase_action', 'action_family', 'query_action'
+]
+
+
+@dataclass(frozen=True)
+class RequiredFacet:
+    kind: FacetKind
+    key: tuple[str, ...]
+    group_key: str = ''
+    branch: str = ''
+    phase: str = ''
+    action_family: str = ''
+    query_action: str = ''
 
 
 @dataclass(frozen=True)
@@ -238,17 +268,31 @@ def relevant_body(plan, hit):
         return False
     if plan.entities:
         return bool(set(plan.entities) & set(anchors(context)))
-    words = [w for w in terms(plan.query) if w not in GENERIC]
-    matched = [w for w in words if term_matches(w, text)]
-    # 등록 문서명만 같거나 '방법/교육' 같은 공통어만 같은 것은 제외합니다.
-    return bool(matched) or explicit_heading_context(plan, hit.chunk)
+    from mvp.query import topic_words
+
+    words = topic_words(plan)
+    if not words:
+        return False
+    topic_in_body = any(term_matches(word, text) for word in words)
+    topic_context = ' '.join((hit.chunk.document_name, hit.chunk.title, hit.chunk.section))
+    topic_in_context = any(term_matches(word, topic_context) for word in words)
+    heading_context = explicit_heading_context(plan, hit.chunk)
+    support = _ASPECT_SUPPORT.get(plan.kind)
+    if support:
+        # Metadata는 문서 topic만 연결한다. 요청 aspect는 실제 본문이 지지해야 한다.
+        return heading_context or ((topic_in_body or topic_in_context)
+                                   and bool(re.search(support, text, re.I)))
+    # Aspect가 없는 일반 fact는 제목 일치만으로 근거를 열지 않는다.
+    return topic_in_body or heading_context
 
 
 def explicit_heading_context(plan, chunk):
     """목적/정의 항목의 실질 본문만 문서 주제에 연결합니다. 제목만으로 허용하지 않습니다."""
     if plan.entities or not set(plan.focus).intersection({'목적', '정의'}):
         return False
-    words = [w for w in terms(plan.query) if w not in GENERIC]
+    from mvp.query import topic_words
+
+    words = topic_words(plan)
     subject = ' '.join((chunk.document_name.rsplit('.', 1)[0], chunk.title, chunk.section))
     if not words or not any(term_matches(w, subject) for w in words):
         return False
@@ -306,11 +350,39 @@ def assess_evidence(plan, hits, branch_by_chunk=None):
             and re.search(PROCEDURE_ACTION, hit.chunk.text)
         )]
     else:
-        seeds = [h for h in hits if not h.context_only and relevant_body(plan, h)]
-        scopes = {(h.chunk.document_id, h.chunk.section) for h in seeds}
+        # 완전한 parent에서 함께 회수된 본문도 topic과 요청 aspect를 직접 지지하면
+        # non-procedure evidence scope를 열 수 있다. 불완전 context는 seed가 될 수 없다.
+        seeds = [h for h in hits if relevant_body(plan, h)
+                 and (not h.context_only or h.context_complete)]
+        def scope(hit):
+            if hit.chunk.parent_id:
+                return hit.chunk.document_id, 'parent', hit.chunk.parent_id
+            if hit.chunk.section:
+                return hit.chunk.document_id, 'section', hit.chunk.section
+            return hit.chunk.document_id, 'chunk', hit.chunk.id
+
+        scopes = {scope(h) for h in seeds}
         relevant = [h for h in hits if h in seeds or (
-            h.context_only and (h.chunk.document_id, h.chunk.section) in scopes
+            h.context_only and scope(h) in scopes
             and compatible(plan.query, h.chunk.text + ' ' + h.chunk.section))]
+        document_order = {
+            document_id: position
+            for position, document_id in enumerate(dict.fromkeys(
+                hit.chunk.document_id for hit in relevant
+            ))
+        }
+        relevant.sort(key=lambda hit: (
+            document_order[hit.chunk.document_id], hit.chunk.index
+        ))
+        # 분기를 요청하지 않은 좁은 질문은 충분한 common 근거가 있을 때
+        # 성인/소아 예시 block까지 자동 required로 승격하지 않는다.
+        if not re.search(r'성인|소아', plan.query):
+            preview_groups = evidence_groups(plan, relevant, branch_by_chunk=branch_by_chunk)
+            common_keys = {group.key for group in preview_groups if group.branch == 'common'}
+            if common_keys:
+                relevant = [hit for hit in relevant if (
+                    f'{hit.chunk.document_id}:{hit.chunk.parent_id or hit.chunk.id}' in common_keys
+                )]
     if not seeds:
         return EvidenceAssessment(False, reason='no_topic_evidence')
     groups = evidence_groups(plan, relevant, branch_by_chunk=branch_by_chunk)
@@ -331,7 +403,7 @@ def assess_evidence(plan, hits, branch_by_chunk=None):
         # 목적/정의라는 항목명은 인용할 답변 문장에 반복될 필요가 없습니다.
         # 실제 저장된 해당 항목의 메타데이터가 있을 때만 문맥을 인정합니다.
         aspect_text = bodies
-        if request == r'목적|정의':
+        if plan.kind == 'purpose' and re.search(request, current, re.I):
             aspect_text += '\n' + '\n'.join(h.chunk.section for h in relevant
                                             if explicit_heading_context(plan, h.chunk))
         if re.search(request, current, re.I) and not re.search(support, aspect_text, re.I):
@@ -384,7 +456,7 @@ def source_sentences(text, *, join_wrapped_bullets=True):
 
 
 def _source_unit_selectable(chunk, text, position, previous_chunk=None):
-    """구조 표지는 문맥에 남기고 완전한 문장·독립 표 행만 선택하게 합니다."""
+    """구조 표지는 문맥에 남기고 완전한 문장·독립 목록/표 행만 선택하게 합니다."""
     value = clean(text)
     if not value:
         return False
@@ -404,11 +476,14 @@ def _source_unit_selectable(chunk, text, position, previous_chunk=None):
         if any(clean(previous).endswith(value) for previous in previous_units):
             return False
     terminal = bool(re.search(r'[.!?。！？]$', value))
-    table_row = bool(re.search(r'^\s*[-•●▪Ÿ*※].*[:：]', value))
-    if not terminal and not table_row:
+    list_row = bool(
+        re.search(r'^\s*[-•●▪Ÿ*※]\s*\S.{3,}', value)
+        and not re.search(r'[→⇒]', value)
+    )
+    if not terminal and not list_row:
         return False
     if re.fullmatch(r'\s*(?:[①-⑳]|\d+(?:\.\d+)*[.)]|[가-하]\))?\s*[^.!?。！？]{0,40}'
-                    r'(?:방법|절차|목적|기준|전|중|후|투여)\s*', value):
+                    r'(?:방법|절차|목적|기준|투여|(?<![가-힣])(?:전|중|후))\s*', value):
         return False
     return True
 
@@ -604,6 +679,65 @@ _QUERY_ACTION_ROOTS = (
     '주입', '투여', '기록', '보고', '표시', '사용', '중단', '평가', '설명', '동의',
     '서명', '이동', '관찰', '모니터링',
 )
+
+
+def required_facets(plan, requirement):
+    """Return the provider-independent facets required for a broad procedure answer."""
+    if not requirement.broad_procedure:
+        return ()
+    facets = []
+    for group_key in requirement.required_group_keys:
+        facets.append(RequiredFacet('group', ('group', group_key), group_key=group_key))
+    for branch in requirement.required_branches:
+        facets.append(RequiredFacet('branch', ('branch', branch), branch=branch))
+    for branch, phase in requirement.required_phase_slots:
+        facets.append(RequiredFacet(
+            'phase', ('phase', branch, phase), branch=branch, phase=phase,
+        ))
+    for branch, phase, family in requirement.required_action_slots:
+        facets.append(RequiredFacet(
+            'phase_action', ('phase_action', branch, phase, family),
+            branch=branch, phase=phase, action_family=family,
+        ))
+    for family in requirement.required_action_families:
+        facets.append(RequiredFacet(
+            'action_family', ('action_family', family), action_family=family,
+        ))
+    for action in _QUERY_ACTION_ROOTS:
+        if action in plan.query:
+            facets.append(RequiredFacet(
+                'query_action', ('query_action', action), query_action=action,
+            ))
+    return tuple(facets)
+
+
+def facet_eligible_source_unit_ids(facet, requirement, catalog):
+    """Return selectable SourceUnit IDs that can satisfy one required facet."""
+    required_groups = set(requirement.required_group_keys)
+    candidates = (
+        unit for unit in catalog
+        if unit.required and unit.selectable and unit.group_key in required_groups
+    )
+
+    def matches(unit):
+        if facet.kind == 'group':
+            return unit.group_key == facet.group_key
+        if facet.kind == 'branch':
+            return unit.branch == facet.branch
+        if facet.kind == 'phase':
+            return (unit.branch, unit.phase) == (facet.branch, facet.phase)
+        if facet.kind == 'phase_action':
+            return (
+                (unit.branch, unit.phase) == (facet.branch, facet.phase)
+                and facet.action_family in unit.action_families
+            )
+        if facet.kind == 'action_family':
+            return facet.action_family in unit.action_families
+        if facet.kind == 'query_action':
+            return facet.query_action in unit.exact_text
+        return False
+
+    return tuple(unit.source_unit_id for unit in candidates if matches(unit))
 
 
 def answer_coverage(plan, prompt_coverage, catalog, selected_units):

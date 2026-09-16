@@ -1,3 +1,0 @@
-﻿engine,query_id,original_query,normalized_query,expanded_query,rank,bm25_score,requested_temporal_phase,temporal_tier,document_id,document_name,page_number,location,section_title,chunk_id,chunk_text,source_type,relevance_label,failure_type,review_note
-schat_bm25,Q001,진정간호 목적은?,진정간호 목적은?,진정간호 목적은?,1,0.8938692808151245,,inactive,doc,가상지침.pdf,1,,목적,purpose,진정간호 목적에 관한 가상 원문,pdf,unreviewed,,
-rank_bm25,Q001,진정간호 목적은?,진정간호 목적은?,진정간호 목적은?,1,-1.7656269073486328,,baseline,doc,가상지침.pdf,1,,목적,purpose,진정간호 목적에 관한 가상 원문,pdf,unreviewed,,
