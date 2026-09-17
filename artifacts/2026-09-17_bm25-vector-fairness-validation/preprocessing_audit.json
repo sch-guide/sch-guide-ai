@@ -1,0 +1,67 @@
+{
+  "baseline_fairness": "The prior baseline did not apply production QueryPlan expansion or temporal tiers to BM25; vector received more query normalization, while BM25 received corpus/title tuning.",
+  "features": [
+    {
+      "feature": "query normalization",
+      "bm25_current": "raw question",
+      "vector_current": "bounded_embedding_question",
+      "classification": "Vector only"
+    },
+    {
+      "feature": "tokenization",
+      "bm25_current": "SCHAT lexical words + Korean bigrams",
+      "vector_current": "MiniLM tokenizer",
+      "classification": "retriever-specific"
+    },
+    {
+      "feature": "lexical/alias expansion",
+      "bm25_current": "anchor tokens",
+      "vector_current": "terms + registered aliases",
+      "classification": "different on both"
+    },
+    {
+      "feature": "topic/aspect normalization",
+      "bm25_current": "not used in prior baseline",
+      "vector_current": "limited compound split",
+      "classification": "Vector only (partial)"
+    },
+    {
+      "feature": "temporal handling",
+      "bm25_current": "not used in prior baseline",
+      "vector_current": "none",
+      "classification": "same: none"
+    },
+    {
+      "feature": "title filtering",
+      "bm25_current": "heading/running-header exclusion",
+      "vector_current": "none",
+      "classification": "BM25 only"
+    },
+    {
+      "feature": "metadata",
+      "bm25_current": "section + inherited heading context",
+      "vector_current": "none",
+      "classification": "BM25 only"
+    },
+    {
+      "feature": "document representation",
+      "bm25_current": "body + section/context",
+      "vector_current": "body only",
+      "classification": "BM25 only"
+    },
+    {
+      "feature": "embedding normalization",
+      "bm25_current": "not applicable",
+      "vector_current": "L2 normalized",
+      "classification": "Vector only"
+    },
+    {
+      "feature": "similarity",
+      "bm25_current": "BM25 lexical",
+      "vector_current": "cosine",
+      "classification": "retriever-specific"
+    }
+  ],
+  "common_preprocessing": "NFKC + whitespace + attached topic/aspect boundary + request-noise removal",
+  "production_bm25_candidate_limit": 40
+}

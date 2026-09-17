@@ -1,0 +1,14 @@
+{
+  "current": {
+    "model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "dimensions": 384,
+    "status": "evaluated_local_cache"
+  },
+  "alternate": {
+    "candidate": "intfloat/multilingual-e5-large",
+    "status": "not_run_download_required",
+    "reason": "no alternate multilingual retrieval model exists in the local cache",
+    "production_applied": false,
+    "official_reference": "https://qdrant.github.io/fastembed/examples/Supported_Models/"
+  }
+}

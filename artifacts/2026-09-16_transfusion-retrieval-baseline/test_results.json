@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "evaluation_environment": {
+    "command_scope": "retrieval strategy and Chroma/RAGAS focused tests",
+    "passed": 23,
+    "failed": 0,
+    "skipped": 0
+  },
+  "production_environment_focused": {
+    "passed": 21,
+    "failed": 0,
+    "skipped": 2,
+    "skip_reason": "ChromaDB and RAGAS are evaluation-only dependencies"
+  },
+  "full_pytest": {
+    "passed": 463,
+    "failed": 0,
+    "skipped": 3,
+    "warnings": 6,
+    "duration_seconds": 234.62
+  },
+  "ruff": "passed",
+  "git_diff_check": "passed",
+  "production_module_diff": 0,
+  "production_requirements_diff": 0,
+  "generation_api_calls": 0
+}

@@ -41,11 +41,13 @@ class StatementPresentation:
 @dataclass(frozen=True)
 class AnswerPresentation:
     statements: tuple[StatementPresentation, ...] = ()
+    intent: str = ''
+    answer_format: str = ''
 
 
 @dataclass(frozen=True)
 class ProcedureDisplayRow:
-    kind: Literal['branch', 'phase', 'statement']
+    kind: Literal['section', 'branch', 'phase', 'statement']
     label: str = ''
     statement_index: int = -1
     leading_marker: str = ''
@@ -56,10 +58,15 @@ def leading_marker(text: str) -> str:
     return match.group('marker') if match else ''
 
 
-def build_answer_presentation(answer: Answer, units: tuple[SourceUnit, ...]) -> AnswerPresentation:
+def build_answer_presentation(
+    answer: Answer,
+    units: tuple[SourceUnit, ...],
+    *,
+    intent: str = '',
+) -> AnswerPresentation:
     """Build a metadata-only sidecar after the reconstructed Answer was validated."""
     if not answer.answerable:
-        return AnswerPresentation()
+        return AnswerPresentation(intent=intent, answer_format=answer.format)
     if len(answer.statements) != len(units):
         raise ValueError('answer/source-unit presentation count mismatch')
     if any(left.source_order > right.source_order for left, right in zip(units, units[1:])):
@@ -82,7 +89,7 @@ def build_answer_presentation(answer: Answer, units: tuple[SourceUnit, ...]) -> 
             source_order=unit.source_order,
             leading_marker=leading_marker(unit.exact_text),
         ))
-    return AnswerPresentation(tuple(items))
+    return AnswerPresentation(tuple(items), intent=intent, answer_format=answer.format)
 
 
 def procedure_display_rows(presentation: AnswerPresentation) -> tuple[ProcedureDisplayRow, ...]:
@@ -100,6 +107,43 @@ def procedure_display_rows(presentation: AnswerPresentation) -> tuple[ProcedureD
         if (
             item.branch != 'common'
             and item.phase != 'unspecified'
+            and item.phase != current_phase
+        ):
+            current_phase = item.phase
+            rows.append(ProcedureDisplayRow(
+                'phase', _PHASE_LABELS.get(item.phase, item.phase)
+            ))
+        rows.append(ProcedureDisplayRow(
+            'statement', statement_index=item.statement_index,
+            leading_marker=item.leading_marker,
+        ))
+    return tuple(rows)
+
+
+def answer_display_rows(presentation: AnswerPresentation) -> tuple[ProcedureDisplayRow, ...]:
+    """Build display-only headings without changing the validated statement order."""
+    if presentation.answer_format == 'steps':
+        return procedure_display_rows(presentation)
+
+    rows = []
+    if presentation.answer_format == 'summary' or presentation.intent in {'summary', 'synthesis'}:
+        rows.append(ProcedureDisplayRow('section', '핵심 요약'))
+
+    has_explicit_branch = any(
+        item.branch not in {'common', 'unspecified', ''}
+        for item in presentation.statements
+    )
+    current_branch = None
+    current_phase = None
+    for item in presentation.statements:
+        if has_explicit_branch and item.branch != current_branch:
+            current_branch = item.branch
+            current_phase = None
+            rows.append(ProcedureDisplayRow(
+                'branch', _BRANCH_LABELS.get(item.branch, '기타')
+            ))
+        if (
+            item.phase not in {'unspecified', ''}
             and item.phase != current_phase
         ):
             current_phase = item.phase

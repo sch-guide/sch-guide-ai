@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "focused_retrieval_regression": {
+    "passed": 37,
+    "skipped": 3,
+    "warnings": 1,
+    "duration_seconds": 41.73
+  },
+  "full_pytest": {
+    "passed": 514,
+    "skipped": 4,
+    "warnings": 7,
+    "duration_seconds": 409.09
+  },
+  "ruff": "passed",
+  "git_diff_check": "passed",
+  "code_review": "passed_no_actionable_findings",
+  "artifact_security": {
+    "files": 10,
+    "source_chunk_count": 105,
+    "exact_source_matches": 0,
+    "forbidden_token_matches": 0
+  },
+  "generation_api_calls": 0,
+  "external_embedding_api_calls": 0,
+  "production_retrieval_changed": false
+}

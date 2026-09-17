@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SCHAT 프로젝트 현황</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --navy: #103b55;
+      --blue: #0e7490;
+      --pale: #eef7f8;
+      --line: #cbdde3;
+      --ink: #173042;
+      --muted: #607782;
+      --ok: #166534;
+      --eval: #1d4ed8;
+      --pending: #9a3412;
+      --card: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Pretendard", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      color: var(--ink);
+      background: #f5f8fa;
+      line-height: 1.55;
+    }
+    header {
+      padding: 42px max(24px, calc((100% - 1160px) / 2));
+      color: white;
+      background: linear-gradient(130deg, var(--navy), var(--blue));
+    }
+    header h1 { margin: 0 0 8px; font-size: clamp(30px, 5vw, 48px); }
+    header p { margin: 0; max-width: 800px; opacity: .9; }
+    main { max-width: 1160px; margin: 0 auto; padding: 28px 24px 56px; }
+    .meta, .grid { display: grid; gap: 16px; }
+    .meta { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); margin-top: -48px; }
+    .grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(16,59,85,.06);
+    }
+    h2 { margin: 32px 0 14px; color: var(--navy); }
+    h3 { margin: 0 0 10px; color: var(--navy); }
+    .value { font-size: 22px; font-weight: 800; color: var(--navy); overflow-wrap: anywhere; }
+    .label { color: var(--muted); font-size: 14px; }
+    .pill { display: inline-block; border-radius: 999px; padding: 4px 10px; font-weight: 700; font-size: 13px; }
+    .production { background: #dcfce7; color: var(--ok); }
+    .evaluation { background: #dbeafe; color: var(--eval); }
+    .pending { background: #ffedd5; color: var(--pending); }
+    table { width: 100%; border-collapse: collapse; background: white; }
+    th, td { padding: 11px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: var(--navy); background: var(--pale); }
+    ul, ol { padding-left: 22px; }
+    code { background: var(--pale); padding: 2px 6px; border-radius: 6px; }
+    a { color: var(--blue); font-weight: 700; }
+    .flow { padding: 16px; border-radius: 12px; background: var(--pale); font-weight: 700; text-align: center; }
+    .note { border-left: 4px solid var(--blue); padding: 12px 16px; background: var(--pale); }
+    footer { color: var(--muted); font-size: 13px; margin-top: 32px; }
+    @media (max-width: 680px) { .meta { margin-top: -24px; } table { font-size: 13px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>SCHAT 프로젝트 현황</h1>
+    <p>병원 실무지침에서 근거를 찾고, 출처와 함께 안전하게 답하는 간호 지침 질의응답 웹앱의 현재 정본입니다.</p>
+  </header>
+  <main>
+    <section class="meta" aria-label="기본 정보">
+      <article class="card"><div class="label">현재 버전</div><div class="value">v0.8</div><div class="label">저장된 annotated Git tag</div></article>
+      <article class="card"><div class="label">현재 branch</div><div class="value">boha-rag</div></article>
+      <article class="card"><div class="label">안정 기준점</div><div class="value">v0.8</div><div class="label">tag와 branch의 동일 commit</div></article>
+      <article class="card"><div class="label">최근 검증</div><div class="value">525 passed</div><div class="label">4 skipped · 7 warnings</div></article>
+    </section>
+
+    <h2>최종 목표</h2>
+    <div class="card">
+      병원 실무지침서를 넣으면 간호사가 자연어로 질문하고, SCHAT가 정확한 근거를 찾아 읽기 쉽게 답하며, 출처·표·도식까지 보여주는 NotebookLM형 경험을 제공한다. 근거가 없거나 불충분하면 임의로 답하지 않는다.
+    </div>
+
+    <h2>전체 진행 상태</h2>
+    <div class="grid">
+      <article class="card">
+        <span class="pill production">Production</span>
+        <h3>현재 서비스 경로</h3>
+        <ul>
+          <li>BM25 + MiniLM semantic/vector</li>
+          <li>RRF + 기존 reranker</li>
+          <li>Facet-slot SourceUnit 선택</li>
+          <li>Server reconstruction + validators</li>
+          <li>Presentation sidecar + Streamlit UI</li>
+        </ul>
+      </article>
+      <article class="card">
+        <span class="pill evaluation">Evaluation only</span>
+        <h3>검증됐지만 서비스 미연결</h3>
+        <ul>
+          <li>multilingual-E5-large</li>
+          <li>ChromaDB와 E5 snapshot</li>
+          <li>BM25 + E5 RRF</li>
+          <li>Controlled generation Mock</li>
+          <li>Table search/citation/local UI</li>
+        </ul>
+      </article>
+      <article class="card">
+        <span class="pill pending">Pending</span>
+        <h3>승인·검수가 필요한 것</h3>
+        <ul>
+          <li>E5 candidate와 기존 reranker의 상호작용</li>
+          <li>Provider Live와 semantic entailment</li>
+          <li>TF027 workflow 사람 검수</li>
+          <li>Image/vision production 경로</li>
+          <li>MM003 table miss 분석</li>
+        </ul>
+      </article>
+    </div>
+
+    <h2>검색 구조</h2>
+    <div class="flow">질문 분석 → BM25 + MiniLM → RRF → 기존 reranker → evidence gate</div>
+    <table>
+      <thead><tr><th>전략</th><th>Hit@10</th><th>MRR</th><th>Recall@10</th><th>판정</th></tr></thead>
+      <tbody>
+        <tr><td>BM25 current</td><td>0.8846</td><td>0.5602</td><td>0.8379</td><td>빠르고 exact term에 강함</td></tr>
+        <tr><td>E5-large</td><td>0.9359</td><td>0.7151</td><td>0.9084</td><td>정확하지만 약 193ms와 큰 메모리</td></tr>
+        <tr><td>BM25 + E5 RRF</td><td><strong>0.9487</strong></td><td>0.6769</td><td><strong>0.9359</strong></td><td>Raw retrieval 최상, evaluation-only</td></tr>
+        <tr><td>RRF + existing reranker</td><td>0.9103</td><td>0.5184</td><td>0.8681</td><td>이득 감소로 production 보류</td></tr>
+      </tbody>
+    </table>
+    <p class="note"><strong>현재 결정:</strong> 최신 기술이라는 이유로 교체하지 않고 기존 production 검색을 유지한다.</p>
+
+    <h2>답변 생성 상태</h2>
+    <div class="grid">
+      <article class="card"><h3>현재 답변</h3><p>선택된 SourceUnit ID를 서버가 exact statement·quote·chunk citation으로 복원하고 모든 validator를 다시 실행한다.</p></article>
+      <article class="card"><h3>읽기 쉬운 표시</h3><p>검증된 임상 문장은 바꾸지 않고 질문 유형에 맞춰 단계·checklist·주의·전/중/후·성인/소아 heading을 붙인다.</p></article>
+      <article class="card"><h3>자연스러운 재서술</h3><p>Controlled generation schema와 Mock validator까지 준비했다. 실제 provider 연결과 semantic entailment 평가는 보류다.</p></article>
+    </div>
+
+    <h2>표와 이미지</h2>
+    <div class="grid">
+      <article class="card"><span class="pill evaluation">표 평가 완료</span><h3>5 tables · 33 rows</h3><p>Header+row 검색, 문서/page/table/row citation과 로컬 UI까지 검증했다. 5개 승인 case Hit@10은 0.8이며 production에는 미연결이다.</p></article>
+      <article class="card"><span class="pill pending">이미지 사람 검수 필요</span><h3>55 figure candidates</h3><p>TF027 workflow의 화살표와 순서를 자동 해석하지 않았다. Vision API 호출은 0회다.</p></article>
+    </div>
+
+    <h2>최근 변경사항</h2>
+    <ul class="card">
+      <li>E5-large와 BM25+E5 조합의 정확도 향상을 동일 조건에서 확인했다.</li>
+      <li>기존 reranker를 적용하면 E5 이득이 작아지는 현상을 확인했다.</li>
+      <li>Production retrieval과 embedding은 변경하지 않았다.</li>
+      <li>Text UX, controlled-generation Mock, table evidence/citation/UI를 통합 검증했다.</li>
+      <li>Image와 provider Live는 안전 승인 전까지 pending으로 유지했다.</li>
+    </ul>
+
+    <h2>테스트 결과</h2>
+    <table>
+      <tbody>
+        <tr><th>Full pytest</th><td>525 passed, 4 skipped, 7 warnings</td></tr>
+        <tr><th>통합 집중 회귀</th><td>236 passed, 4 warnings</td></tr>
+        <tr><th>진정 UAT</th><td>기존 45/45 통과 계약 유지</td></tr>
+        <tr><th>Q006</th><td>Out-of-scope, provider 0회</td></tr>
+        <tr><th>Ruff / diff check</th><td>통과 / 통과</td></tr>
+        <tr><th>Artifact audit</th><td>Exact source match 0, forbidden exact key 0</td></tr>
+      </tbody>
+    </table>
+
+    <h2>다음 작업</h2>
+    <ol class="card">
+      <li>E5 semantic 후보와 existing reranker의 충돌 원인을 evaluation-only로 분석</li>
+      <li>병원 데이터 외부 전송과 provider 승인 후 controlled generation Live 평가</li>
+      <li>TF027 사람 검수 후 image-dependent gold 승인 여부 결정</li>
+      <li>MM003 table gold/row 연결 검토</li>
+      <li>현재 working tree를 선택적으로 commit하고 첫 안정 tag 생성 여부 승인</li>
+    </ol>
+
+    <h2>복구 기준점</h2>
+    <div class="card">
+      <p><strong>판정:</strong> 저장된 안정 복구 기준점</p>
+      <p>Production, tests, 평가 도구, 현재정본과 raw-free 근거 artifact의 승인 범위를 annotated tag <code>v0.8</code>로 저장했다.</p>
+      <p><a href="../../복구기준점.md">복구 저장 방법 보기</a></p>
+    </div>
+
+    <h2>정본 바로가기</h2>
+    <div class="card">
+      <ul>
+        <li><a href="../../docs/현재정본/00_현재상태.md">현재 상태</a></li>
+        <li><a href="../../docs/현재정본/01_요구사항.md">현재 요구사항</a></li>
+        <li><a href="../../docs/현재정본/02_전체구조.md">전체 구조</a></li>
+        <li><a href="../../docs/현재정본/03_검색구조.md">검색 구조</a></li>
+        <li><a href="../../docs/현재정본/04_답변생성.md">답변 생성</a></li>
+        <li><a href="../../docs/현재정본/05_표와이미지.md">표와 이미지</a></li>
+        <li><a href="../../docs/현재정본/06_테스트현황.md">테스트 현황</a></li>
+        <li><a href="../../변경이력.md">변경 이력</a></li>
+      </ul>
+    </div>
+    <footer>갱신 기준: 2026-09-18 · 병원 원문, API key, secret, raw provider response와 대량 exact SourceUnit text를 포함하지 않음</footer>
+  </main>
+</body>
+</html>

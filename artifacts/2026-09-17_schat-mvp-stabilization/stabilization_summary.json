@@ -1,0 +1,493 @@
+{
+  "schema_version": 1,
+  "dataset_version": "transfusion-retrieval-v3",
+  "review": {
+    "schema_version": 1,
+    "reviewed_case_count": 14,
+    "status_counts": {
+      "approved_nearby_text": 1,
+      "approved_structural_table": 12,
+      "needs_human_review": 1
+    },
+    "remaining_human_review_case_count": 1,
+    "cases": [
+      {
+        "question_id": "TF003",
+        "review_status": "approved_structural_table",
+        "needs_human_review": false,
+        "review_reasons": [],
+        "page_numbers": [
+          2
+        ],
+        "source_shapes": [
+          "table"
+        ],
+        "reference_context_ids": [
+          "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+          "ba3d1d87-0c2d-4b67-a0c2-4615c8249c2a"
+        ],
+        "reference_sha256": [
+          "e2b9f024ffcd96bfcb0522d27a098fcc02b6dd451a39640a4decc437d8418384",
+          "231f5c45238d76ca72fe74ee9a3f9e9369eaf88db2511ab6685904ddd8a43425"
+        ],
+        "relationship": "page_2_product_header_row_column",
+        "number_unit_status": "verified",
+        "image_interpretation_required": false,
+        "evidence_basis": "rendered_page_and_catalog_fingerprint",
+        "raw_source_text_stored": false
+      },
+      {
+        "question_id": "TF004",
+        "review_status": "approved_structural_table",
+        "needs_human_review": false,
+        "review_reasons": [],
+        "page_numbers": [
+          2
+        ],
+        "source_shapes": [
+          "table"
+        ],
+        "reference_context_ids": [
+          "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+          "ffcf7308-6e83-47bc-a519-0b4b7ba44562"
+        ],
+        "reference_sha256": [
+          "e2b9f024ffcd96bfcb0522d27a098fcc02b6dd451a39640a4decc437d8418384",
+          "824204c2a674682e3cd155c7a744a579a48a7874fd0b621fcc255d4b8a68f3f1"
+        ],
+        "relationship": "page_2_product_header_row_column",
+        "number_unit_status": "verified",
+        "image_interpretation_required": false,
+        "evidence_basis": "rendered_page_and_catalog_fingerprint",
+        "raw_source_text_stored": false
+      },
+      {
+        "question_id": "TF005",
+        "review_status": "approved_structural_table",
+        "needs_human_review": false,
+        "review_reasons": [],
+        "page_numbers": [
+          2
+        ],
+        "source_shapes": [
+          "table"
+        ],
+        "reference_context_ids": [
+          "63b53156-440d-40c1-bc88-5c07c23ae77f"
+        ],
+        "reference_sha256": [
+          "f2635ecce017ff3a6c258ad317dc94b84ed85458c16d4086f32e80e9aef28694"
+        ],
+        "relationship": "page_2_product_header_row_column",
+        "number_unit_status": "verified",
+        "image_interpretation_required": false,
+        "evidence_basis": "rendered_page_and_catalog_fingerprint",
+        "raw_source_text_stored": false
+      },
+      {
+        "question_id": "TF006",
+        "review_status": "approved_structural_table",
+        "needs_human_review": false,
+        "review_reasons": [],
+        "page_numbers": [
+          2
+        ],
+        "source_shapes": [
+          "table"
+        ],
+        "reference_context_ids": [
+          "71d2e37c-44e2-4972-8e6b-a6449c2f8404",
+          "63b53156-440d-40c1-bc88-5c07c23ae77f"
+        ],
+        "reference_sha256": [
+          "9496338aab69af4f63948a786b3f22839390386feee7e3bcaf381ebeaa1d11fd",
+          "f2635ecce017ff3a6c258ad317dc94b84ed85458c16d4086f32e80e9aef28694"
+        ],
+        "relationship": "page_2_product_header_row_column",
+        "number_unit_status": "verified",
+        "image_interpretation_required": false,
+        "evidence_basis": "rendered_page_and_catalog_fingerprint",
+        "raw_source_text_stored": false
+      },
+      {
+        "question_id": "TF007",
+        "review_status": "approved_structural_table",
+        "needs_human_review": false,
+        "review_reasons": [],
+        "page_numbers": [
+          2
+        ],
+        "source_shapes": [
+          "table"
+        ],
+        "reference_context_ids": [
+          "da79aa00-567d-434c-8441-915ac080f918"
+        ],
+        "reference_sha256": [
+          "0d0559855192ad7bd84f9c4e42feff72fe0e689bebf98833b9215730c40b2954"
+        ],
+        "relationship": "page_2_product_header_row_column",
+        "number_unit_status": "verified",
+        "image_interpretation_required": false,
+        "evidence_basis": "rendered_page_and_catalog_fingerprint",
+        "raw_source_text_stored": false
+      },
+      {
+        "question_id": "TF023",
+        "review_status": "approved_structural_table",
+        "needs_human_review": false,
+        "review_reasons": [],
+        "page_numbers": [
+          9
+        ],
+        "source_shapes": [
+          "table"
+        ],
+        "reference_context_ids": [
+          "c404e320-0bf2-4325-be92-7a0614f201ca"
+        ],
+        "reference_sha256": [
+          "a8c1e9fed9918f951cea38eac7fe79e86e741e77bf2b1a6aed88c65695fbb241"
+        ],
+        "relationship": "page_9_test_header_row_column",
+        "number_unit_status": "verified",
+        "image_interpretation_required": false,
+        "evidence_basis": "rendered_page_and_catalog_fingerprint",
+        "raw_source_text_stored": false
+      },
+      {
+        "question_id": "TF024",
+        "review_status": "approved_structural_table",
+        "needs_human_review": false,
+        "review_reasons": [],
+        "page_numbers": [
+          9
+        ],
+        "source_shapes": [
+          "table"
+        ],
+        "reference_context_ids": [
+          "c404e320-0bf2-4325-be92-7a0614f201ca"
+        ],
+        "reference_sha256": [
+          "a8c1e9fed9918f951cea38eac7fe79e86e741e77bf2b1a6aed88c65695fbb241"
+        ],
+        "relationship": "page_9_test_header_row_column",
+        "number_unit_status": "verified",
+        "image_interpretation_required": false,
+        "evidence_basis": "rendered_page_and_catalog_fingerprint",
+        "raw_source_text_stored": false
+      },
+      {
+        "question_id": "TF027",
+        "review_status": "needs_human_review",
+        "needs_human_review": true,
+        "review_reasons": [
+          "image_sequence_interpretation"
+        ],
+        "page_numbers": [
+          11
+        ],
+        "source_shapes": [
+          "image_plus_text"
+        ],
+        "reference_context_ids": [
+          "21d38039-895b-46a4-8902-96e380ce41aa",
+          "b8c70ff9-e1b2-40ce-9a0a-f65a53899d13"
+        ],
+        "reference_sha256": [
+          "509994982f98f65fd5f9f4577cc149baded377f4f1a909512f00b1f75d280b89",
+          "20064f77132b595d14e8d4edaefd6fd2fed17a12a02d180cbd2e9a944e7f2268"
+        ],
+        "relationship": "workflow_screenshot_sequence_requires_interpretation",
+        "number_unit_status": "not_applicable",
+        "image_interpretation_required": true,
+        "evidence_basis": "rendered_page_and_catalog_fingerprint",
+        "raw_source_text_stored": false
+      },
+      {
+        "question_id": "TF035",
+        "review_status": "approved_nearby_text",
+        "needs_human_review": false,
+        "review_reasons": [],
+        "page_numbers": [
+          14
+        ],
+        "source_shapes": [
+          "image_plus_text"
+        ],
+        "reference_context_ids": [
+          "b0b5bc4f-7d0b-4f56-8e37-84178d38637d"
+        ],
+        "reference_sha256": [
+          "a3218a9e287e9c2582d77ef6574e42ac561487706bf6959b9b2d83a07e2b1c3e"
+        ],
+        "relationship": "nearby_text_fully_states_procedure",
+        "number_unit_status": "not_applicable",
+        "image_interpretation_required": false,
+        "evidence_basis": "rendered_page_and_catalog_fingerprint",
+        "raw_source_text_stored": false
+      },
+      {
+        "question_id": "TF037",
+        "review_status": "approved_structural_table",
+        "needs_human_review": false,
+        "review_reasons": [],
+        "page_numbers": [
+          15
+        ],
+        "source_shapes": [
+          "table"
+        ],
+        "reference_context_ids": [
+          "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+          "8939253d-3272-4915-8c2b-c60062aeb818"
+        ],
+        "reference_sha256": [
+          "49f22d95c40558d3be849f84a2861fe745043c7334aaa801faf2965aace17fc6",
+          "0cb69164afab4d06bfb0d992b9e94148f85ade9b7e6fd54e3c45f71f047711b4"
+        ],
+        "relationship": "page_15_reaction_row_columns",
+        "number_unit_status": "not_applicable",
+        "image_interpretation_required": false,
+        "evidence_basis": "rendered_page_and_catalog_fingerprint",
+        "raw_source_text_stored": false
+      },
+      {
+        "question_id": "TF038",
+        "review_status": "approved_structural_table",
+        "needs_human_review": false,
+        "review_reasons": [],
+        "page_numbers": [
+          15
+        ],
+        "source_shapes": [
+          "table"
+        ],
+        "reference_context_ids": [
+          "8939253d-3272-4915-8c2b-c60062aeb818",
+          "7abe62fa-6fdb-4466-a16b-73e1770f0c57"
+        ],
+        "reference_sha256": [
+          "0cb69164afab4d06bfb0d992b9e94148f85ade9b7e6fd54e3c45f71f047711b4",
+          "a0c5cddfe55704ddb70c4b674e290ec4ab093edd736db7a1a1321c1565bace15"
+        ],
+        "relationship": "page_15_reaction_row_columns",
+        "number_unit_status": "not_applicable",
+        "image_interpretation_required": false,
+        "evidence_basis": "rendered_page_and_catalog_fingerprint",
+        "raw_source_text_stored": false
+      },
+      {
+        "question_id": "TF039",
+        "review_status": "approved_structural_table",
+        "needs_human_review": false,
+        "review_reasons": [],
+        "page_numbers": [
+          15
+        ],
+        "source_shapes": [
+          "table"
+        ],
+        "reference_context_ids": [
+          "7abe62fa-6fdb-4466-a16b-73e1770f0c57",
+          "2e55093d-0a0f-4fd9-954b-4fc72df9eac0"
+        ],
+        "reference_sha256": [
+          "a0c5cddfe55704ddb70c4b674e290ec4ab093edd736db7a1a1321c1565bace15",
+          "8fa6a35564e723093c3acf0f28165ce587fa7602bb27f0cd500a8b2cde0070da"
+        ],
+        "relationship": "page_15_reaction_row_columns",
+        "number_unit_status": "not_applicable",
+        "image_interpretation_required": false,
+        "evidence_basis": "rendered_page_and_catalog_fingerprint",
+        "raw_source_text_stored": false
+      },
+      {
+        "question_id": "TF040",
+        "review_status": "approved_structural_table",
+        "needs_human_review": false,
+        "review_reasons": [],
+        "page_numbers": [
+          15
+        ],
+        "source_shapes": [
+          "table"
+        ],
+        "reference_context_ids": [
+          "2e55093d-0a0f-4fd9-954b-4fc72df9eac0",
+          "f4580736-a09e-471f-93d2-8089c695eb67"
+        ],
+        "reference_sha256": [
+          "8fa6a35564e723093c3acf0f28165ce587fa7602bb27f0cd500a8b2cde0070da",
+          "b1472359d5645bdb9cb4d3f557dd20f2f7d46f15f4f2d878079318a0091bdcae"
+        ],
+        "relationship": "page_15_reaction_row_columns",
+        "number_unit_status": "not_applicable",
+        "image_interpretation_required": false,
+        "evidence_basis": "rendered_page_and_catalog_fingerprint",
+        "raw_source_text_stored": false
+      },
+      {
+        "question_id": "TF041",
+        "review_status": "approved_structural_table",
+        "needs_human_review": false,
+        "review_reasons": [],
+        "page_numbers": [
+          15
+        ],
+        "source_shapes": [
+          "table"
+        ],
+        "reference_context_ids": [
+          "f4580736-a09e-471f-93d2-8089c695eb67",
+          "5e7838ae-0b80-4d05-b266-deb52de7b401"
+        ],
+        "reference_sha256": [
+          "b1472359d5645bdb9cb4d3f557dd20f2f7d46f15f4f2d878079318a0091bdcae",
+          "1677d55ed51400af480775b480210820d5fedb99a89fe831f40df086e8e95387"
+        ],
+        "relationship": "page_15_reaction_row_columns",
+        "number_unit_status": "not_applicable",
+        "image_interpretation_required": false,
+        "evidence_basis": "rendered_page_and_catalog_fingerprint",
+        "raw_source_text_stored": false
+      }
+    ]
+  },
+  "retrieval": {
+    "selected": "bm25",
+    "evaluated_retrievers": [
+      "bm25",
+      "chromadb",
+      "hybrid_rrf"
+    ],
+    "hybrid_evaluated": true,
+    "metrics": {
+      "chromadb": {
+        "hit_at_1": 0.038461538461538464,
+        "hit_at_3": 0.08974358974358974,
+        "hit_at_5": 0.14102564102564102,
+        "hit_at_10": 0.28205128205128205,
+        "mrr": 0.09130545380545381,
+        "recall_at_10": 0.2564102564102564,
+        "precision_at_10": 0.03205128205128205,
+        "ragas_id_context_precision": 0.03205128205128205,
+        "ragas_id_context_recall": 0.2564102564102564,
+        "mean_latency_ms": 12.065243333382
+      },
+      "bm25": {
+        "hit_at_1": 0.3974358974358974,
+        "hit_at_3": 0.6538461538461539,
+        "hit_at_5": 0.7948717948717948,
+        "hit_at_10": 0.8846153846153846,
+        "mrr": 0.5601648351648352,
+        "recall_at_10": 0.8379120879120879,
+        "precision_at_10": 0.11923076923076924,
+        "ragas_id_context_precision": 0.11923076923076924,
+        "ragas_id_context_recall": 0.8379120879120879,
+        "mean_latency_ms": 0.373681111099
+      },
+      "hybrid_rrf": {
+        "hit_at_1": 0.32051282051282054,
+        "hit_at_3": 0.48717948717948717,
+        "hit_at_5": 0.6538461538461539,
+        "hit_at_10": 0.8333333333333334,
+        "mrr": 0.4598901098901099,
+        "recall_at_10": 0.7554945054945055,
+        "precision_at_10": 0.10384615384615384,
+        "ragas_id_context_precision": 0.10384615384615384,
+        "ragas_id_context_recall": 0.7554945054945055,
+        "mean_latency_ms": 12.45053777778
+      }
+    },
+    "production_change_applied": false,
+    "production_decision": "production_change_not_required",
+    "production_reason": "BM25 wins standalone evaluation, while production already includes BM25 candidate generation before RRF/rerank; bypassing that validated path is not justified."
+  },
+  "table_image": {
+    "table_count": 4,
+    "table_unit_count": 60,
+    "approved_table_case_count": 22,
+    "text_only_table_metrics": {
+      "hit_at_5": 0.8636363636363636,
+      "hit_at_10": 0.8636363636363636,
+      "mrr": 0.6742424242424243,
+      "recall_at_10": 0.8181818181818182
+    },
+    "table_aware_metrics": {
+      "hit_at_5": 0.8636363636363636,
+      "hit_at_10": 0.8636363636363636,
+      "mrr": 0.6553030303030303,
+      "recall_at_10": 0.8409090909090909
+    },
+    "table_aware_production_applied": false,
+    "table_aware_decision": "not_materially_better",
+    "figure_candidate_count": 55,
+    "multimodal_aware": {
+      "status": "not_evaluated_no_approved_image_dependent_gold",
+      "approved_image_dependent_case_count": 0,
+      "pending_case_ids": [
+        "TF027"
+      ],
+      "vision_descriptions_generated": 0
+    }
+  },
+  "uat": {
+    "sedation": {
+      "question_count": 45,
+      "passed": 45,
+      "failed": 0,
+      "q006_zero_call": {
+        "domain": "out_of_scope",
+        "transport_calls": 0,
+        "answerable": false,
+        "selected_evidence_count": 0,
+        "pass": true
+      },
+      "actual_groq_calls": 0,
+      "source": "reused_completed_offline_uat"
+    },
+    "transfusion": {
+      "mode": "retrieval_only_no_generation",
+      "approved_case_count": 78,
+      "top10_hit_case_count": 69,
+      "top10_miss_case_count": 9,
+      "top10_miss_case_ids": [
+        "TF007",
+        "TF011",
+        "TF024",
+        "TF030",
+        "TF043",
+        "TF044",
+        "TP002",
+        "TP007",
+        "TP025"
+      ],
+      "misses_by_question_type": {
+        "fact_specific": 1,
+        "paraphrase": 1,
+        "procedure": 1,
+        "product_specific": 2,
+        "temporal": 4
+      },
+      "generation_api_calls": 0,
+      "live_chat_uat_run": false,
+      "live_chat_uat_reason": "No production retrieval change was applied and hospital-data provider comparison is blocked on an explicit transmission-policy decision."
+    }
+  },
+  "provider_comparison": {
+    "status": "blocked_security_policy_confirmation_required",
+    "current_adapter_contracts": [
+      "internal_openai_compatible",
+      "groq_free"
+    ],
+    "gemini_adapter_present": false,
+    "hospital_data_sent_to_groq": false,
+    "hospital_data_sent_to_gemini": false,
+    "generation_api_calls": 0,
+    "required_user_action": "Confirm hospital-data external transmission policy and authorize the Gemini service/account before a live provider comparison."
+  },
+  "generation_api_calls": 0,
+  "production_rag_changed": false
+}

@@ -1,0 +1,2904 @@
+{
+  "schema_version": 2,
+  "dataset_version": "transfusion-retrieval-v2",
+  "document_version": "sha256:5fc6a9a0d5ff5721954fad8f2855c204301e59ef0b28a91d8d9bdbaf48cb659b",
+  "chunk_version": 4,
+  "retriever": "bm25",
+  "summary": {
+    "evaluated_case_count": 31,
+    "human_review_case_count": 14,
+    "negative_case_count": 5,
+    "overall": {
+      "hit_at_1": 0.41935483870967744,
+      "hit_at_3": 0.6774193548387096,
+      "hit_at_5": 0.7741935483870968,
+      "hit_at_10": 0.8709677419354839,
+      "mrr": 0.5720814132104455,
+      "recall_at_1": 0.3709677419354839,
+      "recall_at_3": 0.6059907834101382,
+      "recall_at_5": 0.7188940092165899,
+      "recall_at_10": 0.8294930875576038,
+      "precision_at_1": 0.41935483870967744,
+      "precision_at_3": 0.25806451612903225,
+      "precision_at_5": 0.18709677419354842,
+      "precision_at_10": 0.11612903225806452,
+      "ragas_id_context_precision": 0.11612903225806452,
+      "ragas_id_context_recall": 0.8294930875576038
+    },
+    "by_question_type": {
+      "fact_specific": {
+        "case_count": 6,
+        "hit_at_1": 0.6666666666666666,
+        "hit_at_3": 0.8333333333333334,
+        "hit_at_5": 0.8333333333333334,
+        "hit_at_10": 0.8333333333333334,
+        "mrr": 0.75,
+        "recall_at_1": 0.6666666666666666,
+        "recall_at_3": 0.75,
+        "recall_at_5": 0.8333333333333334,
+        "recall_at_10": 0.8333333333333334,
+        "precision_at_1": 0.6666666666666666,
+        "precision_at_3": 0.27777777777777773,
+        "precision_at_5": 0.20000000000000004,
+        "precision_at_10": 0.10000000000000002,
+        "ragas_id_context_precision": 0.10000000000000002,
+        "ragas_id_context_recall": 0.8333333333333334,
+        "mean_latency_ms": 0.8260666666804658
+      },
+      "monitoring": {
+        "case_count": 1,
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "ragas_id_context_precision": 0.1,
+        "ragas_id_context_recall": 1.0,
+        "mean_latency_ms": 0.8911000004445668
+      },
+      "paraphrase": {
+        "case_count": 4,
+        "hit_at_1": 0.25,
+        "hit_at_3": 0.25,
+        "hit_at_5": 0.5,
+        "hit_at_10": 0.75,
+        "mrr": 0.325,
+        "recall_at_1": 0.25,
+        "recall_at_3": 0.25,
+        "recall_at_5": 0.5,
+        "recall_at_10": 0.75,
+        "precision_at_1": 0.25,
+        "precision_at_3": 0.08333333333333333,
+        "precision_at_5": 0.1,
+        "precision_at_10": 0.07500000000000001,
+        "ragas_id_context_precision": 0.07500000000000001,
+        "ragas_id_context_recall": 0.75,
+        "mean_latency_ms": 0.9713249996821105
+      },
+      "preparation": {
+        "case_count": 5,
+        "hit_at_1": 0.4,
+        "hit_at_3": 0.6,
+        "hit_at_5": 0.6,
+        "hit_at_10": 1.0,
+        "mrr": 0.5202380952380953,
+        "recall_at_1": 0.4,
+        "recall_at_3": 0.6,
+        "recall_at_5": 0.6,
+        "recall_at_10": 0.9,
+        "precision_at_1": 0.4,
+        "precision_at_3": 0.2,
+        "precision_at_5": 0.12000000000000002,
+        "precision_at_10": 0.1,
+        "ragas_id_context_precision": 0.1,
+        "ragas_id_context_recall": 0.9,
+        "mean_latency_ms": 0.8689000009326264
+      },
+      "procedure": {
+        "case_count": 4,
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.5,
+        "hit_at_5": 0.75,
+        "hit_at_10": 0.75,
+        "mrr": 0.2708333333333333,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.3214285714285714,
+        "recall_at_5": 0.4464285714285714,
+        "recall_at_10": 0.6785714285714286,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.25,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.2,
+        "ragas_id_context_precision": 0.2,
+        "ragas_id_context_recall": 0.6785714285714286,
+        "mean_latency_ms": 0.8332249994964513
+      },
+      "product_specific": {
+        "case_count": 7,
+        "hit_at_1": 0.2857142857142857,
+        "hit_at_3": 0.8571428571428571,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.6071428571428571,
+        "recall_at_1": 0.21428571428571427,
+        "recall_at_3": 0.7857142857142857,
+        "recall_at_5": 0.9285714285714286,
+        "recall_at_10": 0.9285714285714286,
+        "precision_at_1": 0.2857142857142857,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2285714285714286,
+        "precision_at_10": 0.1142857142857143,
+        "ragas_id_context_precision": 0.1142857142857143,
+        "ragas_id_context_recall": 0.9285714285714286,
+        "mean_latency_ms": 0.9932428570859234
+      },
+      "temporal": {
+        "case_count": 4,
+        "hit_at_1": 0.75,
+        "hit_at_3": 0.75,
+        "hit_at_5": 0.75,
+        "hit_at_10": 0.75,
+        "mrr": 0.75,
+        "recall_at_1": 0.5,
+        "recall_at_3": 0.625,
+        "recall_at_5": 0.75,
+        "recall_at_10": 0.75,
+        "precision_at_1": 0.75,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.25,
+        "precision_at_10": 0.125,
+        "ragas_id_context_precision": 0.125,
+        "ragas_id_context_recall": 0.75,
+        "mean_latency_ms": 0.9270500004276983
+      }
+    },
+    "latency_ms": {
+      "count": 50,
+      "mean": 0.826012000107,
+      "minimum": 0.4896000009466661,
+      "p50": 0.7821999997759121,
+      "p95": 1.3209150007241974,
+      "maximum": 2.5439000000915257
+    },
+    "negative_diagnostics": {
+      "positive_top1": {
+        "count": 31,
+        "mean": 9.329427930617,
+        "minimum": 1.8082045316696167,
+        "p50": 9.348984718322754,
+        "p95": 16.333308219909668,
+        "maximum": 20.31056785583496
+      },
+      "negative_top1": {
+        "count": 5,
+        "mean": 2.528291606903,
+        "minimum": 0.0,
+        "p50": 3.417100429534912,
+        "p95": 4.982010078430176,
+        "maximum": 5.228564262390137
+      },
+      "mean_score_separation": 6.801136323714,
+      "negative_returned_count": {
+        "mean": 10.0,
+        "minimum": 10,
+        "maximum": 10
+      }
+    }
+  },
+  "cases": [
+    {
+      "question_id": "TF001",
+      "question": "수혈 오류와 관련된 위해 사건은 무엇인가요?",
+      "question_type": "fact_specific",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "c78ff32d-ea17-41fd-98ef-2e8872f01df3"
+      ],
+      "retrieved_context_ids": [
+        "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+        "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+        "b0b5bc4f-7d0b-4f56-8e37-84178d38637d",
+        "48b9789d-5088-4ba1-a82a-be3a6396ce85",
+        "919e93ca-fed9-4dde-b9b8-f870e207a3f3",
+        "30ce28cb-f702-4cce-8105-137e2f73af0d",
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+        "7e5199d4-e5c9-40ca-a69f-ea37f52c6ce3",
+        "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+        "5de4d74d-720e-4d86-a836-f946d70a2d32"
+      ],
+      "scores": [
+        4.710935592651367,
+        4.693674087524414,
+        4.191636562347412,
+        3.7632017135620117,
+        1.8727848529815674,
+        1.6620255708694458,
+        1.6404465436935425,
+        0.9198150634765625,
+        0.9092135429382324,
+        0.901841402053833
+      ],
+      "latency_ms": 1.0474000009708107,
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF002",
+      "question": "수혈 관련 오류의 정의를 알려줘",
+      "question_type": "paraphrase",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "c78ff32d-ea17-41fd-98ef-2e8872f01df3"
+      ],
+      "retrieved_context_ids": [
+        "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+        "7e5199d4-e5c9-40ca-a69f-ea37f52c6ce3",
+        "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+        "5de4d74d-720e-4d86-a836-f946d70a2d32",
+        "c404e320-0bf2-4325-be92-7a0614f201ca",
+        "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+        "16efaa44-1554-4748-8407-48fac0bced94",
+        "30ce28cb-f702-4cce-8105-137e2f73af0d",
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+        "70b95f72-95ec-43b5-b76f-657518103256"
+      ],
+      "scores": [
+        5.9642510414123535,
+        0.9198150634765625,
+        0.9092135429382324,
+        0.901841402053833,
+        0.8950620293617249,
+        0.8702232837677002,
+        0.8496715426445007,
+        0.8492841124534607,
+        0.8428277373313904,
+        0.842285692691803
+      ],
+      "latency_ms": 0.7346000002144137,
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF003",
+      "question": "농축적혈구의 적응증과 용량은 어떻게 되나요?",
+      "question_type": "product_specific",
+      "expected_answerable": true,
+      "needs_human_review": true,
+      "review_reasons": [
+        "table_layout"
+      ],
+      "reference_context_ids": [
+        "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+        "ba3d1d87-0c2d-4b67-a0c2-4615c8249c2a"
+      ],
+      "retrieved_context_ids": [
+        "0f6b0fc1-9d70-479f-a87d-a26e954e2adb",
+        "ba3d1d87-0c2d-4b67-a0c2-4615c8249c2a",
+        "9552a4ac-31b4-43a8-aa92-37bd3e89362a",
+        "84c0a864-176f-4776-a15e-167fc2518e5d",
+        "324bc249-0e84-46e9-b77f-856c76cd5353",
+        "4d18d11e-2a92-4690-8a64-46653931483e",
+        "81a83ec4-b5d1-4305-9f44-93e5fa935ffe",
+        "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+        "1b376f6f-5ee5-4d05-a585-f3aa6b7ee824",
+        "b7876bcb-b1d0-409a-831d-45e59e35a44e"
+      ],
+      "scores": [
+        6.894256114959717,
+        5.875611782073975,
+        5.7914910316467285,
+        4.635169506072998,
+        1.3938252925872803,
+        0.8981029391288757,
+        0.8182902336120605,
+        0.7539885640144348,
+        0.7415080070495605,
+        0.7230057716369629
+      ],
+      "latency_ms": 0.6802000007155584,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.5,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.5,
+        "recall_at_5": 0.5,
+        "recall_at_10": 0.5,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 0.5
+      }
+    },
+    {
+      "question_id": "TF004",
+      "question": "농축혈소판은 몇 분 이내에 주입해야 하나요?",
+      "question_type": "product_specific",
+      "expected_answerable": true,
+      "needs_human_review": true,
+      "review_reasons": [
+        "table_layout"
+      ],
+      "reference_context_ids": [
+        "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+        "ffcf7308-6e83-47bc-a519-0b4b7ba44562"
+      ],
+      "retrieved_context_ids": [
+        "63b53156-440d-40c1-bc88-5c07c23ae77f",
+        "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+        "71d2e37c-44e2-4972-8e6b-a6449c2f8404",
+        "ffcf7308-6e83-47bc-a519-0b4b7ba44562",
+        "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+        "4d18d11e-2a92-4690-8a64-46653931483e",
+        "81a83ec4-b5d1-4305-9f44-93e5fa935ffe",
+        "7c33fbb7-e931-4f6b-9520-23875ec9ee5b",
+        "1b376f6f-5ee5-4d05-a585-f3aa6b7ee824",
+        "23c6ca0d-04bf-4081-b90a-9819029dcd73"
+      ],
+      "scores": [
+        5.776729106903076,
+        4.858514785766602,
+        2.6328694820404053,
+        2.3771347999572754,
+        1.2342151403427124,
+        1.1490838527679443,
+        1.0469669103622437,
+        0.9736436009407043,
+        0.9487273693084717,
+        0.9099183082580566
+      ],
+      "latency_ms": 0.6682000002911082,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.25,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.5,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.2
+      },
+      "ragas": {
+        "context_precision": 0.2,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF005",
+      "question": "신선동결혈장은 해동 후 언제까지 사용해야 하나요?",
+      "question_type": "temporal",
+      "expected_answerable": true,
+      "needs_human_review": true,
+      "review_reasons": [
+        "table_layout"
+      ],
+      "reference_context_ids": [
+        "63b53156-440d-40c1-bc88-5c07c23ae77f"
+      ],
+      "retrieved_context_ids": [
+        "63b53156-440d-40c1-bc88-5c07c23ae77f",
+        "4d18d11e-2a92-4690-8a64-46653931483e",
+        "81a83ec4-b5d1-4305-9f44-93e5fa935ffe",
+        "1033ac46-dec8-493e-b577-7f5ad80f8e86",
+        "09f3c6d5-9e0c-4545-960f-b16c69abbeb1",
+        "1b376f6f-5ee5-4d05-a585-f3aa6b7ee824",
+        "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+        "ba3d1d87-0c2d-4b67-a0c2-4615c8249c2a",
+        "646d4165-73db-4f69-84da-5f393cd81988",
+        "0f6b0fc1-9d70-479f-a87d-a26e954e2adb"
+      ],
+      "scores": [
+        12.47430419921875,
+        5.747880935668945,
+        5.261359691619873,
+        5.13101863861084,
+        5.051819801330566,
+        4.790327072143555,
+        4.603373050689697,
+        4.532668590545654,
+        4.532668590545654,
+        4.430646896362305
+      ],
+      "latency_ms": 0.8503000008204253,
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF006",
+      "question": "동결침전제제의 주입 시간과 해동 후 사용 기한은?",
+      "question_type": "temporal",
+      "expected_answerable": true,
+      "needs_human_review": true,
+      "review_reasons": [
+        "table_layout"
+      ],
+      "reference_context_ids": [
+        "71d2e37c-44e2-4972-8e6b-a6449c2f8404",
+        "63b53156-440d-40c1-bc88-5c07c23ae77f"
+      ],
+      "retrieved_context_ids": [
+        "63b53156-440d-40c1-bc88-5c07c23ae77f",
+        "71d2e37c-44e2-4972-8e6b-a6449c2f8404",
+        "ffcf7308-6e83-47bc-a519-0b4b7ba44562",
+        "3ecc27b9-634c-4026-b44e-e01123aa0467",
+        "1033ac46-dec8-493e-b577-7f5ad80f8e86",
+        "09f3c6d5-9e0c-4545-960f-b16c69abbeb1",
+        "4d18d11e-2a92-4690-8a64-46653931483e",
+        "81a83ec4-b5d1-4305-9f44-93e5fa935ffe",
+        "1b376f6f-5ee5-4d05-a585-f3aa6b7ee824",
+        "23c6ca0d-04bf-4081-b90a-9819029dcd73"
+      ],
+      "scores": [
+        14.478358268737793,
+        10.167869567871094,
+        9.29672908782959,
+        7.5415730476379395,
+        7.459507942199707,
+        7.369271278381348,
+        6.227200508117676,
+        5.167898654937744,
+        4.722105503082275,
+        4.544641017913818
+      ],
+      "latency_ms": 0.846199998704833,
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 0.5,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.6666666666666666,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.2
+      },
+      "ragas": {
+        "context_precision": 0.2,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF007",
+      "question": "수혈 시작 후 첫 15분 동안 권장되는 주입 속도는?",
+      "question_type": "temporal",
+      "expected_answerable": true,
+      "needs_human_review": true,
+      "review_reasons": [
+        "table_layout"
+      ],
+      "reference_context_ids": [
+        "da79aa00-567d-434c-8441-915ac080f918"
+      ],
+      "retrieved_context_ids": [
+        "5de4d74d-720e-4d86-a836-f946d70a2d32",
+        "71d2e37c-44e2-4972-8e6b-a6449c2f8404",
+        "c404e320-0bf2-4325-be92-7a0614f201ca",
+        "ffcf7308-6e83-47bc-a519-0b4b7ba44562",
+        "8259ed27-8646-4502-a959-aab1e9f1770f",
+        "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+        "f4580736-a09e-471f-93d2-8089c695eb67",
+        "b10b8f1c-ed17-44ca-8d7c-1a4f19a12c67",
+        "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+        "0a4f11c7-39e8-41fe-bd14-48456671f531"
+      ],
+      "scores": [
+        7.858088493347168,
+        6.282154083251953,
+        5.21891450881958,
+        5.140227794647217,
+        4.400979995727539,
+        3.977898597717285,
+        3.7442660331726074,
+        3.6728756427764893,
+        2.1072566509246826,
+        1.4438905715942383
+      ],
+      "latency_ms": 0.8536000004824018,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 0.0,
+        "mrr": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0
+      },
+      "ragas": {
+        "context_precision": 0.0,
+        "context_recall": 0.0
+      }
+    },
+    {
+      "question_id": "TF008",
+      "question": "저장 전 백혈구여과 적혈구란 무엇인가요?",
+      "question_type": "product_specific",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "e96acbc9-66b4-4df4-953b-3f7b0a846bbc"
+      ],
+      "retrieved_context_ids": [
+        "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+        "e96acbc9-66b4-4df4-953b-3f7b0a846bbc",
+        "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1",
+        "54fdf811-dedd-4016-b144-3e4bfdcd67c8",
+        "4d18d11e-2a92-4690-8a64-46653931483e",
+        "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+        "81a83ec4-b5d1-4305-9f44-93e5fa935ffe",
+        "1b376f6f-5ee5-4d05-a585-f3aa6b7ee824",
+        "b7876bcb-b1d0-409a-831d-45e59e35a44e",
+        "23c6ca0d-04bf-4081-b90a-9819029dcd73"
+      ],
+      "scores": [
+        6.0372209548950195,
+        5.671143531799316,
+        5.000271320343018,
+        4.9512457847595215,
+        3.196270704269409,
+        3.0214383602142334,
+        2.912224054336548,
+        2.638962745666504,
+        2.5731148719787598,
+        2.5310120582580566
+      ],
+      "latency_ms": 0.693199999659555,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.5,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF009",
+      "question": "백혈구제거 혈액제제의 장점은 무엇인가요?",
+      "question_type": "product_specific",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "324bc249-0e84-46e9-b77f-856c76cd5353",
+        "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1"
+      ],
+      "retrieved_context_ids": [
+        "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+        "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1",
+        "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+        "e96acbc9-66b4-4df4-953b-3f7b0a846bbc",
+        "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+        "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+        "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+        "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0",
+        "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+        "dfb2693a-e821-4d6e-bbcc-0dbf3dc2a2ae"
+      ],
+      "scores": [
+        8.340328216552734,
+        5.195580005645752,
+        4.584576606750488,
+        4.372694492340088,
+        4.310486316680908,
+        4.2608842849731445,
+        4.247298717498779,
+        4.0696516036987305,
+        3.84786319732666,
+        3.7838845252990723
+      ],
+      "latency_ms": 2.5439000000915257,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.5,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.5,
+        "recall_at_5": 0.5,
+        "recall_at_10": 0.5,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 0.5
+      }
+    },
+    {
+      "question_id": "TF010",
+      "question": "저장 전 여과와 저장 후 여과의 차이는 무엇인가요?",
+      "question_type": "product_specific",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "54fdf811-dedd-4016-b144-3e4bfdcd67c8",
+        "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc"
+      ],
+      "retrieved_context_ids": [
+        "54fdf811-dedd-4016-b144-3e4bfdcd67c8",
+        "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1",
+        "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+        "e96acbc9-66b4-4df4-953b-3f7b0a846bbc",
+        "df699ccc-6f51-4281-b4a4-f3d2a20631e0",
+        "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+        "919e93ca-fed9-4dde-b9b8-f870e207a3f3",
+        "fb4884e3-8fea-42fa-b996-7e9c333e7fef",
+        "761b9529-5b18-4262-8174-6062c35fb31c",
+        "c78ff32d-ea17-41fd-98ef-2e8872f01df3"
+      ],
+      "scores": [
+        9.561456680297852,
+        9.034183502197266,
+        7.51022481918335,
+        4.620869159698486,
+        4.1182122230529785,
+        3.0214383602142334,
+        1.8727848529815674,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "latency_ms": 0.7003999999142252,
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 0.5,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.6666666666666666,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.2
+      },
+      "ragas": {
+        "context_precision": 0.2,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF011",
+      "question": "백혈구제거 혈액제제는 어떤 이름으로 처방하나요?",
+      "question_type": "paraphrase",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "54fdf811-dedd-4016-b144-3e4bfdcd67c8"
+      ],
+      "retrieved_context_ids": [
+        "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+        "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1",
+        "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+        "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+        "e96acbc9-66b4-4df4-953b-3f7b0a846bbc",
+        "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+        "dfb2693a-e821-4d6e-bbcc-0dbf3dc2a2ae",
+        "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0",
+        "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+        "b66e5419-8a9c-47f4-866d-ebdb95b174b2"
+      ],
+      "scores": [
+        7.8806376457214355,
+        5.195580005645752,
+        5.0165181159973145,
+        4.652316093444824,
+        4.372694969177246,
+        4.369418144226074,
+        4.246716022491455,
+        4.069652080535889,
+        3.84786319732666,
+        3.783297300338745
+      ],
+      "latency_ms": 0.8220999989134725,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 0.0,
+        "mrr": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0
+      },
+      "ragas": {
+        "context_precision": 0.0,
+        "context_recall": 0.0
+      }
+    },
+    {
+      "question_id": "TF012",
+      "question": "혈액제제에 방사선을 조사하는 목적은 무엇인가요?",
+      "question_type": "product_specific",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "bc88f538-e881-4c81-85e9-fca20614315d"
+      ],
+      "retrieved_context_ids": [
+        "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+        "bc88f538-e881-4c81-85e9-fca20614315d",
+        "21efe016-3004-45f3-a070-29ce2ecb0019",
+        "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+        "5de4d74d-720e-4d86-a836-f946d70a2d32",
+        "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+        "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0",
+        "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+        "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+        "73735f01-c9d0-4dd5-8d46-c70045e4b334"
+      ],
+      "scores": [
+        10.292104721069336,
+        8.613430976867676,
+        8.397099494934082,
+        7.5611443519592285,
+        7.242743015289307,
+        6.799587249755859,
+        5.039976596832275,
+        4.163450241088867,
+        3.1096293926239014,
+        2.873859405517578
+      ],
+      "latency_ms": 0.7884999995440012,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.5,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF013",
+      "question": "방사선 조사가 필요한 혈액제제 대상은 무엇인가요?",
+      "question_type": "product_specific",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "b66e5419-8a9c-47f4-866d-ebdb95b174b2"
+      ],
+      "retrieved_context_ids": [
+        "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+        "21efe016-3004-45f3-a070-29ce2ecb0019",
+        "bc88f538-e881-4c81-85e9-fca20614315d",
+        "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+        "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+        "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+        "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+        "48b9789d-5088-4ba1-a82a-be3a6396ce85",
+        "dfb2693a-e821-4d6e-bbcc-0dbf3dc2a2ae"
+      ],
+      "scores": [
+        16.646203994750977,
+        14.344086647033691,
+        10.15517520904541,
+        9.404410362243652,
+        7.678774356842041,
+        6.105709552764893,
+        4.830891132354736,
+        3.7905306816101074,
+        3.5334229469299316,
+        3.319882869720459
+      ],
+      "latency_ms": 0.811500000054366,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.25,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF014",
+      "question": "방사선 조사 혈액제제의 유효기간은 어떻게 되나요?",
+      "question_type": "temporal",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+        "21efe016-3004-45f3-a070-29ce2ecb0019"
+      ],
+      "retrieved_context_ids": [
+        "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+        "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+        "21efe016-3004-45f3-a070-29ce2ecb0019",
+        "9552a4ac-31b4-43a8-aa92-37bd3e89362a",
+        "bc88f538-e881-4c81-85e9-fca20614315d",
+        "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+        "84c0a864-176f-4776-a15e-167fc2518e5d",
+        "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+        "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+        "dfb2693a-e821-4d6e-bbcc-0dbf3dc2a2ae"
+      ],
+      "scores": [
+        20.31056785583496,
+        16.02041244506836,
+        14.604874610900879,
+        5.974932670593262,
+        5.920632839202881,
+        4.830891132354736,
+        4.772139072418213,
+        4.584576606750488,
+        4.2608842849731445,
+        3.783884286880493
+      ],
+      "latency_ms": 1.5965999991749413,
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 0.5,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.6666666666666666,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.2
+      },
+      "ragas": {
+        "context_precision": 0.2,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF015",
+      "question": "혈장제제에도 방사선 조사가 필요한가요?",
+      "question_type": "product_specific",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "21efe016-3004-45f3-a070-29ce2ecb0019"
+      ],
+      "retrieved_context_ids": [
+        "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+        "21efe016-3004-45f3-a070-29ce2ecb0019",
+        "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+        "bc88f538-e881-4c81-85e9-fca20614315d",
+        "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+        "f7a9837d-f8db-4461-abd8-a3607db2276f",
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+        "48b9789d-5088-4ba1-a82a-be3a6396ce85",
+        "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+        "5de4d74d-720e-4d86-a836-f946d70a2d32"
+      ],
+      "scores": [
+        13.16294002532959,
+        12.845809936523438,
+        6.1967058181762695,
+        4.458576679229736,
+        2.52020001411438,
+        2.028798818588257,
+        1.379338264465332,
+        1.0481468439102173,
+        0.9718410968780518,
+        0.9309166073799133
+      ],
+      "latency_ms": 0.68710000050487,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.5,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF016",
+      "question": "방사선 조사 혈액제제의 종류를 알려줘",
+      "question_type": "paraphrase",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "4c0dde2a-0432-4cb2-ad33-987f5979ff76"
+      ],
+      "retrieved_context_ids": [
+        "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+        "21efe016-3004-45f3-a070-29ce2ecb0019",
+        "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+        "bc88f538-e881-4c81-85e9-fca20614315d",
+        "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+        "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+        "4d18d11e-2a92-4690-8a64-46653931483e",
+        "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+        "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+        "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0"
+      ],
+      "scores": [
+        16.02041244506836,
+        14.604875564575195,
+        13.229063034057617,
+        5.920633316040039,
+        4.8308916091918945,
+        4.584576606750488,
+        4.343789100646973,
+        4.2608842849731445,
+        3.9129605293273926,
+        3.8392066955566406
+      ],
+      "latency_ms": 0.7838999990781303,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.2,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF017",
+      "question": "수혈의 전체 업무 절차 순서를 알려줘",
+      "question_type": "procedure",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+        "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+        "7e68f70a-ba74-4eb8-bbae-c7e9f7340567",
+        "b225ae64-72d2-4e59-81c0-57f5d8438666",
+        "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+        "98d006ac-5212-4c8c-8a63-4cbd4d6caffc",
+        "9b6cc313-9a59-4387-a5ce-2ed14389a0a7"
+      ],
+      "retrieved_context_ids": [
+        "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1",
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+        "b225ae64-72d2-4e59-81c0-57f5d8438666",
+        "fd678588-5ac2-400d-95c5-3309537781ec",
+        "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+        "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+        "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+        "9552a4ac-31b4-43a8-aa92-37bd3e89362a",
+        "7e68f70a-ba74-4eb8-bbae-c7e9f7340567",
+        "74c0eabe-77c7-4dbf-a321-27966a12fafb"
+      ],
+      "scores": [
+        6.5267109870910645,
+        4.547313690185547,
+        4.067415237426758,
+        3.923882007598877,
+        3.8960187435150146,
+        3.8598742485046387,
+        3.721762180328369,
+        3.317979335784912,
+        3.1289350986480713,
+        3.092681407928467
+      ],
+      "latency_ms": 0.7659999992029043,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.5,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.2857142857142857,
+        "recall_at_5": 0.2857142857142857,
+        "recall_at_10": 0.7142857142857143,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.6666666666666666,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.5
+      },
+      "ragas": {
+        "context_precision": 0.5,
+        "context_recall": 0.7142857142857143
+      }
+    },
+    {
+      "question_id": "TF018",
+      "question": "수혈 동의서는 언제 받아야 하나요?",
+      "question_type": "temporal",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "30ce28cb-f702-4cce-8105-137e2f73af0d"
+      ],
+      "retrieved_context_ids": [
+        "30ce28cb-f702-4cce-8105-137e2f73af0d",
+        "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+        "70b95f72-95ec-43b5-b76f-657518103256",
+        "0a4f11c7-39e8-41fe-bd14-48456671f531",
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+        "48b9789d-5088-4ba1-a82a-be3a6396ce85",
+        "f1611d72-8c47-41f8-bfee-99d5ffdfe12a",
+        "cfff9bf0-05e4-4179-a793-f3c705d04812",
+        "a952e706-800e-493c-886a-8f06602fb2be",
+        "b8c70ff9-e1b2-40ce-9a0a-f65a53899d13"
+      ],
+      "scores": [
+        6.516515731811523,
+        6.205209732055664,
+        6.130585670471191,
+        6.049788951873779,
+        5.939718723297119,
+        5.870181560516357,
+        5.778292179107666,
+        5.397531986236572,
+        4.3017683029174805,
+        1.5362286567687988
+      ],
+      "latency_ms": 0.7421000009344425,
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF019",
+      "question": "여러 혈액제제를 동시에 또는 순차 수혈할 때 동의서는 어떻게 받나요?",
+      "question_type": "preparation",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "d3b7d61b-50f0-4b96-a770-785a9f3c3886"
+      ],
+      "retrieved_context_ids": [
+        "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+        "30ce28cb-f702-4cce-8105-137e2f73af0d",
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+        "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+        "9552a4ac-31b4-43a8-aa92-37bd3e89362a",
+        "0a4f11c7-39e8-41fe-bd14-48456671f531",
+        "70b95f72-95ec-43b5-b76f-657518103256",
+        "48b9789d-5088-4ba1-a82a-be3a6396ce85",
+        "f1611d72-8c47-41f8-bfee-99d5ffdfe12a",
+        "f9cfc75b-a5e7-4633-a798-4b17ea462325"
+      ],
+      "scores": [
+        11.401408195495605,
+        7.857677936553955,
+        7.219790458679199,
+        7.155525207519531,
+        6.074146270751953,
+        5.4441328048706055,
+        5.40863561630249,
+        5.307383060455322,
+        5.166721343994141,
+        4.900941848754883
+      ],
+      "latency_ms": 0.9407000015926315,
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF020",
+      "question": "응급실에서 받은 수혈 동의서는 언제까지 유효한가요?",
+      "question_type": "temporal",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "0a4f11c7-39e8-41fe-bd14-48456671f531",
+        "70b95f72-95ec-43b5-b76f-657518103256"
+      ],
+      "retrieved_context_ids": [
+        "0a4f11c7-39e8-41fe-bd14-48456671f531",
+        "48b9789d-5088-4ba1-a82a-be3a6396ce85",
+        "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+        "cfff9bf0-05e4-4179-a793-f3c705d04812",
+        "70b95f72-95ec-43b5-b76f-657518103256",
+        "30ce28cb-f702-4cce-8105-137e2f73af0d",
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+        "f1611d72-8c47-41f8-bfee-99d5ffdfe12a",
+        "a952e706-800e-493c-886a-8f06602fb2be",
+        "b8c70ff9-e1b2-40ce-9a0a-f65a53899d13"
+      ],
+      "scores": [
+        13.441630363464355,
+        11.625682830810547,
+        8.911781311035156,
+        6.723997116088867,
+        6.627816200256348,
+        6.516515731811523,
+        5.939718723297119,
+        5.778292179107666,
+        4.3017683029174805,
+        2.589033365249634
+      ],
+      "latency_ms": 0.5853000002389308,
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 0.5,
+        "recall_at_3": 0.5,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.2
+      },
+      "ragas": {
+        "context_precision": 0.2,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF021",
+      "question": "수혈 전 검사의 목적은 무엇인가요?",
+      "question_type": "preparation",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "73735f01-c9d0-4dd5-8d46-c70045e4b334"
+      ],
+      "retrieved_context_ids": [
+        "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+        "919e93ca-fed9-4dde-b9b8-f870e207a3f3",
+        "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0",
+        "b7876bcb-b1d0-409a-831d-45e59e35a44e",
+        "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+        "16efaa44-1554-4748-8407-48fac0bced94",
+        "cfff9bf0-05e4-4179-a793-f3c705d04812",
+        "b0d368a1-d0fc-4b8b-8567-e190cf462986",
+        "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+        "23c6ca0d-04bf-4081-b90a-9819029dcd73"
+      ],
+      "scores": [
+        8.644279479980469,
+        5.588634014129639,
+        5.015397071838379,
+        4.509583473205566,
+        4.417673110961914,
+        4.405827045440674,
+        4.048162460327148,
+        4.019526481628418,
+        3.957832098007202,
+        3.8351571559906006
+      ],
+      "latency_ms": 0.7464999998774147,
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF022",
+      "question": "수혈 전 검체 채취와 환자 확인은 두 명이 어떻게 확인하나요?",
+      "question_type": "preparation",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+        "6ffcd319-e868-444b-b6fe-8d192a4de3ff"
+      ],
+      "retrieved_context_ids": [
+        "9552a4ac-31b4-43a8-aa92-37bd3e89362a",
+        "84c0a864-176f-4776-a15e-167fc2518e5d",
+        "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+        "36bac780-b1a2-42dc-8cca-3605f80c5521",
+        "7e5199d4-e5c9-40ca-a69f-ea37f52c6ce3",
+        "8f3ed830-3a06-41c6-8b06-cfcf6d36a83c",
+        "b0d368a1-d0fc-4b8b-8567-e190cf462986",
+        "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+        "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+        "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf"
+      ],
+      "scores": [
+        10.136932373046875,
+        9.774298667907715,
+        8.958414077758789,
+        5.997069358825684,
+        5.834932804107666,
+        5.681777000427246,
+        5.508952617645264,
+        4.947652339935303,
+        4.89924955368042,
+        4.116937637329102
+      ],
+      "latency_ms": 0.9927000010065967,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.125,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.5,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 0.5
+      }
+    },
+    {
+      "question_id": "TF023",
+      "question": "비예기항체 선별검사의 유효기간은 얼마인가요?",
+      "question_type": "temporal",
+      "expected_answerable": true,
+      "needs_human_review": true,
+      "review_reasons": [
+        "table_layout"
+      ],
+      "reference_context_ids": [
+        "c404e320-0bf2-4325-be92-7a0614f201ca"
+      ],
+      "retrieved_context_ids": [
+        "f7a9837d-f8db-4461-abd8-a3607db2276f",
+        "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+        "c404e320-0bf2-4325-be92-7a0614f201ca",
+        "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+        "b0d368a1-d0fc-4b8b-8567-e190cf462986",
+        "919e93ca-fed9-4dde-b9b8-f870e207a3f3",
+        "b7876bcb-b1d0-409a-831d-45e59e35a44e",
+        "16efaa44-1554-4748-8407-48fac0bced94",
+        "5e7838ae-0b80-4d05-b266-deb52de7b401",
+        "6ffcd319-e868-444b-b6fe-8d192a4de3ff"
+      ],
+      "scores": [
+        8.460973739624023,
+        7.0815043449401855,
+        1.8160502910614014,
+        1.6709109544754028,
+        1.4178316593170166,
+        1.4114233255386353,
+        0.8736749887466431,
+        0.8237892985343933,
+        0.7666929960250854,
+        0.7619568109512329
+      ],
+      "latency_ms": 0.6066000005375827,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.3333333333333333,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF024",
+      "question": "교차시험은 얼마나 자주 시행하나요?",
+      "question_type": "temporal",
+      "expected_answerable": true,
+      "needs_human_review": true,
+      "review_reasons": [
+        "table_layout"
+      ],
+      "reference_context_ids": [
+        "c404e320-0bf2-4325-be92-7a0614f201ca"
+      ],
+      "retrieved_context_ids": [
+        "b10b8f1c-ed17-44ca-8d7c-1a4f19a12c67",
+        "a3d42ca5-54b5-4b8d-be4e-79337aaab880",
+        "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+        "b7876bcb-b1d0-409a-831d-45e59e35a44e",
+        "919e93ca-fed9-4dde-b9b8-f870e207a3f3",
+        "f9cfc75b-a5e7-4633-a798-4b17ea462325",
+        "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+        "b0d368a1-d0fc-4b8b-8567-e190cf462986",
+        "84c0a864-176f-4776-a15e-167fc2518e5d",
+        "6ffcd319-e868-444b-b6fe-8d192a4de3ff"
+      ],
+      "scores": [
+        1.5606176853179932,
+        1.3263585567474365,
+        1.2342151403427124,
+        1.2111810445785522,
+        1.164312720298767,
+        1.038439154624939,
+        1.027919888496399,
+        0.9320894479751587,
+        0.7427181005477905,
+        0.6127641797065735
+      ],
+      "latency_ms": 0.5786999990959885,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 0.0,
+        "mrr": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0
+      },
+      "ragas": {
+        "context_precision": 0.0,
+        "context_recall": 0.0
+      }
+    },
+    {
+      "question_id": "TF025",
+      "question": "비예기항체 선별검사가 양성이면 어떤 검사를 하나요?",
+      "question_type": "fact_specific",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "b0d368a1-d0fc-4b8b-8567-e190cf462986",
+        "919e93ca-fed9-4dde-b9b8-f870e207a3f3"
+      ],
+      "retrieved_context_ids": [
+        "f7a9837d-f8db-4461-abd8-a3607db2276f",
+        "b0d368a1-d0fc-4b8b-8567-e190cf462986",
+        "b7876bcb-b1d0-409a-831d-45e59e35a44e",
+        "919e93ca-fed9-4dde-b9b8-f870e207a3f3",
+        "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+        "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+        "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+        "16efaa44-1554-4748-8407-48fac0bced94",
+        "cfff9bf0-05e4-4179-a793-f3c705d04812",
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e"
+      ],
+      "scores": [
+        10.361422538757324,
+        4.658625602722168,
+        4.509583473205566,
+        4.350883483886719,
+        4.134036540985107,
+        3.932936191558838,
+        3.925515651702881,
+        3.5561554431915283,
+        3.2247838973999023,
+        2.7293875217437744
+      ],
+      "latency_ms": 0.6990999991103308,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.5,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.5,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.2
+      },
+      "ragas": {
+        "context_precision": 0.2,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF026",
+      "question": "Rh 음성 검사 결과는 어떻게 확인하나요?",
+      "question_type": "fact_specific",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "b7876bcb-b1d0-409a-831d-45e59e35a44e"
+      ],
+      "retrieved_context_ids": [
+        "b7876bcb-b1d0-409a-831d-45e59e35a44e",
+        "919e93ca-fed9-4dde-b9b8-f870e207a3f3",
+        "16efaa44-1554-4748-8407-48fac0bced94",
+        "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+        "b0d368a1-d0fc-4b8b-8567-e190cf462986",
+        "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+        "9552a4ac-31b4-43a8-aa92-37bd3e89362a",
+        "84c0a864-176f-4776-a15e-167fc2518e5d",
+        "f7a9837d-f8db-4461-abd8-a3607db2276f",
+        "73735f01-c9d0-4dd5-8d46-c70045e4b334"
+      ],
+      "scores": [
+        12.085391998291016,
+        10.648041725158691,
+        9.473323822021484,
+        7.7976861000061035,
+        7.680944442749023,
+        7.129397869110107,
+        6.16940975189209,
+        5.551422595977783,
+        5.268797874450684,
+        4.554635524749756
+      ],
+      "latency_ms": 0.7366999998339452,
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF027",
+      "question": "혈액제제 요청부터 수령까지 절차를 알려줘",
+      "question_type": "procedure",
+      "expected_answerable": true,
+      "needs_human_review": true,
+      "review_reasons": [
+        "image_layout"
+      ],
+      "reference_context_ids": [
+        "21d38039-895b-46a4-8902-96e380ce41aa",
+        "b8c70ff9-e1b2-40ce-9a0a-f65a53899d13"
+      ],
+      "retrieved_context_ids": [
+        "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+        "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+        "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+        "dfb2693a-e821-4d6e-bbcc-0dbf3dc2a2ae",
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+        "fd678588-5ac2-400d-95c5-3309537781ec",
+        "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+        "b225ae64-72d2-4e59-81c0-57f5d8438666",
+        "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+        "b66e5419-8a9c-47f4-866d-ebdb95b174b2"
+      ],
+      "scores": [
+        6.537220001220703,
+        5.900103569030762,
+        5.830830097198486,
+        5.8133440017700195,
+        5.186156272888184,
+        4.4097089767456055,
+        4.2219672203063965,
+        4.156677722930908,
+        3.7989649772644043,
+        3.479185104370117
+      ],
+      "latency_ms": 0.7687000015721424,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 0.0,
+        "mrr": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0
+      },
+      "ragas": {
+        "context_precision": 0.0,
+        "context_recall": 0.0
+      }
+    },
+    {
+      "question_id": "TF028",
+      "question": "혈액제제를 수령할 때 무엇을 확인해야 하나요?",
+      "question_type": "preparation",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "eda54b74-cd2f-4808-8175-bcc5b916ce90"
+      ],
+      "retrieved_context_ids": [
+        "dfb2693a-e821-4d6e-bbcc-0dbf3dc2a2ae",
+        "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+        "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+        "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+        "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+        "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+        "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+        "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+        "bc88f538-e881-4c81-85e9-fca20614315d",
+        "21efe016-3004-45f3-a070-29ce2ecb0019"
+      ],
+      "scores": [
+        4.276747226715088,
+        4.030678749084473,
+        3.7905306816101074,
+        3.7254445552825928,
+        3.629601240158081,
+        3.241227149963379,
+        3.065423011779785,
+        2.9845499992370605,
+        2.961879253387451,
+        2.884079694747925
+      ],
+      "latency_ms": 0.7995000014489051,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.14285714285714285,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF029",
+      "question": "수혈 직전 침상에서 환자를 어떻게 확인하나요?",
+      "question_type": "preparation",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "36bac780-b1a2-42dc-8cca-3605f80c5521"
+      ],
+      "retrieved_context_ids": [
+        "7e5199d4-e5c9-40ca-a69f-ea37f52c6ce3",
+        "9552a4ac-31b4-43a8-aa92-37bd3e89362a",
+        "36bac780-b1a2-42dc-8cca-3605f80c5521",
+        "84c0a864-176f-4776-a15e-167fc2518e5d",
+        "98d006ac-5212-4c8c-8a63-4cbd4d6caffc",
+        "8f3ed830-3a06-41c6-8b06-cfcf6d36a83c",
+        "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+        "48b9789d-5088-4ba1-a82a-be3a6396ce85",
+        "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+        "b0b5bc4f-7d0b-4f56-8e37-84178d38637d"
+      ],
+      "scores": [
+        10.472630500793457,
+        9.223620414733887,
+        9.049737930297852,
+        8.359822273254395,
+        7.574398040771484,
+        3.7762579917907715,
+        3.43363356590271,
+        3.2934343814849854,
+        2.8844263553619385,
+        2.809976100921631
+      ],
+      "latency_ms": 0.8651000007375842,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.3333333333333333,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF030",
+      "question": "농축적혈구 수혈 전 점검은 언제 하나요?",
+      "question_type": "temporal",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "7e5199d4-e5c9-40ca-a69f-ea37f52c6ce3"
+      ],
+      "retrieved_context_ids": [
+        "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+        "da79aa00-567d-434c-8441-915ac080f918",
+        "324bc249-0e84-46e9-b77f-856c76cd5353",
+        "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+        "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+        "3ecc27b9-634c-4026-b44e-e01123aa0467",
+        "df699ccc-6f51-4281-b4a4-f3d2a20631e0",
+        "1033ac46-dec8-493e-b577-7f5ad80f8e86",
+        "dfb2693a-e821-4d6e-bbcc-0dbf3dc2a2ae",
+        "f9eb1471-4566-4c09-a18e-9f3d84a47e9c"
+      ],
+      "scores": [
+        1.8082045316696167,
+        1.4931167364120483,
+        1.4890623092651367,
+        1.3838852643966675,
+        1.3309743404388428,
+        1.312160849571228,
+        1.3037042617797852,
+        1.2829042673110962,
+        1.1329067945480347,
+        1.0969891548156738
+      ],
+      "latency_ms": 0.7842000013624784,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 0.0,
+        "mrr": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0
+      },
+      "ragas": {
+        "context_precision": 0.0,
+        "context_recall": 0.0
+      }
+    },
+    {
+      "question_id": "TF031",
+      "question": "수혈 시작 전 설명과 수혈세트 연결 절차는?",
+      "question_type": "procedure",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "5de4d74d-720e-4d86-a836-f946d70a2d32"
+      ],
+      "retrieved_context_ids": [
+        "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+        "f9cfc75b-a5e7-4633-a798-4b17ea462325",
+        "5de4d74d-720e-4d86-a836-f946d70a2d32",
+        "c404e320-0bf2-4325-be92-7a0614f201ca",
+        "59d57c8a-c9d7-4f8d-b9a1-a2816f1f01f7",
+        "3ecc27b9-634c-4026-b44e-e01123aa0467",
+        "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0",
+        "8259ed27-8646-4502-a959-aab1e9f1770f",
+        "b225ae64-72d2-4e59-81c0-57f5d8438666",
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e"
+      ],
+      "scores": [
+        5.570441722869873,
+        5.496945858001709,
+        5.293661594390869,
+        5.21891450881958,
+        4.6752777099609375,
+        4.455740451812744,
+        4.448533535003662,
+        4.400979995727539,
+        4.067415237426758,
+        4.0264973640441895
+      ],
+      "latency_ms": 0.9088999995583436,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.3333333333333333,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF032",
+      "question": "4세 미만 소아 수혈 시 카테터는 어떻게 선택하나요?",
+      "question_type": "fact_specific",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "5de4d74d-720e-4d86-a836-f946d70a2d32"
+      ],
+      "retrieved_context_ids": [
+        "5de4d74d-720e-4d86-a836-f946d70a2d32",
+        "9552a4ac-31b4-43a8-aa92-37bd3e89362a",
+        "84c0a864-176f-4776-a15e-167fc2518e5d",
+        "df699ccc-6f51-4281-b4a4-f3d2a20631e0",
+        "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+        "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+        "27025cb7-0eea-4e71-b338-65cf293e45ee",
+        "7e5199d4-e5c9-40ca-a69f-ea37f52c6ce3",
+        "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+        "c404e320-0bf2-4325-be92-7a0614f201ca"
+      ],
+      "scores": [
+        11.056583404541016,
+        6.485934734344482,
+        4.9707417488098145,
+        4.395046710968018,
+        1.8082045316696167,
+        1.6301363706588745,
+        1.533604383468628,
+        0.9198150634765625,
+        0.9092135429382324,
+        0.8950620293617249
+      ],
+      "latency_ms": 0.8244999989983626,
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF033",
+      "question": "일반 수혈세트와 백혈구제거필터의 목적 차이는?",
+      "question_type": "fact_specific",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0"
+      ],
+      "retrieved_context_ids": [
+        "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0",
+        "df699ccc-6f51-4281-b4a4-f3d2a20631e0",
+        "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+        "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+        "3ecc27b9-634c-4026-b44e-e01123aa0467",
+        "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+        "5de4d74d-720e-4d86-a836-f946d70a2d32",
+        "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+        "bc88f538-e881-4c81-85e9-fca20614315d",
+        "7c33fbb7-e931-4f6b-9520-23875ec9ee5b"
+      ],
+      "scores": [
+        10.024563789367676,
+        6.9492082595825195,
+        4.1220011711120605,
+        4.104635715484619,
+        3.6088390350341797,
+        3.5404722690582275,
+        3.3876965045928955,
+        3.1053051948547363,
+        3.061352252960205,
+        3.0084354877471924
+      ],
+      "latency_ms": 0.780500000473694,
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF034",
+      "question": "백혈구제거필터 사용 시 주의사항은 무엇인가요?",
+      "question_type": "product_specific",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "59d57c8a-c9d7-4f8d-b9a1-a2816f1f01f7"
+      ],
+      "retrieved_context_ids": [
+        "59d57c8a-c9d7-4f8d-b9a1-a2816f1f01f7",
+        "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+        "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0",
+        "7c33fbb7-e931-4f6b-9520-23875ec9ee5b",
+        "3ecc27b9-634c-4026-b44e-e01123aa0467",
+        "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+        "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1",
+        "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+        "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+        "5de4d74d-720e-4d86-a836-f946d70a2d32"
+      ],
+      "scores": [
+        8.857224464416504,
+        7.293911933898926,
+        7.234122276306152,
+        6.044244289398193,
+        6.001184463500977,
+        4.898802280426025,
+        4.809026718139648,
+        4.687402725219727,
+        4.556581497192383,
+        4.423748016357422
+      ],
+      "latency_ms": 0.7280999998329207,
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF035",
+      "question": "혈소판 채집백을 이용한 수혈 방법을 알려줘",
+      "question_type": "paraphrase",
+      "expected_answerable": true,
+      "needs_human_review": true,
+      "review_reasons": [
+        "image_layout"
+      ],
+      "reference_context_ids": [
+        "b0b5bc4f-7d0b-4f56-8e37-84178d38637d"
+      ],
+      "retrieved_context_ids": [
+        "7c33fbb7-e931-4f6b-9520-23875ec9ee5b",
+        "b0b5bc4f-7d0b-4f56-8e37-84178d38637d",
+        "4d18d11e-2a92-4690-8a64-46653931483e",
+        "da79aa00-567d-434c-8441-915ac080f918",
+        "1033ac46-dec8-493e-b577-7f5ad80f8e86",
+        "81a83ec4-b5d1-4305-9f44-93e5fa935ffe",
+        "1b376f6f-5ee5-4d05-a585-f3aa6b7ee824",
+        "3ecc27b9-634c-4026-b44e-e01123aa0467",
+        "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+        "ba3d1d87-0c2d-4b67-a0c2-4615c8249c2a"
+      ],
+      "scores": [
+        6.933259963989258,
+        4.386571884155273,
+        3.619680881500244,
+        3.531500816345215,
+        3.4380242824554443,
+        3.298006772994995,
+        2.988546371459961,
+        2.8958981037139893,
+        2.866295576095581,
+        2.82015061378479
+      ],
+      "latency_ms": 0.8949999992182711,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.5,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF036",
+      "question": "수혈 중 활력징후 측정과 환자 관찰 시점을 알려줘",
+      "question_type": "monitoring",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf"
+      ],
+      "retrieved_context_ids": [
+        "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+        "f9cfc75b-a5e7-4633-a798-4b17ea462325",
+        "30ce28cb-f702-4cce-8105-137e2f73af0d",
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+        "36bac780-b1a2-42dc-8cca-3605f80c5521",
+        "8259ed27-8646-4502-a959-aab1e9f1770f",
+        "8f3ed830-3a06-41c6-8b06-cfcf6d36a83c",
+        "98d006ac-5212-4c8c-8a63-4cbd4d6caffc",
+        "7e5199d4-e5c9-40ca-a69f-ea37f52c6ce3",
+        "6ffcd319-e868-444b-b6fe-8d192a4de3ff"
+      ],
+      "scores": [
+        10.132375717163086,
+        8.370214462280273,
+        4.835442543029785,
+        4.754816055297852,
+        3.5937914848327637,
+        3.4005351066589355,
+        3.3961191177368164,
+        3.356285572052002,
+        3.2616989612579346,
+        3.187786102294922
+      ],
+      "latency_ms": 0.8911000004445668,
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF037",
+      "question": "급성 용혈성 수혈반응의 증상과 처치는?",
+      "question_type": "adverse_reaction",
+      "expected_answerable": true,
+      "needs_human_review": true,
+      "review_reasons": [
+        "table_layout"
+      ],
+      "reference_context_ids": [
+        "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+        "8939253d-3272-4915-8c2b-c60062aeb818"
+      ],
+      "retrieved_context_ids": [
+        "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+        "324bc249-0e84-46e9-b77f-856c76cd5353",
+        "8939253d-3272-4915-8c2b-c60062aeb818",
+        "7abe62fa-6fdb-4466-a16b-73e1770f0c57",
+        "391ad5dc-0d1c-4350-85ba-5aa601d9ac0d",
+        "2e55093d-0a0f-4fd9-954b-4fc72df9eac0",
+        "da79aa00-567d-434c-8441-915ac080f918",
+        "5de4d74d-720e-4d86-a836-f946d70a2d32",
+        "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1",
+        "7e5199d4-e5c9-40ca-a69f-ea37f52c6ce3"
+      ],
+      "scores": [
+        11.560528755187988,
+        7.553943634033203,
+        1.9931259155273438,
+        1.600231409072876,
+        1.3353826999664307,
+        0.949152946472168,
+        0.8504177927970886,
+        0.773520827293396,
+        0.6956260800361633,
+        0.1314123421907425
+      ],
+      "latency_ms": 0.6758999988960568,
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 0.5,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.6666666666666666,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.2
+      },
+      "ragas": {
+        "context_precision": 0.2,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF038",
+      "question": "비용혈성 발열반응의 증상과 처치는?",
+      "question_type": "adverse_reaction",
+      "expected_answerable": true,
+      "needs_human_review": true,
+      "review_reasons": [
+        "table_layout"
+      ],
+      "reference_context_ids": [
+        "8939253d-3272-4915-8c2b-c60062aeb818",
+        "7abe62fa-6fdb-4466-a16b-73e1770f0c57"
+      ],
+      "retrieved_context_ids": [
+        "324bc249-0e84-46e9-b77f-856c76cd5353",
+        "8939253d-3272-4915-8c2b-c60062aeb818",
+        "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+        "7abe62fa-6fdb-4466-a16b-73e1770f0c57",
+        "391ad5dc-0d1c-4350-85ba-5aa601d9ac0d",
+        "2e55093d-0a0f-4fd9-954b-4fc72df9eac0",
+        "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0",
+        "da79aa00-567d-434c-8441-915ac080f918",
+        "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1",
+        "5de4d74d-720e-4d86-a836-f946d70a2d32"
+      ],
+      "scores": [
+        7.709755897521973,
+        5.776628017425537,
+        2.2149574756622314,
+        1.5427136421203613,
+        1.2345267534255981,
+        0.8617947697639465,
+        0.823145866394043,
+        0.7254837155342102,
+        0.6956260800361633,
+        0.6446763873100281
+      ],
+      "latency_ms": 0.5645000001095468,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.5,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.5,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.2
+      },
+      "ragas": {
+        "context_precision": 0.2,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF039",
+      "question": "알레르기성 수혈반응의 증상과 처치는?",
+      "question_type": "adverse_reaction",
+      "expected_answerable": true,
+      "needs_human_review": true,
+      "review_reasons": [
+        "table_layout"
+      ],
+      "reference_context_ids": [
+        "7abe62fa-6fdb-4466-a16b-73e1770f0c57",
+        "2e55093d-0a0f-4fd9-954b-4fc72df9eac0"
+      ],
+      "retrieved_context_ids": [
+        "324bc249-0e84-46e9-b77f-856c76cd5353",
+        "7abe62fa-6fdb-4466-a16b-73e1770f0c57",
+        "2e55093d-0a0f-4fd9-954b-4fc72df9eac0",
+        "391ad5dc-0d1c-4350-85ba-5aa601d9ac0d",
+        "da79aa00-567d-434c-8441-915ac080f918",
+        "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+        "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1",
+        "8939253d-3272-4915-8c2b-c60062aeb818",
+        "7e5199d4-e5c9-40ca-a69f-ea37f52c6ce3",
+        "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf"
+      ],
+      "scores": [
+        5.971460819244385,
+        5.051360607147217,
+        3.3720645904541016,
+        1.3353826999664307,
+        0.8504177927970886,
+        0.7488635182380676,
+        0.6956260800361633,
+        0.6486386656761169,
+        0.1314123421907425,
+        0.12989771366119385
+      ],
+      "latency_ms": 0.6410000005416805,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.5,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.6666666666666666,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.2
+      },
+      "ragas": {
+        "context_precision": 0.2,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF040",
+      "question": "수혈 관련 순환 과부하의 증상과 처치는?",
+      "question_type": "adverse_reaction",
+      "expected_answerable": true,
+      "needs_human_review": true,
+      "review_reasons": [
+        "table_layout"
+      ],
+      "reference_context_ids": [
+        "2e55093d-0a0f-4fd9-954b-4fc72df9eac0",
+        "f4580736-a09e-471f-93d2-8089c695eb67"
+      ],
+      "retrieved_context_ids": [
+        "f4580736-a09e-471f-93d2-8089c695eb67",
+        "2e55093d-0a0f-4fd9-954b-4fc72df9eac0",
+        "391ad5dc-0d1c-4350-85ba-5aa601d9ac0d",
+        "b0d368a1-d0fc-4b8b-8567-e190cf462986",
+        "7e5199d4-e5c9-40ca-a69f-ea37f52c6ce3",
+        "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+        "5de4d74d-720e-4d86-a836-f946d70a2d32",
+        "c404e320-0bf2-4325-be92-7a0614f201ca",
+        "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+        "16efaa44-1554-4748-8407-48fac0bced94"
+      ],
+      "scores": [
+        5.533454895019531,
+        5.291259765625,
+        1.3353826999664307,
+        0.9423860907554626,
+        0.9198150634765625,
+        0.9092135429382324,
+        0.901841402053833,
+        0.8950620293617249,
+        0.8702232837677002,
+        0.8496715426445007
+      ],
+      "latency_ms": 0.948900000366848,
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 0.5,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.6666666666666666,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.2
+      },
+      "ragas": {
+        "context_precision": 0.2,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF041",
+      "question": "아나필락시스 수혈반응의 증상과 처치는?",
+      "question_type": "adverse_reaction",
+      "expected_answerable": true,
+      "needs_human_review": true,
+      "review_reasons": [
+        "table_layout"
+      ],
+      "reference_context_ids": [
+        "f4580736-a09e-471f-93d2-8089c695eb67",
+        "5e7838ae-0b80-4d05-b266-deb52de7b401"
+      ],
+      "retrieved_context_ids": [
+        "5e7838ae-0b80-4d05-b266-deb52de7b401",
+        "7abe62fa-6fdb-4466-a16b-73e1770f0c57",
+        "f4580736-a09e-471f-93d2-8089c695eb67",
+        "324bc249-0e84-46e9-b77f-856c76cd5353",
+        "391ad5dc-0d1c-4350-85ba-5aa601d9ac0d",
+        "2e55093d-0a0f-4fd9-954b-4fc72df9eac0",
+        "da79aa00-567d-434c-8441-915ac080f918",
+        "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+        "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1",
+        "8939253d-3272-4915-8c2b-c60062aeb818"
+      ],
+      "scores": [
+        8.112334251403809,
+        7.936646938323975,
+        6.9677886962890625,
+        5.971460819244385,
+        1.3353826999664307,
+        0.949152946472168,
+        0.8504177927970886,
+        0.7488635182380676,
+        0.6956260800361633,
+        0.6486386656761169
+      ],
+      "latency_ms": 0.8006999996723607,
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 0.5,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.6666666666666666,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.2
+      },
+      "ragas": {
+        "context_precision": 0.2,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF042",
+      "question": "사용하지 않은 혈액제제는 어떻게 반납하나요?",
+      "question_type": "procedure",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+        "dfb2693a-e821-4d6e-bbcc-0dbf3dc2a2ae"
+      ],
+      "retrieved_context_ids": [
+        "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+        "9552a4ac-31b4-43a8-aa92-37bd3e89362a",
+        "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+        "dfb2693a-e821-4d6e-bbcc-0dbf3dc2a2ae",
+        "84c0a864-176f-4776-a15e-167fc2518e5d",
+        "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+        "21efe016-3004-45f3-a070-29ce2ecb0019",
+        "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+        "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+        "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc"
+      ],
+      "scores": [
+        9.348984718322754,
+        5.974932670593262,
+        5.450984001159668,
+        5.0552825927734375,
+        4.772139072418213,
+        4.684035301208496,
+        4.681832313537598,
+        3.241227149963379,
+        3.2006609439849854,
+        3.0297958850860596
+      ],
+      "latency_ms": 0.8094999993772944,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.25,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.5,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.2
+      },
+      "ragas": {
+        "context_precision": 0.2,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TF043",
+      "question": "수혈 후 혈액백과 수혈세트는 어떻게 폐기하나요?",
+      "question_type": "procedure",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+        "f9eb1471-4566-4c09-a18e-9f3d84a47e9c"
+      ],
+      "retrieved_context_ids": [
+        "9552a4ac-31b4-43a8-aa92-37bd3e89362a",
+        "84c0a864-176f-4776-a15e-167fc2518e5d",
+        "59d57c8a-c9d7-4f8d-b9a1-a2816f1f01f7",
+        "f9cfc75b-a5e7-4633-a798-4b17ea462325",
+        "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0",
+        "3ecc27b9-634c-4026-b44e-e01123aa0467",
+        "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+        "df699ccc-6f51-4281-b4a4-f3d2a20631e0",
+        "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+        "b0b5bc4f-7d0b-4f56-8e37-84178d38637d"
+      ],
+      "scores": [
+        6.669376373291016,
+        5.107711315155029,
+        4.804263591766357,
+        4.705187797546387,
+        4.6416802406311035,
+        4.619519233703613,
+        4.246101379394531,
+        4.123198509216309,
+        1.9555081129074097,
+        1.9025700092315674
+      ],
+      "latency_ms": 0.8484999998472631,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 0.0,
+        "mrr": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0
+      },
+      "ragas": {
+        "context_precision": 0.0,
+        "context_recall": 0.0
+      }
+    },
+    {
+      "question_id": "TF044",
+      "question": "반납한 혈액제제를 재출고할 수 있는 조건은 무엇인가요?",
+      "question_type": "fact_specific",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "a3d42ca5-54b5-4b8d-be4e-79337aaab880"
+      ],
+      "retrieved_context_ids": [
+        "09f3c6d5-9e0c-4545-960f-b16c69abbeb1",
+        "dfb2693a-e821-4d6e-bbcc-0dbf3dc2a2ae",
+        "919e93ca-fed9-4dde-b9b8-f870e207a3f3",
+        "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+        "3ecc27b9-634c-4026-b44e-e01123aa0467",
+        "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+        "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+        "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+        "1033ac46-dec8-493e-b577-7f5ad80f8e86",
+        "9552a4ac-31b4-43a8-aa92-37bd3e89362a"
+      ],
+      "scores": [
+        6.416562557220459,
+        5.222231864929199,
+        4.688266754150391,
+        4.684035301208496,
+        4.577188491821289,
+        4.499397277832031,
+        4.399069309234619,
+        4.2966814041137695,
+        4.093734264373779,
+        3.5061025619506836
+      ],
+      "latency_ms": 0.8682000006956514,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 0.0,
+        "mrr": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0
+      },
+      "ragas": {
+        "context_precision": 0.0,
+        "context_recall": 0.0
+      }
+    },
+    {
+      "question_id": "TF045",
+      "question": "혈액제제 재출고 절차를 알려줘",
+      "question_type": "paraphrase",
+      "expected_answerable": true,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [
+        "fd678588-5ac2-400d-95c5-3309537781ec"
+      ],
+      "retrieved_context_ids": [
+        "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+        "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+        "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+        "dfb2693a-e821-4d6e-bbcc-0dbf3dc2a2ae",
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+        "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+        "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+        "b225ae64-72d2-4e59-81c0-57f5d8438666",
+        "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+        "fd678588-5ac2-400d-95c5-3309537781ec"
+      ],
+      "scores": [
+        6.537220001220703,
+        5.430171489715576,
+        5.366875648498535,
+        5.349342346191406,
+        5.186156272888184,
+        3.7989649772644043,
+        3.7905306816101074,
+        3.657822847366333,
+        3.4647159576416016,
+        3.287501573562622
+      ],
+      "latency_ms": 1.5447000005224254,
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.1,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.1
+      },
+      "ragas": {
+        "context_precision": 0.1,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "TN001",
+      "question": "화성 우주선의 궤도 계산 공식은?",
+      "question_type": "negative_out_of_scope",
+      "expected_answerable": false,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [],
+      "retrieved_context_ids": [
+        "fb4884e3-8fea-42fa-b996-7e9c333e7fef",
+        "761b9529-5b18-4262-8174-6062c35fb31c",
+        "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+        "d9a4a9c8-fbd4-41f2-bab6-6abd72575204",
+        "ee8c2027-ad6d-4bb7-8077-5e4c42be1cc3",
+        "66dba192-bac5-4b3a-bd4d-77e9eacb4192",
+        "edd76252-eb29-4acf-9a31-735463528b7d",
+        "843aa4c8-3ffd-4747-97eb-8699b0a0eeaf",
+        "63e9db23-9c0a-4e6a-a272-3d118d242ca2",
+        "10537058-d160-4786-a6cf-95de46d7189c"
+      ],
+      "scores": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "latency_ms": 0.7525999990320997,
+      "metrics": {},
+      "ragas": {}
+    },
+    {
+      "question_id": "TN002",
+      "question": "오늘 병원 구내식당 메뉴 알려줘",
+      "question_type": "negative_out_of_scope",
+      "expected_answerable": false,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [],
+      "retrieved_context_ids": [
+        "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+        "fb4884e3-8fea-42fa-b996-7e9c333e7fef",
+        "761b9529-5b18-4262-8174-6062c35fb31c",
+        "d9a4a9c8-fbd4-41f2-bab6-6abd72575204",
+        "ee8c2027-ad6d-4bb7-8077-5e4c42be1cc3",
+        "66dba192-bac5-4b3a-bd4d-77e9eacb4192",
+        "edd76252-eb29-4acf-9a31-735463528b7d",
+        "843aa4c8-3ffd-4747-97eb-8699b0a0eeaf",
+        "63e9db23-9c0a-4e6a-a272-3d118d242ca2",
+        "10537058-d160-4786-a6cf-95de46d7189c"
+      ],
+      "scores": [
+        3.995793342590332,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "latency_ms": 0.5614000001514796,
+      "metrics": {},
+      "ragas": {}
+    },
+    {
+      "question_id": "TN003",
+      "question": "자동차 엔진오일 교환 주기는?",
+      "question_type": "negative_out_of_scope",
+      "expected_answerable": false,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [],
+      "retrieved_context_ids": [
+        "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+        "f7a9837d-f8db-4461-abd8-a3607db2276f",
+        "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+        "fb4884e3-8fea-42fa-b996-7e9c333e7fef",
+        "761b9529-5b18-4262-8174-6062c35fb31c",
+        "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+        "d9a4a9c8-fbd4-41f2-bab6-6abd72575204",
+        "ee8c2027-ad6d-4bb7-8077-5e4c42be1cc3",
+        "66dba192-bac5-4b3a-bd4d-77e9eacb4192",
+        "edd76252-eb29-4acf-9a31-735463528b7d"
+      ],
+      "scores": [
+        5.228564262390137,
+        0.9105718731880188,
+        0.7948442697525024,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "latency_ms": 0.5233000010775868,
+      "metrics": {},
+      "ragas": {}
+    },
+    {
+      "question_id": "TN004",
+      "question": "주식 투자 종목 추천해줘",
+      "question_type": "negative_out_of_scope",
+      "expected_answerable": false,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [],
+      "retrieved_context_ids": [
+        "fb4884e3-8fea-42fa-b996-7e9c333e7fef",
+        "761b9529-5b18-4262-8174-6062c35fb31c",
+        "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+        "d9a4a9c8-fbd4-41f2-bab6-6abd72575204",
+        "ee8c2027-ad6d-4bb7-8077-5e4c42be1cc3",
+        "66dba192-bac5-4b3a-bd4d-77e9eacb4192",
+        "edd76252-eb29-4acf-9a31-735463528b7d",
+        "843aa4c8-3ffd-4747-97eb-8699b0a0eeaf",
+        "63e9db23-9c0a-4e6a-a272-3d118d242ca2",
+        "10537058-d160-4786-a6cf-95de46d7189c"
+      ],
+      "scores": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "latency_ms": 0.4896000009466661,
+      "metrics": {},
+      "ragas": {}
+    },
+    {
+      "question_id": "TN005",
+      "question": "여권 재발급 절차 알려줘",
+      "question_type": "negative_out_of_scope",
+      "expected_answerable": false,
+      "needs_human_review": false,
+      "review_reasons": [],
+      "reference_context_ids": [],
+      "retrieved_context_ids": [
+        "b225ae64-72d2-4e59-81c0-57f5d8438666",
+        "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+        "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+        "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+        "fd678588-5ac2-400d-95c5-3309537781ec",
+        "84c0a864-176f-4776-a15e-167fc2518e5d",
+        "9552a4ac-31b4-43a8-aa92-37bd3e89362a",
+        "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+        "7e68f70a-ba74-4eb8-bbae-c7e9f7340567"
+      ],
+      "scores": [
+        3.417100429534912,
+        3.2731075286865234,
+        3.242741823196411,
+        3.1836698055267334,
+        3.12671160697937,
+        3.0449960231781006,
+        2.724569082260132,
+        2.6235361099243164,
+        2.3422484397888184,
+        2.1679201126098633
+      ],
+      "latency_ms": 0.5240999998932239,
+      "metrics": {},
+      "ragas": {}
+    }
+  ]
+}

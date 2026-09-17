@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "dataset_id": "transfusion-multimodal-retrieval",
+  "dataset_version": "transfusion-multimodal-v1",
+  "source_dataset_version": "transfusion-retrieval-v3",
+  "cases": [
+    {
+      "case_id": "MM001",
+      "case_type": "table_lookup",
+      "source_question_id": "TF003",
+      "review_status": "approved_structural_table",
+      "evaluation_status": "approved"
+    },
+    {
+      "case_id": "MM002",
+      "case_type": "table_comparison",
+      "source_question_id": "TF006",
+      "review_status": "approved_structural_table",
+      "evaluation_status": "approved"
+    },
+    {
+      "case_id": "MM003",
+      "case_type": "table_numeric",
+      "source_question_id": "TF007",
+      "review_status": "approved_structural_table",
+      "evaluation_status": "approved"
+    },
+    {
+      "case_id": "MM004",
+      "case_type": "table_lookup",
+      "source_question_id": "TF038",
+      "review_status": "approved_structural_table",
+      "evaluation_status": "approved"
+    },
+    {
+      "case_id": "MM005",
+      "case_type": "mixed_text_table",
+      "source_question_id": "TF003",
+      "review_status": "approved_structural_table",
+      "evaluation_status": "approved"
+    },
+    {
+      "case_id": "MM006",
+      "case_type": "figure_procedure",
+      "source_question_id": "TF027",
+      "review_status": "needs_human_review",
+      "evaluation_status": "pending_image_sequence_interpretation"
+    },
+    {
+      "case_id": "MM007",
+      "case_type": "figure_procedure",
+      "source_question_id": "TF035",
+      "review_status": "approved_nearby_text",
+      "evaluation_status": "text_grounded_not_image_dependent"
+    },
+    {
+      "case_id": "MM008",
+      "case_type": "figure_condition",
+      "source_question_id": null,
+      "review_status": "not_available",
+      "evaluation_status": "not_instantiated_unsafe_gold"
+    }
+  ]
+}

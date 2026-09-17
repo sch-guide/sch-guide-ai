@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "join_keys": [
+    "dataset_id",
+    "case_id",
+    "chunk_id"
+  ],
+  "cutoffs": [
+    1,
+    3,
+    5,
+    10
+  ],
+  "case_fields": [
+    "dataset_id",
+    "case_id",
+    "question_type",
+    "question",
+    "needs_human_review",
+    "reference_context_ids",
+    "retrieved_context_ids",
+    "retrieval_latency_ms"
+  ],
+  "metric_fields": [
+    "hit_at_1",
+    "hit_at_3",
+    "hit_at_5",
+    "hit_at_10",
+    "mrr",
+    "recall_at_1",
+    "recall_at_3",
+    "recall_at_5",
+    "recall_at_10",
+    "precision_at_1",
+    "precision_at_3",
+    "precision_at_5",
+    "precision_at_10",
+    "ragas_id_context_precision",
+    "ragas_id_context_recall"
+  ],
+  "ranked_result_fields": [
+    "dataset_id",
+    "case_id",
+    "chunk_id",
+    "rank",
+    "distance_or_score"
+  ]
+}

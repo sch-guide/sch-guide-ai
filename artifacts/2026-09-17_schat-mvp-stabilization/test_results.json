@@ -1,0 +1,31 @@
+{
+  "status": "passed",
+  "full_pytest": {
+    "passed": 474,
+    "skipped": 3,
+    "warnings": 6,
+    "duration_seconds": 140.06
+  },
+  "focused_pytest": {
+    "passed": 10,
+    "duration_seconds": 0.5
+  },
+  "ruff": "passed",
+  "git_diff_check": "passed",
+  "artifact_security_audit": {
+    "files_scanned": 26,
+    "exact_source_matches": 0,
+    "forbidden_text_field_errors": 0
+  },
+  "code_review": {
+    "actionable_findings": 0,
+    "residual_limits": [
+      "bm25_top10_miss_9_of_78",
+      "tf027_human_review_pending",
+      "provider_comparison_requires_external_transmission_policy_approval"
+    ]
+  },
+  "production_rag_changed": false,
+  "production_requirements_changed": false,
+  "evaluation_generation_api_calls": 0
+}

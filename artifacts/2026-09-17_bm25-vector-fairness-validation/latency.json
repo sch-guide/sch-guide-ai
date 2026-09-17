@@ -1,0 +1,52 @@
+{
+  "bm25_minimal_raw": {
+    "mean_ms": 0.06150999998276853,
+    "p95_ms": 0.12747999981002067,
+    "index_build_ms": 3.3745999999155174
+  },
+  "bm25_schat_tokens_body_all": {
+    "mean_ms": 0.3600255555435676,
+    "p95_ms": 0.5503500000713754,
+    "index_build_ms": 77.44060000004538
+  },
+  "bm25_current_baseline": {
+    "mean_ms": 0.3842077777739582,
+    "p95_ms": 0.5791950000229915,
+    "index_build_ms": 84.4809999998688
+  },
+  "bm25_current_canonical": {
+    "mean_ms": 0.3819099999772233,
+    "p95_ms": 0.8418699999765521,
+    "index_build_ms": 84.4809999998688
+  },
+  "bm25_expanded_no_temporal": {
+    "mean_ms": 2.0767144444461234,
+    "p95_ms": 2.9491450000477917,
+    "index_build_ms": 84.4809999998688
+  },
+  "bm25_production_query": {
+    "mean_ms": 2.484144444446833,
+    "p95_ms": 5.571774999998524,
+    "index_build_ms": 84.4809999998688
+  },
+  "vector_current_minilm": {
+    "mean_ms": 18.651087777794196,
+    "p95_ms": 24.872305000167216,
+    "index_build_ms": 0.0
+  },
+  "vector_common_query_body": {
+    "mean_ms": 17.092282222180682,
+    "p95_ms": 21.6592149999542,
+    "index_build_ms": 9944.33459999982
+  },
+  "vector_title_section_body": {
+    "mean_ms": 17.79207444441858,
+    "p95_ms": 23.635735000061686,
+    "index_build_ms": 11536.409400000139
+  },
+  "vector_document_title_section_body": {
+    "mean_ms": 18.54252555557044,
+    "p95_ms": 23.48966999993536,
+    "index_build_ms": 12611.960400000044
+  }
+}

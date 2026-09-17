@@ -1,0 +1,281 @@
+{
+  "metric_mode": "ID-based/non-LLM",
+  "llm_judge_metrics": "deferred",
+  "generation_api_calls": 0,
+  "cases": [
+    {
+      "case_id": "TF001",
+      "needs_human_review": false,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF002",
+      "needs_human_review": false,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF003",
+      "needs_human_review": true,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF004",
+      "needs_human_review": true,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF005",
+      "needs_human_review": true,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF006",
+      "needs_human_review": true,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF007",
+      "needs_human_review": true,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF008",
+      "needs_human_review": false,
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    },
+    {
+      "case_id": "TF009",
+      "needs_human_review": false,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF010",
+      "needs_human_review": false,
+      "context_precision": 0.1,
+      "context_recall": 0.5
+    },
+    {
+      "case_id": "TF011",
+      "needs_human_review": false,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF012",
+      "needs_human_review": false,
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    },
+    {
+      "case_id": "TF013",
+      "needs_human_review": false,
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    },
+    {
+      "case_id": "TF014",
+      "needs_human_review": false,
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    },
+    {
+      "case_id": "TF015",
+      "needs_human_review": false,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF016",
+      "needs_human_review": false,
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    },
+    {
+      "case_id": "TF017",
+      "needs_human_review": false,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF018",
+      "needs_human_review": false,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF019",
+      "needs_human_review": false,
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    },
+    {
+      "case_id": "TF020",
+      "needs_human_review": false,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF021",
+      "needs_human_review": false,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF022",
+      "needs_human_review": false,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF023",
+      "needs_human_review": true,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF024",
+      "needs_human_review": true,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF025",
+      "needs_human_review": false,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF026",
+      "needs_human_review": false,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF027",
+      "needs_human_review": true,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF028",
+      "needs_human_review": false,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF029",
+      "needs_human_review": false,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF030",
+      "needs_human_review": false,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF031",
+      "needs_human_review": false,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF032",
+      "needs_human_review": false,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF033",
+      "needs_human_review": false,
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    },
+    {
+      "case_id": "TF034",
+      "needs_human_review": false,
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    },
+    {
+      "case_id": "TF035",
+      "needs_human_review": true,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF036",
+      "needs_human_review": false,
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    },
+    {
+      "case_id": "TF037",
+      "needs_human_review": true,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF038",
+      "needs_human_review": true,
+      "context_precision": 0.1,
+      "context_recall": 0.5
+    },
+    {
+      "case_id": "TF039",
+      "needs_human_review": true,
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    },
+    {
+      "case_id": "TF040",
+      "needs_human_review": true,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF041",
+      "needs_human_review": true,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF042",
+      "needs_human_review": false,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF043",
+      "needs_human_review": false,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "case_id": "TF044",
+      "needs_human_review": false,
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    },
+    {
+      "case_id": "TF045",
+      "needs_human_review": false,
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  ],
+  "aggregate": {
+    "ragas_id_context_precision": 0.041935483870967745,
+    "ragas_id_context_recall": 0.3709677419354839
+  }
+}

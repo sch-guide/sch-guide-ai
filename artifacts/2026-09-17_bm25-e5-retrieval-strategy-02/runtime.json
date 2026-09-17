@@ -1,0 +1,54 @@
+{
+  "model_load_ms": 4424.178399999619,
+  "passage_index_build_ms_this_run": 0.0,
+  "passage_index_build_reference_ms": 98965.39620000022,
+  "snapshot_reused": true,
+  "snapshot_load_ms": 11.464999999589054,
+  "snapshot_size_bytes": 389672,
+  "model_cache_size_bytes": 2252997322,
+  "rss_before_bytes": 80392192,
+  "rss_after_model_bytes": 1621856256,
+  "rss_after_index_bytes": 1624031232,
+  "rss_model_delta_bytes": 1541464064,
+  "rss_index_delta_bytes": 2174976,
+  "bm25_index_build_ms": 162.43310000027122,
+  "component_latency_ms": {
+    "bm25_query": {
+      "count": 90,
+      "mean": 1.0104677777841669,
+      "p95": 1.6275399999813087,
+      "minimum": 0.3644999997050036,
+      "maximum": 2.835199999935867
+    },
+    "e5_query_embedding": {
+      "count": 90,
+      "mean": 192.9768422222575,
+      "p95": 282.1643100001893,
+      "minimum": 94.50579999975162,
+      "maximum": 382.7813999996579
+    },
+    "e5_exact_search": {
+      "count": 90,
+      "mean": 0.4966633333626507,
+      "p95": 0.605580000228656,
+      "minimum": 0.22640000042883912,
+      "maximum": 2.9022999997323495
+    },
+    "rrf": {
+      "count": 90,
+      "mean": 0.1669255555902459,
+      "p95": 0.22208999998838405,
+      "minimum": 0.0731999998606625,
+      "maximum": 0.25919999916368397
+    },
+    "rerank": {
+      "count": 90,
+      "mean": 70.50691555557731,
+      "p95": 100.91116000048714,
+      "minimum": 25.79850000074657,
+      "maximum": 266.65150000008
+    }
+  },
+  "persistent_snapshot_feasible": true,
+  "runtime_reembedding_required": false
+}

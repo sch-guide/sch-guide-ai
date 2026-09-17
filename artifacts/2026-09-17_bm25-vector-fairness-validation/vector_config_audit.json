@@ -1,0 +1,24 @@
+{
+  "catalog_vector_count": 105,
+  "catalog_dimensions": 384,
+  "catalog_ids_unique": true,
+  "catalog_vectors_finite": true,
+  "catalog_norm_min": 0.9999998807907104,
+  "catalog_norm_max": 1.0,
+  "body_rebuild_max_abs_delta": 0.0,
+  "deterministic_rebuild": true,
+  "similarity_semantics": "cosine similarity; stored Chroma similarity = 1 - cosine distance",
+  "query_model_equals_document_model": true,
+  "model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+  "dimensions": 384,
+  "prior_chroma_top10_exact_match_rate": 0.4,
+  "prior_chroma_top10_mean_overlap": 0.8711111111111112,
+  "chroma_package_currently_installed": null,
+  "fresh_chroma_rebuild_performed": false,
+  "fresh_chroma_rebuild_reason": "production dependency cleanup retained; exact cosine audits stored Chroma rankings",
+  "baseline_reproduction": {
+    "bm25_top10_exact_match_rate": 1.0,
+    "vector_chroma_top10_exact_match_rate": 0.4,
+    "vector_chroma_top10_mean_overlap": 0.8711111111111112
+  }
+}

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>SCHAT Retrieval·Generation·Multimodal 검수</title>
+  <style>
+    body{font-family:system-ui,sans-serif;margin:32px;color:#17324d;background:#f7fafc}
+    header,section{background:#fff;border:1px solid #d7e1e8;border-radius:12px;padding:18px;margin:12px 0}
+    table{border-collapse:collapse;width:100%;font-size:14px}th,td{border:1px solid #d7e1e8;padding:8px}th{background:#eaf3f8}
+    .ok{color:#087f5b;font-weight:700}.pending{color:#a15c00;font-weight:700}
+  </style>
+</head>
+<body>
+<header><h1>SCHAT 통합 고도화 검수</h1><p><b>Production 판정 E:</b> 기존 BM25 + semantic/vector + RRF + reranker 유지</p></header>
+<section><h2>Retrieval</h2><table><tr><th>Config</th><th>Hit@10</th><th>MRR</th><th>Recall@10</th><th>Mean ms</th></tr>
+<tr><td>BM25 current</td><td>0.8846</td><td>0.5602</td><td>0.8379</td><td>1.010</td></tr>
+<tr><td>E5 large</td><td>0.9359</td><td>0.7151</td><td>0.9084</td><td>193.474</td></tr>
+<tr><td>BM25 + E5 RRF</td><td><b>0.9487</b></td><td>0.6769</td><td><b>0.9359</b></td><td>194.651</td></tr>
+<tr><td>RRF + existing reranker</td><td>0.9103</td><td>0.5184</td><td>0.8681</td><td>265.158</td></tr></table></section>
+<section><h2>상태</h2><p class="ok">Text UX, table/citation/UI, routing, UAT, regression 통과</p>
+<p class="pending">Provider semantic entailment와 TF027 image 해석은 승인/사람 검수 대기</p>
+<p>Full pytest 525 passed, 4 skipped · 외부 API 0 · exact source artifact 0</p></section>
+</body>
+</html>

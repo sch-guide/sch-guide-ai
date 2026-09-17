@@ -1,0 +1,50 @@
+{
+  "selected": "bm25",
+  "evaluated_retrievers": [
+    "bm25",
+    "chromadb",
+    "hybrid_rrf"
+  ],
+  "hybrid_evaluated": true,
+  "metrics": {
+    "chromadb": {
+      "hit_at_1": 0.038461538461538464,
+      "hit_at_3": 0.08974358974358974,
+      "hit_at_5": 0.14102564102564102,
+      "hit_at_10": 0.28205128205128205,
+      "mrr": 0.09130545380545381,
+      "recall_at_10": 0.2564102564102564,
+      "precision_at_10": 0.03205128205128205,
+      "ragas_id_context_precision": 0.03205128205128205,
+      "ragas_id_context_recall": 0.2564102564102564,
+      "mean_latency_ms": 12.065243333382
+    },
+    "bm25": {
+      "hit_at_1": 0.3974358974358974,
+      "hit_at_3": 0.6538461538461539,
+      "hit_at_5": 0.7948717948717948,
+      "hit_at_10": 0.8846153846153846,
+      "mrr": 0.5601648351648352,
+      "recall_at_10": 0.8379120879120879,
+      "precision_at_10": 0.11923076923076924,
+      "ragas_id_context_precision": 0.11923076923076924,
+      "ragas_id_context_recall": 0.8379120879120879,
+      "mean_latency_ms": 0.373681111099
+    },
+    "hybrid_rrf": {
+      "hit_at_1": 0.32051282051282054,
+      "hit_at_3": 0.48717948717948717,
+      "hit_at_5": 0.6538461538461539,
+      "hit_at_10": 0.8333333333333334,
+      "mrr": 0.4598901098901099,
+      "recall_at_10": 0.7554945054945055,
+      "precision_at_10": 0.10384615384615384,
+      "ragas_id_context_precision": 0.10384615384615384,
+      "ragas_id_context_recall": 0.7554945054945055,
+      "mean_latency_ms": 12.45053777778
+    }
+  },
+  "production_change_applied": false,
+  "production_decision": "production_change_not_required",
+  "production_reason": "BM25 wins standalone evaluation, while production already includes BM25 candidate generation before RRF/rerank; bypassing that validated path is not justified."
+}

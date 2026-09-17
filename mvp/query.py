@@ -5,6 +5,7 @@ import unicodedata
 from dataclasses import dataclass
 from difflib import get_close_matches
 
+from mvp.evidence_routing import route_evidence
 from mvp.library import ALIASES, INTENT_TERMS, anchors, clean, retrieval_question, terms
 
 FOCUSES = {
@@ -84,6 +85,8 @@ class QueryPlan:
     monitoring_phase: str = ''
     monitoring_item: str = ''
     monitoring_action: str = ''
+    evidence_types: tuple[str, ...] = ('text',)
+    evidence_route_status: str = 'ready'
 
 
 MONITORING_ITEM_PATTERNS = {
@@ -351,10 +354,11 @@ def plan_query(question, previous='', follow_up=False, documents=(), previous_so
     if domain != 'out_of_scope' and canonical_topics:
         domain = 'hospital'
     monitoring = _monitoring_qualifiers(query)
+    evidence_route = route_evidence(query, kind=kind)
     return QueryPlan(question, query, expanded, kind, STYLE[kind], focus, tuple(chosen),
                      2 if reference_two or len(chosen) >= 2 else 1, tuple(anchors(query)), clarification,
                      corrections, 8 if broad else 6, 14 if broad else 12, domain, canonical_topics,
-                     *monitoring)
+                     *monitoring, evidence_route.candidates, evidence_route.status)
 
 
 def topic_words(plan):

@@ -1,0 +1,35 @@
+{
+  "focused_evaluation_environment": {
+    "command": ".venv-eval-transfusion\\Scripts\\python.exe -m pytest tests/test_transfusion_chroma_baseline.py -q",
+    "result": "13 passed",
+    "exit_code": 0
+  },
+  "full_production_environment": {
+    "command": ".venv\\Scripts\\python.exe -m pytest -q --basetemp=.pytest_tmp\\transfusion-full",
+    "result": "453 passed, 3 skipped, 6 warnings",
+    "duration_seconds": 241.23,
+    "exit_code": 0,
+    "notes": [
+      "Two evaluation integration tests are skipped in the production environment because ChromaDB and RAGAS are intentionally evaluation-only dependencies.",
+      "Warnings are the existing FastEmbed multilingual MiniLM pooling notice."
+    ]
+  },
+  "ruff": {
+    "command": ".venv\\Scripts\\python.exe -m ruff check .",
+    "result": "All checks passed",
+    "exit_code": 0
+  },
+  "git_diff_check": {
+    "command": "git diff --check",
+    "result": "passed",
+    "exit_code": 0
+  },
+  "artifact_audit": {
+    "required_files_missing": [],
+    "catalog_chunk_count": 105,
+    "chroma_collection_count": 105,
+    "chroma_document_values_non_null": 0,
+    "exact_source_text_leaks": 0,
+    "generation_api_calls": 0
+  }
+}

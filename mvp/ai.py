@@ -1449,7 +1449,9 @@ def generate(settings, question, hits, user_id, quota=None, transport=None, plan
             answer = answer.model_copy(update={'format': 'comparison' if answer.conflict else plan.format})
             if settings.llm_provider == 'groq_free':
                 try:
-                    answer.attach_presentation(build_answer_presentation(answer, selected_units))
+                    answer.attach_presentation(build_answer_presentation(
+                        answer, selected_units, intent=plan.kind
+                    ))
                 except ValueError:
                     if trace is not None:
                         trace.update(presentation_ready=False, presentation_statement_count=0)

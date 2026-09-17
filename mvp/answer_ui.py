@@ -6,7 +6,7 @@ from datetime import date
 
 import streamlit as st
 
-from mvp.presentation import procedure_display_rows
+from mvp.presentation import answer_display_rows
 
 
 def escape(text):
@@ -40,6 +40,14 @@ def uses_grouped_procedure(answer, presentation):
     )
 
 
+def uses_structured_presentation(answer, presentation):
+    return bool(
+        answer.format != 'comparison'
+        and presentation
+        and len(presentation.statements) == len(answer.statements)
+    )
+
+
 def grouped_statement_markdown(statement, item, reference_text):
     text = statement.text.lstrip()
     marker = item.leading_marker
@@ -48,6 +56,23 @@ def grouped_statement_markdown(statement, item, reference_text):
         content = f'**{escape(marker)}**' + (f' {escape(body)}' if body else '')
     else:
         content = '- ' + escape(statement.text)
+    return content + (' ' + reference_text if reference_text else '')
+
+
+def styled_statement_markdown(statement, item, reference_text, *, intent, answer_format):
+    text = statement.text.lstrip()
+    marker = item.leading_marker
+    if marker and text.startswith(marker):
+        body = text[len(marker):].lstrip()
+        content = f'**{escape(marker)}**' + (f' {escape(body)}' if body else '')
+    elif intent in {'preparation', 'materials'}:
+        content = '☐ ' + escape(statement.text)
+    elif intent in {'cautions', 'release'}:
+        content = '- ⚠️ ' + escape(statement.text)
+    elif answer_format in {'steps', 'bullets', 'summary'}:
+        content = '- ' + escape(statement.text)
+    else:
+        content = escape(statement.text)
     return content + (' ' + reference_text if reference_text else '')
 
 
@@ -92,16 +117,22 @@ def render_answer(answer, hits, index, source_view, *, presentation=None, on_rev
                                              for e in statement.evidence))
             rows.append(f'| {escape(statement.label or names)} | {escape(statement.text)} | {references(statement)} |')
         st.markdown('\n'.join(rows))
-    elif uses_grouped_procedure(answer, presentation):
-        for row in procedure_display_rows(presentation):
+    elif uses_structured_presentation(answer, presentation):
+        for row in answer_display_rows(presentation):
+            if row.kind == 'section':
+                st.markdown(f'## {row.label}')
             if row.kind == 'branch':
                 st.markdown(f'### {row.label}')
             elif row.kind == 'phase':
                 st.markdown(f'#### {row.label}')
-            else:
+            elif row.kind == 'statement':
                 statement = answer.statements[row.statement_index]
-                st.markdown(grouped_statement_markdown(
-                    statement, presentation.statements[row.statement_index], references(statement)
+                st.markdown(styled_statement_markdown(
+                    statement,
+                    presentation.statements[row.statement_index],
+                    references(statement),
+                    intent=presentation.intent,
+                    answer_format=presentation.answer_format,
                 ))
     else:
         for number, statement in enumerate(answer.statements, 1):
