@@ -50,6 +50,10 @@ class Settings:
             raise GuideError("AI 서버가 아직 연결되지 않았습니다. 검색된 원문은 확인할 수 있습니다. (AI_SETUP)")
         if not self.llm_approved:
             raise GuideError("관리자가 AI 서버의 자료 처리·이용 조건을 확인한 뒤 연결 설정을 완료해야 합니다. (AI_APPROVAL)")
+        if self.llm_provider == "gemini":
+            if not self.llm_key or not self.llm_model:
+                raise GuideError("GEMINI_API_KEY 환경변수와 Gemini 모델 설정이 필요합니다. (AI_SETUP)")
+            return "gemini"  # 공식 SDK 경로이며 HTTP endpoint로 사용하지 않습니다.
         if self.llm_provider == "groq_free":
             if not self.groq_free_confirmed or not self.llm_key:
                 raise GuideError("Groq 무료 계정 확인과 API 키 설정이 필요합니다. (AI_SETUP)")
@@ -104,7 +108,10 @@ def load_settings(*, use_streamlit=True):
         settings = Settings(
             mode=get("MODE", "staff"), supabase_url=get("SUPABASE_URL"),
             supabase_key=get("SUPABASE_PUBLISHABLE_KEY"), llm_provider=get("LLM_PROVIDER", "disabled"),
-            llm_url=get("LLM_BASE_URL"), llm_key=get("LLM_API_KEY"), llm_model=get("LLM_MODEL"),
+            llm_url=get("LLM_BASE_URL"),
+            llm_key=(os.environ.get("GEMINI_API_KEY", "").strip()
+                     if get("LLM_PROVIDER", "disabled") == "gemini" else get("LLM_API_KEY")),
+            llm_model=get("LLM_MODEL"),
             llm_approved=get("LLM_APPROVED", "false").lower() == "true",
             groq_free_confirmed=get("GROQ_FREE_CONFIRMED", "false").lower() == "true",
             daily_limit=int(get("DAILY_LLM_LIMIT", "40")),

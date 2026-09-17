@@ -340,8 +340,13 @@ def generate(settings, question, hits, user_id, quota=None, transport=None, plan
         # 자동 재시도·다른 모델 전환·웹 검색·추적 서비스 전송을 하지 않습니다.
         if trace is not None:
             trace.update(llm_called=True, stage='llm_request')
-        with httpx.Client(timeout=30, transport=transport, follow_redirects=False) as client:
-            response = client.post(endpoint, json=payload, headers=headers)
+        if settings.llm_provider == "gemini":
+            from mvp.gemini_provider import completion_response
+            response = completion_response(settings, messages, temperature=payload['temperature'],
+                                           max_output_tokens=OUTPUT_LIMIT)
+        else:
+            with httpx.Client(timeout=30, transport=transport, follow_redirects=False) as client:
+                response = client.post(endpoint, json=payload, headers=headers)
         if response.status_code == 429:
             raw_delay = response.headers.get("retry-after") or response.headers.get("x-ratelimit-reset-tokens", "60")
             match = re.fullmatch(r"\s*(?:(\d+(?:\.\d+)?)m)?\s*(?:(\d+(?:\.\d+)?)s)?\s*", raw_delay)
