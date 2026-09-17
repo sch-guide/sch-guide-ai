@@ -20,8 +20,9 @@ def test_multimodal_mvp_evaluation_excludes_pending_image_and_is_raw_free():
     )
 
     assert summary['table']['record_count'] == 5
-    assert summary['table']['row_count'] == 33
+    assert summary['table']['row_count'] == 38
     assert summary['table']['approved_case_count'] == 5
+    assert summary['table']['hit_at_10'] == 1.0
     assert summary['image']['status'] == 'pending_human_review'
     assert summary['image']['pending_case_ids'] == ['TF027']
     assert summary['generation']['actual_api_calls'] == 0
@@ -29,6 +30,7 @@ def test_multimodal_mvp_evaluation_excludes_pending_image_and_is_raw_free():
     assert summary['production']['retrieval_changed'] is False
     assert summary['production']['validators_changed'] is False
     assert all(row['source_question_id'] != 'TF027' for row in results)
+    assert all(row['hit_at_10'] for row in results)
 
     fixture = json.loads(FIXTURE.read_text(encoding='utf-8'))
     _, chunks = load_catalog(CATALOG, document_name=fixture['document']['name'])

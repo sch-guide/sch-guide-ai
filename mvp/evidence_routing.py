@@ -36,11 +36,20 @@ _TABLE_CUE = re.compile(
 
 def route_evidence(question: str, *, kind: str) -> EvidenceRoute:
     """Return generic candidates without consulting retrieval results or gold."""
-    if _IMAGE_CUE.search(question):
+    image_cue = bool(_IMAGE_CUE.search(question))
+    table_cue = kind == 'comparison' or bool(_TABLE_CUE.search(question))
+    if image_cue and table_cue:
+        return EvidenceRoute(
+            'mixed',
+            ('image', 'table', 'text'),
+            'pending_image_review',
+            'image_and_structured_evidence_cues',
+        )
+    if image_cue:
         return EvidenceRoute(
             'image', ('image',), 'pending_image_review', 'explicit_image_or_workflow_cue'
         )
-    if kind == 'comparison' or _TABLE_CUE.search(question):
+    if table_cue:
         return EvidenceRoute(
             'table', ('table', 'text'), 'ready', 'structured_lookup_or_comparison_cue'
         )

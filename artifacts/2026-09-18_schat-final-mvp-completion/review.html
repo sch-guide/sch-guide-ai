@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SCHAT v0.9 안정 복구 기준점 검수</title>
+  <style>
+    body{font-family:system-ui,"Malgun Gothic",sans-serif;background:#f5f8fa;color:#17324d;margin:0}
+    main{max-width:1100px;margin:auto;padding:32px}.card{background:#fff;border:1px solid #d5e0e8;border-radius:14px;padding:18px;margin:14px 0}
+    table{border-collapse:collapse;width:100%}th,td{border:1px solid #d5e0e8;padding:8px;text-align:left}th{background:#eaf3f8}
+    .ok{color:#166534;font-weight:700}.pending{color:#9a3412;font-weight:700}code{background:#eef4f7;padding:2px 5px;border-radius:4px}
+  </style>
+</head>
+<body><main>
+  <h1>SCHAT 최종 MVP 검수 — v0.9 안정 복구 기준점</h1>
+  <div class="card"><p><strong>현재 기준 복구점:</strong> v0.9</p><p><strong>이전 기준 복구점:</strong> v0.8 보존</p><p><strong>상태:</strong> <span class="ok">annotated tag와 GitHub 저장 완료</span></p><p>외부 provider/vision 호출 0회</p></div>
+  <div class="card"><h2>Retrieval</h2><table><tr><th>전략</th><th>Hit@10</th><th>MRR</th><th>Recall@10</th><th>판정</th></tr><tr><td>BM25 current</td><td>0.8846</td><td>0.5602</td><td>0.8379</td><td>운영 유지</td></tr><tr><td>BM25 + E5 raw RRF</td><td>0.9487</td><td>0.6769</td><td>0.9359</td><td>평가 최고, 약 195 ms</td></tr><tr><td>Candidate-aware rerank</td><td>0.9487</td><td>0.6836</td><td>0.9359</td><td>평가 전용</td></tr></table><p>기존 안전 reranker 우회와 E5 메모리/지연 비용을 정당화할 운영 근거가 부족하므로 production retrieval은 변경하지 않았습니다.</p></div>
+  <div class="card"><h2>Table</h2><p>5 tables · 38 rows · 승인 5문항 Top-10 <span class="ok">5/5</span></p><p>MM003 first gold rank: 2. Exact table text는 로컬 UI 메모리에서만 표시합니다.</p></div>
+  <div class="card"><h2>Generation / Image</h2><p>Controlled generation은 semantic support가 승인될 때까지 기존 extractive Answer로 fail closed합니다.</p><p class="pending">TF027 image workflow는 사람 검수 대기이며 production gold에서 제외됩니다.</p></div>
+  <div class="card"><h2>Verification</h2><ul><li>Full pytest: <strong>534 passed, 4 skipped, 7 warnings</strong></li><li>Ruff: 통과</li><li>git diff --check: 통과</li><li>Q006 provider zero-call: 유지</li><li>Production validator 완화: 0건</li></ul></div>
+</main></body></html>

@@ -10,7 +10,7 @@ from __future__ import annotations
 import json
 import re
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
@@ -74,6 +74,18 @@ class ValidatedControlledParaphrase:
     statements: tuple[ValidatedControlledStatement, ...]
     covered_source_unit_ids: tuple[str, ...]
     semantic_support_pending: bool = True
+
+
+@dataclass(frozen=True)
+class ControlledGenerationDecision:
+    """Publication decision that never repairs or retries clinical text."""
+
+    output: Any
+    publish_controlled: bool
+    fallback_to_extractive: bool
+    reason: str
+    retry_count: int
+    validated_candidate: ValidatedControlledParaphrase | None = None
 
 
 def build_controlled_generation_schema(units: tuple[SourceUnit, ...]) -> dict:
@@ -195,3 +207,36 @@ def validate_controlled_paraphrase(
     if require_all_evidence and set(covered_ids) != set(by_id):
         raise ControlledGenerationError('evidence_coverage')
     return ValidatedControlledParaphrase(tuple(validated), covered_ids)
+
+
+def decide_controlled_generation(
+    content: str | dict,
+    units: tuple[SourceUnit, ...],
+    *,
+    intent: str,
+    extractive_answer: Any,
+) -> ControlledGenerationDecision:
+    """Publish only fully verified output; otherwise retain the exact Answer.
+
+    This function performs no provider call, retry, repair, reordering, or text
+    mutation.  There is deliberately no caller-supplied bypass: publication
+    remains disabled until an approved semantic validator owns that decision.
+    """
+    try:
+        validated = validate_controlled_paraphrase(content, units, intent=intent)
+    except ControlledGenerationError as exc:
+        return ControlledGenerationDecision(
+            output=extractive_answer,
+            publish_controlled=False,
+            fallback_to_extractive=True,
+            reason=str(exc),
+            retry_count=0,
+        )
+    return ControlledGenerationDecision(
+        output=extractive_answer,
+        publish_controlled=False,
+        fallback_to_extractive=True,
+        reason='semantic_support_pending',
+        retry_count=0,
+        validated_candidate=validated,
+    )

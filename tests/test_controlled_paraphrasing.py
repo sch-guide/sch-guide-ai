@@ -1,3 +1,4 @@
+import inspect
 import json
 
 import pytest
@@ -6,6 +7,7 @@ from mvp.controlled_generation import (
     ControlledGenerationError,
     build_controlled_generation_prompt,
     build_controlled_generation_schema,
+    decide_controlled_generation,
     validate_controlled_paraphrase,
 )
 from mvp.evidence import SourceUnit
@@ -131,3 +133,55 @@ def test_prompt_assigns_selection_not_answerability_and_has_safety_contract():
     assert 'branch' in prompt.lower()
     assert 'answerable' not in prompt.lower()
     assert units[0].exact_text in prompt
+
+
+@pytest.mark.parametrize(
+    ('candidate', 'reason'),
+    [
+        ('not-json', 'controlled_schema'),
+        (
+            payload(statement('20분 간격으로 상태를 확인한다.', 'su001')),
+            'unsupported_number_or_unit',
+        ),
+    ],
+)
+def test_controlled_decision_falls_back_without_retry_on_invalid_candidate(
+    candidate, reason
+):
+    units = (unit('su001', '15분 간격으로 상태를 확인한다.'),)
+    extractive = object()
+
+    decision = decide_controlled_generation(
+        candidate,
+        units,
+        intent='fact',
+        extractive_answer=extractive,
+    )
+
+    assert decision.output is extractive
+    assert decision.publish_controlled is False
+    assert decision.fallback_to_extractive is True
+    assert decision.reason == reason
+    assert decision.retry_count == 0
+
+
+def test_controlled_decision_keeps_valid_paraphrase_pending_without_semantic_proof():
+    units = (unit('su001', '15분 간격으로 상태를 확인한다.'),)
+    extractive = object()
+
+    decision = decide_controlled_generation(
+        payload(statement('상태는 15분 간격으로 확인한다.', 'su001')),
+        units,
+        intent='fact',
+        extractive_answer=extractive,
+    )
+
+    assert decision.output is extractive
+    assert decision.publish_controlled is False
+    assert decision.fallback_to_extractive is True
+    assert decision.reason == 'semantic_support_pending'
+    assert decision.retry_count == 0
+    assert decision.validated_candidate is not None
+    assert 'semantic_support_verified' not in inspect.signature(
+        decide_controlled_generation
+    ).parameters

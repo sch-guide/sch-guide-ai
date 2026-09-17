@@ -1,0 +1,29 @@
+{
+  "full_pytest": {
+    "passed": 534,
+    "skipped": 4,
+    "warnings": 7,
+    "duration_seconds": 371.77,
+    "status": "passed"
+  },
+  "focused_regression": {
+    "passed": 156,
+    "warnings": 2,
+    "status": "passed"
+  },
+  "reranker_tdd": {
+    "passed": 4,
+    "status": "passed"
+  },
+  "table_tdd_and_uat": {
+    "passed": 8,
+    "status": "passed"
+  },
+  "controlled_generation_and_presentation": {
+    "passed": 21,
+    "status": "passed"
+  },
+  "ruff": "passed",
+  "git_diff_check": "passed",
+  "external_api_calls": 0
+}

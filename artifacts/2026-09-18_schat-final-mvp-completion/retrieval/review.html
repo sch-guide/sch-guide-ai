@@ -1,0 +1,11 @@
+<!doctype html><html lang='ko'><head><meta charset='utf-8'>
+<title>SCHAT reranker bottleneck</title><style>
+body{font-family:system-ui,sans-serif;margin:32px;background:#f6f9fc;color:#17324d}
+section{background:white;border:1px solid #d5e0e8;border-radius:12px;padding:18px;margin:12px 0}
+table{border-collapse:collapse;width:100%}th,td{border:1px solid #d5e0e8;padding:7px}th{background:#eaf3f8}
+</style></head><body><section><h1>Reranker bottleneck evaluation</h1>
+<p>Frozen 90-question corpus · external API 0 · production change 0</p>
+<p><b>Decision:</b> existing_production_hybrid</p>
+<p>latency, requires_existing_safety_reranker_bypass</p></section><section><table><thead><tr>
+<th>Strategy</th><th>Hit@5</th><th>Hit@10</th><th>MRR</th><th>Recall@10</th><th>Precision@10</th><th>Mean ms</th>
+</tr></thead><tbody><tr><td>bm25_current</td><td>0.7949</td><td>0.8846</td><td>0.5602</td><td>0.8379</td><td>0.1192</td><td>1.010</td></tr><tr><td>e5_large</td><td>0.8718</td><td>0.9359</td><td>0.7151</td><td>0.9084</td><td>0.1308</td><td>193.474</td></tr><tr><td>no_reranker</td><td>0.9231</td><td>0.9487</td><td>0.6769</td><td>0.9359</td><td>0.1359</td><td>194.651</td></tr><tr><td>current_reranker</td><td>0.8333</td><td>0.9103</td><td>0.5184</td><td>0.8681</td><td>0.1244</td><td>265.158</td></tr><tr><td>normalized_input</td><td>0.8718</td><td>0.9487</td><td>0.6359</td><td>0.9359</td><td>0.1359</td><td>194.663</td></tr><tr><td>candidate_aware</td><td>0.9103</td><td>0.9487</td><td>0.6836</td><td>0.9359</td><td>0.1359</td><td>194.669</td></tr><tr><td>rank_preserving</td><td>0.8846</td><td>0.9487</td><td>0.6624</td><td>0.9359</td><td>0.1359</td><td>194.683</td></tr><tr><td>top_n_rerank</td><td>0.9231</td><td>0.9487</td><td>0.6626</td><td>0.9359</td><td>0.1359</td><td>194.685</td></tr><tr><td>origin_feature</td><td>0.9103</td><td>0.9487</td><td>0.6738</td><td>0.9359</td><td>0.1359</td><td>194.704</td></tr></tbody></table></section></body></html>

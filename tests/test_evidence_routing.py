@@ -34,3 +34,12 @@ def test_query_plan_records_table_candidate_without_enabling_table_retrieval():
     assert plan.evidence_types == ('table', 'text')
     assert plan.evidence_route_status == 'ready'
     assert not hasattr(plan, 'table_results')
+
+
+def test_explicit_image_and_table_request_is_mixed_but_stays_pending():
+    route = route_evidence('workflow 그림과 제품별 표를 비교해줘', kind='comparison')
+
+    assert route.primary == 'mixed'
+    assert route.candidates == ('image', 'table', 'text')
+    assert route.status == 'pending_image_review'
+    assert route.reason == 'image_and_structured_evidence_cues'

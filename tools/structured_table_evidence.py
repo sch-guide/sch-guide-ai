@@ -99,6 +99,15 @@ def _table_tokens(text: str) -> tuple[str, ...]:
     return tuple((*lexical_tokens(text), *normalized_numeric))
 
 
+def _table_token_weight(token: str) -> float:
+    """Weight exact table values above helper n-grams without changing BM25."""
+    if re.fullmatch(r'\d+(?:[.,]\d+)?(?:%|mg|mcg|μg|㎍|g|kg|ml|mL|L|cc|분|시간|초|회)?', token, re.I):
+        return 10.0
+    if token.startswith('ko:'):
+        return 0.25
+    return 1.0
+
+
 def _linked_chunk_ids(
     text: str,
     chunks: Sequence[CatalogChunk],
@@ -202,7 +211,16 @@ def extract_table_records(
                     continue
                 fallback_group: tuple[CatalogChunk, ...] = ()
                 table_bbox = tuple(round(float(value), 2) for value in table.bbox)
-                if len(extracted) == 1:
+                body_rows = cleaned[1:]
+                sparse_row_count = sum(
+                    sum(bool(value) for value in row) <= 1 for row in body_rows
+                )
+                sparse_body = bool(
+                    width > 1
+                    and len(body_rows) >= 3
+                    and sparse_row_count / len(body_rows) >= 0.75
+                )
+                if len(extracted) == 1 or sparse_body:
                     fallback_group, table_bbox = _fallback_parent_group(
                         page, table, chunks, page_number=page_number
                     )
@@ -233,19 +251,20 @@ def extract_table_records(
                     else _linked_chunk_ids(table_text, chunks, page=page_number)
                 )
                 rows = []
-                for row_index, values in enumerate(cleaned[1:], 1):
-                    if not any(values):
-                        continue
-                    row_text = ' '.join(value for value in values if value)
-                    row_chunk_ids = _linked_chunk_ids(
-                        row_text, chunks, page=page_number
-                    ) or record_chunk_ids
-                    rows.append(TableRowEvidence(
-                        row_id=_stable_id('tr', table_id, row_index, _sha256(row_text)),
-                        row_index=row_index,
-                        cells=cells_for(row_index, values),
-                        source_chunk_ids=row_chunk_ids,
-                    ))
+                if not fallback_group:
+                    for row_index, values in enumerate(cleaned[1:], 1):
+                        if not any(values):
+                            continue
+                        row_text = ' '.join(value for value in values if value)
+                        row_chunk_ids = _linked_chunk_ids(
+                            row_text, chunks, page=page_number
+                        ) or record_chunk_ids
+                        rows.append(TableRowEvidence(
+                            row_id=_stable_id('tr', table_id, row_index, _sha256(row_text)),
+                            row_index=row_index,
+                            cells=cells_for(row_index, values),
+                            source_chunk_ids=row_chunk_ids,
+                        ))
                 if fallback_group:
                     for row_index, chunk in enumerate(fallback_group, 1):
                         rows.append(TableRowEvidence(
@@ -381,7 +400,7 @@ def search_table_records(
             if token not in counts:
                 continue
             idf = math.log(1 + (total + 1) / (document_frequency[token] + 1))
-            score += idf * (1 + math.log(counts[token]))
+            score += _table_token_weight(token) * idf * (1 + math.log(counts[token]))
         if score <= 0:
             continue
         ranked.append(TableSearchHit(

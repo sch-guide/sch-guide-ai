@@ -1,0 +1,14 @@
+{
+  "status": "passed_after_fix",
+  "actionable_defects_remaining": 0,
+  "fixed_during_review": [
+    "Removed caller-supplied semantic-support bypass from controlled generation publication decision"
+  ],
+  "reviewed_boundaries": [
+    "gold-independent reranker evaluation",
+    "table sparse-body fallback and numeric weighting",
+    "controlled-generation fail-closed publication",
+    "mixed evidence routing pending image review",
+    "production retrieval unchanged"
+  ]
+}

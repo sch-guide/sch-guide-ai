@@ -1,0 +1,171 @@
+[
+  {
+    "case_id": "MM001",
+    "case_type": "table_lookup",
+    "source_question_id": "TF003",
+    "first_gold_rank": 2,
+    "hit_at_1": false,
+    "hit_at_3": true,
+    "hit_at_5": true,
+    "hit_at_10": true,
+    "recall_at_10": 1.0,
+    "retrieved_table_ids": [
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006"
+    ],
+    "retrieved_row_ids": [
+      "tr-f98319d5c14d7bd7c620",
+      "tr-d303bf0288e2fd687ac1",
+      "tr-c70907a1cf0bc170170b",
+      "tr-60bfaf78a138db3f4121",
+      "tr-90ba82ad358f45848413",
+      "tr-63dc6d6a60afa7f6b943",
+      "tr-b61c28c685edfbddae3d",
+      "tr-3b439c688dbd15d18deb",
+      "tr-52332cc5918c5663a51f",
+      "tr-4ec5fd89f516f887eb0c"
+    ]
+  },
+  {
+    "case_id": "MM002",
+    "case_type": "table_comparison",
+    "source_question_id": "TF006",
+    "first_gold_rank": 1,
+    "hit_at_1": true,
+    "hit_at_3": true,
+    "hit_at_5": true,
+    "hit_at_10": true,
+    "recall_at_10": 1.0,
+    "retrieved_table_ids": [
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006"
+    ],
+    "retrieved_row_ids": [
+      "tr-460c540212a18a41f4cc",
+      "tr-4ec5fd89f516f887eb0c",
+      "tr-60bfaf78a138db3f4121",
+      "tr-52332cc5918c5663a51f",
+      "tr-516395abda1f8fe4fb85",
+      "tr-ef5fae4c0da26457f29a",
+      "tr-c70907a1cf0bc170170b",
+      "tr-90ba82ad358f45848413",
+      "tr-63dc6d6a60afa7f6b943",
+      "tr-d303bf0288e2fd687ac1"
+    ]
+  },
+  {
+    "case_id": "MM003",
+    "case_type": "table_numeric",
+    "source_question_id": "TF007",
+    "first_gold_rank": 2,
+    "hit_at_1": false,
+    "hit_at_3": true,
+    "hit_at_5": true,
+    "hit_at_10": true,
+    "recall_at_10": 1.0,
+    "retrieved_table_ids": [
+      "tbl-9a4a3e6b947d9cc3a323",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-b74006a7619224f7474f",
+      "tbl-9a4a3e6b947d9cc3a323",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c69c1e0ffef2ba8ce8b0",
+      "tbl-c69c1e0ffef2ba8ce8b0",
+      "tbl-25eaf8b74e0b0644e1d6",
+      "tbl-c6a809a33d22566a6006"
+    ],
+    "retrieved_row_ids": [
+      "tr-e0817a9e07bf9578a137",
+      "tr-1e822fa6adaa18902ed8",
+      "tr-4ec5fd89f516f887eb0c",
+      "tr-78abaf88d05b47171469",
+      "tr-41b95cc74ebd997a6a4a",
+      "tr-52332cc5918c5663a51f",
+      "tr-be8f135b127f37f3c929",
+      "tr-c26a25e45a146b679d76",
+      "tr-e6a121a96c46e6430b3b",
+      "tr-60bfaf78a138db3f4121"
+    ]
+  },
+  {
+    "case_id": "MM004",
+    "case_type": "table_lookup",
+    "source_question_id": "TF038",
+    "first_gold_rank": 1,
+    "hit_at_1": true,
+    "hit_at_3": true,
+    "hit_at_5": true,
+    "hit_at_10": true,
+    "recall_at_10": 1.0,
+    "retrieved_table_ids": [
+      "tbl-c69c1e0ffef2ba8ce8b0",
+      "tbl-c69c1e0ffef2ba8ce8b0",
+      "tbl-c69c1e0ffef2ba8ce8b0",
+      "tbl-c69c1e0ffef2ba8ce8b0",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c69c1e0ffef2ba8ce8b0",
+      "tbl-c69c1e0ffef2ba8ce8b0"
+    ],
+    "retrieved_row_ids": [
+      "tr-0de326d439161c7d257c",
+      "tr-be8f135b127f37f3c929",
+      "tr-61546c5a7837e6878965",
+      "tr-6f7ea6e7b1a8507bcb69",
+      "tr-1e822fa6adaa18902ed8",
+      "tr-c26a25e45a146b679d76",
+      "tr-60dde39638020e98df82"
+    ]
+  },
+  {
+    "case_id": "MM005",
+    "case_type": "mixed_text_table",
+    "source_question_id": "TF003",
+    "first_gold_rank": 2,
+    "hit_at_1": false,
+    "hit_at_3": true,
+    "hit_at_5": true,
+    "hit_at_10": true,
+    "recall_at_10": 1.0,
+    "retrieved_table_ids": [
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006",
+      "tbl-c6a809a33d22566a6006"
+    ],
+    "retrieved_row_ids": [
+      "tr-f98319d5c14d7bd7c620",
+      "tr-d303bf0288e2fd687ac1",
+      "tr-c70907a1cf0bc170170b",
+      "tr-60bfaf78a138db3f4121",
+      "tr-90ba82ad358f45848413",
+      "tr-63dc6d6a60afa7f6b943",
+      "tr-b61c28c685edfbddae3d",
+      "tr-3b439c688dbd15d18deb",
+      "tr-52332cc5918c5663a51f",
+      "tr-4ec5fd89f516f887eb0c"
+    ]
+  }
+]

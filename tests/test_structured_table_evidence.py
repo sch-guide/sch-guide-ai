@@ -118,3 +118,46 @@ def test_table_search_is_evaluation_only_and_returns_distinct_rows():
     assert hits[0].table_id == 'table-1'
     assert hits[0].score > 0
     assert len({hit.row_id for hit in hits}) == len(hits)
+
+
+def test_table_search_prioritizes_exact_numeric_time_over_generic_overlap():
+    header = (
+        TableCellEvidence(0, 0, '구분', None),
+        TableCellEvidence(0, 1, '권장 속도', None),
+    )
+    rows = (
+        TableRowEvidence(
+            'generic-row',
+            1,
+            (
+                TableCellEvidence(1, 0, '수혈 시작 후 주입 속도 확인 권장', None),
+                TableCellEvidence(1, 1, '10분', None),
+            ),
+            ('generic-chunk',),
+        ),
+        TableRowEvidence(
+            'exact-row',
+            2,
+            (
+                TableCellEvidence(2, 0, '초기 관찰', None),
+                TableCellEvidence(2, 1, '15분', None),
+            ),
+            ('exact-chunk',),
+        ),
+    )
+    record = TableRecord(
+        table_id='numeric-table',
+        document_id='doc',
+        document_name='synthetic.pdf',
+        page=1,
+        table_index=0,
+        bbox=(0.0, 0.0, 1.0, 1.0),
+        fingerprint='a' * 64,
+        header=header,
+        rows=rows,
+        source_chunk_ids=('generic-chunk', 'exact-chunk'),
+    )
+
+    hits = search_table_records('수혈 시작 후 첫 15분 동안 권장되는 주입 속도는?', (record,))
+
+    assert hits[0].row_id == 'exact-row'
