@@ -2,7 +2,6 @@
 
 import html
 import re
-from functools import lru_cache
 from pathlib import Path
 
 import streamlit as st
@@ -17,7 +16,6 @@ FALLBACK_EXAMPLES = (
 )
 
 
-@lru_cache(maxsize=1)
 def stylesheet():
     return Path(__file__).with_name('ui.css').read_text(encoding='utf-8')
 

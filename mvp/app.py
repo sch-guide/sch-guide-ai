@@ -267,23 +267,32 @@ if page == 'manage' and admin:
     except GuideError as exc:
         st.error(str(exc))
 else:
+    # 컨테이너 안에 배치해 질문 입력창을 채팅 영역 상단에 표시합니다.
+    with st.container(key='question_composer'):
+        if not turns:
+            st.html('<h2 class="chat-greeting">무엇을 도와드릴까요?</h2>')
+        draft = st.chat_input('병원 지침에 대해 질문하세요…', key='question_input', max_chars=500,
+                              submit_mode='disable', height='content')
+        with st.container(key='conversation_tools'):
+            follow_up = st.checkbox('이전 질문에 이어서 묻기', key='follow_up') if turns else False
+            st.caption('Enter 전송 · Shift+Enter 줄바꿈 · 환자 개인정보를 입력하지 마세요.')
     if not documents:
         st.info('관리자가 지침서를 등록하면 AI 채팅을 사용할 수 있습니다.')
     if not turns:
-        empty_state(documents, disabled=not selected)
+        empty_state(documents)
     for i, turn in enumerate(turns):
         show_turn(turn, i)
-    with st.container(key='conversation_tools'):
-        follow_up = st.checkbox('이전 질문에 이어서 묻기', key='follow_up', disabled=not turns)
-        st.caption('Enter 전송 · Shift+Enter 줄바꿈 · 환자 개인정보를 입력하지 마세요.')
-    # 컨테이너 밖의 네이티브 chat_input은 모바일/데스크톱 하단에 고정됩니다.
-    draft = st.chat_input('병원 지침에 대해 질문하세요…', key='question_input', max_chars=500,
-                          disabled=not selected, submit_mode='disable', height='content')
     typed_question = draft.strip() if draft is not None else None
     if draft is not None and not typed_question:
         st.warning('질문을 입력해 주세요.')
     pending = st.session_state.pop('pending_question', None)
     question = typed_question or (pending['question'] if pending else None)
+    if question and not selected:
+        st.warning('아직 검색할 지침서가 없습니다. 지침서를 등록한 뒤 질문을 보내 주세요.')
+        if admin and st.button('지침서 등록하러 가기', key='register_from_chat'):
+            navigate('manage')
+            st.rerun()
+        question = None
     if question:
         start = time.perf_counter()
         status = None
