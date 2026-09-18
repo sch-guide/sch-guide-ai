@@ -1,0 +1,1072 @@
+{
+  "identity": {
+    "label_sha256": "6495eca5248c3e5454e78f8b867f2abdd4eb9d04481315c9d0381dffca02b987",
+    "input_sha256": "d5c126cbadde3f7003230ba62b966cf1eac33a3f2d01ba9af754c5b9303a1955",
+    "versions": {
+      "ragas": "0.4.3",
+      "litellm": "1.101.0",
+      "langchain-community": "0.4.1",
+      "instructor": "1.17.0",
+      "fsspec": "2026.6.0"
+    },
+    "evaluator": "groq/openai/gpt-oss-20b",
+    "temperature": 0,
+    "metrics": [
+      "context_precision",
+      "context_recall"
+    ],
+    "runner_sha256": "5555ceebbe3159131b42a3688970f4bd527c026690d8d5444e0f12915adec938"
+  },
+  "retrieval_name": "Current Hybrid Retrieval",
+  "results": [
+    {
+      "question_id": "TRF-001",
+      "question": "수혈 절차를 처음부터 끝까지 순서대로 알려줘.",
+      "reference": "수혈 처방 및 동의서 작성, 수혈 전 검사 확인 및 시행, 혈액 신청 및 수령, 수혈 전 혈액 확인, 수혈 직전 환자 확인, 혈액제제에 맞는 방법으로 수혈하고 환자 상태를 관찰하며 기록하는 순서로 시행한다.",
+      "retrieved_contexts": [
+        "4. 수혈 절차 \n수혈 처방 \n확인 및 \n동의서 작성\nŸ 의사는 혈액의 종류와 수량을 확인하고 필요한 검사를 처방한다.\nŸ 수혈 동의서를 작성한다.\nŸ 동의서 작성 시점: 입원 시 첫 수혈, 혈액제제 변경 시, 주치의(책임의사) 변경 시\n↓",
+        "↓\n수혈 전 검사\n확인 및 시행\nŸ ABO/Rh, Antibody screen test, Cross-matching 검사를 의료인 2인이    \n확인하고 검체 라벨에 서명한다. \n   ABO/Rh와 Cross-matching은 따로 채혈한다.\nŸ 환자, 보호자에게 수혈 예정 및 필요성에 대해 교육한다.\n↓",
+        "↓\n혈액신청 및 \n수령\nŸ 수혈이 결정되면 EMR로 혈액을 혈액은행에 신청한다.\n혈액불출 관리-불출신청 내역(준비완료)로 준비 여부를 확인한다.\nŸ 혈액의 준비완료 상태를 확인하고 혈액불출요청서를 출력한다.",
+        "Ÿ 혈액은 혈액운반전용 용기에 넣어 즉시 운반한다.\nŸ 혈액은행에서 불출자와 수령자 2인이 환자정보, 혈액정보와 혈액손상여부 확인한다.\n↓\n수혈 전 혈액 \n확인 절차",
+        "↓\n수혈 전 혈액 \n확인 절차\nŸ 혈액의 수령 즉시 혈액제제 손상여부, 이상 유무를 육안으로 확인한다.\nŸ 의료인 2인이 함께 환자정보와 혈액종류, 혈액형 등을 확인하고 혈액백의 \n   스티커에 서명한다.\n↓",
+        "스티커에 서명한다.\n↓\n수혈 직전 \n환자확인\nŸ 의료인 2인이 함께 소리 내어 개방형 질문으로 환자명과 혈액형을 확인한다.\nŸ 환자 앞에서 환자 인식 팔찌(발찌)와 혈액백의 환자 정보(이름, 등록번호, 혈액형) \n내용을 확인한다.",
+        "내용을 확인한다. \nŸ 혈액스티커를 혈액불출요청서에 부착하고 의료인 2인이 서명한다.\n의료인 2인의 정확한 환자 확인 절차\n“정확한 환자 확인을 하겠습니다. 환자분 성함이 어떻게 되시나요?” \n 개방형 질문으로 이름을 확인한다. \n“등록번호를 확인하겠습니다.” 환자 팔찌(발찌)의 등록번호 확인한다.",
+        "“알고 있는 혈액형이 어떻게 되세요?” 개방형 질문으로 혈액형을 확인한다.\n이때 의료인 1과 2는 한 장소에서 함께 환자 확인을 한다. \n↓\n수혈 시"
+      ],
+      "context_precision": 0.9999999999875,
+      "context_recall": 0.8333333333333334,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "metric_status": {
+        "context_precision": "completed",
+        "context_recall": "completed",
+        "faithfulness": "na",
+        "answer_relevancy": "na"
+      },
+      "reason": {
+        "context_precision": null,
+        "context_recall": null,
+        "faithfulness": "not_evaluated_service_response_unavailable",
+        "answer_relevancy": "not_evaluated_service_response_unavailable"
+      },
+      "recovery_history": [
+        "context_precision",
+        "context_recall"
+      ],
+      "context_progress": {
+        "context_precision": [
+          {
+            "index": 1,
+            "input_sha256": "50995b36752038a6f90e57fd108f0a258cf0ae6a4797a2f3c5ca7187ab9571cd",
+            "status": "completed",
+            "result": {
+              "verdict": 1,
+              "reason": ""
+            }
+          },
+          {
+            "index": 2,
+            "input_sha256": "3d13ca42a47664676c5919cb875d3a5138e7205da4b3eb98a083d750bcd31b5d",
+            "status": "completed",
+            "result": {
+              "verdict": 1,
+              "reason": ""
+            }
+          },
+          {
+            "index": 3,
+            "input_sha256": "3dd7cc421c832c05c4b2ca212ec50f3e067db062568927be07bbfe26f81f9cfa",
+            "status": "completed",
+            "result": {
+              "verdict": 1,
+              "reason": ""
+            }
+          },
+          {
+            "index": 4,
+            "input_sha256": "73c68805de7781d87346abc939c5af602dffbfca785d0da2a612096306f2d5e0",
+            "status": "completed",
+            "result": {
+              "verdict": 1,
+              "reason": ""
+            }
+          },
+          {
+            "index": 5,
+            "input_sha256": "a851b178cadd001f6df78d46f84f1240fa85a47104df9f9b8e801f64520785e4",
+            "status": "completed",
+            "result": {
+              "verdict": 1,
+              "reason": ""
+            }
+          },
+          {
+            "index": 6,
+            "input_sha256": "5e049044d678e56140fe573a6cb7f32ebaa78c7915f63df31e30e880fe48b24d",
+            "status": "completed",
+            "result": {
+              "verdict": 1,
+              "reason": ""
+            }
+          },
+          {
+            "index": 7,
+            "input_sha256": "cf5f866e50603706a0f58ebc2a199621e3ff92a4d1ed4463b8347ce0280af7c1",
+            "status": "completed",
+            "result": {
+              "verdict": 1,
+              "reason": ""
+            }
+          },
+          {
+            "index": 8,
+            "input_sha256": "c89d8c524cc4e83bea9bcdad68784f59ef58cf64f6d9e6177a3bcfe384428b3f",
+            "status": "completed",
+            "result": {
+              "verdict": 1,
+              "reason": ""
+            }
+          }
+        ],
+        "context_recall": [
+          {
+            "index": 1,
+            "input_sha256": "64204b8601fe8751ef07d159d5fb8e0de5e79a0155bb2a6d7e3d73d954c6f7d1",
+            "status": "completed",
+            "result": {
+              "classifications": [
+                {
+                  "statement": "수혈 처방 및 동의서 작성",
+                  "reason": "The context lists '수혈 처방' and '동의서 작성' as part of the procedure.",
+                  "attributed": 1
+                },
+                {
+                  "statement": "수혈 전 검사 확인 및 시행",
+                  "reason": "The context includes '수혈 전 검사 확인 및 시행' as a step.",
+                  "attributed": 1
+                },
+                {
+                  "statement": "혈액 신청 및 수령",
+                  "reason": "The context mentions '혈액 신청 및 수령' as part of the process.",
+                  "attributed": 1
+                },
+                {
+                  "statement": "수혈 전 혈액 확인",
+                  "reason": "The context describes '수혈 전 혈액 확인 절차' as a step.",
+                  "attributed": 1
+                },
+                {
+                  "statement": "수혈 직전 환자 확인",
+                  "reason": "The context specifies '수혈 직전 환자 확인' as part of the procedure.",
+                  "attributed": 1
+                },
+                {
+                  "statement": "혈액제제에 맞는 방법으로 수혈하고 환자 상태를 관찰하며 기록하는 순서로 시행한다",
+                  "reason": "The context only mentions '수혈 시' without detailing observation or recording, so this specific detail is not directly supported.",
+                  "attributed": 0
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "question_id": "TRF-002",
+      "question": "수혈 동의서는 언제 새로 받아야 해?",
+      "reference": "수혈 동의서는 입원 시 첫 수혈, 혈액제제 변경 시, 주치의 또는 책임의사 변경 시 작성한다. 동시에 여러 혈액제제가 처방된 경우 하나의 동의서에 일괄 체크할 수 있으나, 하나의 혈액제제 투여가 종료된 후 다른 혈액제제가 새로 처방되면 다시 동의서를 작성한다.",
+      "retrieved_contexts": [
+        "Ÿ 입원한 후 입원 진료과에서 수혈 처방을 추가로 내면 수혈 동의서를 다시 받는다,",
+        "응급의학과에서 수혈 동의서를 받는 경우\nŸ 응급의학과에서 수혈 동의서를 받고 혈액이 응급센터에서 병동으로 연결되는 경우 응급의학과에서 받은 수혈\n3\n동의서로 가능하다.\nŸ 응급센터에서 수혈 동의서를 받고 검사나 수술(시술)을 하는 경우 응급센터에서 받은 수혈 동의서로 가능하다.",
+        "1 수술이 필요한 내과 환자를 전과 전에 수술하는 진료과에서 동의서를 받는 경우 문제되지 않는다.\n2 외래 진료 후 수술 위해 입원할 경우, 해당과 외래에서 수술을 위한 수혈 동의서를 받는 경우 문제되지 않는다.\n응급의학과에서 수혈 동의서를 받는 경우"
+      ],
+      "context_precision": 0.9999999999,
+      "context_recall": 0.0,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "metric_status": {
+        "context_precision": "completed",
+        "context_recall": "completed",
+        "faithfulness": "na",
+        "answer_relevancy": "na"
+      },
+      "reason": {
+        "context_precision": null,
+        "context_recall": null,
+        "faithfulness": "not_evaluated_service_response_unavailable",
+        "answer_relevancy": "not_evaluated_service_response_unavailable"
+      },
+      "context_progress": {
+        "context_precision": [
+          {
+            "index": 1,
+            "input_sha256": "a165e70bf70b175bfbf4daa4dd710726ea52c0bd16340e9433bcbe29d7cca2da",
+            "status": "completed",
+            "result": {
+              "verdict": 1,
+              "reason": ""
+            }
+          },
+          {
+            "index": 2,
+            "input_sha256": "278b02eb3c35dc28cbc66dfff6ecb34972ec472c89c3cea87b7967081d953aac",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 3,
+            "input_sha256": "292c9451e74d997381f6968f0b11897d338c0f5d27163804a8beefc530f24463",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          }
+        ],
+        "context_recall": [
+          {
+            "index": 1,
+            "input_sha256": "1471f2fd8062fb8a8a1ff7c8586860e3a6c69092448aa16f13f0d582f0f89000",
+            "status": "completed",
+            "result": {
+              "classifications": [
+                {
+                  "statement": "수혈 동의서는 입원 시 첫 수혈, 혈액제제 변경 시, 주치의 또는 책임의사 변경 시 작성한다.",
+                  "reason": "The context only specifies that a new consent is required after admission if an additional transfusion prescription is issued, and does not mention first transfusion, blood product changes, or physician changes. Therefore the statement is not fully supported by the context.",
+                  "attributed": 0
+                },
+                {
+                  "statement": "동시에 여러 혈액제제가 처방된 경우 하나의 동의서에 일괄 체크할 수 있으나, 하나의 혈액제제 투여가 종료된 후 다른 혈액제제가 새로 처방되면 다시 동의서를 작성한다.",
+                  "reason": "The context indicates that a new consent is required after admission if an additional transfusion prescription is issued, which supports the latter part of the statement. However, it does not mention the possibility of checking multiple blood products in a single consent, so the statement is not fully attributable to the context.",
+                  "attributed": 0
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "question_id": "TRF-003",
+      "question": "수혈 전 검사는 어떤 걸 하고 검사 주기는 어떻게 돼?",
+      "reference": "수혈 전에는 ABO/Rh typing, Antibody screening test, Cross matching 등을 확인한다. 의료인 2인이 확인 후 채혈하고 채혈자와 확인자가 서명한다. ABO/Rh typing은 입원 후 첫 수혈 시 시행하며, Antibody screening test는 입원 후 첫 수혈 시 시행하고 수혈 시작 기점으로 72시간 유효하다. Cross matching은 매 수혈 전에 시행하며 당일 유효하다.",
+      "retrieved_contexts": [
+        "4. 수혈 절차 \n수혈 처방 \n확인 및 \n동의서 작성\nŸ 의사는 혈액의 종류와 수량을 확인하고 필요한 검사를 처방한다.\nŸ 수혈 동의서를 작성한다.\nŸ 동의서 작성 시점: 입원 시 첫 수혈, 혈액제제 변경 시, 주치의(책임의사) 변경 시\n↓",
+        "2) 수혈 전 검사 확인 및 시행\nŸ 수혈 전 검사의 목적\n① 수혈 부작용의 예방\n② 수혈된 적혈구가 정상적으로 생존할 수 있도록 환자에게 적합한 혈액 선택\nŸ 수혈 전 검사 처방\nŸ 수혈 전 검사\n의료인 2인이 확인 후 채혈 시행 → 채혈자, 확인자 서명",
+        "의료인 2인이 확인 후 채혈 시행 → 채혈자, 확인자 서명\n☆ ABO, Rh typing 와 Cross matching 검사는 각각 다른 시점에 의료인 2인이 환자 확인 시행\nŸ 검사 주기",
+        "↓\n수혈 전 검사\n확인 및 시행\nŸ ABO/Rh, Antibody screen test, Cross-matching 검사를 의료인 2인이    \n확인하고 검체 라벨에 서명한다. \n   ABO/Rh와 Cross-matching은 따로 채혈한다.\nŸ 환자, 보호자에게 수혈 예정 및 필요성에 대해 교육한다.\n↓",
+        "↓\n혈액신청 및 \n수령\nŸ 수혈이 결정되면 EMR로 혈액을 혈액은행에 신청한다.\n혈액불출 관리-불출신청 내역(준비완료)로 준비 여부를 확인한다.\nŸ 혈액의 준비완료 상태를 확인하고 혈액불출요청서를 출력한다.",
+        "Ÿ 혈액은 혈액운반전용 용기에 넣어 즉시 운반한다.\nŸ 혈액은행에서 불출자와 수령자 2인이 환자정보, 혈액정보와 혈액손상여부 확인한다.\n↓\n수혈 전 혈액 \n확인 절차",
+        "↓\n수혈 전 혈액 \n확인 절차\nŸ 혈액의 수령 즉시 혈액제제 손상여부, 이상 유무를 육안으로 확인한다.\nŸ 의료인 2인이 함께 환자정보와 혈액종류, 혈액형 등을 확인하고 혈액백의 \n   스티커에 서명한다.\n↓",
+        "스티커에 서명한다.\n↓\n수혈 직전 \n환자확인\nŸ 의료인 2인이 함께 소리 내어 개방형 질문으로 환자명과 혈액형을 확인한다.\nŸ 환자 앞에서 환자 인식 팔찌(발찌)와 혈액백의 환자 정보(이름, 등록번호, 혈액형) \n내용을 확인한다.",
+        "내용을 확인한다. \nŸ 혈액스티커를 혈액불출요청서에 부착하고 의료인 2인이 서명한다.\n의료인 2인의 정확한 환자 확인 절차\n“정확한 환자 확인을 하겠습니다. 환자분 성함이 어떻게 되시나요?” \n 개방형 질문으로 이름을 확인한다. \n“등록번호를 확인하겠습니다.” 환자 팔찌(발찌)의 등록번호 확인한다.",
+        "“알고 있는 혈액형이 어떻게 되세요?” 개방형 질문으로 혈액형을 확인한다.\n이때 의료인 1과 2는 한 장소에서 함께 환자 확인을 한다. \n↓\n수혈 시"
+      ],
+      "context_precision": null,
+      "context_recall": null,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "metric_status": {
+        "context_precision": "error",
+        "context_recall": "error",
+        "faithfulness": "na",
+        "answer_relevancy": "na"
+      },
+      "reason": {
+        "context_precision": "evaluator_error_PermissionError",
+        "context_recall": "evaluator_error_InstructorRetryException",
+        "faithfulness": "not_evaluated_service_response_unavailable",
+        "answer_relevancy": "not_evaluated_service_response_unavailable"
+      },
+      "context_progress": {
+        "context_precision": [
+          {
+            "index": 1,
+            "input_sha256": "0dba30fbb0ea069daddeee1b7f2b4fb62aa75187fff3388320aefe547db5631b",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 2,
+            "input_sha256": "d9c6039db19929cf8ed8bfb4f7cd9040960e9c75d28dd31d034f69b2c4b64a44",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 3,
+            "input_sha256": "f90bda8cbb107eda21d44f11f5ec3358e41cdcfc267f08c10678b91b54a87622",
+            "status": "completed",
+            "result": {
+              "verdict": 1,
+              "reason": ""
+            }
+          },
+          {
+            "index": 4,
+            "input_sha256": "21ad0963efa0dec8446e452af668c5f06042f1f98a74bde115e055d6c10224fa",
+            "status": "completed",
+            "result": {
+              "verdict": 1,
+              "reason": ""
+            }
+          }
+        ],
+        "context_recall": [
+          {
+            "index": 1,
+            "input_sha256": "0f9bb7bd846a2c5dce1e7d5140449ec7b41fd8fc1985772b8c9455de61e2bd7c",
+            "status": "in_progress"
+          }
+        ]
+      }
+    },
+    {
+      "question_id": "TRF-004",
+      "question": "RBC를 수혈할 때 한 번에 몇 unit을 받아오고 몇 시간 동안 주입해?",
+      "reference": "RBC는 1 unit씩 수령하며 주입시간은 2~4시간이다. 수혈용 표준 혈액 필터가 있는 수혈세트를 사용한다.",
+      "retrieved_contexts": [
+        "※ 주의사항\nŸ 필터에 걸려있는 백혈구가 혈액에 유입 될 수 있으므로\n생리식염수 프라이밍 금기\nŸ 수혈 간격이 1시간 이상인 경우 새 수혈세트를 사용",
+        "Ÿ 수혈 시 환자 상태 확인 및 간호기록을 시행한다.\n   (수혈 전, 수혈 15분, 수혈 종료 시까지 30분마다 활력징후와 부작용 유무 관찰)\nŸ RBC 수혈은 불출시간 30분 이내에 수혈 기록을 입력한다.",
+        "처방명 - Leukocyte poor racked RBC, 400ml\n         저장 후 여과: 수혈할 때 의료진이 직접 Filter를 사용하여 백혈구를 여과 \n         처방명 - PRBC 400ml [Filter] / PRBC 320ml [Filter]\nŸ 두 혈액 모두 Filter를 사용하여 WBC를 제거한 RBC를 환자에게 수혈하는 방법이 지만 차이점은",
+        "6) 수혈\n• 수혈 시 주의사항, 목적, 과정에 대해 환자에게 설명\n• 혈액제제에 따른 적정 수혈 세트, 주사바늘, 경로, 시간을 적용하여 수혈을 시작\n• 4세 미만 소아 수혈 : 일정한 속도로 주입 시 24Gage catheter로 용혈 등 문제없이 사용가능\n• 4세 이상 소아 수혈",
+        "• 4세 이상 소아 수혈\n(1) 성인에서의 수혈과 유사하지만, 혈액량, 실혈에 대한 내성, 혈색소 및 적혈구 용적률 참고치의 차이 고려\n(2) 신선 동결혈장이나 혈소판제제의 수혈은 성인에서와 동일한 기준을 적용\n수혈세트의 종류\n② 백혈구 제거 필터 세트",
+        "수혈세트의 종류\n② 백혈구 제거 필터 세트\n① 표준 혈액 수혈필터 세트\n※백혈구 제거 필터의 목적 : 발열성 수혈 부작용 예방\n※ 필터의 목적: 혈액응괴를 제거 è 혈액제제 내 백혈구를 99.9% 이상 제거\n※ 주의사항",
+        "주의사항\nŸ 수혈 시 주의사항, 목적, 과정에 대해 환자에게 설명한다.\nŸ 혈액제제에 따른 적정 수혈세트, 주사바늘, 경로, 시간을 적용하여 수혈을 시작한다.\nŸ 수혈 시 환자 상태 확인 및 간호기록을 시행한다.",
+        "간호실무지침\n1) Leukocyte Poor Packed RBC 400ml란? \n(저장 전 백혈구 여과제거 혈액제제)\nŸ 헌혈된 혈액을 보관하기 전에 백혈구를 미리 제거한 혈액 성분 제제",
+        "- 백혈구에서 방출된 Cytokine의 혈액제제 내 축적 예방\n- 수혈로 인한 발열성 비용혈성 수혈반응 예방\n- HLA 동종면역 예방\n- 백혈구 내에 존재하는 바이러스(CMV, HTLV-1) 감염예방",
+        "- Bedside 여과 시 발생할 수 있는 저혈압 증상 발생 예방\n- Bedside 여과 업무 감소로 병동 및 주사실 간호 업무 효율 향상\n- Filter 사용이 어려운 수술실에서도 백혈구제거 RBC 사용 가능\n                  \n             저장 전 여과: 혈액원에서 백혈구 filter 후 의료기관 공급 (추가 필터링 없음)",
+        "필터의 사용 시기이다.\nŸ 저장 전 여과법은 저장 후 여과법을 시행한 혈액제제보다 표준화된 백혈구 제거 방법으로 양질의   \n혈액제제를 제조할 수 있으며, 혈액제제를 신속히 출고하여 수혈할 수 있고 백혈구 여과 필터 재고 관리,  \n백혈구제거 방법과 관련된 의료교육 등이 가능한 장점이 있다."
+      ],
+      "context_precision": 0.0,
+      "context_recall": 0.5,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "metric_status": {
+        "context_precision": "completed",
+        "context_recall": "completed",
+        "faithfulness": "na",
+        "answer_relevancy": "na"
+      },
+      "reason": {
+        "context_precision": null,
+        "context_recall": null,
+        "faithfulness": "not_evaluated_service_response_unavailable",
+        "answer_relevancy": "not_evaluated_service_response_unavailable"
+      },
+      "context_progress": {
+        "context_precision": [
+          {
+            "index": 1,
+            "input_sha256": "914ef234a471418d31a78a902afbc5888e5eff36cffd10f0e01f6475e5c86135",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 2,
+            "input_sha256": "c7ca2164608294b790c2064045ce7bf8a4e0f3d92d510fc5d928bd6375af81e4",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 3,
+            "input_sha256": "25078b21c66a7fad047644cd9eb128de7de692489fb9e4b9c371ecb4c1787481",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 4,
+            "input_sha256": "6aee260fad847462deaf6e7752197048669d9ba0d9e720d50968169e26fcf1bf",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 5,
+            "input_sha256": "bba57e8fc36a2022662c4b1b9573aba4312816201f4835305f39ef27897f8216",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 6,
+            "input_sha256": "2cb568cf6f6bdb1f578c9aa14c8beb935feb7eaf6d6e1cdf331e00792da5eb44",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 7,
+            "input_sha256": "d758bc3211cc07ddb50e3c87d01b3d793fe63b525985ee95927e06164272b968",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 8,
+            "input_sha256": "1c9c64db08040657372cae0ffc3f8939674435f4a4baaab0de3233ab5e87e060",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 9,
+            "input_sha256": "ee780782debac3ec59a896fbb864adaf74571a20b83da26b89fccfe4541cd044",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 10,
+            "input_sha256": "1c42bc2b2919347126f706ea62997d6ade93fbf13ad78b4a3a76c33b26299065",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 11,
+            "input_sha256": "3299df142e57fed567c4930fc09a748708058893ef8c66716cd11e20859ee8e9",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          }
+        ],
+        "context_recall": [
+          {
+            "index": 1,
+            "input_sha256": "14c80dd03bd8d6835191811d2ad1a5102112994e34c2052c6cbc7a3583279ba1",
+            "status": "completed",
+            "result": {
+              "classifications": [
+                {
+                  "statement": "RBC는 1 unit씩 수령하며 주입시간은 2~4시간이다.",
+                  "reason": "The context does not mention a 1‑unit volume or a 2–4 hour infusion period; it only specifies 400 ml volumes and no infusion time, so this statement cannot be attributed to the given context.",
+                  "attributed": 0
+                },
+                {
+                  "statement": "수혈용 표준 혈액 필터가 있는 수혈세트를 사용한다.",
+                  "reason": "The context explicitly lists \"표준 혈액 수혈필터 세트\" as a type of transfusion set, indicating that a standard filter is used, so this statement is attributable.",
+                  "attributed": 1
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "question_id": "TRF-005",
+      "question": "혈액이 병동에 도착한 뒤 환자에게 연결하기 직전에는 무엇을 확인해야 해?",
+      "reference": "의료인 2인이 함께 소리 내어 개방형 질문으로 환자명과 혈액형을 확인한다. 환자 앞에서 환자 인식 팔찌와 혈액백의 이름, 등록번호, 혈액형을 대조한다. 혈액 스티커를 혈액불출요청서에 부착하고 의료인 2인이 서명한다.",
+      "retrieved_contexts": [
+        "평가내용 |  | 프리셉터 평가 |  | 자가 평가\n4 | 손 위생을 시행하고, 의료인 2인이 정확한 환자 확인을 시행하고 혈액 스티커에 서명한다. (혈액이 병동에 도착한 즉시, 수혈 시작 전) |  |  | \n5 | 손 위생을 시행하고, 수혈하기 위한 물품을 준비한다. |  |  |",
+        "5) 수혈 직전 환자 확인\n • 의료인 2인이 함께 소리 내어 개방형 질문으로 환자명과 혈액형을 확인\n • 환자 앞에서 환자 인식 팔찌(발찌)와 혈액백의 환자 정보(이름, 등록번호, 혈액형) 내용 확인\n • 혈액 스티커를 혈액불출요청서에 부착하고 의료인 2인이 서명 → OCR tag 반납!!",
+        "• 수혈 체크리스트 확인: 수혈 전, 혈액수령, 수혈 직전 환자확인 (RBC만 해당)",
+        "주의사항\nŸ 수혈 시 주의사항, 목적, 과정에 대해 환자에게 설명한다.\nŸ 혈액제제에 따른 적정 수혈세트, 주사바늘, 경로, 시간을 적용하여 수혈을 시작한다.\nŸ 수혈 시 환자 상태 확인 및 간호기록을 시행한다.",
+        "평가내용 |  | 프리셉터 평가 |  | 자가 평가\n평가내용 |  | 프리셉터 평가 |  | 자가 평가\n |  | Pass | Fail | \n1 | 수혈 처방이 나면 동의서를 확인한다. |  |  |",
+        "평가내용 |  | 프리셉터 평가 |  | 자가 평가\n2 | 수혈 전 검사 시행 시 의료인 2인이 확인 및 서명하고, 채혈한다. |  |  | \n3 | 혈액제제별 1회 불출 가능한 수량에 맞춰 혈액 불출 요청서를 출력한다. |  |  |",
+        "평가내용 |  | 프리셉터 평가 |  | 자가 평가\n6 | 손 위생을 시행하고, 수혈 전 투약 및 활력징후를 측정한다. |  |  | \n7 | 혈액제제별 정확한 수혈세트 또는 백혈구 제거 세트를 연결한다. |  |  |",
+        "평가내용 |  | 프리셉터 평가 |  | 자가 평가\n8 | 대상자에게 수혈 부작용 및 주의사항에 대해 교육한다. |  |  | \n9 | 수혈 시작 후 15분간 환자 상태를 주의 깊게 관찰한다. |  |  | \n10 | 수혈 간호기록을 입력한다. |  |  |",
+        "Ÿ 수혈 시 환자 상태 확인 및 간호기록을 시행한다.\n   (수혈 전, 수혈 15분, 수혈 종료 시까지 30분마다 활력징후와 부작용 유무 관찰)\nŸ RBC 수혈은 불출시간 30분 이내에 수혈 기록을 입력한다."
+      ],
+      "context_precision": 0.91666666664375,
+      "context_recall": 1.0,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "metric_status": {
+        "context_precision": "completed",
+        "context_recall": "completed",
+        "faithfulness": "na",
+        "answer_relevancy": "na"
+      },
+      "reason": {
+        "context_precision": null,
+        "context_recall": null,
+        "faithfulness": "not_evaluated_service_response_unavailable",
+        "answer_relevancy": "not_evaluated_service_response_unavailable"
+      },
+      "context_progress": {
+        "context_precision": [
+          {
+            "index": 1,
+            "input_sha256": "65a37f63ce72ebaae230d0dc4489728607208b5d2a46e54f35fb0512149ca087",
+            "status": "completed",
+            "result": {
+              "verdict": 1,
+              "reason": ""
+            }
+          },
+          {
+            "index": 2,
+            "input_sha256": "75e36ec0b47ab7d58221885ba55ba20999b3901ea4ccca58f55a558cabf70158",
+            "status": "completed",
+            "result": {
+              "verdict": 1,
+              "reason": ""
+            }
+          },
+          {
+            "index": 3,
+            "input_sha256": "804206840ba3ca8579e1ff236912c8cc94428a3586bfa37c2f54b35169e92666",
+            "status": "completed",
+            "result": {
+              "verdict": 1,
+              "reason": ""
+            }
+          },
+          {
+            "index": 4,
+            "input_sha256": "809ae7dde1740a83467f61cf5730a5bc410bcf783e824db077ff2dda92a0fe9a",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 5,
+            "input_sha256": "ac3e9d7d9e0cf89a66a5264e6085418e377edbdad9b12063bc4f7382c3a7c727",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 6,
+            "input_sha256": "52e711ee54104303bc5727a4869984c56368831db3579c9d01e809f0f84be8e7",
+            "status": "completed",
+            "result": {
+              "verdict": 1,
+              "reason": ""
+            }
+          },
+          {
+            "index": 7,
+            "input_sha256": "de2603bd3f86fc83c00d7ddeca54e4861194bcbc96a00ddd3953a94027cd952a",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 8,
+            "input_sha256": "b00262840f0d34210a88aef13f278be9d7aa87d07d3739c53a463c31ce20a85e",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 9,
+            "input_sha256": "803b72ed3be5292aec2e99fc47bfcb8efcb322cf3508248e35d9d2b0ca4192a0",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          }
+        ],
+        "context_recall": [
+          {
+            "index": 1,
+            "input_sha256": "4d31571281813643ffe6b0764f90fd18a649709e052147e457272d712c95b6f7",
+            "status": "completed",
+            "result": {
+              "classifications": [
+                {
+                  "statement": "의료인 2인이 함께 소리 내어 개방형 질문으로 환자명과 혈액형을 확인한다.",
+                  "reason": "The context explicitly lists this step under 수혈 직전 환자 확인.",
+                  "attributed": 1
+                },
+                {
+                  "statement": "환자 앞에서 환자 인식 팔찌와 혈액백의 이름, 등록번호, 혈액형을 대조한다.",
+                  "reason": "The context includes a bullet that says 환자 앞에서 환자 인식 팔찌(발찌)와 혈액백의 환자 정보(이름, 등록번호, 혈액형) 내용 확인.",
+                  "attributed": 1
+                },
+                {
+                  "statement": "혈액 스티커를 혈액불출요청서에 부착하고 의료인 2인이 서명한다.",
+                  "reason": "The context states 혈액 스티커를 혈액불출요청서에 부착하고 의료인 2인이 서명.",
+                  "attributed": 1
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "question_id": "TRF-006",
+      "question": "수혈 시작하면 활력징후와 부작용은 언제 확인해야 해?",
+      "reference": "수혈 전, 수혈 시작 후 15분, 이후 수혈 종료 시까지 30분마다 활력징후와 부작용 유무를 관찰한다.",
+      "retrieved_contexts": [
+        "Ÿ 수혈 시 환자 상태 확인 및 간호기록을 시행한다.\n   (수혈 전, 수혈 15분, 수혈 종료 시까지 30분마다 활력징후와 부작용 유무 관찰)\nŸ RBC 수혈은 불출시간 30분 이내에 수혈 기록을 입력한다.",
+        "주의사항\nŸ 수혈 시 주의사항, 목적, 과정에 대해 환자에게 설명한다.\nŸ 혈액제제에 따른 적정 수혈세트, 주사바늘, 경로, 시간을 적용하여 수혈을 시작한다.\nŸ 수혈 시 환자 상태 확인 및 간호기록을 시행한다."
+      ],
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "metric_status": {
+        "context_precision": "completed",
+        "context_recall": "completed",
+        "faithfulness": "na",
+        "answer_relevancy": "na"
+      },
+      "reason": {
+        "context_precision": null,
+        "context_recall": null,
+        "faithfulness": "not_evaluated_service_response_unavailable",
+        "answer_relevancy": "not_evaluated_service_response_unavailable"
+      },
+      "context_progress": {
+        "context_precision": [
+          {
+            "index": 1,
+            "input_sha256": "741616b2892910e9ba48f0275139c886fac3750346f8cb1fbe2fb0940cf9a162",
+            "status": "completed",
+            "result": {
+              "verdict": 1,
+              "reason": ""
+            }
+          },
+          {
+            "index": 2,
+            "input_sha256": "ee156cd9653433345aee68bf14f9b8a8c8a802c9820f8477412f893527eb01a3",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          }
+        ],
+        "context_recall": [
+          {
+            "index": 1,
+            "input_sha256": "70f63e646c23158c8ad085e294ab97f1316d10608bcfe02cfe4d93dca23cbf80",
+            "status": "completed",
+            "result": {
+              "classifications": [
+                {
+                  "statement": "수혈 전, 수혈 시작 후 15분, 이후 수혈 종료 시까지 30분마다 활력징후와 부작용 유무를 관찰한다.",
+                  "reason": "The context explicitly states that vital signs and adverse reactions should be observed at the same intervals: before transfusion, 15 minutes after starting, and every 30 minutes until the end of transfusion.",
+                  "attributed": 1
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "question_id": "TRF-007",
+      "question": "수혈 중 오한, 저혈압, 오심이 나타나 급성 용혈성 부작용이 의심돼. 어떻게 해야 해?",
+      "reference": "즉시 수혈을 중지하고 생리식염수를 주입한다. 혈액형 및 교차반응을 실시하며 필요 시 이뇨제 투여 또는 투석을 시행한다.",
+      "retrieved_contexts": [],
+      "context_precision": null,
+      "context_recall": null,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "metric_status": {
+        "context_precision": "na",
+        "context_recall": "na",
+        "faithfulness": "na",
+        "answer_relevancy": "na"
+      },
+      "reason": {
+        "context_precision": "no_retrieved_contexts",
+        "context_recall": "no_retrieved_contexts",
+        "faithfulness": "not_evaluated_service_response_unavailable",
+        "answer_relevancy": "not_evaluated_service_response_unavailable"
+      }
+    },
+    {
+      "question_id": "TRF-008",
+      "question": "방사선 조사 혈액은 어떤 제제에 하고, 조사한 RBC는 언제까지 사용할 수 있어? FFP나 CRYO도 조사해?",
+      "reference": "방사선 조사는 적혈구와 혈소판 혈액제제에 적용한다. 방사선조사 적혈구의 유효기간은 조사 후 28일 또는 원래 보존기간까지의 잔여일수 중 짧은 기간이다. 급속수혈, 대량수혈, 신부전환자, 미숙아 수혈, ECMO priming의 경우 조사 후 24시간 이내 수혈한다. FFP와 CRYO는 방사선 조사를 하지 않으며 방사선 조사 완료 혈액제제는 반납할 수 없다.",
+      "retrieved_contexts": [
+        "짧은 일수 \nŸ 단, 급속수혈, 대량수혈, 신부전환자, 미숙아 수혈, ECMO  priming시 조사 후 24시간 이내 \n수혈 (고칼륨 혈증의 위험) \nŸ 혈장제제(FFP, CRYO)는 방사선 조사를 하지 않는다.\nŸ 방사선 조사가 끝난 혈액제제는 반납 불가",
+        "Ÿ 방사선 조사가 끝난 혈액제제는 반납 불가\n                       \n \n<본원 혈액제제 방사선 조사기(RS-3400)>\nŸ 방사선 조사를 시행한 혈액제제의 처방확인 : 처방 앞에 irradation을 뜻하는 irr로 표기됨",
+        "2) 방사선조사 혈액제제\n (1) 원리\n   전기로 발생시킨 X선을 혈액에 조사하여 T림프구를 무력화시킴\n \n (2) 목적\nŸ 수혈이 필요한 환자에서 T림프구에 의한 이식편대숙주병(GVHD)예방",
+        "Ÿ 혈연 자간 수혈은 GVHD 발생위험이 있어권장되지 않으나, 불가피한 경우 방사선 조사 후 수혈\n(3) 대상혈액\n적혈구, 혈소판 혈액제제\n(4) 원칙\nŸ 방사선조사 적혈구제제의 유효기간은 조사 후 28일 혹 은 원래의 보존기간까지의 잔여일수 중",
+        "* Irradiation과 수혈 처방 항목 명칭에 [Filter]가 함께 붙어있을 시 세트 사용법 \n- Leukocyte poor packed RBC (Irradiation) : 표준 혈액 세트 사용\n- PC [Filter] (Irradiation) : 표준 혈액세트, 백혈구 제거 필터 세트 둘 다 상관 없음"
+      ],
+      "context_precision": 0.7499999999625,
+      "context_recall": 1.0,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "metric_status": {
+        "context_precision": "completed",
+        "context_recall": "completed",
+        "faithfulness": "na",
+        "answer_relevancy": "na"
+      },
+      "reason": {
+        "context_precision": null,
+        "context_recall": null,
+        "faithfulness": "not_evaluated_service_response_unavailable",
+        "answer_relevancy": "not_evaluated_service_response_unavailable"
+      },
+      "context_progress": {
+        "context_precision": [
+          {
+            "index": 1,
+            "input_sha256": "056098ee1f9ee0bd911770d83df49ef9e660758b2f5ab1e80cdc6e7eb97a5100",
+            "status": "completed",
+            "result": {
+              "verdict": 1,
+              "reason": ""
+            }
+          },
+          {
+            "index": 2,
+            "input_sha256": "c0a87db348652e6e99607efc28883794f84d2e80f2a58ad503d0d88fd8c923b7",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 3,
+            "input_sha256": "dc742f88b04b315cc441cd6cde929d5a14edca2e536ead95b619dd3b5c483c5b",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 4,
+            "input_sha256": "7d0682c259747b2d11f7f3805b8d121950222a6c47c64aa66d16fb645b73dc67",
+            "status": "completed",
+            "result": {
+              "verdict": 1,
+              "reason": ""
+            }
+          },
+          {
+            "index": 5,
+            "input_sha256": "45405beef8e9085d4c0f1c2e4a2c7fc7f1bca8d8b85f729347f7bd4afc8a6bce",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          }
+        ],
+        "context_recall": [
+          {
+            "index": 1,
+            "input_sha256": "2aa6f0c3e93f54e1ed9754bb8b7bc207e064fa1bd0bc28346903efb476213579",
+            "status": "completed",
+            "result": {
+              "classifications": [
+                {
+                  "statement": "방사선 조사는 적혈구와 혈소판 혈액제제에 적용한다.",
+                  "reason": "The context explicitly states that irradiation is applied to red blood cells and platelet blood products.",
+                  "attributed": 1
+                },
+                {
+                  "statement": "방사선조사 적혈구의 유효기간은 조사 후 28일 또는 원래 보존기간까지의 잔여일수 중 짧은 기간이다.",
+                  "reason": "The context specifies that the shelf life of irradiated red cell products is 28 days or the remaining days of the original storage period, whichever is shorter.",
+                  "attributed": 1
+                },
+                {
+                  "statement": "급속수혈, 대량수혈, 신부전환자, 미숙아 수혈, ECMO priming의 경우 조사 후 24시간 이내 수혈한다.",
+                  "reason": "The context lists rapid transfusion, massive transfusion, renal failure patients, premature infant transfusion, and ECMO priming as requiring transfusion within 24 hours after irradiation.",
+                  "attributed": 1
+                },
+                {
+                  "statement": "FFP와 CRYO는 방사선 조사를 하지 않으며 방사선 조사 완료 혈액제제는 반납할 수 없다.",
+                  "reason": "The context indicates that plasma products (FFP, CRYO) are not irradiated and that irradiated blood products cannot be returned.",
+                  "attributed": 1
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "question_id": "TRF-009",
+      "question": "백혈구 제거 필터를 사용할 때 생리식염수로 priming 해도 돼?",
+      "reference": "백혈구 제거 필터는 생리식염수로 프라이밍하면 안 된다. 필터에 걸려 있는 백혈구가 혈액에 유입될 수 있기 때문이다. 수혈 간격이 1시간 이상인 경우에는 새 수혈세트를 사용한다.",
+      "retrieved_contexts": [
+        "수혈세트의 종류\n② 백혈구 제거 필터 세트\n① 표준 혈액 수혈필터 세트\n※백혈구 제거 필터의 목적 : 발열성 수혈 부작용 예방\n※ 필터의 목적: 혈액응괴를 제거 è 혈액제제 내 백혈구를 99.9% 이상 제거\n※ 주의사항",
+        "<백혈구 제거 필터 사용 방법 및 QR 동영상>\n<혈소판제제의 백혈구 제거 필터 QR 동영상>",
+        "※ 주의사항\nŸ 필터에 걸려있는 백혈구가 혈액에 유입 될 수 있으므로\n생리식염수 프라이밍 금기\nŸ 수혈 간격이 1시간 이상인 경우 새 수혈세트를 사용",
+        "* Irradiation과 수혈 처방 항목 명칭에 [Filter]가 함께 붙어있을 시 세트 사용법 \n- Leukocyte poor packed RBC (Irradiation) : 표준 혈액 세트 사용\n- PC [Filter] (Irradiation) : 표준 혈액세트, 백혈구 제거 필터 세트 둘 다 상관 없음",
+        "• 4세 이상 소아 수혈\n(1) 성인에서의 수혈과 유사하지만, 혈액량, 실혈에 대한 내성, 혈색소 및 적혈구 용적률 참고치의 차이 고려\n(2) 신선 동결혈장이나 혈소판제제의 수혈은 성인에서와 동일한 기준을 적용\n수혈세트의 종류\n② 백혈구 제거 필터 세트",
+        "6) 수혈\n• 수혈 시 주의사항, 목적, 과정에 대해 환자에게 설명\n• 혈액제제에 따른 적정 수혈 세트, 주사바늘, 경로, 시간을 적용하여 수혈을 시작\n• 4세 미만 소아 수혈 : 일정한 속도로 주입 시 24Gage catheter로 용혈 등 문제없이 사용가능\n• 4세 이상 소아 수혈",
+        "2) 방사선조사 혈액제제\n (1) 원리\n   전기로 발생시킨 X선을 혈액에 조사하여 T림프구를 무력화시킴\n \n (2) 목적\nŸ 수혈이 필요한 환자에서 T림프구에 의한 이식편대숙주병(GVHD)예방",
+        "Ÿ 혈연 자간 수혈은 GVHD 발생위험이 있어권장되지 않으나, 불가피한 경우 방사선 조사 후 수혈\n(3) 대상혈액\n적혈구, 혈소판 혈액제제\n(4) 원칙\nŸ 방사선조사 적혈구제제의 유효기간은 조사 후 28일 혹 은 원래의 보존기간까지의 잔여일수 중",
+        "짧은 일수 \nŸ 단, 급속수혈, 대량수혈, 신부전환자, 미숙아 수혈, ECMO  priming시 조사 후 24시간 이내 \n수혈 (고칼륨 혈증의 위험) \nŸ 혈장제제(FFP, CRYO)는 방사선 조사를 하지 않는다.\nŸ 방사선 조사가 끝난 혈액제제는 반납 불가",
+        "Ÿ 방사선 조사가 끝난 혈액제제는 반납 불가\n                       \n \n<본원 혈액제제 방사선 조사기(RS-3400)>\nŸ 방사선 조사를 시행한 혈액제제의 처방확인 : 처방 앞에 irradation을 뜻하는 irr로 표기됨"
+      ],
+      "context_precision": 0.3333333333,
+      "context_recall": 1.0,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "metric_status": {
+        "context_precision": "completed",
+        "context_recall": "completed",
+        "faithfulness": "na",
+        "answer_relevancy": "na"
+      },
+      "reason": {
+        "context_precision": null,
+        "context_recall": null,
+        "faithfulness": "not_evaluated_service_response_unavailable",
+        "answer_relevancy": "not_evaluated_service_response_unavailable"
+      },
+      "context_progress": {
+        "context_precision": [
+          {
+            "index": 1,
+            "input_sha256": "e41b2bbfa1f22bbf798072643974767d7d3b7faa7dbabb3e96bf0d91e6b0e53e",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 2,
+            "input_sha256": "a9b5a1073e0acc9e309ea5e4aaf1733e697b3e0c721d017e5519876c1609bff8",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 3,
+            "input_sha256": "5db8cd4d8a4f0cb6eeb642b63828e86a7c7ba8281896a74c73df5a8c8180bafe",
+            "status": "completed",
+            "result": {
+              "verdict": 1,
+              "reason": ""
+            }
+          },
+          {
+            "index": 4,
+            "input_sha256": "899b89cbc10d2cd13d546fe6e35c71a6b0e4d536daecea4e630c522d683787b5",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 5,
+            "input_sha256": "a2a643473739f467bc7fa3eaab3befb89c4c89650001c42b685c2038b9305d09",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 6,
+            "input_sha256": "ffbfc8195d8bdc50ab1d530902ea2e8893e01dde5f32f5ab2799bf462babdc79",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 7,
+            "input_sha256": "38e1bb4d30bc32ebf380c24d13310f725e81cd3408970450af1f44d138c0ec74",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 8,
+            "input_sha256": "d8adc5f11b384e2982c1cbb20933a1e9f10115b6f2507ff91455c448c583811f",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 9,
+            "input_sha256": "95fa25318de4f0a04118985e4661c3cb0c554cc02dbb500e643d628419bb2093",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 10,
+            "input_sha256": "e96aac6a6501483ce7eb38b31970a5c97d8312057cf94b260cf7230becc81cac",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          }
+        ],
+        "context_recall": [
+          {
+            "index": 1,
+            "input_sha256": "6af9b164ff77f9b9266c6417f7526f139de296db2ea216bfe3cbc130f50679c8",
+            "status": "completed",
+            "result": {
+              "classifications": [
+                {
+                  "statement": "백혈구 제거 필터는 생리식염수로 프라이밍하면 안 된다.",
+                  "reason": "The context explicitly states \"생리식염수 프라이밍 금기\" under the precautions for leukocyte removal filters.",
+                  "attributed": 1
+                },
+                {
+                  "statement": "필터에 걸려 있는 백혈구가 혈액에 유입될 수 있기 때문이다.",
+                  "reason": "The context explains that leukocytes trapped on the filter can enter the blood, which is the reason given for the priming prohibition.",
+                  "attributed": 1
+                },
+                {
+                  "statement": "수혈 간격이 1시간 이상인 경우에는 새 수혈세트를 사용한다.",
+                  "reason": "The context specifies that if the transfusion interval is 1 hour or more, a new transfusion set should be used.",
+                  "attributed": 1
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "question_id": "TRF-010",
+      "question": "혈액을 받아왔는데 30분 안에 수혈을 시작하지 못하면 어떻게 해야 해?",
+      "reference": "30분 이내 수혈을 시행하지 못하면 혈액은행에 보관 후 재수령하는 재불출 절차를 적용한다. 혈액불출요청서를 지참해 혈액을 혈액운반함에 담아 혈액은행에 보관하고, 재불출 시 사유와 혈액 불출시간, 재수령자, 재확인자를 혈액불출요청서에 기록한다. 수혈 간호기록에는 재불출 시간과 사유를 상세히 기록한다.",
+      "retrieved_contexts": [
+        "4) 수혈 전 혈액 확인 절차\nŸ 혈액의 수령 즉시 혈액제제 손상 유무, 이상 유무를 육안으로 확인\nŸ 의료인 2인이 함께 환자 정보와 혈액 종류, 혈액형 등을 확인 후   \n혈액백의 스티커에 서명",
+        "1) 혈액 재 불출 기준 : 30분 이내 수혈을 시행하지 못하고 혈액은행 보관 후 재수령하는 경우\n                    (단, 폐기 사유 제외/ 혈액 냉장고 보유 부서 해당 없음)"
+      ],
+      "context_precision": 0.49999999995,
+      "context_recall": 0.3333333333333333,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "metric_status": {
+        "context_precision": "completed",
+        "context_recall": "completed",
+        "faithfulness": "na",
+        "answer_relevancy": "na"
+      },
+      "reason": {
+        "context_precision": null,
+        "context_recall": null,
+        "faithfulness": "not_evaluated_service_response_unavailable",
+        "answer_relevancy": "not_evaluated_service_response_unavailable"
+      },
+      "context_progress": {
+        "context_precision": [
+          {
+            "index": 1,
+            "input_sha256": "7b3d781b726e06be42efbed3e1a5333bbc6de1bffe57c6a27239a2d955bdfee2",
+            "status": "completed",
+            "result": {
+              "verdict": 0,
+              "reason": ""
+            }
+          },
+          {
+            "index": 2,
+            "input_sha256": "89c4bfa63c464f06b504808e62db74ef1fbdf036be6170cadc00434d94dc0fe9",
+            "status": "completed",
+            "result": {
+              "verdict": 1,
+              "reason": ""
+            }
+          }
+        ],
+        "context_recall": [
+          {
+            "index": 1,
+            "input_sha256": "845675dcdabab5e77f2ab90201672b89c1d15a6055479a6f54478f96878254b9",
+            "status": "completed",
+            "result": {
+              "classifications": [
+                {
+                  "statement": "30분 이내 수혈을 시행하지 못하면 혈액은행에 보관 후 재수령하는 재불출 절차를 적용한다.",
+                  "reason": "The context explicitly states that if transfusion cannot be performed within 30 minutes, the blood is stored in the blood bank and re-retrieved, which matches this statement.",
+                  "attributed": 1
+                },
+                {
+                  "statement": "혈액불출요청서를 지참해 혈액을 혈액운반함에 담아 혈액은행에 보관하고, 재불출 시 사유와 혈액 불출시간, 재수령자, 재확인자를 혈액불출요청서에 기록한다.",
+                  "reason": "The context does not mention the use of a blood request form, transport container, or recording of these details, so this statement cannot be attributed to the context.",
+                  "attributed": 0
+                },
+                {
+                  "statement": "수혈 간호기록에는 재불출 시간과 사유를 상세히 기록한다.",
+                  "reason": "The context does not refer to nursing records or the requirement to record re-retrieval time and reason, so this statement is not attributable.",
+                  "attributed": 0
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "resume_runner_history": [
+    "5346661feb4c97e30d0c207262a376cbf05f169a168b1470ad363c9f51cbcea2",
+    "5346661feb4c97e30d0c207262a376cbf05f169a168b1470ad363c9f51cbcea2",
+    "e89a64468c64e255a935e6f2281e749d2afcf334617502cd9f8cb0b869380af4"
+  ],
+  "token_window": [
+    {
+      "at": 1789711819.1487143,
+      "tokens": 3791
+    },
+    {
+      "at": 1789711820.025684,
+      "tokens": 3750
+    },
+    {
+      "at": 1789711881.530283,
+      "tokens": 4562
+    }
+  ]
+}

@@ -1,0 +1,316 @@
+{
+  "identity": {
+    "label_sha256": "6495eca5248c3e5454e78f8b867f2abdd4eb9d04481315c9d0381dffca02b987",
+    "input_sha256": "d5c126cbadde3f7003230ba62b966cf1eac33a3f2d01ba9af754c5b9303a1955",
+    "versions": {
+      "ragas": "0.4.3",
+      "litellm": "1.101.0",
+      "langchain-community": "0.4.1",
+      "instructor": "1.17.0",
+      "fsspec": "2026.6.0"
+    },
+    "evaluator": "groq/openai/gpt-oss-20b",
+    "temperature": 0,
+    "metrics": [
+      "context_precision",
+      "context_recall"
+    ],
+    "runner_sha256": "5555ceebbe3159131b42a3688970f4bd527c026690d8d5444e0f12915adec938"
+  },
+  "retrieval_name": "Current Hybrid Retrieval",
+  "results": [
+    {
+      "question_id": "TRF-001",
+      "question": "수혈 절차를 처음부터 끝까지 순서대로 알려줘.",
+      "reference": "수혈 처방 및 동의서 작성, 수혈 전 검사 확인 및 시행, 혈액 신청 및 수령, 수혈 전 혈액 확인, 수혈 직전 환자 확인, 혈액제제에 맞는 방법으로 수혈하고 환자 상태를 관찰하며 기록하는 순서로 시행한다.",
+      "retrieved_contexts": [
+        "4. 수혈 절차 \n수혈 처방 \n확인 및 \n동의서 작성\nŸ 의사는 혈액의 종류와 수량을 확인하고 필요한 검사를 처방한다.\nŸ 수혈 동의서를 작성한다.\nŸ 동의서 작성 시점: 입원 시 첫 수혈, 혈액제제 변경 시, 주치의(책임의사) 변경 시\n↓",
+        "↓\n수혈 전 검사\n확인 및 시행\nŸ ABO/Rh, Antibody screen test, Cross-matching 검사를 의료인 2인이    \n확인하고 검체 라벨에 서명한다. \n   ABO/Rh와 Cross-matching은 따로 채혈한다.\nŸ 환자, 보호자에게 수혈 예정 및 필요성에 대해 교육한다.\n↓",
+        "↓\n혈액신청 및 \n수령\nŸ 수혈이 결정되면 EMR로 혈액을 혈액은행에 신청한다.\n혈액불출 관리-불출신청 내역(준비완료)로 준비 여부를 확인한다.\nŸ 혈액의 준비완료 상태를 확인하고 혈액불출요청서를 출력한다.",
+        "Ÿ 혈액은 혈액운반전용 용기에 넣어 즉시 운반한다.\nŸ 혈액은행에서 불출자와 수령자 2인이 환자정보, 혈액정보와 혈액손상여부 확인한다.\n↓\n수혈 전 혈액 \n확인 절차",
+        "↓\n수혈 전 혈액 \n확인 절차\nŸ 혈액의 수령 즉시 혈액제제 손상여부, 이상 유무를 육안으로 확인한다.\nŸ 의료인 2인이 함께 환자정보와 혈액종류, 혈액형 등을 확인하고 혈액백의 \n   스티커에 서명한다.\n↓",
+        "스티커에 서명한다.\n↓\n수혈 직전 \n환자확인\nŸ 의료인 2인이 함께 소리 내어 개방형 질문으로 환자명과 혈액형을 확인한다.\nŸ 환자 앞에서 환자 인식 팔찌(발찌)와 혈액백의 환자 정보(이름, 등록번호, 혈액형) \n내용을 확인한다.",
+        "내용을 확인한다. \nŸ 혈액스티커를 혈액불출요청서에 부착하고 의료인 2인이 서명한다.\n의료인 2인의 정확한 환자 확인 절차\n“정확한 환자 확인을 하겠습니다. 환자분 성함이 어떻게 되시나요?” \n 개방형 질문으로 이름을 확인한다. \n“등록번호를 확인하겠습니다.” 환자 팔찌(발찌)의 등록번호 확인한다.",
+        "“알고 있는 혈액형이 어떻게 되세요?” 개방형 질문으로 혈액형을 확인한다.\n이때 의료인 1과 2는 한 장소에서 함께 환자 확인을 한다. \n↓\n수혈 시"
+      ],
+      "context_precision": null,
+      "context_recall": null,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "metric_status": {
+        "context_precision": "in_progress",
+        "context_recall": "in_progress",
+        "faithfulness": "na",
+        "answer_relevancy": "na"
+      },
+      "reason": {
+        "context_precision": "evaluator_error_InstructorRetryException",
+        "context_recall": "evaluator_error_InstructorRetryException",
+        "faithfulness": "not_evaluated_service_response_unavailable",
+        "answer_relevancy": "not_evaluated_service_response_unavailable"
+      }
+    },
+    {
+      "question_id": "TRF-002",
+      "question": "수혈 동의서는 언제 새로 받아야 해?",
+      "reference": "수혈 동의서는 입원 시 첫 수혈, 혈액제제 변경 시, 주치의 또는 책임의사 변경 시 작성한다. 동시에 여러 혈액제제가 처방된 경우 하나의 동의서에 일괄 체크할 수 있으나, 하나의 혈액제제 투여가 종료된 후 다른 혈액제제가 새로 처방되면 다시 동의서를 작성한다.",
+      "retrieved_contexts": [
+        "Ÿ 입원한 후 입원 진료과에서 수혈 처방을 추가로 내면 수혈 동의서를 다시 받는다,",
+        "응급의학과에서 수혈 동의서를 받는 경우\nŸ 응급의학과에서 수혈 동의서를 받고 혈액이 응급센터에서 병동으로 연결되는 경우 응급의학과에서 받은 수혈\n3\n동의서로 가능하다.\nŸ 응급센터에서 수혈 동의서를 받고 검사나 수술(시술)을 하는 경우 응급센터에서 받은 수혈 동의서로 가능하다.",
+        "1 수술이 필요한 내과 환자를 전과 전에 수술하는 진료과에서 동의서를 받는 경우 문제되지 않는다.\n2 외래 진료 후 수술 위해 입원할 경우, 해당과 외래에서 수술을 위한 수혈 동의서를 받는 경우 문제되지 않는다.\n응급의학과에서 수혈 동의서를 받는 경우"
+      ],
+      "context_precision": null,
+      "context_recall": null,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "metric_status": {
+        "context_precision": "error",
+        "context_recall": "error",
+        "faithfulness": "na",
+        "answer_relevancy": "na"
+      },
+      "reason": {
+        "context_precision": "evaluator_error_InstructorRetryException",
+        "context_recall": "evaluator_error_InstructorRetryException",
+        "faithfulness": "not_evaluated_service_response_unavailable",
+        "answer_relevancy": "not_evaluated_service_response_unavailable"
+      }
+    },
+    {
+      "question_id": "TRF-003",
+      "question": "수혈 전 검사는 어떤 걸 하고 검사 주기는 어떻게 돼?",
+      "reference": "수혈 전에는 ABO/Rh typing, Antibody screening test, Cross matching 등을 확인한다. 의료인 2인이 확인 후 채혈하고 채혈자와 확인자가 서명한다. ABO/Rh typing은 입원 후 첫 수혈 시 시행하며, Antibody screening test는 입원 후 첫 수혈 시 시행하고 수혈 시작 기점으로 72시간 유효하다. Cross matching은 매 수혈 전에 시행하며 당일 유효하다.",
+      "retrieved_contexts": [
+        "4. 수혈 절차 \n수혈 처방 \n확인 및 \n동의서 작성\nŸ 의사는 혈액의 종류와 수량을 확인하고 필요한 검사를 처방한다.\nŸ 수혈 동의서를 작성한다.\nŸ 동의서 작성 시점: 입원 시 첫 수혈, 혈액제제 변경 시, 주치의(책임의사) 변경 시\n↓",
+        "2) 수혈 전 검사 확인 및 시행\nŸ 수혈 전 검사의 목적\n① 수혈 부작용의 예방\n② 수혈된 적혈구가 정상적으로 생존할 수 있도록 환자에게 적합한 혈액 선택\nŸ 수혈 전 검사 처방\nŸ 수혈 전 검사\n의료인 2인이 확인 후 채혈 시행 → 채혈자, 확인자 서명",
+        "의료인 2인이 확인 후 채혈 시행 → 채혈자, 확인자 서명\n☆ ABO, Rh typing 와 Cross matching 검사는 각각 다른 시점에 의료인 2인이 환자 확인 시행\nŸ 검사 주기",
+        "↓\n수혈 전 검사\n확인 및 시행\nŸ ABO/Rh, Antibody screen test, Cross-matching 검사를 의료인 2인이    \n확인하고 검체 라벨에 서명한다. \n   ABO/Rh와 Cross-matching은 따로 채혈한다.\nŸ 환자, 보호자에게 수혈 예정 및 필요성에 대해 교육한다.\n↓",
+        "↓\n혈액신청 및 \n수령\nŸ 수혈이 결정되면 EMR로 혈액을 혈액은행에 신청한다.\n혈액불출 관리-불출신청 내역(준비완료)로 준비 여부를 확인한다.\nŸ 혈액의 준비완료 상태를 확인하고 혈액불출요청서를 출력한다.",
+        "Ÿ 혈액은 혈액운반전용 용기에 넣어 즉시 운반한다.\nŸ 혈액은행에서 불출자와 수령자 2인이 환자정보, 혈액정보와 혈액손상여부 확인한다.\n↓\n수혈 전 혈액 \n확인 절차",
+        "↓\n수혈 전 혈액 \n확인 절차\nŸ 혈액의 수령 즉시 혈액제제 손상여부, 이상 유무를 육안으로 확인한다.\nŸ 의료인 2인이 함께 환자정보와 혈액종류, 혈액형 등을 확인하고 혈액백의 \n   스티커에 서명한다.\n↓",
+        "스티커에 서명한다.\n↓\n수혈 직전 \n환자확인\nŸ 의료인 2인이 함께 소리 내어 개방형 질문으로 환자명과 혈액형을 확인한다.\nŸ 환자 앞에서 환자 인식 팔찌(발찌)와 혈액백의 환자 정보(이름, 등록번호, 혈액형) \n내용을 확인한다.",
+        "내용을 확인한다. \nŸ 혈액스티커를 혈액불출요청서에 부착하고 의료인 2인이 서명한다.\n의료인 2인의 정확한 환자 확인 절차\n“정확한 환자 확인을 하겠습니다. 환자분 성함이 어떻게 되시나요?” \n 개방형 질문으로 이름을 확인한다. \n“등록번호를 확인하겠습니다.” 환자 팔찌(발찌)의 등록번호 확인한다.",
+        "“알고 있는 혈액형이 어떻게 되세요?” 개방형 질문으로 혈액형을 확인한다.\n이때 의료인 1과 2는 한 장소에서 함께 환자 확인을 한다. \n↓\n수혈 시"
+      ],
+      "context_precision": null,
+      "context_recall": null,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "metric_status": {
+        "context_precision": "error",
+        "context_recall": "error",
+        "faithfulness": "na",
+        "answer_relevancy": "na"
+      },
+      "reason": {
+        "context_precision": "evaluator_error_InstructorRetryException",
+        "context_recall": "evaluator_error_InstructorRetryException",
+        "faithfulness": "not_evaluated_service_response_unavailable",
+        "answer_relevancy": "not_evaluated_service_response_unavailable"
+      }
+    },
+    {
+      "question_id": "TRF-004",
+      "question": "RBC를 수혈할 때 한 번에 몇 unit을 받아오고 몇 시간 동안 주입해?",
+      "reference": "RBC는 1 unit씩 수령하며 주입시간은 2~4시간이다. 수혈용 표준 혈액 필터가 있는 수혈세트를 사용한다.",
+      "retrieved_contexts": [
+        "※ 주의사항\nŸ 필터에 걸려있는 백혈구가 혈액에 유입 될 수 있으므로\n생리식염수 프라이밍 금기\nŸ 수혈 간격이 1시간 이상인 경우 새 수혈세트를 사용",
+        "Ÿ 수혈 시 환자 상태 확인 및 간호기록을 시행한다.\n   (수혈 전, 수혈 15분, 수혈 종료 시까지 30분마다 활력징후와 부작용 유무 관찰)\nŸ RBC 수혈은 불출시간 30분 이내에 수혈 기록을 입력한다.",
+        "처방명 - Leukocyte poor racked RBC, 400ml\n         저장 후 여과: 수혈할 때 의료진이 직접 Filter를 사용하여 백혈구를 여과 \n         처방명 - PRBC 400ml [Filter] / PRBC 320ml [Filter]\nŸ 두 혈액 모두 Filter를 사용하여 WBC를 제거한 RBC를 환자에게 수혈하는 방법이 지만 차이점은",
+        "6) 수혈\n• 수혈 시 주의사항, 목적, 과정에 대해 환자에게 설명\n• 혈액제제에 따른 적정 수혈 세트, 주사바늘, 경로, 시간을 적용하여 수혈을 시작\n• 4세 미만 소아 수혈 : 일정한 속도로 주입 시 24Gage catheter로 용혈 등 문제없이 사용가능\n• 4세 이상 소아 수혈",
+        "• 4세 이상 소아 수혈\n(1) 성인에서의 수혈과 유사하지만, 혈액량, 실혈에 대한 내성, 혈색소 및 적혈구 용적률 참고치의 차이 고려\n(2) 신선 동결혈장이나 혈소판제제의 수혈은 성인에서와 동일한 기준을 적용\n수혈세트의 종류\n② 백혈구 제거 필터 세트",
+        "수혈세트의 종류\n② 백혈구 제거 필터 세트\n① 표준 혈액 수혈필터 세트\n※백혈구 제거 필터의 목적 : 발열성 수혈 부작용 예방\n※ 필터의 목적: 혈액응괴를 제거 è 혈액제제 내 백혈구를 99.9% 이상 제거\n※ 주의사항",
+        "주의사항\nŸ 수혈 시 주의사항, 목적, 과정에 대해 환자에게 설명한다.\nŸ 혈액제제에 따른 적정 수혈세트, 주사바늘, 경로, 시간을 적용하여 수혈을 시작한다.\nŸ 수혈 시 환자 상태 확인 및 간호기록을 시행한다.",
+        "간호실무지침\n1) Leukocyte Poor Packed RBC 400ml란? \n(저장 전 백혈구 여과제거 혈액제제)\nŸ 헌혈된 혈액을 보관하기 전에 백혈구를 미리 제거한 혈액 성분 제제",
+        "- 백혈구에서 방출된 Cytokine의 혈액제제 내 축적 예방\n- 수혈로 인한 발열성 비용혈성 수혈반응 예방\n- HLA 동종면역 예방\n- 백혈구 내에 존재하는 바이러스(CMV, HTLV-1) 감염예방",
+        "- Bedside 여과 시 발생할 수 있는 저혈압 증상 발생 예방\n- Bedside 여과 업무 감소로 병동 및 주사실 간호 업무 효율 향상\n- Filter 사용이 어려운 수술실에서도 백혈구제거 RBC 사용 가능\n                  \n             저장 전 여과: 혈액원에서 백혈구 filter 후 의료기관 공급 (추가 필터링 없음)",
+        "필터의 사용 시기이다.\nŸ 저장 전 여과법은 저장 후 여과법을 시행한 혈액제제보다 표준화된 백혈구 제거 방법으로 양질의   \n혈액제제를 제조할 수 있으며, 혈액제제를 신속히 출고하여 수혈할 수 있고 백혈구 여과 필터 재고 관리,  \n백혈구제거 방법과 관련된 의료교육 등이 가능한 장점이 있다."
+      ],
+      "context_precision": null,
+      "context_recall": null,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "metric_status": {
+        "context_precision": "error",
+        "context_recall": "error",
+        "faithfulness": "na",
+        "answer_relevancy": "na"
+      },
+      "reason": {
+        "context_precision": "evaluator_error_InstructorRetryException",
+        "context_recall": "evaluator_error_InstructorRetryException",
+        "faithfulness": "not_evaluated_service_response_unavailable",
+        "answer_relevancy": "not_evaluated_service_response_unavailable"
+      }
+    },
+    {
+      "question_id": "TRF-005",
+      "question": "혈액이 병동에 도착한 뒤 환자에게 연결하기 직전에는 무엇을 확인해야 해?",
+      "reference": "의료인 2인이 함께 소리 내어 개방형 질문으로 환자명과 혈액형을 확인한다. 환자 앞에서 환자 인식 팔찌와 혈액백의 이름, 등록번호, 혈액형을 대조한다. 혈액 스티커를 혈액불출요청서에 부착하고 의료인 2인이 서명한다.",
+      "retrieved_contexts": [
+        "평가내용 |  | 프리셉터 평가 |  | 자가 평가\n4 | 손 위생을 시행하고, 의료인 2인이 정확한 환자 확인을 시행하고 혈액 스티커에 서명한다. (혈액이 병동에 도착한 즉시, 수혈 시작 전) |  |  | \n5 | 손 위생을 시행하고, 수혈하기 위한 물품을 준비한다. |  |  |",
+        "5) 수혈 직전 환자 확인\n • 의료인 2인이 함께 소리 내어 개방형 질문으로 환자명과 혈액형을 확인\n • 환자 앞에서 환자 인식 팔찌(발찌)와 혈액백의 환자 정보(이름, 등록번호, 혈액형) 내용 확인\n • 혈액 스티커를 혈액불출요청서에 부착하고 의료인 2인이 서명 → OCR tag 반납!!",
+        "• 수혈 체크리스트 확인: 수혈 전, 혈액수령, 수혈 직전 환자확인 (RBC만 해당)",
+        "주의사항\nŸ 수혈 시 주의사항, 목적, 과정에 대해 환자에게 설명한다.\nŸ 혈액제제에 따른 적정 수혈세트, 주사바늘, 경로, 시간을 적용하여 수혈을 시작한다.\nŸ 수혈 시 환자 상태 확인 및 간호기록을 시행한다.",
+        "평가내용 |  | 프리셉터 평가 |  | 자가 평가\n평가내용 |  | 프리셉터 평가 |  | 자가 평가\n |  | Pass | Fail | \n1 | 수혈 처방이 나면 동의서를 확인한다. |  |  |",
+        "평가내용 |  | 프리셉터 평가 |  | 자가 평가\n2 | 수혈 전 검사 시행 시 의료인 2인이 확인 및 서명하고, 채혈한다. |  |  | \n3 | 혈액제제별 1회 불출 가능한 수량에 맞춰 혈액 불출 요청서를 출력한다. |  |  |",
+        "평가내용 |  | 프리셉터 평가 |  | 자가 평가\n6 | 손 위생을 시행하고, 수혈 전 투약 및 활력징후를 측정한다. |  |  | \n7 | 혈액제제별 정확한 수혈세트 또는 백혈구 제거 세트를 연결한다. |  |  |",
+        "평가내용 |  | 프리셉터 평가 |  | 자가 평가\n8 | 대상자에게 수혈 부작용 및 주의사항에 대해 교육한다. |  |  | \n9 | 수혈 시작 후 15분간 환자 상태를 주의 깊게 관찰한다. |  |  | \n10 | 수혈 간호기록을 입력한다. |  |  |",
+        "Ÿ 수혈 시 환자 상태 확인 및 간호기록을 시행한다.\n   (수혈 전, 수혈 15분, 수혈 종료 시까지 30분마다 활력징후와 부작용 유무 관찰)\nŸ RBC 수혈은 불출시간 30분 이내에 수혈 기록을 입력한다."
+      ],
+      "context_precision": null,
+      "context_recall": null,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "metric_status": {
+        "context_precision": "error",
+        "context_recall": "error",
+        "faithfulness": "na",
+        "answer_relevancy": "na"
+      },
+      "reason": {
+        "context_precision": "evaluator_error_InstructorRetryException",
+        "context_recall": "evaluator_error_InstructorRetryException",
+        "faithfulness": "not_evaluated_service_response_unavailable",
+        "answer_relevancy": "not_evaluated_service_response_unavailable"
+      }
+    },
+    {
+      "question_id": "TRF-006",
+      "question": "수혈 시작하면 활력징후와 부작용은 언제 확인해야 해?",
+      "reference": "수혈 전, 수혈 시작 후 15분, 이후 수혈 종료 시까지 30분마다 활력징후와 부작용 유무를 관찰한다.",
+      "retrieved_contexts": [
+        "Ÿ 수혈 시 환자 상태 확인 및 간호기록을 시행한다.\n   (수혈 전, 수혈 15분, 수혈 종료 시까지 30분마다 활력징후와 부작용 유무 관찰)\nŸ RBC 수혈은 불출시간 30분 이내에 수혈 기록을 입력한다.",
+        "주의사항\nŸ 수혈 시 주의사항, 목적, 과정에 대해 환자에게 설명한다.\nŸ 혈액제제에 따른 적정 수혈세트, 주사바늘, 경로, 시간을 적용하여 수혈을 시작한다.\nŸ 수혈 시 환자 상태 확인 및 간호기록을 시행한다."
+      ],
+      "context_precision": null,
+      "context_recall": null,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "metric_status": {
+        "context_precision": "error",
+        "context_recall": "error",
+        "faithfulness": "na",
+        "answer_relevancy": "na"
+      },
+      "reason": {
+        "context_precision": "evaluator_error_InstructorRetryException",
+        "context_recall": "evaluator_error_InstructorRetryException",
+        "faithfulness": "not_evaluated_service_response_unavailable",
+        "answer_relevancy": "not_evaluated_service_response_unavailable"
+      }
+    },
+    {
+      "question_id": "TRF-007",
+      "question": "수혈 중 오한, 저혈압, 오심이 나타나 급성 용혈성 부작용이 의심돼. 어떻게 해야 해?",
+      "reference": "즉시 수혈을 중지하고 생리식염수를 주입한다. 혈액형 및 교차반응을 실시하며 필요 시 이뇨제 투여 또는 투석을 시행한다.",
+      "retrieved_contexts": [],
+      "context_precision": null,
+      "context_recall": null,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "metric_status": {
+        "context_precision": "na",
+        "context_recall": "na",
+        "faithfulness": "na",
+        "answer_relevancy": "na"
+      },
+      "reason": {
+        "context_precision": "no_retrieved_contexts",
+        "context_recall": "no_retrieved_contexts",
+        "faithfulness": "not_evaluated_service_response_unavailable",
+        "answer_relevancy": "not_evaluated_service_response_unavailable"
+      }
+    },
+    {
+      "question_id": "TRF-008",
+      "question": "방사선 조사 혈액은 어떤 제제에 하고, 조사한 RBC는 언제까지 사용할 수 있어? FFP나 CRYO도 조사해?",
+      "reference": "방사선 조사는 적혈구와 혈소판 혈액제제에 적용한다. 방사선조사 적혈구의 유효기간은 조사 후 28일 또는 원래 보존기간까지의 잔여일수 중 짧은 기간이다. 급속수혈, 대량수혈, 신부전환자, 미숙아 수혈, ECMO priming의 경우 조사 후 24시간 이내 수혈한다. FFP와 CRYO는 방사선 조사를 하지 않으며 방사선 조사 완료 혈액제제는 반납할 수 없다.",
+      "retrieved_contexts": [
+        "짧은 일수 \nŸ 단, 급속수혈, 대량수혈, 신부전환자, 미숙아 수혈, ECMO  priming시 조사 후 24시간 이내 \n수혈 (고칼륨 혈증의 위험) \nŸ 혈장제제(FFP, CRYO)는 방사선 조사를 하지 않는다.\nŸ 방사선 조사가 끝난 혈액제제는 반납 불가",
+        "Ÿ 방사선 조사가 끝난 혈액제제는 반납 불가\n                       \n \n<본원 혈액제제 방사선 조사기(RS-3400)>\nŸ 방사선 조사를 시행한 혈액제제의 처방확인 : 처방 앞에 irradation을 뜻하는 irr로 표기됨",
+        "2) 방사선조사 혈액제제\n (1) 원리\n   전기로 발생시킨 X선을 혈액에 조사하여 T림프구를 무력화시킴\n \n (2) 목적\nŸ 수혈이 필요한 환자에서 T림프구에 의한 이식편대숙주병(GVHD)예방",
+        "Ÿ 혈연 자간 수혈은 GVHD 발생위험이 있어권장되지 않으나, 불가피한 경우 방사선 조사 후 수혈\n(3) 대상혈액\n적혈구, 혈소판 혈액제제\n(4) 원칙\nŸ 방사선조사 적혈구제제의 유효기간은 조사 후 28일 혹 은 원래의 보존기간까지의 잔여일수 중",
+        "* Irradiation과 수혈 처방 항목 명칭에 [Filter]가 함께 붙어있을 시 세트 사용법 \n- Leukocyte poor packed RBC (Irradiation) : 표준 혈액 세트 사용\n- PC [Filter] (Irradiation) : 표준 혈액세트, 백혈구 제거 필터 세트 둘 다 상관 없음"
+      ],
+      "context_precision": null,
+      "context_recall": null,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "metric_status": {
+        "context_precision": "error",
+        "context_recall": "error",
+        "faithfulness": "na",
+        "answer_relevancy": "na"
+      },
+      "reason": {
+        "context_precision": "evaluator_error_InstructorRetryException",
+        "context_recall": "evaluator_error_InstructorRetryException",
+        "faithfulness": "not_evaluated_service_response_unavailable",
+        "answer_relevancy": "not_evaluated_service_response_unavailable"
+      }
+    },
+    {
+      "question_id": "TRF-009",
+      "question": "백혈구 제거 필터를 사용할 때 생리식염수로 priming 해도 돼?",
+      "reference": "백혈구 제거 필터는 생리식염수로 프라이밍하면 안 된다. 필터에 걸려 있는 백혈구가 혈액에 유입될 수 있기 때문이다. 수혈 간격이 1시간 이상인 경우에는 새 수혈세트를 사용한다.",
+      "retrieved_contexts": [
+        "수혈세트의 종류\n② 백혈구 제거 필터 세트\n① 표준 혈액 수혈필터 세트\n※백혈구 제거 필터의 목적 : 발열성 수혈 부작용 예방\n※ 필터의 목적: 혈액응괴를 제거 è 혈액제제 내 백혈구를 99.9% 이상 제거\n※ 주의사항",
+        "<백혈구 제거 필터 사용 방법 및 QR 동영상>\n<혈소판제제의 백혈구 제거 필터 QR 동영상>",
+        "※ 주의사항\nŸ 필터에 걸려있는 백혈구가 혈액에 유입 될 수 있으므로\n생리식염수 프라이밍 금기\nŸ 수혈 간격이 1시간 이상인 경우 새 수혈세트를 사용",
+        "* Irradiation과 수혈 처방 항목 명칭에 [Filter]가 함께 붙어있을 시 세트 사용법 \n- Leukocyte poor packed RBC (Irradiation) : 표준 혈액 세트 사용\n- PC [Filter] (Irradiation) : 표준 혈액세트, 백혈구 제거 필터 세트 둘 다 상관 없음",
+        "• 4세 이상 소아 수혈\n(1) 성인에서의 수혈과 유사하지만, 혈액량, 실혈에 대한 내성, 혈색소 및 적혈구 용적률 참고치의 차이 고려\n(2) 신선 동결혈장이나 혈소판제제의 수혈은 성인에서와 동일한 기준을 적용\n수혈세트의 종류\n② 백혈구 제거 필터 세트",
+        "6) 수혈\n• 수혈 시 주의사항, 목적, 과정에 대해 환자에게 설명\n• 혈액제제에 따른 적정 수혈 세트, 주사바늘, 경로, 시간을 적용하여 수혈을 시작\n• 4세 미만 소아 수혈 : 일정한 속도로 주입 시 24Gage catheter로 용혈 등 문제없이 사용가능\n• 4세 이상 소아 수혈",
+        "2) 방사선조사 혈액제제\n (1) 원리\n   전기로 발생시킨 X선을 혈액에 조사하여 T림프구를 무력화시킴\n \n (2) 목적\nŸ 수혈이 필요한 환자에서 T림프구에 의한 이식편대숙주병(GVHD)예방",
+        "Ÿ 혈연 자간 수혈은 GVHD 발생위험이 있어권장되지 않으나, 불가피한 경우 방사선 조사 후 수혈\n(3) 대상혈액\n적혈구, 혈소판 혈액제제\n(4) 원칙\nŸ 방사선조사 적혈구제제의 유효기간은 조사 후 28일 혹 은 원래의 보존기간까지의 잔여일수 중",
+        "짧은 일수 \nŸ 단, 급속수혈, 대량수혈, 신부전환자, 미숙아 수혈, ECMO  priming시 조사 후 24시간 이내 \n수혈 (고칼륨 혈증의 위험) \nŸ 혈장제제(FFP, CRYO)는 방사선 조사를 하지 않는다.\nŸ 방사선 조사가 끝난 혈액제제는 반납 불가",
+        "Ÿ 방사선 조사가 끝난 혈액제제는 반납 불가\n                       \n \n<본원 혈액제제 방사선 조사기(RS-3400)>\nŸ 방사선 조사를 시행한 혈액제제의 처방확인 : 처방 앞에 irradation을 뜻하는 irr로 표기됨"
+      ],
+      "context_precision": null,
+      "context_recall": null,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "metric_status": {
+        "context_precision": "error",
+        "context_recall": "error",
+        "faithfulness": "na",
+        "answer_relevancy": "na"
+      },
+      "reason": {
+        "context_precision": "evaluator_error_InstructorRetryException",
+        "context_recall": "evaluator_error_InstructorRetryException",
+        "faithfulness": "not_evaluated_service_response_unavailable",
+        "answer_relevancy": "not_evaluated_service_response_unavailable"
+      }
+    },
+    {
+      "question_id": "TRF-010",
+      "question": "혈액을 받아왔는데 30분 안에 수혈을 시작하지 못하면 어떻게 해야 해?",
+      "reference": "30분 이내 수혈을 시행하지 못하면 혈액은행에 보관 후 재수령하는 재불출 절차를 적용한다. 혈액불출요청서를 지참해 혈액을 혈액운반함에 담아 혈액은행에 보관하고, 재불출 시 사유와 혈액 불출시간, 재수령자, 재확인자를 혈액불출요청서에 기록한다. 수혈 간호기록에는 재불출 시간과 사유를 상세히 기록한다.",
+      "retrieved_contexts": [
+        "4) 수혈 전 혈액 확인 절차\nŸ 혈액의 수령 즉시 혈액제제 손상 유무, 이상 유무를 육안으로 확인\nŸ 의료인 2인이 함께 환자 정보와 혈액 종류, 혈액형 등을 확인 후   \n혈액백의 스티커에 서명",
+        "1) 혈액 재 불출 기준 : 30분 이내 수혈을 시행하지 못하고 혈액은행 보관 후 재수령하는 경우\n                    (단, 폐기 사유 제외/ 혈액 냉장고 보유 부서 해당 없음)"
+      ],
+      "context_precision": null,
+      "context_recall": null,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "metric_status": {
+        "context_precision": "error",
+        "context_recall": "error",
+        "faithfulness": "na",
+        "answer_relevancy": "na"
+      },
+      "reason": {
+        "context_precision": "evaluator_error_InstructorRetryException",
+        "context_recall": "evaluator_error_InstructorRetryException",
+        "faithfulness": "not_evaluated_service_response_unavailable",
+        "answer_relevancy": "not_evaluated_service_response_unavailable"
+      }
+    }
+  ],
+  "resume_runner_history": [
+    "5346661feb4c97e30d0c207262a376cbf05f169a168b1470ad363c9f51cbcea2",
+    "5346661feb4c97e30d0c207262a376cbf05f169a168b1470ad363c9f51cbcea2"
+  ]
+}
