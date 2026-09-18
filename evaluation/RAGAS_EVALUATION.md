@@ -29,11 +29,15 @@ Result JSON and Markdown are produced on execution, not populated with fabricate
 
 Each question/metric is processed sequentially. A transport semaphore also serializes internal requests.
 Checkpoint is saved before a metric and immediately after completion/error. Completed and N/A metrics are skipped.
-Error metrics can be attempted again by an explicit --resume. An in_progress metric has an uncertain outcome after interruption and is never replayed automatically; inspect it separately.
+Error metrics can be attempted again by an explicit --resume. Stale in_progress metrics become pending. Completed judge results are replayed locally; unpersisted responses cannot be recovered and may require a repeated API call.
 Input hashes, evaluator settings, versions, and runner hash must match for resume. Existing output cannot be overwritten by a fresh run; a lock prevents concurrent runs.
 
-HTTP 429 retry-after seconds or HTTP-date are honored, with at most two retries per evaluator request. Without usable retry-after, the error is checkpointed. Other errors are not automatically retried. SDK transport retries are disabled; Instructor gets one attempt. Raw exception messages/headers are not saved.
-A metric may need multiple LLM requests. If that metric fails partway through, explicit resume repeats the unfinished metric; previously completed metrics remain preserved.
+HTTP 429 retry-after seconds or HTTP-date are honored through nested exceptions. Without usable retry-after, wait 60 seconds. At most two additional retries are shared across all subrequests of a question/metric. Exhausted rate limits remain pending with rate_limit_retry_exhausted. Other errors are not automatically retried. SDK transport retries are disabled; Instructor gets one attempt. Raw exception messages/headers are not saved.
+The transport estimates input tokens locally (LiteLLM token_counter), adds 25% margin and 2048 output reserve. A persisted rolling 60-second ledger reserves the larger of that estimate and actual returned usage. Only when the next estimate would exceed 8000 does it wait until enough entries expire. There is no fixed first-call delay. Estimates over 8000 fail safely without changing prompts or calling the provider. The estimate is not a guarantee of provider accounting; unknown external activity or larger outputs can still cause 429. Provider Retry-After remains authoritative.
+The known pre-fix runner hash is explicitly accepted on resume, while input hashes, package versions, evaluator and metric settings must still match. Original identity is retained and the new runner hash is appended to resume_runner_history. Unknown runner revisions remain blocked.
+Historical evaluator_error_InstructorRetryException is ambiguous: it is retryable as an error but is not relabeled as a confirmed rate limit without evidence. Existing checkpoints are not migrated during setup.
+A metric may need multiple LLM requests. context_progress[metric] stores each ordered judge call's index, input hash, status and structured result. The existing RAGAS metric executes unchanged but its agenerate calls reuse saved results. Precision stores the verdict; Recall stores its structured classifications for the single combined-context call. Aggregate scores are still calculated by RAGAS, not by a replacement formula. A backup (.json.pre-context-v2.bak) is created on first resume before migration. Current checkpoint is unchanged during implementation.
+Logs distinguish normal pacing, provider Retry-After, fallback after 429 and context i/n running/completed. No key or prompt text is logged.
 
 ## Future comparison
 
