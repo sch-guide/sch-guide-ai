@@ -109,7 +109,7 @@ def load_settings(*, use_streamlit=True):
             mode=get("MODE", "staff"), supabase_url=get("SUPABASE_URL"),
             supabase_key=get("SUPABASE_PUBLISHABLE_KEY"), llm_provider=get("LLM_PROVIDER", "disabled"),
             llm_url=get("LLM_BASE_URL"),
-            llm_key=(os.environ.get("GEMINI_API_KEY", "").strip()
+            llm_key=(str(values.get("GEMINI_API_KEY", "") or "").strip()
                      if get("LLM_PROVIDER", "disabled") == "gemini" else get("LLM_API_KEY")),
             llm_model=get("LLM_MODEL"),
             llm_approved=get("LLM_APPROVED", "false").lower() == "true",

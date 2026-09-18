@@ -1,16 +1,14 @@
 """Manual smoke test: python -m mvp.test_gemini_connection (no guideline/retrieval)."""
-import os
-
 from mvp.gemini_provider import completion_response
 from mvp.settings import GuideError, load_settings
 
 
 def main():
-    if not os.environ.get('GEMINI_API_KEY', '').strip():
-        print('SKIPPED: GEMINI_API_KEY is unavailable in this process. Run in your configured PowerShell.')
-        return 0
     try:
         settings = load_settings(use_streamlit=False)
+        if not settings.llm_key:
+            print('SKIPPED: API key is unavailable. Configure mvp/.env or the process environment.')
+            return 0
         if settings.llm_provider != 'gemini':
             print('Set GUIDE_LLM_PROVIDER=gemini before running this test.')
             return 2
