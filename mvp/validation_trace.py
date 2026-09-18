@@ -27,7 +27,7 @@ def safe_text(value):
     return value
 
 
-def record_failure(trace, reason, statement, statement_index, sources):
+def record_failure(trace, reason, statement, statement_index, sources, outcome=None):
     """Best-effort diagnostics only. Failure here must not alter the validator outcome."""
     from mvp.evidence import source_sentences
 
@@ -52,23 +52,17 @@ def record_failure(trace, reason, statement, statement_index, sources):
             kind, stage = 'citation_mismatch', 'citation_matching'
         elif reason == 'schema_or_privacy':
             kind, stage = 'schema_or_privacy', 'schema_or_privacy'
-        elif reason == 'unsupported sentence' and statement is not None:
-            stage = 'sentence_matching'
-            for number, part in enumerate(source_sentences(statement.text), 1):
-                matches = []
-                for evidence, comparison in zip(statement.evidence, comparisons):
-                    chunk = sources.get(evidence.chunk_id)
-                    in_source = bool(chunk and part in source_sentences(chunk.text))
-                    in_quote = part in clean(evidence.quote)
-                    comparison.update(sentence_in_chunk=in_source, sentence_in_quote=in_quote)
-                    matches.append(in_source and in_quote)
-                if not any(matches):
-                    sentence_index, sentence = number, part
-                    kind = ('sentence_not_in_quote' if any(c['sentence_in_chunk'] for c in comparisons)
-                            else 'sentence_not_in_source')
-                    break
+        elif reason == 'unsupported sentence' and outcome is not None:
+            stage = outcome['final_validation_stage']
+            if outcome['final_validation_reason'] == 'label_not_in_quote':
+                kind = 'label_not_in_quote'
             else:
-                kind, stage = 'label_not_in_quote', 'label_matching'
+                detail = outcome.get('exact_failure', {})
+                kind = detail.get('failure_type', 'unsupported sentence')
+                sentence_index = detail.get('sentence_index')
+                sentence = detail.get('sentence_text')
+                for comparison, (a, b) in zip(comparisons, detail.get('comparisons', [])):
+                    comparison.update(sentence_in_chunk=a, sentence_in_quote=b)
         trace['post_llm_validation_stage'] = stage
         original = statement.text if statement is not None else None
         safe_original = safe_text(original)
@@ -85,3 +79,15 @@ def record_failure(trace, reason, statement, statement_index, sources):
     except Exception:
         trace['post_llm_validation_stage'] = 'diagnostic_unavailable'
         trace['validation_failure'] = {'failure_type': 'diagnostic_unavailable'}
+
+
+def record_outcome(trace, outcome):
+    if trace is None:
+        return
+    try:
+        fields = {key: value for key, value in outcome.items() if key != 'exact_failure'}
+        fields['matched_source_text'] = [safe_text(text) for text in fields['matched_source_text']]
+        trace.update(fields)
+        trace.setdefault('statement_validation', []).append(dict(fields))
+    except Exception:
+        trace['diagnostic_unavailable'] = True

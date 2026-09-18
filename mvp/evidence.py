@@ -199,12 +199,17 @@ def source_sentences(text):
     return [clean(s) for s in re.split(r'(?<=[.!?。！？])(?<!\d\.)\s+|\n+', '\n'.join(lines)) if clean(s)]
 
 
-def sentence_evidence(text, evidence, sources):
+def sentence_evidence(text, evidence, sources, diagnostic=None):
     """문장 전체가 원문과 일치해야 합니다. 조건/부정을 삭제한 부분 인용은 실패합니다."""
     result = []
-    for sentence in source_sentences(text):
-        matching = [e for e in evidence if sentence in source_sentences(sources[e.chunk_id].text)
-                    and sentence in clean(e.quote)]
+    for number, sentence in enumerate(source_sentences(text), 1):
+        comparisons = [(e, sentence in source_sentences(sources[e.chunk_id].text),
+                        sentence in clean(e.quote)) for e in evidence]
+        matching = [e for e, in_source, in_quote in comparisons if in_source and in_quote]
+        if diagnostic is not None and not matching:
+            diagnostic.update(sentence_index=number, sentence_text=sentence,
+                failure_type='sentence_not_in_quote' if any(a for _, a, _ in comparisons) else 'sentence_not_in_source',
+                comparisons=[(a, b) for _, a, b in comparisons])
         if not matching:
             return []
         result.append((sentence, matching))

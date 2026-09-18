@@ -84,6 +84,8 @@ def validate_answer(raw, hits, trace=None):
     statement = None
     statement_index = None
     sources = {}
+    outcome = None
+    from mvp.validation_trace import record_outcome
     try:
         result = Answer.model_validate(json.loads(raw))
         if result.answerable != bool(result.statements):
@@ -91,6 +93,11 @@ def validate_answer(raw, hits, trace=None):
         sources = {h.chunk.id: h.chunk for h in hits}
         verified = []
         for statement_index, statement in enumerate(result.statements, 1):
+            outcome = dict(statement_index=statement_index, exact_match_passed=False,
+                           normalization_attempted=False, normalization_passed=False,
+                           matched_source_text=[], label_validation_attempted=False,
+                           label_validation_passed=None, final_validation_stage='answer_validation',
+                           final_validation_reason=None, exact_failure={})
             # 화면에서 순서를 붙이므로 모델의 형식용 step1/단계1 라벨은 버립니다.
             # 용량/횟수 등 내용을 나타내는 숫자에는 이 예외를 적용하지 않습니다.
             if re.fullmatch(r'(?:step|단계|절차)\s*#?\s*\d+', statement.label.strip(), re.I):
@@ -120,17 +127,32 @@ def validate_answer(raw, hits, trace=None):
             source_quantities = {normalize(n) for n in re.findall(quantities, " ".join(quotes))}
             if not {normalize(n) for n in re.findall(quantities, content)}.issubset(source_quantities):
                 raise ValueError("unit")
-            sentences = sentence_evidence(statement.text, statement.evidence, sources)
+            sentences = sentence_evidence(statement.text, statement.evidence, sources,
+                                          diagnostic=outcome['exact_failure'])
+            outcome['exact_match_passed'] = bool(sentences)
             if not sentences:
+                outcome['normalization_attempted'] = True
                 from mvp.answer_normalization import normalized_evidence
                 sentences = normalized_evidence(statement.text, statement.evidence, sources)
-            if not sentences or (statement.label and not any(statement.label in quote for quote in quotes)):
+                outcome['normalization_passed'] = bool(sentences)
+            outcome['matched_source_text'] = [s for s, _ in sentences]
+            outcome.update(final_validation_stage='sentence_matching', final_validation_reason='unsupported sentence')
+            if not sentences:
                 raise ValueError('unsupported sentence')
+            outcome['label_validation_attempted'] = bool(statement.label)
+            label_failed = statement.label and not any(statement.label in quote for quote in quotes)
+            outcome['label_validation_passed'] = not bool(label_failed) if statement.label else None
+            if label_failed:
+                outcome.update(final_validation_stage='label_matching', final_validation_reason='label_not_in_quote')
+                raise ValueError('unsupported sentence')
+            outcome.update(final_validation_stage='statement_complete', final_validation_reason='passed')
             for sentence, evidence in sentences:
                 verified.append(Statement(text=sentence, label=statement.label,
                                           evidence=[Evidence(chunk_id=e.chunk_id, quote=sentence) for e in evidence]))
+            record_outcome(trace, outcome)
         statement = None
         statement_index = None
+        outcome = None
         if len(verified) > 10:
             raise ValueError('too many sentences')
         result.statements = verified
@@ -145,8 +167,14 @@ def validate_answer(raw, hits, trace=None):
             reasons = {'inconsistent', 'markup', 'citation', 'unsupported action', 'number', 'unit',
                        'unsupported sentence', 'too many sentences', 'unsupported conflict'}
             trace['validation_reason'] = str(exc) if type(exc) is ValueError and str(exc) in reasons else 'schema_or_privacy'
+            if outcome is not None:
+                if outcome['final_validation_reason'] is None:
+                    outcome['final_validation_reason'] = trace['validation_reason']
+                record_outcome(trace, outcome)
+            else:
+                trace.update(final_validation_stage='answer_validation', final_validation_reason=trace['validation_reason'])
             from mvp.validation_trace import record_failure
-            record_failure(trace, trace['validation_reason'], statement, statement_index, sources)
+            record_failure(trace, trace['validation_reason'], statement, statement_index, sources, outcome)
         raise GuideError("AI 답변의 출처·형식을 확인하지 못해 표시하지 않았습니다. 검색된 원문을 확인해 주세요. (AI_EVIDENCE)") from None
 
 
