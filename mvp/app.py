@@ -343,7 +343,12 @@ else:
                     library.ensure_revision(revision)
                     try:
                         status.update(label="답변을 작성하고 있습니다…")
-                        answer, used = generate(settings, query, hits, user_id, plan=plan)
+                        from mvp.web_quota import for_web
+                        web_usage = for_web(settings)
+                        if web_usage is None:
+                            answer, used = generate(settings, query, hits, user_id, plan=plan)
+                        else:
+                            answer, used = generate(settings, query, hits, user_id, plan=plan, quota=web_usage)
                         turn["answer"], turn["hits"] = answer, used
                         cited_docs = list(dict.fromkeys(hit.chunk.document_id for hit in used))
                         approved = matching_checklists(question, library.list_checklists(cited_docs))
