@@ -1,0 +1,5 @@
+ragas==0.4.3
+litellm==1.101.0
+langchain-community==0.4.1
+instructor==1.17.0
+fsspec==2026.6.0
