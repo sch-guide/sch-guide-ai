@@ -50,6 +50,53 @@ def source_anchor(index, group_key):
     return 'source-' + hashlib.sha256(f'{index}:{group_key}'.encode()).hexdigest()[:20]
 
 
+def detail_display(text, headings=()):
+    """Conservative display blocks within one evidence; raw text remains untouched."""
+    def norm(value):
+        value=re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]', '', value)
+        return re.sub(r'\s+', ' ', value).strip()
+    lines=[norm(line) for line in text.splitlines()]
+    titles={norm(h) for h in headings if h}
+    marker=r'^(?:Ÿ\s*|[•●▪]\s*|[-*]\s+)'
+    blocks=[]; current=[]; kind='paragraph'
+    def flush():
+        if current:
+            blocks.append((kind,' '.join(current)))
+            current.clear()
+    i=0
+    while i<len(lines):
+        line=lines[i]
+        if not line or line=='↓':
+            flush();kind='paragraph';i+=1;continue
+        if line in titles:
+            flush();blocks.append(('heading',line));i+=1;continue
+        # A short noun-phrase prefix immediately followed by a bullet is a
+        # heading candidate. Never treat a sentence or a clinical value as one.
+        if not current and not re.match(marker,line):
+            j=i; prefix=[]
+            while j<len(lines) and lines[j] and lines[j]!='↓' and not re.match(marker,lines[j]):
+                prefix.append(lines[j]);j+=1
+            label=' '.join(prefix)
+            if (j<len(lines) and re.match(marker,lines[j]) and 1<=len(prefix)<=4
+                and all(len(p)<=30 for p in prefix)
+                and not re.search(r'[0-9.!?。！？:：↓↑≤≥%]',label)
+                and re.search(r'(작성|시행|수령|확인|절차|관찰|기록|시작|중지|반납)$',label)):
+                blocks.append(('heading',label));i=j;continue
+        if re.match(marker,line):
+            flush();kind='bullet';line=re.sub(marker,'',line).strip()
+        elif current and kind=='paragraph':
+            # Join unmarked prose only when the preceding line has an explicit
+            # continuation ending; otherwise retain its paragraph boundary.
+            if not re.search(r'(하고|하며|하여|및|또는|경우|위해|[을를의와과])$',current[-1]):
+                flush()
+        if line: current.append(line)
+        if re.search(r'[.!?。！？]$',line):
+            flush();kind='paragraph'
+        i+=1
+    flush()
+    return blocks
+
+
 def fallback_outline(statements, chunks, procedure):
     """Extract labels, never summarize clinical sentences or change source order."""
     norm=lambda text: re.sub(r'\s+', ' ', text).strip()
@@ -170,8 +217,18 @@ def render_answer(answer, hits, index, source_view, *, on_review=None, checklist
     else:
         for number, statement in enumerate(answer.statements, 1):
             if fallback:
-                st.text(statement.text)
-                st.markdown(references(statement))
+                with st.container(border=True):
+                    headings=[chunks[e.chunk_id].section for e in statement.evidence]
+                    for kind,text in detail_display(statement.text,headings):
+                        prefix='#### ' if kind=='heading' else '- ' if kind=='bullet' else ''
+                        st.markdown(prefix+escape(text))
+                    source_keys=dict.fromkeys(chunk_to_group[e.chunk_id] for e in statement.evidence)
+                    for key in source_keys:
+                        chunk=groups[key]['chunk']
+                        st.markdown(f'출처: [[{numbers[key]}]](#{anchors[key]}) '
+                                    +escape(chunk.document_name)+' · '+escape(_location(chunk)))
+                    with st.expander('추출 원문 그대로 보기',expanded=False):
+                        st.text(statement.text)
                 continue
             prefix = f'{number}. ' if answer.format == 'steps' else ('- ' if answer.format == 'bullets' else '')
             st.markdown(prefix + escape(statement.text) + ' ' + references(statement))
