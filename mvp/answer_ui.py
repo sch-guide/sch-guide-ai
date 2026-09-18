@@ -11,6 +11,41 @@ def escape(text):
     return re.sub(r'([\\`*{}\[\]()#+.!|<>_~-])', r'\\\1', text).replace('\n', ' ')
 
 
+def fallback_display(text, headings=()):
+    """Display-only blocks; never join separate evidence or alter lexical content."""
+    normalize = lambda value: re.sub(r'\s+', ' ', value).strip()
+    titles = {normalize(value) for value in headings if value}
+    blocks, current = [], []
+    def flush():
+        if current:
+            blocks.append(' '.join(current))
+            current.clear()
+    for raw in text.splitlines():
+        line = normalize(raw)
+        if not line or line == '↓':
+            flush()
+            continue
+        # Only remove leading PDF bullet artifacts; preserve clinical ↓ symbols.
+        bullet = bool(re.match(r'^(?:Ÿ\s*|[•●▪]\s*|[-*]\s+)', line))
+        line = re.sub(r'^(?:Ÿ\s*|[•●▪]\s*|[-*]\s+)', '', line).strip()
+        if not line:
+            flush()
+            continue
+        if line in titles:
+            flush()
+            # Only adjacent, exact metadata headings; never deduplicate instructions.
+            if not blocks or blocks[-1] != line:
+                blocks.append(line)
+            continue
+        if bullet:
+            flush()
+        current.append(line)
+        if re.search(r'[.!?。！？]$', line):
+            flush()
+    flush()
+    return blocks
+
+
 def source_anchor(index, group_key):
     return 'source-' + hashlib.sha256(f'{index}:{group_key}'.encode()).hexdigest()[:20]
 
@@ -75,6 +110,11 @@ def render_answer(answer, hits, index, source_view, *, on_review=None, checklist
         st.markdown('\n'.join(rows))
     else:
         for number, statement in enumerate(answer.statements, 1):
+            if getattr(answer, 'answer_kind', None) == 'evidence_only':
+                headings = [chunks[e.chunk_id].section for e in statement.evidence]
+                for block in fallback_display(statement.text, headings):
+                    st.markdown('- ' + escape(block) + ' ' + references(statement))
+                continue
             prefix = f'{number}. ' if answer.format == 'steps' else ('- ' if answer.format == 'bullets' else '')
             st.markdown(prefix + escape(statement.text) + ' ' + references(statement))
 
