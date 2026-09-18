@@ -121,6 +121,9 @@ def validate_answer(raw, hits, trace=None):
             if not {normalize(n) for n in re.findall(quantities, content)}.issubset(source_quantities):
                 raise ValueError("unit")
             sentences = sentence_evidence(statement.text, statement.evidence, sources)
+            if not sentences:
+                from mvp.answer_normalization import normalized_evidence
+                sentences = normalized_evidence(statement.text, statement.evidence, sources)
             if not sentences or (statement.label and not any(statement.label in quote for quote in quotes)):
                 raise ValueError('unsupported sentence')
             for sentence, evidence in sentences:
