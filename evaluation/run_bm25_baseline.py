@@ -104,7 +104,7 @@ def code_settings():
                            context_limits_broad_normal=limits['max_hits']), temperature=temperature)
 
 
-def prepare(*, output=OUTPUT):
+def prepare(*, output=OUTPUT, expected_branch='lagom-bm25'):
     cases = load_cases()
     settings = load_settings(use_streamlit=False)
     catalog = (settings.library_dir / 'catalog.sqlite3').resolve()
@@ -119,8 +119,8 @@ def prepare(*, output=OUTPUT):
     except GuideError:
         blockers.append('Current LLM configuration is not ready; no model/provider override is made.')
     branch = git_value('branch', '--show-current')
-    if branch != 'lagom-bm25':
-        blockers.append('Current branch must be lagom-bm25; branch is not changed automatically.')
+    if branch != expected_branch:
+        blockers.append(f'Current branch must be {expected_branch}; branch is not changed automatically.')
     secrets_paths = [ROOT / '.streamlit' / 'secrets.toml', Path.home() / '.streamlit' / 'secrets.toml']
     if any(p.exists() for p in secrets_paths):
         blockers.append('Streamlit secrets exist: verify CLI/server configuration parity before this CLI baseline.')

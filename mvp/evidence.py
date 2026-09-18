@@ -85,6 +85,57 @@ def citation_section(chunk, quotes):
     return next(iter(sections)) if len(sections) == 1 else ''
 
 
+def complete_subset(plan, hits, relevant):
+    """좁은 사실 질문에서만 완전한 부모들로 독립적인 근거 집합을 구성합니다.
+
+    불완전 청크의 flag를 고치거나 부분 부모를 완전하다고 간주하지 않습니다.
+    절차·종합·예외 등 범위를 확정할 수 없는 요청은 기존 차단을 유지합니다.
+    """
+    from mvp.grounding import explicit_conflicts
+
+    current = plan.query.split(' / 추가 질문: ')[-1]
+    if plan.kind != 'fact' or re.search(r'전체|모든|전부|처음부터|끝까지|예외|조건', current):
+        return None
+    if explicit_conflicts(relevant):
+        return None
+
+    def parent_key(hit):
+        return hit.chunk.document_id, hit.chunk.parent_id or hit.chunk.id
+
+    incomplete = {parent_key(h) for h in hits if not h.context_complete}
+    leading = next((h for h in relevant if not h.context_only), None)
+    if leading is None or parent_key(leading) in incomplete:
+        return None
+    complete = [h for h in hits if parent_key(h) not in incomplete]
+    if not complete:
+        return None
+    # 재귀 입력에는 불완전 부모가 없으므로 한 번만 재검사합니다.
+    # 기존 주제·요청 항목·entity·문서 수 검사를 모두 통과해야 합니다.
+    assessment = assess_evidence(plan, complete)
+    if not assessment.sufficient:
+        return None
+    # '언제'는 기존 ASPECTS의 주기 질문 정규식에 포함되지 않습니다.
+    # 이 대체 경로에서는 시간 근거 없이 일반 안내만으로 통과시키지 않습니다.
+    bodies = '\n'.join(h.chunk.text for h in assessment.hits)
+    if '언제' in current and not re.search(r'\d+\s*(?:시간|분|초|일)|매일|매주', bodies):
+        return None
+    # 빠진 부모에만 있던 질문의 명시적 내용은 생략하지 않습니다.
+    # 기존 terms/term_matches를 사용하며 새 유사도 임계값은 도입하지 않습니다.
+    words = [w for w in terms(current) if w not in GENERIC]
+    supported = {w for w in words if any(term_matches(w, h.chunk.text) for h in relevant)}
+    retained = {w for w in words if any(term_matches(w, h.chunk.text) for h in assessment.hits)}
+    if not supported or not supported.issubset(retained):
+        return None
+    # 질문 내용이 동일하게 집중된 부모는 부가 근거라고 단정하지 않습니다.
+    # 서로 다른 부모의 조건·수치가 충돌할 가능성이 있으면 거절을 유지합니다.
+    for parent in incomplete:
+        parent_hits = [h for h in relevant if parent_key(h) == parent]
+        parent_words = {w for w in words if any(term_matches(w, h.chunk.text) for h in parent_hits)}
+        if not parent_words < retained:
+            return None
+    return assessment
+
+
 def assess_evidence(plan, hits):
     if plan.domain == 'out_of_scope' or plan.clarification:
         return EvidenceAssessment(False, reason='domain_or_clarification')
@@ -96,6 +147,9 @@ def assess_evidence(plan, hits):
     if not seeds:
         return EvidenceAssessment(False, reason='no_topic_evidence')
     if any(not h.context_complete for h in relevant):
+        assessment = complete_subset(plan, hits, relevant)
+        if assessment is not None:
+            return assessment
         return EvidenceAssessment(False, tuple(relevant), 'incomplete_semantic_block')
     bodies = '\n'.join(h.chunk.text for h in relevant)
     current = plan.query.split(' / 추가 질문: ')[-1]
