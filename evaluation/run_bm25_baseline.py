@@ -23,6 +23,7 @@ sys.path.insert(0, str(ROOT))
 from mvp import ai, library, query, retrieval
 from mvp.evaluate import load_local_index
 from mvp.settings import MODEL, GuideError, load_settings
+from evaluation import evaluation_quota
 
 
 def sha256(path):
@@ -213,7 +214,7 @@ def run_case(case, settings, scoped, model, quota):
     return row
 
 
-def run_baseline(settings, cases, scoped, metadata, *, output=OUTPUT):
+def run_baseline(settings, cases, scoped, metadata, *, output=OUTPUT, usage_db=None):
     if not metadata['ready']:
         raise ValueError('Preflight is blocked.')
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -226,9 +227,12 @@ def run_baseline(settings, cases, scoped, metadata, *, output=OUTPUT):
     try:
         if output.exists():
             raise ValueError('Existing baseline must be preserved.')
+        quota_report = evaluation_quota.preflight(settings, len(cases), usage_db)
+        print(json.dumps({'quota_preflight': quota_report}, ensure_ascii=False, indent=2))
         model = library.Embedder()
-        quota = ai.Quota(runtime / 'usage.sqlite3')
+        quota = ai.Quota(Path(quota_report['quota_db']))
         report = {**metadata, 'evaluation_date': datetime.now(timezone.utc).isoformat(),
+                  'quota_scope': quota_report['quota_db'], 'quota_preflight': quota_report,
                   'run_complete': False, 'results': []}
         for case in cases:
             report['results'].append(run_case(case, settings, scoped, model, quota))
@@ -252,15 +256,18 @@ def main(argv=None):
     group = parser.add_mutually_exclusive_group()
     group.add_argument('--run', action='store_true', help='Explicitly run all 10 cases and preserve actual results.')
     group.add_argument('--preflight', action='store_true', help='Read-only readiness report (default).')
+    parser.add_argument('--usage-db', help='Evaluation .sqlite3 path inside evaluation/.runtime.')
     args = parser.parse_args(argv)
     try:
         settings, cases, scoped, metadata = prepare()
+        if metadata['ready']:
+            metadata['quota_preflight'] = evaluation_quota.preflight(settings, len(cases), args.usage_db)
         print(json.dumps(metadata, ensure_ascii=False, indent=2))
         if not args.run:
             return 0
         if not metadata['ready']:
             return 2
-        return run_baseline(settings, cases, scoped, metadata)
+        return run_baseline(settings, cases, scoped, metadata, usage_db=args.usage_db)
     except (ValueError, OSError, GuideError, sqlite3.Error) as exc:
         print('Baseline preparation failed: ' + type(exc).__name__, file=sys.stderr)
         return 2
