@@ -1,0 +1,221 @@
+{
+  "schema_version": 1,
+  "case_id": "TF027",
+  "source_checklist_sha256": "c80d5a518d79da15bcaea6e899cd53c4485e0fc1e326f8a92b191bcb5d03fae7",
+  "local_only": true,
+  "automatic_image_interpretation": false,
+  "review_status": "rejected",
+  "needs_human_review": true,
+  "production_gold_approved": false,
+  "included_in_aggregate": false,
+  "vision_api_calls": 0,
+  "raw_image_stored": false,
+  "source_reference": {
+    "document_id": "evaluation-catalog-reference-only",
+    "page": 11,
+    "figure_candidates": [
+      {
+        "figure_id": "fig-a3de06c6a8afbcaf32a4",
+        "bbox": [
+          91.63,
+          148.64,
+          490.3,
+          283.97
+        ],
+        "fingerprint": "62fb4214289aa09f3851d35eaa5aa04eeb9d7fa14c8027f646b5c33e07f06b1d"
+      },
+      {
+        "figure_id": "fig-dd7d9d8be17542381e0c",
+        "bbox": [
+          91.75,
+          309.26,
+          488.86,
+          393.89
+        ],
+        "fingerprint": "1a417318e006464bbbfd36b9e9a78ee110701faa9e531ad0463b2578dcc13f30"
+      },
+      {
+        "figure_id": "fig-b4de886ef494db24e5b0",
+        "bbox": [
+          100.39,
+          406.6,
+          480.58,
+          522.15
+        ],
+        "fingerprint": "dca13caa2d87389311b46a6f847289cf223df4fcc419e111fd3d05a5868ace3a"
+      },
+      {
+        "figure_id": "fig-8d570347332d5c516ec4",
+        "bbox": [
+          102.31,
+          551.4,
+          478.54,
+          623.92
+        ],
+        "fingerprint": "21a39b200d3413ab5f1b56db21a06e94321d8cd8b96e19afe52c7105a82e909d"
+      },
+      {
+        "figure_id": "fig-ce596a69934665e7bc7b",
+        "bbox": [
+          177.38,
+          629.19,
+          403.7,
+          762.85
+        ],
+        "fingerprint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "figure_id": "fig-b2be95c8da9112e4a62e",
+        "bbox": [
+          244.79,
+          319.33,
+          595.0,
+          603.18
+        ],
+        "fingerprint": "2ffc47a2367b488e1ea41fc299daf26755f274835351663fa88bf38e8ed6fbde"
+      },
+      {
+        "figure_id": "fig-64f019ddbc13b51837b8",
+        "bbox": [
+          328.74,
+          0.0,
+          595.0,
+          327.12
+        ],
+        "fingerprint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  "checks": [
+    {
+      "check_id": "figure_boundary",
+      "status": "confirmed",
+      "reviewed_value": "원본 page 11의 '3) 혈액 신청 및 수령' 관련 figure는 전체적으로 보이며 큰 잘림은 없다. 다만 하나의 단일 figure라기보다 여러 개의 EMR 화면 예시가 순서대로 배치된 구성이다.",
+      "note": "개별 후보 bbox는 일부 중복되거나 묶음 형태로 보인다."
+    },
+    {
+      "check_id": "start_and_end_nodes",
+      "status": "confirmed",
+      "reviewed_value": "시작 node: 혈액 신청\n종료 node: 혈액불출요청서 출력 후 혈액은행에서 혈액 수령",
+      "note": "종료 지점은 하단 설명문 기준으로 확인했다."
+    },
+    {
+      "check_id": "node_labels",
+      "status": "confirmed",
+      "reviewed_value": "혈액 신청\n불출신청 내역의 상태가 '준비완료'로 변경\n혈액 준비 완료\nNurse main 혈액방울 표시\n혈액관리 - 불출신청 내역 - 상태 '준비완료'로 변경\n혈액불출요청서 출력\n혈액은행에서 혈액 수령",
+      "note": "EMR 내부의 아주 작은 버튼명/세부 라벨은 일부 판독이 어렵지만, 주변 설명문으로 주요 node는 확인 가능하다."
+    },
+    {
+      "check_id": "arrow_direction_and_connections",
+      "status": "confirmed",
+      "reviewed_value": "혈액 신청 -> 불출신청 내역 상태 '준비완료' 변경\n불출신청 내역 상태 '준비완료' -> 혈액 준비 완료 확인\n혈액 준비 완료 확인 -> Nurse main 혈액방울 표시 확인\nNurse main 혈액방울 표시 확인 -> 혈액관리 - 불출신청 내역 상태 '준비완료' 확인\n혈액관리 - 불출신청 내역 상태 '준비완료' 확인 -> 혈액불출요청서 출력\n혈액불출요청서 출력 -> 혈액은행에서 혈액 수령",
+      "note": "화살표는 각 캡처 이미지와 설명문을 따라 위에서 아래 순서로 해석했다."
+    },
+    {
+      "check_id": "decision_branch_conditions",
+      "status": "uncertain",
+      "reviewed_value": "명확한 Yes/No 분기 화살표는 보이지 않는다. 다만 '환자 체온 측정 후 이상 없을 시'라는 진행 조건이 제시되어 있다.",
+      "note": "명시적 branch diagram이라기보다 절차 설명형 figure에 가깝다."
+    },
+    {
+      "check_id": "workflow_order",
+      "status": "confirmed",
+      "reviewed_value": "1. 혈액 신청\n2. 혈액 신청 완료 후 불출신청 내역 상태가 '준비완료'로 변경됨\n3. 혈액 준비 완료 확인\n4. Nurse main에서 혈액방울 표시 확인\n5. 혈액관리 - 불출신청 내역에서 상태 '준비완료' 확인\n6. 환자 체온 측정 후 이상 없으면 혈액불출요청서 출력\n7. 혈액은행에서 혈액 수령",
+      "note": "하단 혈액불출요청서 예시는 수령 직전 단계의 출력물 예시로 보인다."
+    },
+    {
+      "check_id": "numbers_units_and_times",
+      "status": "confirmed",
+      "reviewed_value": "임상적으로 핵심이 되는 숫자, 단위, 시간, 용량은 figure의 핵심 workflow 정보로 명확히 제시되어 있지 않다.",
+      "note": "EMR 표 내부에 날짜/시각처럼 보이는 작은 숫자는 있으나 workflow 핵심 근거로 사용하기에는 판독성이 낮다."
+    },
+    {
+      "check_id": "caption_nearby_text_relationship",
+      "status": "confirmed",
+      "reviewed_value": "캡션/주변 본문은 '3) 혈액 신청 및 수령' 절차를 설명하고 있으며, figure는 혈액 신청 -> 준비완료 확인 -> 혈액불출요청서 출력 -> 혈액 수령의 흐름을 보여주는 EMR 화면 예시이다.",
+      "note": "주변 설명문이 figure 해석의 핵심 근거 역할을 한다."
+    },
+    {
+      "check_id": "illegible_or_occluded_elements",
+      "status": "uncertain",
+      "reviewed_value": "큰 흐름은 확인 가능하지만, 일부 EMR 내부의 작은 글씨와 세부 버튼명은 확대 없이 정확한 판독이 어렵다.",
+      "note": "workflow의 대의는 확인 가능하나 production image gold로 쓰기에는 세부 판독 불확실성이 남아 있다."
+    },
+    {
+      "check_id": "production_gold_approval",
+      "status": "uncertain",
+      "reviewed_value": "workflow의 큰 흐름은 확인 가능하지만, 작은 EMR 텍스트와 세부 node/branch의 판독 불확실성이 남아 있어 현재 단계에서는 Production image Gold 승인 요청보다는 제외가 안전하다.",
+      "note": "v1.0에서는 image case를 production gold에서 제외하는 판단이 적절하다."
+    }
+  ],
+  "structured_result": {
+    "selected_figure_ids": [
+      "fig-a3de06c6a8afbcaf32a4",
+      "fig-dd7d9d8be17542381e0c",
+      "fig-b4de886ef494db24e5b0",
+      "fig-8d570347332d5c516ec4",
+      "fig-ce596a69934665e7bc7b"
+    ],
+    "nodes": [
+      "혈액 신청",
+      "불출신청 내역 상태 '준비완료'",
+      "혈액 준비 완료",
+      "Nurse main 혈액방울 표시",
+      "혈액관리 - 불출신청 내역 상태 '준비완료'",
+      "혈액불출요청서 출력",
+      "혈액은행에서 혈액 수령"
+    ],
+    "edges": [
+      "혈액 신청 -> 불출신청 내역 상태 '준비완료'",
+      "불출신청 내역 상태 '준비완료' -> 혈액 준비 완료",
+      "혈액 준비 완료 -> Nurse main 혈액방울 표시",
+      "Nurse main 혈액방울 표시 -> 혈액관리 - 불출신청 내역 상태 '준비완료'",
+      "혈액관리 - 불출신청 내역 상태 '준비완료' -> 혈액불출요청서 출력",
+      "혈액불출요청서 출력 -> 혈액은행에서 혈액 수령"
+    ],
+    "branches": [
+      "환자 체온 측정 후 이상 없을 시 -> 혈액불출요청서 출력 및 혈액 수령 진행",
+      "명시적인 Yes/No 분기 화살표는 확인되지 않음"
+    ],
+    "sequence": [
+      "1. 혈액 신청",
+      "2. 불출신청 내역 상태 '준비완료' 확인",
+      "3. 혈액 준비 완료 확인",
+      "4. Nurse main 혈액방울 표시 확인",
+      "5. 혈액관리 - 불출신청 내역 상태 '준비완료' 확인",
+      "6. 혈액불출요청서 출력",
+      "7. 혈액은행에서 혈액 수령"
+    ],
+    "numbers": [
+      "명확히 확정 가능한 핵심 숫자 없음"
+    ],
+    "units": [
+      "명확히 확정 가능한 핵심 단위 없음"
+    ],
+    "times": [
+      "명확히 확정 가능한 핵심 시간 없음"
+    ],
+    "caption_relation": "주변 본문은 '3) 혈액 신청 및 수령' 절차를 설명하며, 각 figure는 EMR 화면 예시로서 혈액 신청부터 준비완료 확인, 요청서 출력, 혈액 수령까지의 순서를 보조 설명한다.",
+    "uncertainties": [
+      "일부 EMR 내부 작은 글씨, 버튼명, 세부 branch는 확대 없이 정확 판독이 어렵다. 따라서 production image gold로 직접 승인하기보다는 v1.0 범위에서 제외하는 것이 안전하다."
+    ]
+  },
+  "reviewers": {
+    "reviewer_1": "뽀",
+    "reviewer_1_reviewed_at": "2026-09-18T14:56:42+09:00",
+    "reviewer_1_approved": true,
+    "second_review_required": true,
+    "reviewer_2": "",
+    "reviewer_2_reviewed_at": "",
+    "reviewer_2_approved": false
+  },
+  "approval_decision": "reject",
+  "approval_blockers": [
+    "unresolved_uncertainty",
+    "uncertain:decision_branch_conditions",
+    "uncertain:illegible_or_occluded_elements",
+    "uncertain:production_gold_approval",
+    "reviewer_2_approval_missing",
+    "explicit_approval_missing"
+  ]
+}

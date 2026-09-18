@@ -1,0 +1,21 @@
+{
+  "provider": "groq",
+  "model": "openai/gpt-oss-20b",
+  "session_synthetic_actual_calls": 4,
+  "session_real_actual_calls": 1,
+  "real_case_ids": [
+    "UAT-S01"
+  ],
+  "real_subset_planned_count": 5,
+  "real_subset_completed_count": 1,
+  "full_approved_expansion_started": false,
+  "approved_case_count": 21,
+  "deferred_case_calls": 0,
+  "image_case_calls": 0,
+  "abstention_provider_calls": 0,
+  "stop_reason": "critical_fact_preservation",
+  "stopped_case_id": "UAT-S01",
+  "raw_request_persisted": false,
+  "raw_response_persisted": false,
+  "credential_persisted": false
+}

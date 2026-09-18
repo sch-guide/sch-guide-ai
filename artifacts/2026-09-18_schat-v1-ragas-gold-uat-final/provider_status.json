@@ -1,0 +1,12 @@
+{
+  "live_allowed": false,
+  "decision": "E",
+  "reason": "external_transfer_approval_missing",
+  "credential_presence": {
+    "groq": false,
+    "gemini": false
+  },
+  "actual_provider_calls": 0,
+  "hospital_evidence_transfer_approved": false,
+  "provider_policy_approved": false
+}

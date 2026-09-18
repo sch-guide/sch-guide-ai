@@ -1,0 +1,18 @@
+{
+  "focused": {
+    "passed": 168,
+    "warnings": 4,
+    "status": "pass"
+  },
+  "full_pytest": {
+    "passed": 577,
+    "skipped": 4,
+    "warnings": 9,
+    "status": "pass"
+  },
+  "ruff": "pass",
+  "git_diff_check": "pass",
+  "generation_api_calls": 0,
+  "vision_api_calls": 0,
+  "llm_judge_calls": 0
+}

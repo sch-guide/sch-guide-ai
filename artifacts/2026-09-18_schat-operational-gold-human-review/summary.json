@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "baseline_recovery_tag": "v0.9",
+  "candidate_version": "v1.0-rc1",
+  "review_target_count": 32,
+  "approved_count": 0,
+  "remaining_count": 32,
+  "automatic_gold_assignment": false,
+  "reviewed_fixture_created_on_explicit_save_only": true,
+  "actual_external_calls": 0,
+  "production_retrieval_changes": 0,
+  "production_generation_changes": 0
+}

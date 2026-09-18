@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><title>SCHAT v1.0 Groq Live 검증</title>
+<style>body{font-family:system-ui,sans-serif;max-width:960px;margin:auto;padding:32px;color:#17324d;line-height:1.55}table{border-collapse:collapse;width:100%}th,td{border:1px solid #ccd8e0;padding:8px;text-align:left}th{background:#eaf3f8}.stop{color:#a13b25}.ok{color:#087830}</style></head>
+<body>
+<h1>SCHAT v1.0 Groq Live 검증</h1>
+<p class="stop"><strong>대표 subset 첫 case에서 안전 검증이 중단되었습니다.</strong></p>
+<table><tbody>
+<tr><th>Provider / model</th><td>Groq / openai/gpt-oss-20b</td></tr>
+<tr><th>실제 synthetic 호출</th><td>4회</td></tr>
+<tr><th>실제 병원 evidence 호출</th><td>1회 (UAT-S01)</td></tr>
+<tr><th>중단 사유</th><td>critical_fact_preservation</td></tr>
+<tr><th>Schema / citation</th><td class="ok">PASS / PASS</td></tr>
+<tr><th>숫자·단위·시간·조건·부정</th><td class="ok">모두 PASS</td></tr>
+<tr><th>Raw prompt/response 저장</th><td>0건</td></tr>
+<tr><th>전체 21건 확대</th><td>실행하지 않음</td></tr>
+</tbody></table>
+<p>생성 문장의 핵심 사실 보존을 확정할 수 없어 fail closed했습니다. 추가 provider 호출과 production 변경은 수행하지 않았습니다.</p>
+</body></html>

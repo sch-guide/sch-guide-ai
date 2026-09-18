@@ -135,6 +135,25 @@ def test_prompt_assigns_selection_not_answerability_and_has_safety_contract():
     assert units[0].exact_text in prompt
 
 
+def test_prompt_contract_limits_phase_and_preserves_source_order():
+    units = (
+        unit('su001', '먼저 동의서를 확인한다.', order=1, phase='before'),
+        unit('su002', '다음으로 물품을 준비한다.', order=2, phase='before'),
+    )
+
+    prompt = build_controlled_generation_prompt(
+        units,
+        intent='preparation',
+        requested_phase='before',
+        preserve_source_order=True,
+    )
+
+    assert 'Requested workflow phase: before' in prompt
+    assert 'SourceUnit order' in prompt
+    assert 'during or after' in prompt
+    assert 'Do not write list numbers or step labels inside statement text' in prompt
+
+
 @pytest.mark.parametrize(
     ('candidate', 'reason'),
     [
@@ -185,3 +204,257 @@ def test_controlled_decision_keeps_valid_paraphrase_pending_without_semantic_pro
     assert 'semantic_support_verified' not in inspect.signature(
         decide_controlled_generation
     ).parameters
+
+
+def test_source_and_citation_ids_are_not_clinical_numeric_input():
+    units = (
+        unit('su001', 'Observe continuously.'),
+        unit('su002', 'Record the result.', order=2),
+    )
+
+    result = validate_controlled_paraphrase(
+        payload(
+            statement('Observe continuously.', 'su001'),
+            statement('Record the result.', 'su002'),
+        ),
+        units,
+        intent='procedure',
+    )
+
+    assert result.covered_source_unit_ids == ('su001', 'su002')
+
+
+@pytest.mark.parametrize('unsupported', ['15 minutes', '50 mL/hr'])
+def test_actual_unsupported_clinical_number_or_unit_still_fails(unsupported):
+    units = (unit('su001', 'Observe continuously.'),)
+
+    with pytest.raises(ControlledGenerationError, match='unsupported_number_or_unit'):
+        validate_controlled_paraphrase(
+            payload(statement(f'Observe continuously for {unsupported}.', 'su001')),
+            units,
+            intent='procedure',
+        )
+
+
+def test_supported_clinical_number_and_unit_still_pass():
+    units = (unit('su001', 'Observe for 15 minutes at 50 mL/hr.'),)
+
+    result = validate_controlled_paraphrase(
+        payload(statement('Observe for 15 minutes at 50 mL/hr.', 'su001')),
+        units,
+        intent='procedure',
+    )
+
+    assert result.covered_source_unit_ids == ('su001',)
+
+
+@pytest.mark.parametrize(
+    'marker',
+    [
+        '3. ',
+        '3.',
+        '3) ',
+        '3)',
+        '(3) ',
+        '(3)',
+        '3단계: ',
+        '3단계:',
+        'Step 3: ',
+        'Step 3:',
+        '단계 3: ',
+        '단계 3:',
+    ],
+)
+def test_presentation_order_marker_is_not_a_clinical_number(marker):
+    units = (unit('su001', '환자와 혈액제제를 확인한다.'),)
+
+    result = validate_controlled_paraphrase(
+        payload(
+            statement(
+                f'{marker}환자와 혈액제제를 확인한다.',
+                'su001',
+            )
+        ),
+        units,
+        intent='preparation',
+    )
+
+    assert result.covered_source_unit_ids == ('su001',)
+
+
+def test_presentation_order_is_separate_from_clinical_statement_text():
+    units = (unit('su001', '수혈 전 검사를 확인한다.'),)
+
+    result = validate_controlled_paraphrase(
+        payload(statement('Step 3: 수혈 전 검사를 확인한다.', 'su001')),
+        units,
+        intent='preparation',
+    )
+
+    assert result.statements[0].step_order == 3
+    assert result.statements[0].text == '수혈 전 검사를 확인한다.'
+
+
+@pytest.mark.parametrize('marker', ['1~8단계:', '1-8 단계:', '1–8단계:'])
+def test_leading_workflow_step_range_is_not_a_clinical_number(marker):
+    units = (unit('su001', '수혈 전 준비 절차를 시행한다.'),)
+
+    result = validate_controlled_paraphrase(
+        payload(statement(f'{marker} 수혈 전 준비 절차를 시행한다.', 'su001')),
+        units,
+        intent='preparation',
+    )
+
+    assert result.covered_source_unit_ids == ('su001',)
+
+
+@pytest.mark.parametrize(
+    'clinical_value',
+    ['2인', '1회', '15분', '50 mL/hr', '1~6℃'],
+)
+def test_clinical_number_or_unit_is_still_checked_after_list_marker_projection(
+    clinical_value,
+):
+    units = (unit('su001', '환자를 확인한다.'),)
+
+    with pytest.raises(ControlledGenerationError, match='unsupported_number_or_unit'):
+        validate_controlled_paraphrase(
+            payload(
+                statement(
+                    f'1. 환자를 {clinical_value} 기준으로 확인한다.',
+                    'su001',
+                )
+            ),
+            units,
+            intent='preparation',
+        )
+
+
+@pytest.mark.parametrize(
+    'clinical_value',
+    ['2인', '1회', '15분', '50 mL/hr', '1~6℃'],
+)
+def test_supported_clinical_number_or_unit_remains_in_validation(clinical_value):
+    units = (unit('su001', f'임상 기준은 {clinical_value}이다.'),)
+
+    result = validate_controlled_paraphrase(
+        payload(statement(f'3. 임상 기준은 {clinical_value}이다.', 'su001')),
+        units,
+        intent='preparation',
+    )
+
+    assert result.covered_source_unit_ids == ('su001',)
+
+
+@pytest.mark.parametrize(
+    ('source_value', 'candidate_value'),
+    [
+        ('18 Gage', '18 G'),
+        ('50 mL/hr', '50 ml/hour'),
+        ('1~8 mL', '1-8 ml'),
+        ('1~8 mL', '1–8 mL'),
+    ],
+)
+def test_equivalent_clinical_unit_and_range_spellings_pass(
+    source_value, candidate_value
+):
+    units = (unit('su001', f'유속 또는 범위는 {source_value}이다.'),)
+
+    result = validate_controlled_paraphrase(
+        payload(
+            statement(
+                f'유속 또는 범위는 {candidate_value}이다.',
+                'su001',
+            )
+        ),
+        units,
+        intent='preparation',
+    )
+
+    assert result.covered_source_unit_ids == ('su001',)
+
+
+def test_different_rate_denominator_still_fails():
+    units = (unit('su001', '유속은 50 mL/hr이다.'),)
+
+    with pytest.raises(ControlledGenerationError, match='unsupported_number_or_unit'):
+        validate_controlled_paraphrase(
+            payload(statement('유속은 50 mL/min이다.', 'su001')),
+            units,
+            intent='preparation',
+        )
+
+
+def test_equivalent_korean_condition_endings_do_not_trigger_condition_changed():
+    units = (
+        unit(
+            'su001',
+            '환자 체온 측정 후 이상 없을 시 혈액불출요청서를 출력한다.',
+        ),
+    )
+
+    result = validate_controlled_paraphrase(
+        payload(
+            statement(
+                '환자 체온 측정 후 이상 없으면 혈액불출요청서를 출력한다.',
+                'su001',
+            )
+        ),
+        units,
+        intent='preparation',
+    )
+
+    assert result.covered_source_unit_ids == ('su001',)
+
+
+@pytest.mark.parametrize(
+    ('source', 'candidate', 'reason'),
+    [
+        (
+            '환자 상태를 확인한다.',
+            '환자 상태가 정상이면 확인한다.',
+            'condition_changed',
+        ),
+        (
+            '환자 상태가 정상이면 확인한다.',
+            '환자 상태를 확인한다.',
+            'condition_changed',
+        ),
+        (
+            '환자가 성인인 경우 시행한다.',
+            '환자가 성인이 아닌 경우 시행한다.',
+            'negation_changed',
+        ),
+        (
+            '응급인 경우 시행하되, 임신부는 제외한다.',
+            '응급인 경우 시행한다.',
+            'condition_changed',
+        ),
+        (
+            '15분 이상이면 중단한다.',
+            '20분 이상이면 중단한다.',
+            'unsupported_number_or_unit',
+        ),
+        (
+            '성인인 경우 시행한다.',
+            '소아인 경우 시행한다.',
+            'condition_changed',
+        ),
+        (
+            '2개 이상이면 시행한다.',
+            '3개 이상이면 시행한다.',
+            'unsupported_number_or_unit',
+        ),
+    ],
+)
+def test_condition_safety_still_rejects_added_removed_or_changed_constraints(
+    source, candidate, reason
+):
+    units = (unit('su001', source),)
+
+    with pytest.raises(ControlledGenerationError, match=reason):
+        validate_controlled_paraphrase(
+            payload(statement(candidate, 'su001')),
+            units,
+            intent='procedure',
+        )

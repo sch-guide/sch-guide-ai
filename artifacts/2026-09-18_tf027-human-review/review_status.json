@@ -1,0 +1,15 @@
+{
+  "case_id": "TF027",
+  "review_status": "unreviewed",
+  "confirmed_count": 0,
+  "uncertain_count": 0,
+  "unreviewed_count": 10,
+  "reviewer_1_completed": false,
+  "reviewer_2_completed": false,
+  "needs_human_review": true,
+  "production_gold_approved": false,
+  "included_in_aggregate": false,
+  "vision_api_calls": 0,
+  "reviewed_fixture_created": false,
+  "raw_image_stored": false
+}

@@ -1,0 +1,18 @@
+{
+  "production_changed": false,
+  "production_vector_database": "not_integrated",
+  "definitions": {
+    "bm25": "lexical_retrieval",
+    "minilm": "embedding_model",
+    "e5_large": "evaluation_only_embedding_model",
+    "chromadb": "evaluation_vector_store_and_search_infrastructure",
+    "qdrant": "future_production_vector_database_candidate"
+  },
+  "future_comparison": [
+    "bm25_current",
+    "chroma_minilm",
+    "chroma_e5_large",
+    "hybrid"
+  ],
+  "comparison_contract": "same_approved_gold_same_chunks_same_top_k_same_metrics"
+}

@@ -1074,6 +1074,7 @@ def reconstruct_source_unit_answer(selection, units, plan, conflicts):
 
 def generate(settings, question, hits, user_id, quota=None, transport=None, plan=None, trace=None):
     from mvp.evidence import (
+        admitted_plan,
         assess_evidence,
         citation_section,
         procedure_answer_requirement,
@@ -1100,6 +1101,7 @@ def generate(settings, question, hits, user_id, quota=None, transport=None, plan
         )
     if not assessment.sufficient:
         return blocked('pre_llm:' + assessment.reason, [])
+    plan = admitted_plan(plan, assessment)
     hits = list(assessment.hits)
     for hit in hits:
         protect_private(hit.chunk.text)

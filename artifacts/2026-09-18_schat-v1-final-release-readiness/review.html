@@ -1,0 +1,15 @@
+<!doctype html><html lang="ko"><meta charset="utf-8">
+<title>SCHAT v1 최종 release readiness</title><style>
+body{font-family:system-ui;margin:36px;max-width:1080px;line-height:1.55}
+.stop{color:#a33b00}table{border-collapse:collapse}td,th{border:1px solid #ccd;padding:8px}
+</style><body><h1>SCHAT v1 최종 release readiness</h1>
+<p>판정: <strong>READY_EXCEPT_LIVE_RAGAS</strong></p>
+<h2>Gold</h2><p>승인 positive 21 · deferred
+11 · 승인 abstention 4</p>
+<h2>TF027</h2><p class="stop">READY_IMAGE_EXCLUDED_BY_HUMAN_DECISION · 확인
+10/10 · vision 호출 0회</p>
+<h2>Live RAGAS</h2><p class="stop">BLOCKED_BY_EXTERNAL_TRANSFER_APPROVAL · provider/LLM judge 호출 0회</p>
+<h2>Production</h2><p>BM25 + MiniLM semantic/vector + RRF + existing reranker 유지 ·
+ChromaDB/Qdrant production 미통합</p>
+<h2>사람이 해야 할 일</h2><ol><li>TF027 local review app에서 원본 도식을 검수</li>
+<li>외부 전송 정책 또는 외부 provider 미사용 결정을 명시</li></ol></body></html>

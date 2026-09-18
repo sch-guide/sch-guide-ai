@@ -2,7 +2,7 @@
 
 import re
 import unicodedata
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import Literal
 
 from mvp.library import INTENT_TERMS, anchors, clean, compatible, has_substantive_body, term_matches
@@ -153,6 +153,8 @@ class EvidenceAssessment:
     reason: str = ''
     groups: tuple[EvidenceGroup, ...] = ()
     procedure_coverage: PromptCoverage | None = None
+    admitted_domain: str = ''
+    admission_reason: str = ''
 
 
 def _branch(text):
@@ -397,9 +399,7 @@ def _procedure_seed(plan, hit):
     return relevant_body(plan, hit) or hit.lexical > 0 or hit.bm25_score > 0
 
 
-def assess_evidence(plan, hits, branch_by_chunk=None):
-    if plan.domain != 'hospital' or plan.clarification:
-        return EvidenceAssessment(False, reason='domain_or_clarification')
+def _assess_hospital_evidence(plan, hits, branch_by_chunk=None):
     preserved_branches = dict(branch_by_chunk or {})
     for group in evidence_groups(plan, hits, branch_by_chunk=preserved_branches):
         if group.branch == 'common':
@@ -508,6 +508,125 @@ def assess_evidence(plan, hits, branch_by_chunk=None):
     if len(docs) < plan.min_documents or not set(plan.document_ids).issubset(docs):
         return EvidenceAssessment(False, tuple(relevant), 'missing_document', groups, coverage)
     return EvidenceAssessment(True, tuple(relevant), 'supported', groups, coverage)
+
+
+_CONTEXT_REQUEST_ONLY = re.compile(
+    r'^(?:몇|언제|어떻게|얼마나|뭐부터|무엇부터|분마다|시간마다|'
+    r'내용만|핵심만|알려줘|알려주세요|정리해줘|설명해줘|'
+    r'확인해줘|체크해야|모니터링해|넣기|보기|받기|하기)$'
+)
+
+
+def _context_question_supported(plan, hits):
+    """Reject an explicit foreign subject even when a document is selected."""
+    from mvp.query import topic_words
+
+    words = tuple(topic_words(plan))
+    if not words:
+        return True
+    contexts = [
+        ' '.join((
+            hit.chunk.text,
+            hit.chunk.section,
+            hit.chunk.title,
+            hit.chunk.document_name,
+        ))
+        for hit in hits
+        if has_substantive_body(hit.chunk)
+    ]
+    if any(term_matches(word, context) for word in words for context in contexts):
+        return True
+    return all(_CONTEXT_REQUEST_ONLY.fullmatch(word) for word in words)
+
+
+def _scoped_context_eligible(plan, hits):
+    context_ids = tuple(getattr(plan, 'context_document_ids', ()))
+    if (
+        plan.clarification
+        or plan.domain == 'out_of_scope'
+        or len(context_ids) != 1
+        or not hits
+    ):
+        return False
+    scoped = set(context_ids)
+    return (
+        all(hit.chunk.document_id in scoped for hit in hits)
+        and any(has_substantive_body(hit.chunk) for hit in hits)
+        and _context_question_supported(plan, hits)
+    )
+
+
+def assess_evidence(plan, hits, branch_by_chunk=None):
+    """Validate evidence, admitting an explicit single-document scope only by evidence.
+
+    Document context improves query resolution but never overrides an explicit
+    out-of-scope decision. Unknown-domain questions must first pass the normal
+    topic checks; only structured clinical intents may fall back to the selected
+    document topic after that direct check returns ``no_topic_evidence``.
+    """
+    if plan.clarification or plan.domain == 'out_of_scope':
+        return EvidenceAssessment(False, reason='domain_or_clarification')
+
+    scoped = _scoped_context_eligible(plan, hits)
+    if plan.domain != 'hospital' and not scoped:
+        return EvidenceAssessment(False, reason='domain_or_clarification')
+
+    hospital_plan = plan if plan.domain == 'hospital' else replace(plan, domain='hospital')
+    direct = _assess_hospital_evidence(
+        hospital_plan, hits, branch_by_chunk=branch_by_chunk,
+    )
+    if direct.sufficient:
+        return replace(
+            direct,
+            admitted_domain='hospital',
+            admission_reason=(
+                'query_domain' if plan.domain == 'hospital'
+                else 'single_document_context_and_evidence'
+            ),
+        )
+
+    context_topics = tuple(getattr(plan, 'context_topics', ()))
+    contextual_kinds = {
+        'materials', 'preparation', 'cautions', 'purpose', 'procedure',
+        'comparison', 'summary', 'synthesis', 'release',
+    }
+    if (
+        direct.reason != 'no_topic_evidence'
+        or not scoped
+        or not context_topics
+        or plan.kind not in contextual_kinds
+    ):
+        return direct
+
+    contextual_plan = replace(
+        hospital_plan,
+        canonical_topics=(hospital_plan.canonical_topics or context_topics),
+    )
+    contextual = _assess_hospital_evidence(
+        contextual_plan, hits, branch_by_chunk=branch_by_chunk,
+    )
+    if not contextual.sufficient:
+        return contextual
+    return replace(
+        contextual,
+        admitted_domain='hospital',
+        admission_reason='single_document_context_and_evidence',
+    )
+
+
+def admitted_plan(plan, assessment):
+    """Carry a successful evidence-backed admission into later validation stages."""
+    if (
+        assessment.sufficient
+        and assessment.admitted_domain == 'hospital'
+        and plan.domain != 'hospital'
+    ):
+        return replace(
+            plan,
+            domain='hospital',
+            canonical_topics=(plan.canonical_topics or plan.context_topics),
+        )
+    return plan
 
 
 def source_sentences(text, *, join_wrapped_bullets=True):

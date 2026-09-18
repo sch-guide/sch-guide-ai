@@ -23,15 +23,44 @@ MAX_EVIDENCE_PER_STATEMENT = 4
 
 _NUMBER_UNIT = re.compile(
     r'(?<![\w.])\d+(?:[.,]\d+)?\s*'
-    r'(?:%|mg|mcg|μg|µg|g|kg|ml|mL|L|cc|단위|분|시간|초|일|회|번|℃|°C)?',
+    r'(?:(?:%|mcg|μg|µg|mg|kg|gage|gauge|g|ml|l|cc|단위|분|시간|초|일|회|번|℃|°c)'
+    r'(?:\s*/\s*(?:hours?|hrs?|hr|minutes?|mins?|min|시간|분))?)?',
     re.I,
 )
-_NEGATION = re.compile(r'않|아니|없|금지|말(?:고|아야|라)|해서는\s*안|하지\s*말')
+_PRESENTATION_ORDER_PREFIX = re.compile(
+    r'''^
+        \s*(?:[-*+]\s*)?
+        (?:
+            (?P<range>
+                \d{1,3}\s*[~\-–—]\s*\d{1,3}\s*(?:단계|steps?)\s*[:：]
+            )
+            |
+            \(\s*(?P<parenthesized>\d{1,3})\s*\)
+            |
+            (?:
+                (?:step|단계)\s*(?P<label_first>\d{1,3})
+                |
+                (?P<label_last>\d{1,3})\s*(?:단계|steps?)
+            )\s*[:：]
+            |
+            (?P<plain>\d{1,3})[.)](?!\d)
+        )
+        \s*
+    ''',
+    re.I | re.X,
+)
+_NEGATION = re.compile(
+    r'않|아니|아닌|없|금지|말(?:고|아야|라)|해서는\s*안|하지\s*말'
+)
 _CONDITION = re.compile(
-    r'경우|(?:으|이|하)면|다면|할\s*때|필요\s*시|'
+    r'경우|[가-힣]+(?:으|이|하|되)?면|다면|할\s*때|[가-힣]+\s*시|'
     r'\d+(?:[.,]\d+)?\s*(?:%|mg|mcg|μg|µg|g|kg|ml|mL|L|cc|단위|분|시간|초|일|회|번)?\s*'
     r'(?:이상|이하|초과|미만)',
     re.I,
+)
+_EXCEPTION = re.compile(r'제외|예외|다만|단\s*,')
+_CASE_TARGET = re.compile(
+    r'(?P<target>[가-힣A-Za-z0-9_-]+)(?:인|이\s*아닌)\s*경우'
 )
 
 
@@ -67,6 +96,15 @@ class ControlledCitation:
 class ValidatedControlledStatement:
     text: str
     citations: tuple[ControlledCitation, ...]
+    step_order: int | None = None
+
+
+@dataclass(frozen=True)
+class ClinicalStatementProjection:
+    """Separate presentation order from text subject to clinical invariants."""
+
+    text: str
+    step_order: int | None
 
 
 @dataclass(frozen=True)
@@ -122,15 +160,37 @@ def build_controlled_generation_schema(units: tuple[SourceUnit, ...]) -> dict:
 
 
 def build_controlled_generation_prompt(
-    units: tuple[SourceUnit, ...], *, intent: str
+    units: tuple[SourceUnit, ...],
+    *,
+    intent: str,
+    requested_phase: str = '',
+    preserve_source_order: bool = False,
 ) -> str:
     """Build an in-memory prompt for later Mock/provider evaluation only."""
     evidence = '\n'.join(
         f'{unit.source_unit_id}: {unit.exact_text}' for unit in units
     )
+    phase_contract = ''
+    if requested_phase and requested_phase != 'all':
+        phase_contract = (
+            f'Requested workflow phase: {requested_phase}. Use only that phase. '
+        )
+        if requested_phase == 'before':
+            phase_contract += (
+                'For before/preparation requests, do not add during or after actions. '
+            )
+    order_contract = ''
+    if preserve_source_order:
+        order_contract = (
+            'Keep action statements in ascending SourceUnit order. Do not reorder, '
+            'merge, or move workflow steps across SourceUnits. '
+        )
     return (
         'Rewrite only the verified evidence into concise Korean statements. '
         f'Intent: {intent}. Return text and supporting_source_unit_ids only. '
+        f'{phase_contract}{order_contract}'
+        'Do not write list numbers or step labels inside statement text; '
+        'statement order is carried separately by SourceUnit order. '
         'Every statement must cite request IDs. Preserve every number, unit, time, '
         'condition, negation, branch, and phase. Never mix adult and pediatric evidence '
         'or evidence from different phases in one statement. Add no clinical fact.\n'
@@ -138,16 +198,59 @@ def build_controlled_generation_prompt(
     )
 
 
+def _project_clinical_statement(text: str) -> ClinicalStatementProjection:
+    """Project a leading presentation marker away from clinical statement text."""
+    match = _PRESENTATION_ORDER_PREFIX.match(text)
+    if match is None:
+        return ClinicalStatementProjection(text=text, step_order=None)
+    order_value = next(
+        (
+            value
+            for value in (
+                match.group('parenthesized'),
+                match.group('label_first'),
+                match.group('label_last'),
+                match.group('plain'),
+            )
+            if value is not None
+        ),
+        None,
+    )
+    return ClinicalStatementProjection(
+        text=text[match.end():],
+        step_order=int(order_value) if order_value is not None else None,
+    )
+
+
+def _clinical_numeric_text(text: str) -> str:
+    return _project_clinical_statement(text).text
+
+
+def _normalize_numeric_token(token: str) -> str:
+    normalized = re.sub(r'\s+', '', token).casefold().replace(',', '')
+    normalized = re.sub(r'(?:gage|gauge)$', 'g', normalized)
+    normalized = re.sub(r'/(?:hours?|hrs?|hr|시간)$', '/hr', normalized)
+    normalized = re.sub(r'/(?:minutes?|mins?|min|분)$', '/min', normalized)
+    return normalized
+
+
 def _normalized_numeric_tokens(text: str) -> set[str]:
     return {
-        re.sub(r'\s+', '', match.group(0)).lower().replace(',', '')
-        for match in _NUMBER_UNIT.finditer(text)
+        _normalize_numeric_token(match.group(0))
+        for match in _NUMBER_UNIT.finditer(_clinical_numeric_text(text))
         if match.group(0).strip()
     }
 
 
 def _marker_state(pattern: re.Pattern[str], text: str) -> bool:
     return bool(pattern.search(text))
+
+
+def _condition_case_targets(text: str) -> set[str]:
+    return {
+        match.group('target').casefold()
+        for match in _CASE_TARGET.finditer(text)
+    }
 
 
 def validate_controlled_paraphrase(
@@ -195,12 +298,26 @@ def validate_controlled_paraphrase(
             raise ControlledGenerationError('negation_changed')
         if _marker_state(_CONDITION, candidate.text) != _marker_state(_CONDITION, source_text):
             raise ControlledGenerationError('condition_changed')
+        if _marker_state(_EXCEPTION, candidate.text) != _marker_state(_EXCEPTION, source_text):
+            raise ControlledGenerationError('condition_changed')
+        source_targets = _condition_case_targets(source_text)
+        candidate_targets = _condition_case_targets(candidate.text)
+        if source_targets or candidate_targets:
+            if source_targets != candidate_targets:
+                raise ControlledGenerationError('condition_changed')
 
         citations = tuple(
             ControlledCitation(unit.source_unit_id, unit.chunk_id, unit.exact_text)
             for unit in cited
         )
-        validated.append(ValidatedControlledStatement(candidate.text, citations))
+        projection = _project_clinical_statement(candidate.text)
+        validated.append(
+            ValidatedControlledStatement(
+                projection.text,
+                citations,
+                step_order=projection.step_order,
+            )
+        )
         covered.extend(identifiers)
 
     covered_ids = tuple(dict.fromkeys(covered))

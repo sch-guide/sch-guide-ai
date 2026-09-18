@@ -56,12 +56,24 @@ _QUERY_NOISE = {
     '안전하게', '봐야', '항목', '점은', '사항은', '것은', '하는', '방법',
     '어떤',
     '전체적으로', '전반적으로', '간단히', '설명해줘', '설명해주세요',
-    '정리해줘', '정리해주세요',
+    '정리해줘', '정리해주세요', '내용', '핵심', '핵심만',
 }
 _DOCUMENT_LABELS = {
     '지침', '지침서', '실무지침', '실무지침서', '간호지침', '간호실무지침', '간호실무지침서',
 }
 _TOPIC_ROLE_SUFFIXES = ('간호', '관리', '치료', '교육')
+
+
+def resolve_document_scope(documents, selected_document_id=''):
+    """Return authorized search IDs and explicit context IDs separately."""
+    available = tuple(dict.fromkeys(
+        str(document.get('id', '')) for document in documents
+        if str(document.get('id', ''))
+    ))
+    selected_document_id = str(selected_document_id or '')
+    if selected_document_id in available:
+        return (selected_document_id,), (selected_document_id,)
+    return available, ()
 
 
 @dataclass(frozen=True)
@@ -87,6 +99,8 @@ class QueryPlan:
     monitoring_action: str = ''
     evidence_types: tuple[str, ...] = ('text',)
     evidence_route_status: str = 'ready'
+    context_document_ids: tuple[str, ...] = ()
+    context_topics: tuple[str, ...] = ()
 
 
 MONITORING_ITEM_PATTERNS = {
@@ -291,7 +305,9 @@ def classify(question):
     phase = bool(re.search(r'사전|이전|전(?:에|에는|의|\s|$)', question))
     if (re.search(r'준비사항|체크\s*사항|확인\s*사항|뭘\s*준비|준비할\s*(?:것|항목)|'
                   r'(?:^|\s)(?:준비|확인)(?:\s|[?!,.]|$)', question)
-            or (phase and re.search(r'준비(?:할|해야|해)|확인(?:할|해야|해)', question))):
+            or (phase and re.search(
+                r'준비(?:할|해야|해)|확인(?:할|해야|해)|체크(?:할|해야|해)', question,
+            ))):
         return 'preparation'
     if re.search(r'목적|정의|이유|왜\s*(?:시행|수행|하|해|하는|필요)', question):
         return 'purpose'
@@ -311,7 +327,14 @@ def classify(question):
     return 'fact'
 
 
-def plan_query(question, previous='', follow_up=False, documents=(), previous_sources=()):
+def plan_query(
+    question,
+    previous='',
+    follow_up=False,
+    documents=(),
+    previous_sources=(),
+    context_document_ids=(),
+):
     # 개인정보 검사와 대화 길이 제한은 기존 공통 함수에서 수행합니다.
     corrected, corrections = correct_spelling(clean(unicodedata.normalize('NFKC', question)))
     auto = bool(re.match(r'^(그럼|그때|그것|이어서|추가로|아까|주의사항은|준비물은|해제 기준)', corrected))
@@ -353,12 +376,28 @@ def plan_query(question, previous='', follow_up=False, documents=(), previous_so
     domain = question_domain(query)
     if domain != 'out_of_scope' and canonical_topics:
         domain = 'hospital'
+    known_document_ids = {str(doc.get('id', '')) for doc in documents}
+    context_document_ids = tuple(dict.fromkeys(
+        str(document_id) for document_id in context_document_ids
+        if str(document_id) in known_document_ids
+    ))
+    context_documents = [
+        doc for doc in documents if str(doc.get('id', '')) in context_document_ids
+    ]
+    context_topics = (
+        _document_topics(context_documents) if len(context_document_ids) == 1 else ()
+    )
+    if context_topics and domain != 'out_of_scope':
+        expanded = clean(' '.join(dict.fromkeys(
+            (*context_topics, *expanded.split())
+        )))
     monitoring = _monitoring_qualifiers(query)
     evidence_route = route_evidence(query, kind=kind)
     return QueryPlan(question, query, expanded, kind, STYLE[kind], focus, tuple(chosen),
                      2 if reference_two or len(chosen) >= 2 else 1, tuple(anchors(query)), clarification,
                      corrections, 8 if broad else 6, 14 if broad else 12, domain, canonical_topics,
-                     *monitoring, evidence_route.candidates, evidence_route.status)
+                     *monitoring, evidence_route.candidates, evidence_route.status,
+                     context_document_ids, context_topics)
 
 
 def topic_words(plan):

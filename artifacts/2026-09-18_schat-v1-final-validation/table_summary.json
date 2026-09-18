@@ -1,0 +1,15 @@
+{
+  "status": "evaluation_only",
+  "record_count": 5,
+  "row_count": 38,
+  "extraction_modes": {
+    "catalog_row_fallback": 3,
+    "pdf_cells": 2
+  },
+  "approved_case_count": 5,
+  "hit_at_1": 0.4,
+  "hit_at_3": 1.0,
+  "hit_at_5": 1.0,
+  "hit_at_10": 1.0,
+  "recall_at_10": 1.0
+}

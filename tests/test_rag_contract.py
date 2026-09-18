@@ -13,7 +13,7 @@ from mvp.cloud import DatabaseError, StaffLibrary
 from mvp.cloud_repository import CloudRepository
 from mvp.context import expand_context
 from mvp.documents import PdfDocument, PdfPage
-from mvp.evidence import assess_evidence
+from mvp.evidence import admitted_plan, assess_evidence
 from mvp.library import DIMENSIONS, NO_GUIDELINE, Chunk, Hit, LocalLibrary, make_chunks
 from mvp.query import plan_query
 from mvp.settings import GuideError, Settings
@@ -52,6 +52,118 @@ def test_out_of_scope_never_searches_or_calls_llm(question):
 def test_fullwidth_question_normalization_and_offtopic_followup():
     assert plan_query('  ＰＣＮ　 세척  방법? ').entities == ('pcn',)
     assert plan_query('그럼 오늘 날씨는?', previous='PCN 교육 방법').domain == 'out_of_scope'
+
+
+def test_single_document_context_is_search_context_not_automatic_domain_admission():
+    documents = [{
+        'id': 'sedation',
+        'title': '진정간호',
+        'document_name': '실무지침서_진정간호.pdf',
+    }]
+
+    plan = plan_query(
+        '성인은 몇 분마다 모니터링해?',
+        documents=documents,
+        context_document_ids=('sedation',),
+    )
+
+    assert plan.domain == 'unknown'
+    assert plan.context_document_ids == ('sedation',)
+    assert plan.context_topics == ('진정간호',)
+    assert plan.expanded.startswith('진정간호 ')
+
+
+def test_single_document_context_admits_only_matching_substantive_evidence():
+    documents = [{
+        'id': 'sedation',
+        'title': '진정간호',
+        'document_name': '실무지침서_진정간호.pdf',
+    }]
+    plan = plan_query(
+        '성인은 몇 분마다 모니터링해?',
+        documents=documents,
+        context_document_ids=('sedation',),
+    )
+    source = replace(
+        chunk(
+            text='[성인]\n진정 중 활력징후와 산소포화도를 15분 간격으로 모니터링한다.',
+            section='진정 중',
+            document='sedation',
+        ),
+        title='진정간호',
+        document_name='실무지침서_진정간호.pdf',
+    )
+
+    assessment = assess_evidence(plan, [Hit(source, .9, lexical=1)])
+
+    assert assessment.sufficient
+    assert assessment.admitted_domain == 'hospital'
+    assert assessment.admission_reason == 'single_document_context_and_evidence'
+
+
+def test_evidence_backed_admission_is_preserved_for_post_budget_validation():
+    documents = [{
+        'id': 'sedation',
+        'title': '진정간호',
+        'document_name': '실무지침서_진정간호.pdf',
+    }]
+    plan = plan_query(
+        '몇 분마다 모니터링해?',
+        documents=documents,
+        context_document_ids=('sedation',),
+    )
+    source = replace(
+        chunk(
+            text='진정 중 활력징후와 산소포화도를 15분 간격으로 모니터링한다.',
+            section='진정 중',
+            document='sedation',
+        ),
+        title='진정간호',
+        document_name='실무지침서_진정간호.pdf',
+    )
+
+    before = assess_evidence(plan, [Hit(source, .9, lexical=1)])
+    validated_plan = admitted_plan(plan, before)
+    after = assess_evidence(validated_plan, [Hit(source, .9, lexical=1)])
+
+    assert before.sufficient
+    assert validated_plan.domain == 'hospital'
+    assert validated_plan.canonical_topics == ('진정간호',)
+    assert after.sufficient
+
+
+@pytest.mark.parametrize('question', [
+    '화성 우주선의 궤도 계산 공식은?',
+    '오늘 서울 날씨 알려줘',
+    '내 증상으로 병명을 진단해줘',
+    '회사 휴가 신청 절차 알려줘',
+    '학교 숙제 준비사항 알려줘',
+])
+def test_document_context_never_overrides_out_of_scope_or_unsupported_question(question):
+    documents = [{
+        'id': 'sedation',
+        'title': '진정간호',
+        'document_name': '실무지침서_진정간호.pdf',
+    }]
+    plan = plan_query(
+        question,
+        documents=documents,
+        context_document_ids=('sedation',),
+    )
+    source = replace(
+        chunk(
+            text='[성인]\n진정 중 활력징후와 산소포화도를 15분 간격으로 모니터링한다.',
+            section='진정 중',
+            document='sedation',
+        ),
+        title='진정간호',
+        document_name='실무지침서_진정간호.pdf',
+    )
+
+    assessment = assess_evidence(plan, [Hit(source, .99, lexical=1)])
+
+    assert not assessment.sufficient
+    assert assessment.admitted_domain != 'hospital'
 
 
 @pytest.mark.parametrize('question', ['PCN 세척량은?', 'PCN 교체 주기는?', 'PCN 제거 속도는?',

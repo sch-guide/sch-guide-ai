@@ -1,0 +1,18 @@
+<!doctype html><html lang='ko'><head><meta charset='utf-8'>
+<title>SCHAT MVP stabilization</title><style>
+body{font-family:system-ui,sans-serif;margin:32px;background:#f4f7fa;color:#17324d}
+section,header{background:#fff;border:1px solid #d6e0e8;border-radius:12px;padding:18px;margin:12px 0}
+table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid #d6e0e8;padding:7px}th{background:#eaf2f8}
+.ok{color:#087a55}.blocked{color:#a04616}</style></head><body>
+<header><h1>SCHAT MVP 안정화 오프라인 검수</h1>
+<p>원문 비저장 · 생성 API 호출 0 · production 변경 0</p></header>
+<section><h2>Retrieval 선택</h2><p class='ok'>선택: <b>bm25</b> · production: production_change_not_required</p>
+<table><thead><tr><th>Retriever</th><th>Hit@5</th><th>Hit@10</th><th>MRR</th><th>Recall@10</th><th>Mean ms</th></tr></thead><tbody><tr><td>chromadb</td><td>0.141</td><td>0.282</td><td>0.091</td><td>0.256</td><td>16.045</td></tr><tr><td>bm25</td><td>0.795</td><td>0.885</td><td>0.560</td><td>0.838</td><td>0.890</td></tr><tr><td>hybrid_rrf</td><td>0.654</td><td>0.833</td><td>0.460</td><td>0.755</td><td>16.959</td></tr></tbody></table></section>
+<section><h2>Gold 검수</h2><p>14건 검토 · 자동 승인 13 · 남은 사람 검수 1</p>
+<table><thead><tr><th>ID</th><th>Status</th><th>Page</th><th>Basis</th></tr></thead><tbody><tr><td>TF003</td><td>approved_structural_table</td><td>2</td><td>page_2_product_header_row_column</td></tr><tr><td>TF004</td><td>approved_structural_table</td><td>2</td><td>page_2_product_header_row_column</td></tr><tr><td>TF005</td><td>approved_structural_table</td><td>2</td><td>page_2_product_header_row_column</td></tr><tr><td>TF006</td><td>approved_structural_table</td><td>2</td><td>page_2_product_header_row_column</td></tr><tr><td>TF007</td><td>approved_structural_table</td><td>2</td><td>page_2_product_header_row_column</td></tr><tr><td>TF023</td><td>approved_structural_table</td><td>9</td><td>page_9_test_header_row_column</td></tr><tr><td>TF024</td><td>approved_structural_table</td><td>9</td><td>page_9_test_header_row_column</td></tr><tr><td>TF027</td><td>needs_human_review</td><td>11</td><td>workflow_screenshot_sequence_requires_interpretation</td></tr><tr><td>TF035</td><td>approved_nearby_text</td><td>14</td><td>nearby_text_fully_states_procedure</td></tr><tr><td>TF037</td><td>approved_structural_table</td><td>15</td><td>page_15_reaction_row_columns</td></tr><tr><td>TF038</td><td>approved_structural_table</td><td>15</td><td>page_15_reaction_row_columns</td></tr><tr><td>TF039</td><td>approved_structural_table</td><td>15</td><td>page_15_reaction_row_columns</td></tr><tr><td>TF040</td><td>approved_structural_table</td><td>15</td><td>page_15_reaction_row_columns</td></tr><tr><td>TF041</td><td>approved_structural_table</td><td>15</td><td>page_15_reaction_row_columns</td></tr></tbody></table></section>
+<section><h2>Table / Figure</h2><p>표 4개 · unit 60개 · 승인 표 질문 22개 · figure 후보 55개</p>
+<p>Table-aware 결정: <b>not_materially_better</b></p></section>
+<section><h2>UAT / 외부 provider gate</h2><p>진정 UAT 45/45 · Q006 zero-call 유지</p>
+<p>수혈 approved retrieval Top-10: 69/78</p>
+<p class='blocked'>Provider 비교: blocked_security_policy_confirmation_required</p></section>
+</body></html>

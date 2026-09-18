@@ -1,0 +1,19 @@
+{
+  "status": "BLOCKED_BY_EXTERNAL_TRANSFER_APPROVAL",
+  "required_approvals": [
+    "hospital_evidence_external_transfer",
+    "provider_and_model",
+    "region",
+    "retention",
+    "case_scope",
+    "credential"
+  ],
+  "original_user_question_sent": false,
+  "whole_document_sent": false,
+  "actual_provider_calls": 0,
+  "actual_llm_judge_calls": 0,
+  "synthetic_wire_mock_available": true,
+  "real_case_minimal_subset_ready_after_approval": true,
+  "raw_payload_artifact_saved": false,
+  "raw_response_artifact_saved": false
+}

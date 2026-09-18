@@ -1,0 +1,4600 @@
+[
+  {
+    "question_id": "TF001",
+    "question_type": "fact_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "c78ff32d-ea17-41fd-98ef-2e8872f01df3"
+    ],
+    "retrieved_context_ids": [
+      "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+      "fd678588-5ac2-400d-95c5-3309537781ec",
+      "8259ed27-8646-4502-a959-aab1e9f1770f",
+      "48b9789d-5088-4ba1-a82a-be3a6396ce85",
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+      "cfff9bf0-05e4-4179-a793-f3c705d04812",
+      "8f3ed830-3a06-41c6-8b06-cfcf6d36a83c",
+      "16efaa44-1554-4748-8407-48fac0bced94",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "30ce28cb-f702-4cce-8105-137e2f73af0d"
+    ],
+    "scores": [
+      0.0818710208390797,
+      0.06439070420387463,
+      0.05765822784810126,
+      0.036952441496007585,
+      0.03614915710025363,
+      0.034886025803599195,
+      0.03472737950056595,
+      0.03457875674951333,
+      0.03457237952935952,
+      0.03437949473911837
+    ],
+    "latency_ms": 325.6283999990046,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF002",
+    "question_type": "paraphrase",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "c78ff32d-ea17-41fd-98ef-2e8872f01df3"
+    ],
+    "retrieved_context_ids": [
+      "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+      "8259ed27-8646-4502-a959-aab1e9f1770f",
+      "fd678588-5ac2-400d-95c5-3309537781ec",
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+      "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+      "16efaa44-1554-4748-8407-48fac0bced94",
+      "cfff9bf0-05e4-4179-a793-f3c705d04812",
+      "30ce28cb-f702-4cce-8105-137e2f73af0d"
+    ],
+    "scores": [
+      0.10862576578484205,
+      0.07499531172490029,
+      0.06377620381843753,
+      0.05320434294991838,
+      0.04168426818957274,
+      0.04024210462814722,
+      0.03658076529350426,
+      0.035432355036980674,
+      0.03524015936820336,
+      0.03502231177200145
+    ],
+    "latency_ms": 328.8338999991538,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF003",
+    "question_type": "product_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+      "ba3d1d87-0c2d-4b67-a0c2-4615c8249c2a"
+    ],
+    "retrieved_context_ids": [
+      "0f6b0fc1-9d70-479f-a87d-a26e954e2adb",
+      "ba3d1d87-0c2d-4b67-a0c2-4615c8249c2a",
+      "54fdf811-dedd-4016-b144-3e4bfdcd67c8",
+      "b0d368a1-d0fc-4b8b-8567-e190cf462986",
+      "324bc249-0e84-46e9-b77f-856c76cd5353",
+      "646d4165-73db-4f69-84da-5f393cd81988",
+      "df699ccc-6f51-4281-b4a4-f3d2a20631e0",
+      "ffcf7308-6e83-47bc-a519-0b4b7ba44562",
+      "1b376f6f-5ee5-4d05-a585-f3aa6b7ee824",
+      "23c6ca0d-04bf-4081-b90a-9819029dcd73"
+    ],
+    "scores": [
+      0.05085628603325516,
+      0.050048504468055484,
+      0.04298672693150498,
+      0.039161220418728465,
+      0.0357493808327284,
+      0.035113936031950184,
+      0.034868078231811525,
+      0.033894521130455865,
+      0.03378442053531555,
+      0.03321750980027964
+    ],
+    "latency_ms": 218.85910000037256,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.5,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.5,
+      "recall_at_5": 0.5,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF004",
+    "question_type": "product_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+      "ffcf7308-6e83-47bc-a519-0b4b7ba44562"
+    ],
+    "retrieved_context_ids": [
+      "ffcf7308-6e83-47bc-a519-0b4b7ba44562",
+      "71d2e37c-44e2-4972-8e6b-a6449c2f8404",
+      "63b53156-440d-40c1-bc88-5c07c23ae77f",
+      "21efe016-3004-45f3-a070-29ce2ecb0019",
+      "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+      "a3d42ca5-54b5-4b8d-be4e-79337aaab880",
+      "646d4165-73db-4f69-84da-5f393cd81988",
+      "ba3d1d87-0c2d-4b67-a0c2-4615c8249c2a",
+      "0f6b0fc1-9d70-479f-a87d-a26e954e2adb",
+      "1b376f6f-5ee5-4d05-a585-f3aa6b7ee824"
+    ],
+    "scores": [
+      0.05027874278240517,
+      0.05023443090543341,
+      0.04989317174276518,
+      0.04541996512956605,
+      0.04491816267626149,
+      0.04379823177447527,
+      0.03619485978557639,
+      0.035434694623635486,
+      0.035337886319015965,
+      0.03515618913530728
+    ],
+    "latency_ms": 186.25799999972514,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 0.5,
+      "recall_at_3": 0.5,
+      "recall_at_5": 0.5,
+      "recall_at_10": 0.5,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 0.5
+    }
+  },
+  {
+    "question_id": "TF005",
+    "question_type": "temporal",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "63b53156-440d-40c1-bc88-5c07c23ae77f"
+    ],
+    "retrieved_context_ids": [
+      "63b53156-440d-40c1-bc88-5c07c23ae77f",
+      "4d18d11e-2a92-4690-8a64-46653931483e",
+      "ffcf7308-6e83-47bc-a519-0b4b7ba44562",
+      "1033ac46-dec8-493e-b577-7f5ad80f8e86",
+      "71d2e37c-44e2-4972-8e6b-a6449c2f8404",
+      "09f3c6d5-9e0c-4545-960f-b16c69abbeb1",
+      "646d4165-73db-4f69-84da-5f393cd81988",
+      "3ecc27b9-634c-4026-b44e-e01123aa0467",
+      "da79aa00-567d-434c-8441-915ac080f918",
+      "1b376f6f-5ee5-4d05-a585-f3aa6b7ee824"
+    ],
+    "scores": [
+      0.057952695830923606,
+      0.046087002059831045,
+      0.0460657479146674,
+      0.04604686288272633,
+      0.044907550760217615,
+      0.04474847055059339,
+      0.044672893282296,
+      0.04457697386363573,
+      0.04453704272771554,
+      0.043790132314095766
+    ],
+    "latency_ms": 265.3756000008798,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF006",
+    "question_type": "temporal",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "71d2e37c-44e2-4972-8e6b-a6449c2f8404",
+      "63b53156-440d-40c1-bc88-5c07c23ae77f"
+    ],
+    "retrieved_context_ids": [
+      "63b53156-440d-40c1-bc88-5c07c23ae77f",
+      "ffcf7308-6e83-47bc-a519-0b4b7ba44562",
+      "71d2e37c-44e2-4972-8e6b-a6449c2f8404",
+      "09f3c6d5-9e0c-4545-960f-b16c69abbeb1",
+      "ba3d1d87-0c2d-4b67-a0c2-4615c8249c2a",
+      "1b376f6f-5ee5-4d05-a585-f3aa6b7ee824",
+      "da79aa00-567d-434c-8441-915ac080f918",
+      "646d4165-73db-4f69-84da-5f393cd81988",
+      "4d18d11e-2a92-4690-8a64-46653931483e",
+      "81a83ec4-b5d1-4305-9f44-93e5fa935ffe"
+    ],
+    "scores": [
+      0.057708015080295126,
+      0.057460704311243796,
+      0.05714249002561164,
+      0.04568456120074539,
+      0.04534134437358522,
+      0.04525391691483488,
+      0.04505047554583163,
+      0.04489060612399169,
+      0.04437919125959591,
+      0.044351503228829574
+    ],
+    "latency_ms": 298.0539000018325,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 0.5,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.6666666666666666,
+      "precision_at_5": 0.4,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF007",
+    "question_type": "temporal",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "da79aa00-567d-434c-8441-915ac080f918"
+    ],
+    "retrieved_context_ids": [
+      "8259ed27-8646-4502-a959-aab1e9f1770f",
+      "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "71d2e37c-44e2-4972-8e6b-a6449c2f8404",
+      "ffcf7308-6e83-47bc-a519-0b4b7ba44562",
+      "c404e320-0bf2-4325-be92-7a0614f201ca",
+      "f4580736-a09e-471f-93d2-8089c695eb67",
+      "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+      "da79aa00-567d-434c-8441-915ac080f918",
+      "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf"
+    ],
+    "scores": [
+      0.08015035542622433,
+      0.0569047619047619,
+      0.03983415602074295,
+      0.0386823555269549,
+      0.03845411681372022,
+      0.03719950925374212,
+      0.03646990809804834,
+      0.036385203378559584,
+      0.035481600136834754,
+      0.035286527162215656
+    ],
+    "latency_ms": 246.65590000040538,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 0.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.1111111111111111,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.0,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF008",
+    "question_type": "product_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "e96acbc9-66b4-4df4-953b-3f7b0a846bbc"
+    ],
+    "retrieved_context_ids": [
+      "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+      "e96acbc9-66b4-4df4-953b-3f7b0a846bbc",
+      "54fdf811-dedd-4016-b144-3e4bfdcd67c8",
+      "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1",
+      "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+      "09f3c6d5-9e0c-4545-960f-b16c69abbeb1",
+      "3ecc27b9-634c-4026-b44e-e01123aa0467",
+      "0f6b0fc1-9d70-479f-a87d-a26e954e2adb",
+      "63b53156-440d-40c1-bc88-5c07c23ae77f",
+      "646d4165-73db-4f69-84da-5f393cd81988"
+    ],
+    "scores": [
+      0.06923930500399282,
+      0.06923720050627186,
+      0.05404520892315224,
+      0.0534527697487483,
+      0.050642408147855325,
+      0.050391497120712746,
+      0.04955827628241645,
+      0.049039733589093186,
+      0.049011357550452654,
+      0.04899017261549615
+    ],
+    "latency_ms": 220.1149999991685,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.5,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF009",
+    "question_type": "product_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "324bc249-0e84-46e9-b77f-856c76cd5353",
+      "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1"
+    ],
+    "retrieved_context_ids": [
+      "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+      "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0",
+      "7abe62fa-6fdb-4466-a16b-73e1770f0c57",
+      "f9cfc75b-a5e7-4633-a798-4b17ea462325",
+      "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1",
+      "324bc249-0e84-46e9-b77f-856c76cd5353",
+      "bc88f538-e881-4c81-85e9-fca20614315d",
+      "e96acbc9-66b4-4df4-953b-3f7b0a846bbc",
+      "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2"
+    ],
+    "scores": [
+      0.08459175788959078,
+      0.06667198748172073,
+      0.06405167312731688,
+      0.062477171555583855,
+      0.05402440797910285,
+      0.05237881331191905,
+      0.05094709754568005,
+      0.050039869236040715,
+      0.04967120721358873,
+      0.04887117982370705
+    ],
+    "latency_ms": 182.4401999992915,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.2,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.5,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF010",
+    "question_type": "product_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "54fdf811-dedd-4016-b144-3e4bfdcd67c8",
+      "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc"
+    ],
+    "retrieved_context_ids": [
+      "54fdf811-dedd-4016-b144-3e4bfdcd67c8",
+      "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+      "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1",
+      "e96acbc9-66b4-4df4-953b-3f7b0a846bbc",
+      "df699ccc-6f51-4281-b4a4-f3d2a20631e0",
+      "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+      "63b53156-440d-40c1-bc88-5c07c23ae77f",
+      "09f3c6d5-9e0c-4545-960f-b16c69abbeb1",
+      "3ecc27b9-634c-4026-b44e-e01123aa0467",
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76"
+    ],
+    "scores": [
+      0.06926413881381563,
+      0.06913248680483511,
+      0.06872871172055793,
+      0.0679025912284851,
+      0.035524225002345096,
+      0.033027010971391706,
+      0.032974166303618345,
+      0.0328583287816085,
+      0.031718878583593686,
+      0.03138322120638036
+    ],
+    "latency_ms": 153.11439999914,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 0.5,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.6666666666666666,
+      "precision_at_5": 0.4,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF011",
+    "question_type": "paraphrase",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "54fdf811-dedd-4016-b144-3e4bfdcd67c8"
+    ],
+    "retrieved_context_ids": [
+      "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0",
+      "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+      "7abe62fa-6fdb-4466-a16b-73e1770f0c57",
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "e96acbc9-66b4-4df4-953b-3f7b0a846bbc",
+      "f9cfc75b-a5e7-4633-a798-4b17ea462325",
+      "bc88f538-e881-4c81-85e9-fca20614315d",
+      "3ecc27b9-634c-4026-b44e-e01123aa0467",
+      "324bc249-0e84-46e9-b77f-856c76cd5353"
+    ],
+    "scores": [
+      0.054666300721772004,
+      0.053958817523084006,
+      0.05315599792360684,
+      0.05122782732091038,
+      0.047314833156646245,
+      0.04716787476883121,
+      0.047042472823835516,
+      0.044023598899901956,
+      0.04395177292640674,
+      0.043563128805979325
+    ],
+    "latency_ms": 315.1029999999082,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 0.0,
+      "hit_at_10": 0.0,
+      "mrr": 0.0,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "recall_at_10": 0.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.0,
+      "precision_at_10": 0.0
+    },
+    "ragas": {
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    }
+  },
+  {
+    "question_id": "TF012",
+    "question_type": "product_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "bc88f538-e881-4c81-85e9-fca20614315d"
+    ],
+    "retrieved_context_ids": [
+      "bc88f538-e881-4c81-85e9-fca20614315d",
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "21efe016-3004-45f3-a070-29ce2ecb0019",
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+      "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0",
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+      "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+      "324bc249-0e84-46e9-b77f-856c76cd5353",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334"
+    ],
+    "scores": [
+      0.10080062067111543,
+      0.06953422367175631,
+      0.06836840819555616,
+      0.0679623199878489,
+      0.0642139718492012,
+      0.061208581820359396,
+      0.05922622447543674,
+      0.05893825173955823,
+      0.056017386577941565,
+      0.05109496517104642
+    ],
+    "latency_ms": 508.79359999908047,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF013",
+    "question_type": "product_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2"
+    ],
+    "retrieved_context_ids": [
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+      "bc88f538-e881-4c81-85e9-fca20614315d",
+      "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "21efe016-3004-45f3-a070-29ce2ecb0019",
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+      "dfb2693a-e821-4d6e-bbcc-0dbf3dc2a2ae",
+      "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+      "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+      "7adacb8c-91c0-4ea7-8d82-7505eeac5042"
+    ],
+    "scores": [
+      0.11267541134741998,
+      0.08457075451265982,
+      0.08337137123254629,
+      0.07313937853228261,
+      0.07258392060187556,
+      0.06551324064958407,
+      0.04711624234864692,
+      0.0464431402998868,
+      0.04609748947854136,
+      0.04476085894049709
+    ],
+    "latency_ms": 290.05830000005517,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF014",
+    "question_type": "temporal",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+      "21efe016-3004-45f3-a070-29ce2ecb0019"
+    ],
+    "retrieved_context_ids": [
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+      "21efe016-3004-45f3-a070-29ce2ecb0019",
+      "bc88f538-e881-4c81-85e9-fca20614315d",
+      "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+      "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+      "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+      "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+      "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+      "d2e0fc0a-bf0e-4226-abbf-e9f3dea2fce8"
+    ],
+    "scores": [
+      0.07610659229383063,
+      0.07606894300804763,
+      0.06619578182324957,
+      0.06509533067849965,
+      0.06091830627364341,
+      0.05479511541078071,
+      0.05435215728714603,
+      0.05345502162434326,
+      0.052067560160830945,
+      0.048046307149010994
+    ],
+    "latency_ms": 352.4486000005709,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.5,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.6666666666666666,
+      "precision_at_5": 0.4,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF015",
+    "question_type": "product_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "21efe016-3004-45f3-a070-29ce2ecb0019"
+    ],
+    "retrieved_context_ids": [
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "bc88f538-e881-4c81-85e9-fca20614315d",
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+      "21efe016-3004-45f3-a070-29ce2ecb0019",
+      "f7a9837d-f8db-4461-abd8-a3607db2276f",
+      "1b376f6f-5ee5-4d05-a585-f3aa6b7ee824",
+      "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+      "4d18d11e-2a92-4690-8a64-46653931483e",
+      "3ecc27b9-634c-4026-b44e-e01123aa0467",
+      "09f3c6d5-9e0c-4545-960f-b16c69abbeb1"
+    ],
+    "scores": [
+      0.06931252478014638,
+      0.06918515586071328,
+      0.06906122886762213,
+      0.06877568829444147,
+      0.036157769960758486,
+      0.03491217653056045,
+      0.034766440513087256,
+      0.03448636326871736,
+      0.03315133644185154,
+      0.033008088109233856
+    ],
+    "latency_ms": 214.81970000149886,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.25,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF016",
+    "question_type": "paraphrase",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76"
+    ],
+    "retrieved_context_ids": [
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "bc88f538-e881-4c81-85e9-fca20614315d",
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+      "21efe016-3004-45f3-a070-29ce2ecb0019",
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+      "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+      "09f3c6d5-9e0c-4545-960f-b16c69abbeb1",
+      "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0",
+      "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+      "4d18d11e-2a92-4690-8a64-46653931483e"
+    ],
+    "scores": [
+      0.07315255497347524,
+      0.07297668074779824,
+      0.07093515456668915,
+      0.07057297651629715,
+      0.06689159598193327,
+      0.05589356651908964,
+      0.05575337673488416,
+      0.055206829384711886,
+      0.05283305451449226,
+      0.04770951765336027
+    ],
+    "latency_ms": 262.56259999991016,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.2,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF017",
+    "question_type": "procedure",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+      "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+      "7e68f70a-ba74-4eb8-bbae-c7e9f7340567",
+      "b225ae64-72d2-4e59-81c0-57f5d8438666",
+      "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+      "98d006ac-5212-4c8c-8a63-4cbd4d6caffc",
+      "9b6cc313-9a59-4387-a5ce-2ed14389a0a7"
+    ],
+    "retrieved_context_ids": [
+      "fd678588-5ac2-400d-95c5-3309537781ec",
+      "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+      "8259ed27-8646-4502-a959-aab1e9f1770f",
+      "b0b5bc4f-7d0b-4f56-8e37-84178d38637d",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+      "b225ae64-72d2-4e59-81c0-57f5d8438666",
+      "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+      "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+      "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+      "3abbb958-eafe-4ffe-bcfc-dafa7349c15c"
+    ],
+    "scores": [
+      0.09342028998571728,
+      0.08529492825204199,
+      0.07326033888922796,
+      0.051277457867449486,
+      0.049209817655624884,
+      0.04840255402761792,
+      0.04654588804664193,
+      0.04496302631510284,
+      0.044630897214496465,
+      0.04318753219685642
+    ],
+    "latency_ms": 242.0579000008729,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.2,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.14285714285714285,
+      "recall_at_10": 0.42857142857142855,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.3
+    },
+    "ragas": {
+      "context_precision": 0.3,
+      "context_recall": 0.42857142857142855
+    }
+  },
+  {
+    "question_id": "TF018",
+    "question_type": "temporal",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "30ce28cb-f702-4cce-8105-137e2f73af0d"
+    ],
+    "retrieved_context_ids": [
+      "30ce28cb-f702-4cce-8105-137e2f73af0d",
+      "70b95f72-95ec-43b5-b76f-657518103256",
+      "48b9789d-5088-4ba1-a82a-be3a6396ce85",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+      "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+      "0a4f11c7-39e8-41fe-bd14-48456671f531",
+      "cfff9bf0-05e4-4179-a793-f3c705d04812",
+      "a952e706-800e-493c-886a-8f06602fb2be",
+      "b8c70ff9-e1b2-40ce-9a0a-f65a53899d13",
+      "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf"
+    ],
+    "scores": [
+      0.03986176060066848,
+      0.03853199862676954,
+      0.03833585479788533,
+      0.03829587025985904,
+      0.03825524738363972,
+      0.038002986394442044,
+      0.03650006184942163,
+      0.03598103610735517,
+      0.034511777008822526,
+      0.033374160448710125
+    ],
+    "latency_ms": 283.8624999994863,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF019",
+    "question_type": "preparation",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "d3b7d61b-50f0-4b96-a770-785a9f3c3886"
+    ],
+    "retrieved_context_ids": [
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+      "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+      "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+      "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+      "d2e0fc0a-bf0e-4226-abbf-e9f3dea2fce8",
+      "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+      "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+      "30ce28cb-f702-4cce-8105-137e2f73af0d"
+    ],
+    "scores": [
+      0.04848560046392774,
+      0.043843591390808255,
+      0.04317979328473841,
+      0.042809663870912944,
+      0.04276816696734042,
+      0.04258458391379865,
+      0.041530354760119306,
+      0.03995562980995804,
+      0.0395077667577941,
+      0.03926908613020374
+    ],
+    "latency_ms": 398.50140000089596,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 0.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.125,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.0,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF020",
+    "question_type": "temporal",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "0a4f11c7-39e8-41fe-bd14-48456671f531",
+      "70b95f72-95ec-43b5-b76f-657518103256"
+    ],
+    "retrieved_context_ids": [
+      "fd678588-5ac2-400d-95c5-3309537781ec",
+      "0a4f11c7-39e8-41fe-bd14-48456671f531",
+      "48b9789d-5088-4ba1-a82a-be3a6396ce85",
+      "70b95f72-95ec-43b5-b76f-657518103256",
+      "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+      "30ce28cb-f702-4cce-8105-137e2f73af0d",
+      "cfff9bf0-05e4-4179-a793-f3c705d04812",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+      "a952e706-800e-493c-886a-8f06602fb2be",
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2"
+    ],
+    "scores": [
+      0.06436699240117133,
+      0.039820996745688016,
+      0.03922988057905628,
+      0.03822909303054996,
+      0.03820976300583072,
+      0.03773068823958888,
+      0.03744643026323461,
+      0.03701980563279786,
+      0.03535811632111209,
+      0.035210685900443996
+    ],
+    "latency_ms": 350.87570000087,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.5,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.5,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.4,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF021",
+    "question_type": "preparation",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334"
+    ],
+    "retrieved_context_ids": [
+      "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+      "8259ed27-8646-4502-a959-aab1e9f1770f",
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+      "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0",
+      "bc88f538-e881-4c81-85e9-fca20614315d",
+      "b0b5bc4f-7d0b-4f56-8e37-84178d38637d",
+      "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "16efaa44-1554-4748-8407-48fac0bced94",
+      "74c0eabe-77c7-4dbf-a321-27966a12fafb"
+    ],
+    "scores": [
+      0.10025155662281854,
+      0.07558384229509987,
+      0.05599854086266189,
+      0.052793381737138295,
+      0.049857707622388725,
+      0.04394983750246884,
+      0.041175882869296604,
+      0.03911315718842328,
+      0.038004885810450216,
+      0.0360358099148808
+    ],
+    "latency_ms": 220.12960000211024,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.3333333333333333,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF022",
+    "question_type": "preparation",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+      "6ffcd319-e868-444b-b6fe-8d192a4de3ff"
+    ],
+    "retrieved_context_ids": [
+      "8259ed27-8646-4502-a959-aab1e9f1770f",
+      "b0b5bc4f-7d0b-4f56-8e37-84178d38637d",
+      "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+      "84c0a864-176f-4776-a15e-167fc2518e5d",
+      "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+      "8f3ed830-3a06-41c6-8b06-cfcf6d36a83c",
+      "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+      "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+      "b10b8f1c-ed17-44ca-8d7c-1a4f19a12c67"
+    ],
+    "scores": [
+      0.0756815480522309,
+      0.05145344901555511,
+      0.04871396063244532,
+      0.04869463837531305,
+      0.0481205013140878,
+      0.046529944205001415,
+      0.04588963550279121,
+      0.0456542385052412,
+      0.04565400339703136,
+      0.04411466044227312
+    ],
+    "latency_ms": 417.20489999988786,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.2,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.5,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF023",
+    "question_type": "temporal",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "c404e320-0bf2-4325-be92-7a0614f201ca"
+    ],
+    "retrieved_context_ids": [
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+      "f7a9837d-f8db-4461-abd8-a3607db2276f",
+      "c404e320-0bf2-4325-be92-7a0614f201ca",
+      "919e93ca-fed9-4dde-b9b8-f870e207a3f3",
+      "b0d368a1-d0fc-4b8b-8567-e190cf462986",
+      "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+      "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+      "d2e0fc0a-bf0e-4226-abbf-e9f3dea2fce8",
+      "b7876bcb-b1d0-409a-831d-45e59e35a44e"
+    ],
+    "scores": [
+      0.050233353860916624,
+      0.05017928741823842,
+      0.03912905310045888,
+      0.0369031999616912,
+      0.03666214538159953,
+      0.03578299732452262,
+      0.03544191964467367,
+      0.03472263089915176,
+      0.03333162143638543,
+      0.03243972683348268
+    ],
+    "latency_ms": 365.6844999995883,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.3333333333333333,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF024",
+    "question_type": "temporal",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "c404e320-0bf2-4325-be92-7a0614f201ca"
+    ],
+    "retrieved_context_ids": [
+      "b0d368a1-d0fc-4b8b-8567-e190cf462986",
+      "919e93ca-fed9-4dde-b9b8-f870e207a3f3",
+      "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+      "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+      "c404e320-0bf2-4325-be92-7a0614f201ca",
+      "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+      "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+      "b7876bcb-b1d0-409a-831d-45e59e35a44e",
+      "f7a9837d-f8db-4461-abd8-a3607db2276f",
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334"
+    ],
+    "scores": [
+      0.03744268110839932,
+      0.03726851030496451,
+      0.03675222422779979,
+      0.0361310167774215,
+      0.03553694326915438,
+      0.034213478747635306,
+      0.03419626064567299,
+      0.03392405194770999,
+      0.033561745645047665,
+      0.03354884195470953
+    ],
+    "latency_ms": 246.77990000145655,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.2,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF025",
+    "question_type": "fact_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "b0d368a1-d0fc-4b8b-8567-e190cf462986",
+      "919e93ca-fed9-4dde-b9b8-f870e207a3f3"
+    ],
+    "retrieved_context_ids": [
+      "f7a9837d-f8db-4461-abd8-a3607db2276f",
+      "b0d368a1-d0fc-4b8b-8567-e190cf462986",
+      "919e93ca-fed9-4dde-b9b8-f870e207a3f3",
+      "b7876bcb-b1d0-409a-831d-45e59e35a44e",
+      "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+      "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+      "c404e320-0bf2-4325-be92-7a0614f201ca",
+      "d2e0fc0a-bf0e-4226-abbf-e9f3dea2fce8",
+      "16efaa44-1554-4748-8407-48fac0bced94"
+    ],
+    "scores": [
+      0.05398704574953725,
+      0.046570171602310674,
+      0.04640243434124306,
+      0.045190772193506853,
+      0.044756156501485345,
+      0.044703489888242354,
+      0.04356842328822755,
+      0.042696358375097686,
+      0.04186125908957587,
+      0.040059284360651023
+    ],
+    "latency_ms": 356.50449999957345,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.5,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.6666666666666666,
+      "precision_at_5": 0.4,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF026",
+    "question_type": "fact_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "b7876bcb-b1d0-409a-831d-45e59e35a44e"
+    ],
+    "retrieved_context_ids": [
+      "919e93ca-fed9-4dde-b9b8-f870e207a3f3",
+      "b7876bcb-b1d0-409a-831d-45e59e35a44e",
+      "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+      "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+      "b0d368a1-d0fc-4b8b-8567-e190cf462986",
+      "f7a9837d-f8db-4461-abd8-a3607db2276f",
+      "16efaa44-1554-4748-8407-48fac0bced94",
+      "d2e0fc0a-bf0e-4226-abbf-e9f3dea2fce8",
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e"
+    ],
+    "scores": [
+      0.07547889912512994,
+      0.074543256392471,
+      0.06682949017696695,
+      0.06604619100622884,
+      0.0643233700794178,
+      0.062232035403029774,
+      0.0565058412400503,
+      0.052863288296593564,
+      0.051180933004849924,
+      0.05101217844945399
+    ],
+    "latency_ms": 312.52730000232987,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.5,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF027",
+    "question_type": "procedure",
+    "expected_answerable": true,
+    "needs_human_review": true,
+    "reference_context_ids": [
+      "21d38039-895b-46a4-8902-96e380ce41aa",
+      "b8c70ff9-e1b2-40ce-9a0a-f65a53899d13"
+    ],
+    "retrieved_context_ids": [
+      "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+      "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+      "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+      "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "d2e0fc0a-bf0e-4226-abbf-e9f3dea2fce8",
+      "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+      "dfb2693a-e821-4d6e-bbcc-0dbf3dc2a2ae",
+      "21efe016-3004-45f3-a070-29ce2ecb0019"
+    ],
+    "scores": [
+      0.06459305631717256,
+      0.064054344292732,
+      0.06325807090149112,
+      0.06257094055147314,
+      0.061602555851359944,
+      0.060093014638623196,
+      0.0556988752971996,
+      0.054982094675972135,
+      0.054120668880275044,
+      0.04930840444708014
+    ],
+    "latency_ms": 284.55290000056266,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 0.0,
+      "hit_at_10": 0.0,
+      "mrr": 0.0,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "recall_at_10": 0.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.0,
+      "precision_at_10": 0.0
+    },
+    "ragas": {
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    }
+  },
+  {
+    "question_id": "TF028",
+    "question_type": "preparation",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "eda54b74-cd2f-4808-8175-bcc5b916ce90"
+    ],
+    "retrieved_context_ids": [
+      "dfb2693a-e821-4d6e-bbcc-0dbf3dc2a2ae",
+      "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+      "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+      "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+      "bc88f538-e881-4c81-85e9-fca20614315d",
+      "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+      "30ce28cb-f702-4cce-8105-137e2f73af0d",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e"
+    ],
+    "scores": [
+      0.04828750561129262,
+      0.047452439357285284,
+      0.04702022570489288,
+      0.04695013277354231,
+      0.04650252353005754,
+      0.04516147681031531,
+      0.04492127298963242,
+      0.0447577220172249,
+      0.04451347598373166,
+      0.04399408447976206
+    ],
+    "latency_ms": 366.79929999900196,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.5,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF029",
+    "question_type": "preparation",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "36bac780-b1a2-42dc-8cca-3605f80c5521"
+    ],
+    "retrieved_context_ids": [
+      "8259ed27-8646-4502-a959-aab1e9f1770f",
+      "fd678588-5ac2-400d-95c5-3309537781ec",
+      "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+      "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+      "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+      "8f3ed830-3a06-41c6-8b06-cfcf6d36a83c",
+      "b225ae64-72d2-4e59-81c0-57f5d8438666",
+      "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+      "84c0a864-176f-4776-a15e-167fc2518e5d",
+      "6ffcd319-e868-444b-b6fe-8d192a4de3ff"
+    ],
+    "scores": [
+      0.07665355636537538,
+      0.06649425287356321,
+      0.04681278046105086,
+      0.04669927840005784,
+      0.046318046744241614,
+      0.04610866995606726,
+      0.04513191643921355,
+      0.04457579865600123,
+      0.044534499354478785,
+      0.044376602175029735
+    ],
+    "latency_ms": 395.68899999994755,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 0.0,
+      "hit_at_10": 0.0,
+      "mrr": 0.0,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "recall_at_10": 0.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.0,
+      "precision_at_10": 0.0
+    },
+    "ragas": {
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    }
+  },
+  {
+    "question_id": "TF030",
+    "question_type": "temporal",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "7e5199d4-e5c9-40ca-a69f-ea37f52c6ce3"
+    ],
+    "retrieved_context_ids": [
+      "8259ed27-8646-4502-a959-aab1e9f1770f",
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+      "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+      "16efaa44-1554-4748-8407-48fac0bced94",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+      "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+      "7e5199d4-e5c9-40ca-a69f-ea37f52c6ce3",
+      "da79aa00-567d-434c-8441-915ac080f918",
+      "c404e320-0bf2-4325-be92-7a0614f201ca"
+    ],
+    "scores": [
+      0.07389759254055209,
+      0.038891691200068745,
+      0.036118971119509895,
+      0.03545594815718822,
+      0.034441436912074234,
+      0.03388958526117653,
+      0.03381414722870965,
+      0.03358517387321404,
+      0.03331090758733312,
+      0.03328881261788005
+    ],
+    "latency_ms": 307.43379999967146,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 0.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.125,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.0,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF031",
+    "question_type": "procedure",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "5de4d74d-720e-4d86-a836-f946d70a2d32"
+    ],
+    "retrieved_context_ids": [
+      "fd678588-5ac2-400d-95c5-3309537781ec",
+      "8259ed27-8646-4502-a959-aab1e9f1770f",
+      "b0b5bc4f-7d0b-4f56-8e37-84178d38637d",
+      "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+      "b225ae64-72d2-4e59-81c0-57f5d8438666",
+      "f9cfc75b-a5e7-4633-a798-4b17ea462325",
+      "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+      "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+      "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf"
+    ],
+    "scores": [
+      0.08912937333367087,
+      0.05970588235294118,
+      0.05401661844363158,
+      0.04973739145622879,
+      0.04656727323951302,
+      0.0460746773884831,
+      0.04527623686321415,
+      0.04482604371251448,
+      0.04268787192310571,
+      0.04177342710829669
+    ],
+    "latency_ms": 346.1205000003247,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 0.0,
+      "hit_at_10": 0.0,
+      "mrr": 0.0,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "recall_at_10": 0.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.0,
+      "precision_at_10": 0.0
+    },
+    "ragas": {
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    }
+  },
+  {
+    "question_id": "TF032",
+    "question_type": "fact_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "5de4d74d-720e-4d86-a836-f946d70a2d32"
+    ],
+    "retrieved_context_ids": [
+      "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+      "8259ed27-8646-4502-a959-aab1e9f1770f",
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "f7a9837d-f8db-4461-abd8-a3607db2276f",
+      "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+      "df699ccc-6f51-4281-b4a4-f3d2a20631e0",
+      "b225ae64-72d2-4e59-81c0-57f5d8438666",
+      "eda54b74-cd2f-4808-8175-bcc5b916ce90"
+    ],
+    "scores": [
+      0.06749999999999999,
+      0.05765822784810126,
+      0.042703981967887494,
+      0.04267066029979758,
+      0.03971785972939163,
+      0.03944798198063171,
+      0.03930191356784109,
+      0.03853681147483087,
+      0.03784686307918029,
+      0.03782491977927724
+    ],
+    "latency_ms": 268.60349999878963,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.2,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF033",
+    "question_type": "fact_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0"
+    ],
+    "retrieved_context_ids": [
+      "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0",
+      "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "bc88f538-e881-4c81-85e9-fca20614315d",
+      "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+      "3ecc27b9-634c-4026-b44e-e01123aa0467",
+      "df699ccc-6f51-4281-b4a4-f3d2a20631e0",
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+      "7c33fbb7-e931-4f6b-9520-23875ec9ee5b"
+    ],
+    "scores": [
+      0.09514837072716385,
+      0.07557813322251665,
+      0.07502094530111655,
+      0.07482441872718854,
+      0.07457186313297438,
+      0.07390787142376568,
+      0.05334025140152164,
+      0.05327220752768269,
+      0.052328199086542404,
+      0.049789419591310204
+    ],
+    "latency_ms": 365.2217999997447,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF034",
+    "question_type": "product_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "59d57c8a-c9d7-4f8d-b9a1-a2816f1f01f7"
+    ],
+    "retrieved_context_ids": [
+      "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0",
+      "7c33fbb7-e931-4f6b-9520-23875ec9ee5b",
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+      "3ecc27b9-634c-4026-b44e-e01123aa0467",
+      "df699ccc-6f51-4281-b4a4-f3d2a20631e0",
+      "59d57c8a-c9d7-4f8d-b9a1-a2816f1f01f7",
+      "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1",
+      "7abe62fa-6fdb-4466-a16b-73e1770f0c57"
+    ],
+    "scores": [
+      0.09291130842550148,
+      0.08377453530219293,
+      0.08269863667632595,
+      0.08210996343730922,
+      0.07810220723681979,
+      0.05499367616997391,
+      0.04654038708071977,
+      0.04432143876666115,
+      0.042760521938099844,
+      0.03992640895692128
+    ],
+    "latency_ms": 282.99429999970016,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 0.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.16666666666666666,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.0,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF035",
+    "question_type": "paraphrase",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "b0b5bc4f-7d0b-4f56-8e37-84178d38637d"
+    ],
+    "retrieved_context_ids": [
+      "fd678588-5ac2-400d-95c5-3309537781ec",
+      "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+      "b0b5bc4f-7d0b-4f56-8e37-84178d38637d",
+      "54fdf811-dedd-4016-b144-3e4bfdcd67c8",
+      "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+      "f7a9837d-f8db-4461-abd8-a3607db2276f",
+      "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+      "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+      "da79aa00-567d-434c-8441-915ac080f918",
+      "1033ac46-dec8-493e-b577-7f5ad80f8e86"
+    ],
+    "scores": [
+      0.07777742099005078,
+      0.06734567901234567,
+      0.05917898679548694,
+      0.043758008631200745,
+      0.04166068347398241,
+      0.040200608898867424,
+      0.0382680690689815,
+      0.038176831054796745,
+      0.03789466329721304,
+      0.03718783189891811
+    ],
+    "latency_ms": 279.8001999999542,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.3333333333333333,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF036",
+    "question_type": "monitoring",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf"
+    ],
+    "retrieved_context_ids": [
+      "8259ed27-8646-4502-a959-aab1e9f1770f",
+      "fd678588-5ac2-400d-95c5-3309537781ec",
+      "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+      "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+      "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "8f3ed830-3a06-41c6-8b06-cfcf6d36a83c",
+      "36bac780-b1a2-42dc-8cca-3605f80c5521",
+      "f9cfc75b-a5e7-4633-a798-4b17ea462325",
+      "98d006ac-5212-4c8c-8a63-4cbd4d6caffc"
+    ],
+    "scores": [
+      0.09611374207291908,
+      0.06326082487215941,
+      0.062195121951219505,
+      0.04500100277290969,
+      0.04371071570024442,
+      0.04105886825093937,
+      0.03808573120950103,
+      0.037949586831606354,
+      0.037726967261457356,
+      0.03754936722391237
+    ],
+    "latency_ms": 296.48120000001654,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.25,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF037",
+    "question_type": "adverse_reaction",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+      "8939253d-3272-4915-8c2b-c60062aeb818"
+    ],
+    "retrieved_context_ids": [
+      "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+      "324bc249-0e84-46e9-b77f-856c76cd5353",
+      "8939253d-3272-4915-8c2b-c60062aeb818",
+      "7abe62fa-6fdb-4466-a16b-73e1770f0c57",
+      "2e55093d-0a0f-4fd9-954b-4fc72df9eac0",
+      "da79aa00-567d-434c-8441-915ac080f918",
+      "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "8f3ed830-3a06-41c6-8b06-cfcf6d36a83c",
+      "391ad5dc-0d1c-4350-85ba-5aa601d9ac0d"
+    ],
+    "scores": [
+      0.05790535496102005,
+      0.05340088999655939,
+      0.04795222437009406,
+      0.038441897861541265,
+      0.03771069493438258,
+      0.036941930495468754,
+      0.03560998282476013,
+      0.035596996164756464,
+      0.03482545573152004,
+      0.03481595457610044
+    ],
+    "latency_ms": 280.26910000153293,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 0.5,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.6666666666666666,
+      "precision_at_5": 0.4,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF038",
+    "question_type": "adverse_reaction",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "8939253d-3272-4915-8c2b-c60062aeb818",
+      "7abe62fa-6fdb-4466-a16b-73e1770f0c57"
+    ],
+    "retrieved_context_ids": [
+      "8939253d-3272-4915-8c2b-c60062aeb818",
+      "324bc249-0e84-46e9-b77f-856c76cd5353",
+      "7abe62fa-6fdb-4466-a16b-73e1770f0c57",
+      "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+      "2e55093d-0a0f-4fd9-954b-4fc72df9eac0",
+      "391ad5dc-0d1c-4350-85ba-5aa601d9ac0d",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "da79aa00-567d-434c-8441-915ac080f918",
+      "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+      "bc88f538-e881-4c81-85e9-fca20614315d"
+    ],
+    "scores": [
+      0.050816967602572954,
+      0.04976837678274321,
+      0.03866668379691339,
+      0.03861681316769312,
+      0.0375965191378738,
+      0.03727503501229631,
+      0.033069469297389124,
+      0.033046675233279955,
+      0.03201090919157587,
+      0.030964345114571707
+    ],
+    "latency_ms": 253.7514999976338,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 0.5,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.6666666666666666,
+      "precision_at_5": 0.4,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF039",
+    "question_type": "adverse_reaction",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "7abe62fa-6fdb-4466-a16b-73e1770f0c57",
+      "2e55093d-0a0f-4fd9-954b-4fc72df9eac0"
+    ],
+    "retrieved_context_ids": [
+      "324bc249-0e84-46e9-b77f-856c76cd5353",
+      "7abe62fa-6fdb-4466-a16b-73e1770f0c57",
+      "2e55093d-0a0f-4fd9-954b-4fc72df9eac0",
+      "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+      "8939253d-3272-4915-8c2b-c60062aeb818",
+      "391ad5dc-0d1c-4350-85ba-5aa601d9ac0d",
+      "da79aa00-567d-434c-8441-915ac080f918",
+      "30ce28cb-f702-4cce-8105-137e2f73af0d",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+      "8f3ed830-3a06-41c6-8b06-cfcf6d36a83c"
+    ],
+    "scores": [
+      0.0481089289534796,
+      0.0396084800918918,
+      0.039048106785865545,
+      0.03799410166128029,
+      0.03728590707217946,
+      0.03691058361357537,
+      0.036462128261943436,
+      0.03496909454477814,
+      0.03432208809413881,
+      0.03360472133567742
+    ],
+    "latency_ms": 299.8846999998932,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.5,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.6666666666666666,
+      "precision_at_5": 0.4,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF040",
+    "question_type": "adverse_reaction",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "2e55093d-0a0f-4fd9-954b-4fc72df9eac0",
+      "f4580736-a09e-471f-93d2-8089c695eb67"
+    ],
+    "retrieved_context_ids": [
+      "8259ed27-8646-4502-a959-aab1e9f1770f",
+      "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+      "f4580736-a09e-471f-93d2-8089c695eb67",
+      "2e55093d-0a0f-4fd9-954b-4fc72df9eac0",
+      "391ad5dc-0d1c-4350-85ba-5aa601d9ac0d",
+      "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+      "30ce28cb-f702-4cce-8105-137e2f73af0d",
+      "da79aa00-567d-434c-8441-915ac080f918"
+    ],
+    "scores": [
+      0.05765822784810126,
+      0.05734567901234568,
+      0.039746248229605256,
+      0.039211227663101686,
+      0.037619138767018306,
+      0.03600661583695715,
+      0.035011646645579174,
+      0.034346402502132514,
+      0.033817957102020416,
+      0.03380851286614847
+    ],
+    "latency_ms": 275.4789000000528,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.3333333333333333,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.5,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.4,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF041",
+    "question_type": "adverse_reaction",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "f4580736-a09e-471f-93d2-8089c695eb67",
+      "5e7838ae-0b80-4d05-b266-deb52de7b401"
+    ],
+    "retrieved_context_ids": [
+      "7abe62fa-6fdb-4466-a16b-73e1770f0c57",
+      "f4580736-a09e-471f-93d2-8089c695eb67",
+      "5e7838ae-0b80-4d05-b266-deb52de7b401",
+      "324bc249-0e84-46e9-b77f-856c76cd5353",
+      "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+      "2e55093d-0a0f-4fd9-954b-4fc72df9eac0",
+      "391ad5dc-0d1c-4350-85ba-5aa601d9ac0d",
+      "8939253d-3272-4915-8c2b-c60062aeb818",
+      "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+      "8f3ed830-3a06-41c6-8b06-cfcf6d36a83c"
+    ],
+    "scores": [
+      0.05072872650226167,
+      0.05019483434781622,
+      0.050164433948329236,
+      0.04762511735566905,
+      0.03750156763666261,
+      0.03712341528227835,
+      0.03698952104686733,
+      0.03649606047095833,
+      0.035271429395364,
+      0.03411439492648705
+    ],
+    "latency_ms": 286.9427000005089,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.5,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.6666666666666666,
+      "precision_at_5": 0.4,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF042",
+    "question_type": "procedure",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+      "dfb2693a-e821-4d6e-bbcc-0dbf3dc2a2ae"
+    ],
+    "retrieved_context_ids": [
+      "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+      "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+      "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+      "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+      "d2e0fc0a-bf0e-4226-abbf-e9f3dea2fce8",
+      "dfb2693a-e821-4d6e-bbcc-0dbf3dc2a2ae",
+      "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+      "b0b5bc4f-7d0b-4f56-8e37-84178d38637d"
+    ],
+    "scores": [
+      0.07187205742251089,
+      0.06622091216889639,
+      0.05980784320074414,
+      0.059724352627322584,
+      0.05413692499298962,
+      0.05284617733852172,
+      0.050792162918957884,
+      0.05050042580776527,
+      0.04998880836590617,
+      0.049154179480970214
+    ],
+    "latency_ms": 312.0848999997179,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.25,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.5,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TF043",
+    "question_type": "procedure",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+      "f9eb1471-4566-4c09-a18e-9f3d84a47e9c"
+    ],
+    "retrieved_context_ids": [
+      "fd678588-5ac2-400d-95c5-3309537781ec",
+      "b0b5bc4f-7d0b-4f56-8e37-84178d38637d",
+      "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+      "a3d42ca5-54b5-4b8d-be4e-79337aaab880",
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "f9cfc75b-a5e7-4633-a798-4b17ea462325",
+      "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+      "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+      "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+      "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc"
+    ],
+    "scores": [
+      0.07589560609468272,
+      0.05538832977839878,
+      0.04716667297966368,
+      0.04551892480608091,
+      0.043893880853812246,
+      0.043530589398373384,
+      0.042083929696049356,
+      0.04164138223588929,
+      0.0407648173934179,
+      0.04069873576694064
+    ],
+    "latency_ms": 350.7012999989456,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.3333333333333333,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.5,
+      "recall_at_5": 0.5,
+      "recall_at_10": 0.5,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 0.5
+    }
+  },
+  {
+    "question_id": "TF044",
+    "question_type": "fact_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "a3d42ca5-54b5-4b8d-be4e-79337aaab880"
+    ],
+    "retrieved_context_ids": [
+      "09f3c6d5-9e0c-4545-960f-b16c69abbeb1",
+      "7abe62fa-6fdb-4466-a16b-73e1770f0c57",
+      "dfb2693a-e821-4d6e-bbcc-0dbf3dc2a2ae",
+      "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+      "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "21efe016-3004-45f3-a070-29ce2ecb0019",
+      "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+      "bc88f538-e881-4c81-85e9-fca20614315d"
+    ],
+    "scores": [
+      0.054898801599811385,
+      0.04955866747816306,
+      0.04873839056094698,
+      0.047919705990822084,
+      0.04663145903223146,
+      0.04629552414058681,
+      0.04521455736909216,
+      0.04445550164934263,
+      0.04348778531664894,
+      0.04210010167939299
+    ],
+    "latency_ms": 339.3711999997322,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 0.0,
+      "hit_at_10": 0.0,
+      "mrr": 0.0,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "recall_at_10": 0.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.0,
+      "precision_at_10": 0.0
+    },
+    "ragas": {
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    }
+  },
+  {
+    "question_id": "TF045",
+    "question_type": "paraphrase",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "fd678588-5ac2-400d-95c5-3309537781ec"
+    ],
+    "retrieved_context_ids": [
+      "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+      "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+      "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+      "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+      "d2e0fc0a-bf0e-4226-abbf-e9f3dea2fce8",
+      "dfb2693a-e821-4d6e-bbcc-0dbf3dc2a2ae",
+      "9b6cc313-9a59-4387-a5ce-2ed14389a0a7"
+    ],
+    "scores": [
+      0.07675226807885983,
+      0.0721593767364841,
+      0.07034608321358203,
+      0.06882963065564374,
+      0.06856952549039003,
+      0.06644111333436951,
+      0.06531714698240913,
+      0.06339022654156352,
+      0.06170454787426308,
+      0.06052142464030873
+    ],
+    "latency_ms": 265.9519000008004,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 0.0,
+      "hit_at_10": 0.0,
+      "mrr": 0.0,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "recall_at_10": 0.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.0,
+      "precision_at_10": 0.0
+    },
+    "ragas": {
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    }
+  },
+  {
+    "question_id": "TN001",
+    "question_type": "negative_out_of_scope",
+    "expected_answerable": false,
+    "needs_human_review": false,
+    "reference_context_ids": [],
+    "retrieved_context_ids": [
+      "bc88f538-e881-4c81-85e9-fca20614315d",
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+      "21efe016-3004-45f3-a070-29ce2ecb0019",
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+      "391ad5dc-0d1c-4350-85ba-5aa601d9ac0d",
+      "64fa07b8-63c3-43c8-899e-5bd6282225ed",
+      "f4580736-a09e-471f-93d2-8089c695eb67"
+    ],
+    "scores": [
+      0.030901480492616845,
+      0.027554541693793403,
+      0.027407932836985976,
+      0.026834871254857312,
+      0.026734315416657228,
+      0.021762198925018312,
+      0.021271863128199724,
+      0.021034977969838612
+    ],
+    "latency_ms": 232.3260000002847,
+    "metrics": {},
+    "ragas": {}
+  },
+  {
+    "question_id": "TN002",
+    "question_type": "negative_out_of_scope",
+    "expected_answerable": false,
+    "needs_human_review": false,
+    "reference_context_ids": [],
+    "retrieved_context_ids": [
+      "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+      "e96acbc9-66b4-4df4-953b-3f7b0a846bbc",
+      "1b376f6f-5ee5-4d05-a585-f3aa6b7ee824",
+      "54fdf811-dedd-4016-b144-3e4bfdcd67c8",
+      "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+      "2e55093d-0a0f-4fd9-954b-4fc72df9eac0"
+    ],
+    "scores": [
+      0.031806159047903695,
+      0.030195886532973105,
+      0.02960737989954017,
+      0.02868061518996545,
+      0.02764344262295082,
+      0.027037742636048096,
+      0.026408464687039154,
+      0.022841949455073625,
+      0.022571282509834534,
+      0.019951403566308923
+    ],
+    "latency_ms": 191.2540999992416,
+    "metrics": {},
+    "ragas": {}
+  },
+  {
+    "question_id": "TN003",
+    "question_type": "negative_out_of_scope",
+    "expected_answerable": false,
+    "needs_human_review": false,
+    "reference_context_ids": [],
+    "retrieved_context_ids": [
+      "f7a9837d-f8db-4461-abd8-a3607db2276f",
+      "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+      "ffcf7308-6e83-47bc-a519-0b4b7ba44562",
+      "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+      "63b53156-440d-40c1-bc88-5c07c23ae77f",
+      "71d2e37c-44e2-4972-8e6b-a6449c2f8404",
+      "ba3d1d87-0c2d-4b67-a0c2-4615c8249c2a",
+      "0f6b0fc1-9d70-479f-a87d-a26e954e2adb",
+      "1b376f6f-5ee5-4d05-a585-f3aa6b7ee824",
+      "21efe016-3004-45f3-a070-29ce2ecb0019"
+    ],
+    "scores": [
+      0.04716251952646084,
+      0.04671816686924489,
+      0.033694454046856975,
+      0.033592818444455066,
+      0.033364461085877394,
+      0.03307495506024378,
+      0.03279147038059482,
+      0.03190215020553662,
+      0.031094881740617163,
+      0.03078960775842472
+    ],
+    "latency_ms": 222.15520000099787,
+    "metrics": {},
+    "ragas": {}
+  },
+  {
+    "question_id": "TN004",
+    "question_type": "negative_out_of_scope",
+    "expected_answerable": false,
+    "needs_human_review": false,
+    "reference_context_ids": [],
+    "retrieved_context_ids": [
+      "4d18d11e-2a92-4690-8a64-46653931483e",
+      "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+      "ffcf7308-6e83-47bc-a519-0b4b7ba44562",
+      "1b376f6f-5ee5-4d05-a585-f3aa6b7ee824",
+      "17abd2d4-27a2-40ba-a55b-0b3ceee19005",
+      "71d2e37c-44e2-4972-8e6b-a6449c2f8404",
+      "da79aa00-567d-434c-8441-915ac080f918",
+      "646d4165-73db-4f69-84da-5f393cd81988",
+      "1033ac46-dec8-493e-b577-7f5ad80f8e86",
+      "81a83ec4-b5d1-4305-9f44-93e5fa935ffe"
+    ],
+    "scores": [
+      0.03513858520055489,
+      0.034503662507733304,
+      0.0332346435231283,
+      0.03258764263458582,
+      0.03250636365089887,
+      0.03228141016573519,
+      0.031984984629044096,
+      0.03189213714844141,
+      0.031002867093242882,
+      0.02992376713560749
+    ],
+    "latency_ms": 182.69219999911002,
+    "metrics": {},
+    "ragas": {}
+  },
+  {
+    "question_id": "TN005",
+    "question_type": "negative_out_of_scope",
+    "expected_answerable": false,
+    "needs_human_review": false,
+    "reference_context_ids": [],
+    "retrieved_context_ids": [
+      "fd678588-5ac2-400d-95c5-3309537781ec",
+      "3abbb958-eafe-4ffe-bcfc-dafa7349c15c",
+      "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+      "84c0a864-176f-4776-a15e-167fc2518e5d",
+      "b225ae64-72d2-4e59-81c0-57f5d8438666",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+      "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+      "dfb2693a-e821-4d6e-bbcc-0dbf3dc2a2ae",
+      "7e68f70a-ba74-4eb8-bbae-c7e9f7340567",
+      "a3d42ca5-54b5-4b8d-be4e-79337aaab880"
+    ],
+    "scores": [
+      0.048097057002371255,
+      0.046921958554319014,
+      0.045410998591329944,
+      0.04403811846826891,
+      0.04387193231658176,
+      0.043511433778807174,
+      0.04236102518819198,
+      0.036170739696139376,
+      0.033069292681557796,
+      0.031073085588567396
+    ],
+    "latency_ms": 182.3168999999325,
+    "metrics": {},
+    "ragas": {}
+  },
+  {
+    "question_id": "TP001",
+    "question_type": "product_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+      "ba3d1d87-0c2d-4b67-a0c2-4615c8249c2a"
+    ],
+    "retrieved_context_ids": [
+      "54fdf811-dedd-4016-b144-3e4bfdcd67c8",
+      "0f6b0fc1-9d70-479f-a87d-a26e954e2adb",
+      "ba3d1d87-0c2d-4b67-a0c2-4615c8249c2a",
+      "b0b5bc4f-7d0b-4f56-8e37-84178d38637d",
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+      "e96acbc9-66b4-4df4-953b-3f7b0a846bbc",
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+      "646d4165-73db-4f69-84da-5f393cd81988",
+      "71d2e37c-44e2-4972-8e6b-a6449c2f8404"
+    ],
+    "scores": [
+      0.058048784717432765,
+      0.04681521992826917,
+      0.04582511929904713,
+      0.04095840370482293,
+      0.038573209176228855,
+      0.03447540731696816,
+      0.03330359978146023,
+      0.032824240109166174,
+      0.03247991133744233,
+      0.032376027907074056
+    ],
+    "latency_ms": 228.56589999992138,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.3333333333333333,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.5,
+      "recall_at_5": 0.5,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP002",
+    "question_type": "product_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+      "ffcf7308-6e83-47bc-a519-0b4b7ba44562"
+    ],
+    "retrieved_context_ids": [
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+      "b0b5bc4f-7d0b-4f56-8e37-84178d38637d",
+      "f7a9837d-f8db-4461-abd8-a3607db2276f",
+      "c404e320-0bf2-4325-be92-7a0614f201ca",
+      "b10b8f1c-ed17-44ca-8d7c-1a4f19a12c67",
+      "7e68f70a-ba74-4eb8-bbae-c7e9f7340567",
+      "b225ae64-72d2-4e59-81c0-57f5d8438666",
+      "36bac780-b1a2-42dc-8cca-3605f80c5521",
+      "21d38039-895b-46a4-8902-96e380ce41aa",
+      "a3d42ca5-54b5-4b8d-be4e-79337aaab880"
+    ],
+    "scores": [
+      0.05027881586154512,
+      0.05013625667940785,
+      0.0494594379701922,
+      0.0492344736977229,
+      0.035176241174741316,
+      0.03479593277516121,
+      0.03431999033887064,
+      0.03401736417451898,
+      0.033337735293568045,
+      0.03281118479345599
+    ],
+    "latency_ms": 232.7326999993602,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 0.0,
+      "hit_at_10": 0.0,
+      "mrr": 0.0,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "recall_at_10": 0.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.0,
+      "precision_at_10": 0.0
+    },
+    "ragas": {
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    }
+  },
+  {
+    "question_id": "TP003",
+    "question_type": "temporal",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "63b53156-440d-40c1-bc88-5c07c23ae77f"
+    ],
+    "retrieved_context_ids": [
+      "c404e320-0bf2-4325-be92-7a0614f201ca",
+      "21efe016-3004-45f3-a070-29ce2ecb0019",
+      "63b53156-440d-40c1-bc88-5c07c23ae77f",
+      "ffcf7308-6e83-47bc-a519-0b4b7ba44562",
+      "59d57c8a-c9d7-4f8d-b9a1-a2816f1f01f7",
+      "f7a9837d-f8db-4461-abd8-a3607db2276f",
+      "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+      "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "71d2e37c-44e2-4972-8e6b-a6449c2f8404"
+    ],
+    "scores": [
+      0.05740964138110689,
+      0.055873556317075496,
+      0.048017114147059226,
+      0.04659778734353873,
+      0.04656253715661856,
+      0.045406290002472684,
+      0.04440135586132282,
+      0.04427963329891734,
+      0.04337074147405013,
+      0.04328209551697072
+    ],
+    "latency_ms": 204.89700000052835,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.3333333333333333,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP004",
+    "question_type": "temporal",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "71d2e37c-44e2-4972-8e6b-a6449c2f8404",
+      "63b53156-440d-40c1-bc88-5c07c23ae77f"
+    ],
+    "retrieved_context_ids": [
+      "63b53156-440d-40c1-bc88-5c07c23ae77f",
+      "c404e320-0bf2-4325-be92-7a0614f201ca",
+      "f7a9837d-f8db-4461-abd8-a3607db2276f",
+      "21efe016-3004-45f3-a070-29ce2ecb0019",
+      "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+      "ffcf7308-6e83-47bc-a519-0b4b7ba44562",
+      "71d2e37c-44e2-4972-8e6b-a6449c2f8404",
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "f4580736-a09e-471f-93d2-8089c695eb67"
+    ],
+    "scores": [
+      0.047262117370230255,
+      0.04614278901007868,
+      0.04577945097977707,
+      0.04529617782739492,
+      0.0440304227336898,
+      0.03736952046030153,
+      0.03706367235472708,
+      0.03584995384460319,
+      0.03522306475608177,
+      0.033416678531284404
+    ],
+    "latency_ms": 227.27480000139622,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 0.5,
+      "recall_at_3": 0.5,
+      "recall_at_5": 0.5,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP005",
+    "question_type": "temporal",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "da79aa00-567d-434c-8441-915ac080f918"
+    ],
+    "retrieved_context_ids": [
+      "8259ed27-8646-4502-a959-aab1e9f1770f",
+      "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+      "da79aa00-567d-434c-8441-915ac080f918",
+      "ba3d1d87-0c2d-4b67-a0c2-4615c8249c2a",
+      "0f6b0fc1-9d70-479f-a87d-a26e954e2adb",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "54fdf811-dedd-4016-b144-3e4bfdcd67c8",
+      "c404e320-0bf2-4325-be92-7a0614f201ca",
+      "30ce28cb-f702-4cce-8105-137e2f73af0d",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e"
+    ],
+    "scores": [
+      0.05970588235294118,
+      0.05734567901234568,
+      0.03974135301933914,
+      0.03875392257794928,
+      0.037994293645479155,
+      0.0378295766723001,
+      0.03705427913104786,
+      0.03613526181637983,
+      0.03521520470127915,
+      0.03480767125251812
+    ],
+    "latency_ms": 221.82619999784947,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.3333333333333333,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP006",
+    "question_type": "product_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "e96acbc9-66b4-4df4-953b-3f7b0a846bbc"
+    ],
+    "retrieved_context_ids": [
+      "e96acbc9-66b4-4df4-953b-3f7b0a846bbc",
+      "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+      "54fdf811-dedd-4016-b144-3e4bfdcd67c8",
+      "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1",
+      "3ecc27b9-634c-4026-b44e-e01123aa0467",
+      "df699ccc-6f51-4281-b4a4-f3d2a20631e0",
+      "324bc249-0e84-46e9-b77f-856c76cd5353",
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+      "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0"
+    ],
+    "scores": [
+      0.06233599327431351,
+      0.0616296651440282,
+      0.061104260429503426,
+      0.06053577280044556,
+      0.056748573160244085,
+      0.05437665384410864,
+      0.04787121624530105,
+      0.047494186418415546,
+      0.04696521921832152,
+      0.04679618397472802
+    ],
+    "latency_ms": 300.15019999973447,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP007",
+    "question_type": "product_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "324bc249-0e84-46e9-b77f-856c76cd5353",
+      "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1"
+    ],
+    "retrieved_context_ids": [
+      "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0",
+      "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+      "7abe62fa-6fdb-4466-a16b-73e1770f0c57",
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+      "3ecc27b9-634c-4026-b44e-e01123aa0467",
+      "e96acbc9-66b4-4df4-953b-3f7b0a846bbc",
+      "54fdf811-dedd-4016-b144-3e4bfdcd67c8",
+      "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1",
+      "df699ccc-6f51-4281-b4a4-f3d2a20631e0",
+      "f9cfc75b-a5e7-4633-a798-4b17ea462325"
+    ],
+    "scores": [
+      0.06169612167727163,
+      0.06078819995069959,
+      0.060159310485377454,
+      0.0601155839460039,
+      0.059407374148994545,
+      0.05921063436780657,
+      0.05905070410193978,
+      0.0584191338606555,
+      0.057857575587774684,
+      0.0565857960874255
+    ],
+    "latency_ms": 304.0431000008539,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 0.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.125,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "recall_at_10": 0.5,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.0,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 0.5
+    }
+  },
+  {
+    "question_id": "TP008",
+    "question_type": "product_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "54fdf811-dedd-4016-b144-3e4bfdcd67c8",
+      "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc"
+    ],
+    "retrieved_context_ids": [
+      "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+      "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0",
+      "df699ccc-6f51-4281-b4a4-f3d2a20631e0",
+      "7c33fbb7-e931-4f6b-9520-23875ec9ee5b",
+      "3ecc27b9-634c-4026-b44e-e01123aa0467",
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+      "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1",
+      "a3d42ca5-54b5-4b8d-be4e-79337aaab880",
+      "e96acbc9-66b4-4df4-953b-3f7b0a846bbc",
+      "59d57c8a-c9d7-4f8d-b9a1-a2816f1f01f7"
+    ],
+    "scores": [
+      0.05332436909038395,
+      0.0527545108795166,
+      0.05251754406540005,
+      0.051824086448563955,
+      0.051568283801704515,
+      0.05155274554368653,
+      0.05090425325451966,
+      0.04999760441145471,
+      0.04999077051117557,
+      0.04989648724140877
+    ],
+    "latency_ms": 204.6610999996119,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 0.5,
+      "recall_at_3": 0.5,
+      "recall_at_5": 0.5,
+      "recall_at_10": 0.5,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 0.5
+    }
+  },
+  {
+    "question_id": "TP009",
+    "question_type": "product_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "bc88f538-e881-4c81-85e9-fca20614315d"
+    ],
+    "retrieved_context_ids": [
+      "bc88f538-e881-4c81-85e9-fca20614315d",
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "21efe016-3004-45f3-a070-29ce2ecb0019",
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+      "f9eb1471-4566-4c09-a18e-9f3d84a47e9c",
+      "b0d368a1-d0fc-4b8b-8567-e190cf462986",
+      "54fdf811-dedd-4016-b144-3e4bfdcd67c8",
+      "a3d42ca5-54b5-4b8d-be4e-79337aaab880",
+      "c78ff32d-ea17-41fd-98ef-2e8872f01df3"
+    ],
+    "scores": [
+      0.08198757933788613,
+      0.07548691904147677,
+      0.06584060155973029,
+      0.06505947108612246,
+      0.06385196896669068,
+      0.053297183684851104,
+      0.05228700718886957,
+      0.0489336042596307,
+      0.04886828769956317,
+      0.04582051282051282
+    ],
+    "latency_ms": 246.1820999997144,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP010",
+    "question_type": "product_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2"
+    ],
+    "retrieved_context_ids": [
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+      "21efe016-3004-45f3-a070-29ce2ecb0019",
+      "bc88f538-e881-4c81-85e9-fca20614315d",
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+      "dfb2693a-e821-4d6e-bbcc-0dbf3dc2a2ae",
+      "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+      "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+      "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32"
+    ],
+    "scores": [
+      0.06663939392169527,
+      0.06578942106640527,
+      0.06577680790808893,
+      0.06574346985179752,
+      0.05880100456403952,
+      0.04437690847351688,
+      0.043982918014587015,
+      0.042902415460719295,
+      0.042318377475362955,
+      0.04182460566923774
+    ],
+    "latency_ms": 303.5316999994393,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.5,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP011",
+    "question_type": "temporal",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+      "21efe016-3004-45f3-a070-29ce2ecb0019"
+    ],
+    "retrieved_context_ids": [
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+      "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+      "c404e320-0bf2-4325-be92-7a0614f201ca",
+      "ffcf7308-6e83-47bc-a519-0b4b7ba44562",
+      "63b53156-440d-40c1-bc88-5c07c23ae77f",
+      "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+      "21efe016-3004-45f3-a070-29ce2ecb0019",
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+      "71d2e37c-44e2-4972-8e6b-a6449c2f8404"
+    ],
+    "scores": [
+      0.05449387466510348,
+      0.05059718196898871,
+      0.039265424713007716,
+      0.03364748906063041,
+      0.03360655912166754,
+      0.03345363646410824,
+      0.03309558090947494,
+      0.03274225197033006,
+      0.03233809016152881,
+      0.031683762944224036
+    ],
+    "latency_ms": 198.78659999994852,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 0.5,
+      "recall_at_3": 0.5,
+      "recall_at_5": 0.5,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP012",
+    "question_type": "product_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "21efe016-3004-45f3-a070-29ce2ecb0019"
+    ],
+    "retrieved_context_ids": [
+      "21efe016-3004-45f3-a070-29ce2ecb0019",
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+      "bc88f538-e881-4c81-85e9-fca20614315d",
+      "c404e320-0bf2-4325-be92-7a0614f201ca",
+      "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+      "f7a9837d-f8db-4461-abd8-a3607db2276f",
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+      "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+      "3ecc27b9-634c-4026-b44e-e01123aa0467"
+    ],
+    "scores": [
+      0.05746072529183059,
+      0.047851503141464725,
+      0.04677036428451538,
+      0.04612329748743166,
+      0.04582691480754848,
+      0.04549229689714112,
+      0.04545849013867961,
+      0.045065400385573925,
+      0.04116737104391123,
+      0.03103380324644743
+    ],
+    "latency_ms": 272.6119999997536,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP013",
+    "question_type": "procedure",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+      "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+      "7e68f70a-ba74-4eb8-bbae-c7e9f7340567",
+      "b225ae64-72d2-4e59-81c0-57f5d8438666",
+      "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+      "98d006ac-5212-4c8c-8a63-4cbd4d6caffc",
+      "9b6cc313-9a59-4387-a5ce-2ed14389a0a7"
+    ],
+    "retrieved_context_ids": [
+      "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+      "8259ed27-8646-4502-a959-aab1e9f1770f",
+      "fd678588-5ac2-400d-95c5-3309537781ec",
+      "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+      "30ce28cb-f702-4cce-8105-137e2f73af0d",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+      "8f3ed830-3a06-41c6-8b06-cfcf6d36a83c",
+      "16efaa44-1554-4748-8407-48fac0bced94"
+    ],
+    "scores": [
+      0.0803735102129761,
+      0.07712301259163098,
+      0.06634740364378777,
+      0.038922473899653705,
+      0.03788670219762673,
+      0.03704745167290715,
+      0.03640286498599582,
+      0.035946023708399784,
+      0.0348116877319298,
+      0.03423164214102875
+    ],
+    "latency_ms": 272.8898000013942,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.25,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.14285714285714285,
+      "recall_at_10": 0.2857142857142857,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 0.2857142857142857
+    }
+  },
+  {
+    "question_id": "TP014",
+    "question_type": "temporal",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "30ce28cb-f702-4cce-8105-137e2f73af0d"
+    ],
+    "retrieved_context_ids": [
+      "8259ed27-8646-4502-a959-aab1e9f1770f",
+      "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+      "30ce28cb-f702-4cce-8105-137e2f73af0d",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+      "70b95f72-95ec-43b5-b76f-657518103256",
+      "0a4f11c7-39e8-41fe-bd14-48456671f531",
+      "48b9789d-5088-4ba1-a82a-be3a6396ce85",
+      "cfff9bf0-05e4-4179-a793-f3c705d04812",
+      "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+      "6ffcd319-e868-444b-b6fe-8d192a4de3ff"
+    ],
+    "scores": [
+      0.05734567901234568,
+      0.05719512195121951,
+      0.03929626129519155,
+      0.03875536978629328,
+      0.03772684874679103,
+      0.037705716536595275,
+      0.03732854568028631,
+      0.036677757377055156,
+      0.03630880526959638,
+      0.0352787048215153
+    ],
+    "latency_ms": 187.470800000483,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.3333333333333333,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP015",
+    "question_type": "preparation",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "d3b7d61b-50f0-4b96-a770-785a9f3c3886"
+    ],
+    "retrieved_context_ids": [
+      "30ce28cb-f702-4cce-8105-137e2f73af0d",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+      "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+      "70b95f72-95ec-43b5-b76f-657518103256",
+      "48b9789d-5088-4ba1-a82a-be3a6396ce85",
+      "0a4f11c7-39e8-41fe-bd14-48456671f531",
+      "cfff9bf0-05e4-4179-a793-f3c705d04812",
+      "a952e706-800e-493c-886a-8f06602fb2be",
+      "4d18d11e-2a92-4690-8a64-46653931483e",
+      "17abd2d4-27a2-40ba-a55b-0b3ceee19005"
+    ],
+    "scores": [
+      0.05384271429430654,
+      0.05306605862814283,
+      0.05290099314300625,
+      0.0464849274235387,
+      0.044796997950627256,
+      0.04386724962506975,
+      0.04340716379441252,
+      0.0419256033300187,
+      0.041341353311225286,
+      0.0411980022760846
+    ],
+    "latency_ms": 237.83750000075088,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.3333333333333333,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP016",
+    "question_type": "temporal",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "0a4f11c7-39e8-41fe-bd14-48456671f531",
+      "70b95f72-95ec-43b5-b76f-657518103256"
+    ],
+    "retrieved_context_ids": [
+      "0a4f11c7-39e8-41fe-bd14-48456671f531",
+      "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+      "48b9789d-5088-4ba1-a82a-be3a6396ce85",
+      "70b95f72-95ec-43b5-b76f-657518103256",
+      "b8c70ff9-e1b2-40ce-9a0a-f65a53899d13",
+      "30ce28cb-f702-4cce-8105-137e2f73af0d",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+      "cfff9bf0-05e4-4179-a793-f3c705d04812",
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+      "63b53156-440d-40c1-bc88-5c07c23ae77f"
+    ],
+    "scores": [
+      0.05740461313327364,
+      0.05693502043896035,
+      0.04759689772513605,
+      0.04635961972527849,
+      0.04588819802753509,
+      0.04588324948426881,
+      0.0451933484918931,
+      0.04477344632726575,
+      0.03626041311074203,
+      0.034282207968029
+    ],
+    "latency_ms": 280.6752000005872,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 0.5,
+      "recall_at_3": 0.5,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.4,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP017",
+    "question_type": "preparation",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334"
+    ],
+    "retrieved_context_ids": [
+      "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+      "8259ed27-8646-4502-a959-aab1e9f1770f",
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+      "b0b5bc4f-7d0b-4f56-8e37-84178d38637d",
+      "48b9789d-5088-4ba1-a82a-be3a6396ce85",
+      "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+      "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+      "16efaa44-1554-4748-8407-48fac0bced94",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "b0d368a1-d0fc-4b8b-8567-e190cf462986"
+    ],
+    "scores": [
+      0.08149999999999999,
+      0.07400561805137405,
+      0.05570772564014009,
+      0.04413864693973527,
+      0.04170039356881072,
+      0.0388426425816412,
+      0.038587739936889166,
+      0.03796437828364363,
+      0.03780230042452404,
+      0.03503171588213016
+    ],
+    "latency_ms": 205.8854999995674,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.3333333333333333,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP018",
+    "question_type": "preparation",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+      "6ffcd319-e868-444b-b6fe-8d192a4de3ff"
+    ],
+    "retrieved_context_ids": [
+      "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+      "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+      "d2e0fc0a-bf0e-4226-abbf-e9f3dea2fce8",
+      "919e93ca-fed9-4dde-b9b8-f870e207a3f3",
+      "8f3ed830-3a06-41c6-8b06-cfcf6d36a83c",
+      "84c0a864-176f-4776-a15e-167fc2518e5d",
+      "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+      "b225ae64-72d2-4e59-81c0-57f5d8438666",
+      "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf"
+    ],
+    "scores": [
+      0.06451802503665499,
+      0.06367345059302545,
+      0.06066725884938912,
+      0.05966294248158053,
+      0.057581524947267926,
+      0.04765264144088283,
+      0.04676719908561852,
+      0.04559615923504405,
+      0.04509635802089012,
+      0.04438031468398676
+    ],
+    "latency_ms": 320.4523000003974,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 0.5,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.6666666666666666,
+      "precision_at_5": 0.4,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP019",
+    "question_type": "temporal",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "c404e320-0bf2-4325-be92-7a0614f201ca"
+    ],
+    "retrieved_context_ids": [
+      "b0d368a1-d0fc-4b8b-8567-e190cf462986",
+      "c404e320-0bf2-4325-be92-7a0614f201ca",
+      "919e93ca-fed9-4dde-b9b8-f870e207a3f3",
+      "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+      "16efaa44-1554-4748-8407-48fac0bced94",
+      "b7876bcb-b1d0-409a-831d-45e59e35a44e",
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+      "63b53156-440d-40c1-bc88-5c07c23ae77f",
+      "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+      "ffcf7308-6e83-47bc-a519-0b4b7ba44562"
+    ],
+    "scores": [
+      0.06641964733203462,
+      0.05766037332614474,
+      0.05575497164113869,
+      0.045792108737198495,
+      0.045586757319314136,
+      0.04415771445571652,
+      0.03763605075050829,
+      0.03664197834465682,
+      0.03388250663063743,
+      0.03199296890766792
+    ],
+    "latency_ms": 250.8983999987322,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.5,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP020",
+    "question_type": "temporal",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "c404e320-0bf2-4325-be92-7a0614f201ca"
+    ],
+    "retrieved_context_ids": [
+      "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+      "c404e320-0bf2-4325-be92-7a0614f201ca",
+      "919e93ca-fed9-4dde-b9b8-f870e207a3f3",
+      "b0d368a1-d0fc-4b8b-8567-e190cf462986",
+      "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+      "16efaa44-1554-4748-8407-48fac0bced94",
+      "da79aa00-567d-434c-8441-915ac080f918",
+      "8f3ed830-3a06-41c6-8b06-cfcf6d36a83c",
+      "59d57c8a-c9d7-4f8d-b9a1-a2816f1f01f7",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32"
+    ],
+    "scores": [
+      0.061824577923617875,
+      0.06178829919894747,
+      0.06020961805490347,
+      0.057439216129363535,
+      0.05647525010652528,
+      0.03625009065204196,
+      0.034589458054670674,
+      0.033843605301596906,
+      0.03353426217006645,
+      0.03338129299044525
+    ],
+    "latency_ms": 218.08019999934913,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.5,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP021",
+    "question_type": "fact_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "b0d368a1-d0fc-4b8b-8567-e190cf462986",
+      "919e93ca-fed9-4dde-b9b8-f870e207a3f3"
+    ],
+    "retrieved_context_ids": [
+      "919e93ca-fed9-4dde-b9b8-f870e207a3f3",
+      "b0d368a1-d0fc-4b8b-8567-e190cf462986",
+      "f7a9837d-f8db-4461-abd8-a3607db2276f",
+      "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+      "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+      "b7876bcb-b1d0-409a-831d-45e59e35a44e",
+      "c404e320-0bf2-4325-be92-7a0614f201ca",
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+      "16efaa44-1554-4748-8407-48fac0bced94",
+      "d2e0fc0a-bf0e-4226-abbf-e9f3dea2fce8"
+    ],
+    "scores": [
+      0.057480302925906696,
+      0.05694867241010261,
+      0.056677448228208305,
+      0.05616734313964844,
+      0.04641006337457048,
+      0.04591106625672974,
+      0.045886879490281605,
+      0.044774370304145356,
+      0.04435452923743553,
+      0.04394190711823721
+    ],
+    "latency_ms": 261.57659999989846,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 0.5,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.6666666666666666,
+      "precision_at_5": 0.4,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP022",
+    "question_type": "fact_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "b7876bcb-b1d0-409a-831d-45e59e35a44e"
+    ],
+    "retrieved_context_ids": [
+      "919e93ca-fed9-4dde-b9b8-f870e207a3f3",
+      "b7876bcb-b1d0-409a-831d-45e59e35a44e",
+      "16efaa44-1554-4748-8407-48fac0bced94",
+      "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+      "b0d368a1-d0fc-4b8b-8567-e190cf462986",
+      "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+      "f7a9837d-f8db-4461-abd8-a3607db2276f",
+      "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+      "7e68f70a-ba74-4eb8-bbae-c7e9f7340567",
+      "c404e320-0bf2-4325-be92-7a0614f201ca"
+    ],
+    "scores": [
+      0.06637518655856661,
+      0.06634385549624972,
+      0.046959343389131505,
+      0.04647604956771388,
+      0.045547858319022055,
+      0.045099306864139835,
+      0.04467008983234359,
+      0.043284357475269104,
+      0.0349394909936074,
+      0.034528479285356475
+    ],
+    "latency_ms": 223.91960000004474,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.5,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP023",
+    "question_type": "preparation",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "eda54b74-cd2f-4808-8175-bcc5b916ce90"
+    ],
+    "retrieved_context_ids": [
+      "b225ae64-72d2-4e59-81c0-57f5d8438666",
+      "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+      "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+      "fd678588-5ac2-400d-95c5-3309537781ec",
+      "21d38039-895b-46a4-8902-96e380ce41aa",
+      "7e68f70a-ba74-4eb8-bbae-c7e9f7340567",
+      "b0d368a1-d0fc-4b8b-8567-e190cf462986",
+      "b8c70ff9-e1b2-40ce-9a0a-f65a53899d13",
+      "36bac780-b1a2-42dc-8cca-3605f80c5521",
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334"
+    ],
+    "scores": [
+      0.06105184044200748,
+      0.060993933337515294,
+      0.06001002317400121,
+      0.05864238763867493,
+      0.058566871476551846,
+      0.057787093247068586,
+      0.057628877567339545,
+      0.05755722428590824,
+      0.057337518178499663,
+      0.05701101206183636
+    ],
+    "latency_ms": 247.83000000024913,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.5,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP024",
+    "question_type": "preparation",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "36bac780-b1a2-42dc-8cca-3605f80c5521"
+    ],
+    "retrieved_context_ids": [
+      "b10b8f1c-ed17-44ca-8d7c-1a4f19a12c67",
+      "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1",
+      "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+      "98d006ac-5212-4c8c-8a63-4cbd4d6caffc",
+      "b225ae64-72d2-4e59-81c0-57f5d8438666",
+      "36bac780-b1a2-42dc-8cca-3605f80c5521",
+      "9552a4ac-31b4-43a8-aa92-37bd3e89362a",
+      "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+      "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+      "21d38039-895b-46a4-8902-96e380ce41aa"
+    ],
+    "scores": [
+      0.06769036467870077,
+      0.06301550667127405,
+      0.0601830022907115,
+      0.059803099110210034,
+      0.059695972738499935,
+      0.05942510327314719,
+      0.05851891728884524,
+      0.05714706750143142,
+      0.05653536866741278,
+      0.05420574947120317
+    ],
+    "latency_ms": 284.940499998811,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 0.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.16666666666666666,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.0,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP025",
+    "question_type": "temporal",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "7e5199d4-e5c9-40ca-a69f-ea37f52c6ce3"
+    ],
+    "retrieved_context_ids": [
+      "54fdf811-dedd-4016-b144-3e4bfdcd67c8",
+      "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+      "f4580736-a09e-471f-93d2-8089c695eb67",
+      "8939253d-3272-4915-8c2b-c60062aeb818",
+      "f9cfc75b-a5e7-4633-a798-4b17ea462325",
+      "2e55093d-0a0f-4fd9-954b-4fc72df9eac0",
+      "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+      "71d2e37c-44e2-4972-8e6b-a6449c2f8404",
+      "ffcf7308-6e83-47bc-a519-0b4b7ba44562",
+      "e96acbc9-66b4-4df4-953b-3f7b0a846bbc"
+    ],
+    "scores": [
+      0.049756641987831356,
+      0.04911960533706754,
+      0.048321504702808285,
+      0.0480558979141394,
+      0.04797149590141661,
+      0.04620632132664546,
+      0.03376444912926391,
+      0.0318842968170089,
+      0.031621316096396804,
+      0.03147187352001219
+    ],
+    "latency_ms": 237.68069999914587,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 0.0,
+      "hit_at_10": 0.0,
+      "mrr": 0.0,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "recall_at_10": 0.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.0,
+      "precision_at_10": 0.0
+    },
+    "ragas": {
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    }
+  },
+  {
+    "question_id": "TP026",
+    "question_type": "procedure",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "5de4d74d-720e-4d86-a836-f946d70a2d32"
+    ],
+    "retrieved_context_ids": [
+      "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+      "b0b5bc4f-7d0b-4f56-8e37-84178d38637d",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "f9cfc75b-a5e7-4633-a798-4b17ea462325",
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+      "59d57c8a-c9d7-4f8d-b9a1-a2816f1f01f7",
+      "df699ccc-6f51-4281-b4a4-f3d2a20631e0",
+      "74c0eabe-77c7-4dbf-a321-27966a12fafb"
+    ],
+    "scores": [
+      0.07224977491722732,
+      0.0662313816529082,
+      0.060933617107451904,
+      0.05695824735671454,
+      0.05401614690531155,
+      0.05389835913553586,
+      0.04610806055335732,
+      0.0436375964282891,
+      0.04303896164240953,
+      0.04283500170772315
+    ],
+    "latency_ms": 247.3563000003196,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.3333333333333333,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP027",
+    "question_type": "fact_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "5de4d74d-720e-4d86-a836-f946d70a2d32"
+    ],
+    "retrieved_context_ids": [
+      "8259ed27-8646-4502-a959-aab1e9f1770f",
+      "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "da79aa00-567d-434c-8441-915ac080f918",
+      "cfff9bf0-05e4-4179-a793-f3c705d04812",
+      "df699ccc-6f51-4281-b4a4-f3d2a20631e0",
+      "59d57c8a-c9d7-4f8d-b9a1-a2816f1f01f7",
+      "c404e320-0bf2-4325-be92-7a0614f201ca",
+      "21efe016-3004-45f3-a070-29ce2ecb0019",
+      "16efaa44-1554-4748-8407-48fac0bced94"
+    ],
+    "scores": [
+      0.058333333333333334,
+      0.0581578947368421,
+      0.0394792395790439,
+      0.03626903682284885,
+      0.035461787081199334,
+      0.0351243699304144,
+      0.034709843421169305,
+      0.0336107875324106,
+      0.03335418536236499,
+      0.03329828147410928
+    ],
+    "latency_ms": 265.0424000003113,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.3333333333333333,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP028",
+    "question_type": "fact_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0"
+    ],
+    "retrieved_context_ids": [
+      "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+      "e62b0c91-ff0c-43b2-9bd5-ff173d9f8bc0",
+      "bc88f538-e881-4c81-85e9-fca20614315d",
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "54fdf811-dedd-4016-b144-3e4bfdcd67c8",
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+      "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1",
+      "e96acbc9-66b4-4df4-953b-3f7b0a846bbc",
+      "df699ccc-6f51-4281-b4a4-f3d2a20631e0"
+    ],
+    "scores": [
+      0.0891721994292581,
+      0.0779518499007592,
+      0.075800739398994,
+      0.0747434448598649,
+      0.07279210930751316,
+      0.06201485693057589,
+      0.06177552173983266,
+      0.04949707742080874,
+      0.04844042854598074,
+      0.035162973117060826
+    ],
+    "latency_ms": 309.6170999997412,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.5,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP029",
+    "question_type": "product_specific",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "59d57c8a-c9d7-4f8d-b9a1-a2816f1f01f7"
+    ],
+    "retrieved_context_ids": [
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+      "54fdf811-dedd-4016-b144-3e4bfdcd67c8",
+      "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1",
+      "59d57c8a-c9d7-4f8d-b9a1-a2816f1f01f7",
+      "e96acbc9-66b4-4df4-953b-3f7b0a846bbc",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "7c33fbb7-e931-4f6b-9520-23875ec9ee5b",
+      "3ecc27b9-634c-4026-b44e-e01123aa0467",
+      "63b53156-440d-40c1-bc88-5c07c23ae77f",
+      "1033ac46-dec8-493e-b577-7f5ad80f8e86"
+    ],
+    "scores": [
+      0.061642625101151004,
+      0.06163415573488881,
+      0.05352278069131959,
+      0.05257703174081843,
+      0.04899611040262075,
+      0.04486864749689956,
+      0.037294025954915516,
+      0.037249850380948656,
+      0.03569256993014403,
+      0.035450811243491816
+    ],
+    "latency_ms": 261.4935000001424,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 0.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.25,
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.0,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP030",
+    "question_type": "paraphrase",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "b0b5bc4f-7d0b-4f56-8e37-84178d38637d"
+    ],
+    "retrieved_context_ids": [
+      "b0b5bc4f-7d0b-4f56-8e37-84178d38637d",
+      "f7a9837d-f8db-4461-abd8-a3607db2276f",
+      "7c33fbb7-e931-4f6b-9520-23875ec9ee5b",
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+      "c404e320-0bf2-4325-be92-7a0614f201ca",
+      "f4580736-a09e-471f-93d2-8089c695eb67",
+      "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+      "8939253d-3272-4915-8c2b-c60062aeb818",
+      "646d4165-73db-4f69-84da-5f393cd81988",
+      "4d18d11e-2a92-4690-8a64-46653931483e"
+    ],
+    "scores": [
+      0.0697659903939423,
+      0.05960031508642529,
+      0.049664849310210264,
+      0.04961101578909253,
+      0.047880233878519994,
+      0.04690545814544135,
+      0.04681744985091381,
+      0.045564977979732614,
+      0.045551170201682756,
+      0.04494537460631219
+    ],
+    "latency_ms": 262.58319999942614,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP031",
+    "question_type": "monitoring",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf"
+    ],
+    "retrieved_context_ids": [
+      "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+      "8259ed27-8646-4502-a959-aab1e9f1770f",
+      "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+      "7e5199d4-e5c9-40ca-a69f-ea37f52c6ce3",
+      "16efaa44-1554-4748-8407-48fac0bced94",
+      "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+      "30ce28cb-f702-4cce-8105-137e2f73af0d",
+      "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+      "b225ae64-72d2-4e59-81c0-57f5d8438666"
+    ],
+    "scores": [
+      0.07711025242927748,
+      0.07611323880530024,
+      0.038834972813932174,
+      0.03872927058127618,
+      0.03735619651341619,
+      0.03704950833860026,
+      0.035076029408145956,
+      0.03506662673798818,
+      0.03475545569996775,
+      0.03424462516162558
+    ],
+    "latency_ms": 190.03429999884247,
+    "metrics": {
+      "hit_at_1": 0.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 0.3333333333333333,
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1
+    },
+    "ragas": {
+      "context_precision": 0.1,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP032",
+    "question_type": "adverse_reaction",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+      "8939253d-3272-4915-8c2b-c60062aeb818"
+    ],
+    "retrieved_context_ids": [
+      "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+      "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+      "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+      "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+      "fd678588-5ac2-400d-95c5-3309537781ec",
+      "391ad5dc-0d1c-4350-85ba-5aa601d9ac0d",
+      "7abe62fa-6fdb-4466-a16b-73e1770f0c57",
+      "8939253d-3272-4915-8c2b-c60062aeb818",
+      "2e55093d-0a0f-4fd9-954b-4fc72df9eac0",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32"
+    ],
+    "scores": [
+      0.05105121610985428,
+      0.04485719717558775,
+      0.043844829569022206,
+      0.0426308529469874,
+      0.04051964237063088,
+      0.037860130490049125,
+      0.03754206299993579,
+      0.0367802049091884,
+      0.03663354782831101,
+      0.03437205839374922
+    ],
+    "latency_ms": 300.6939999995666,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 0.5,
+      "recall_at_3": 0.5,
+      "recall_at_5": 0.5,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP033",
+    "question_type": "adverse_reaction",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "8939253d-3272-4915-8c2b-c60062aeb818",
+      "7abe62fa-6fdb-4466-a16b-73e1770f0c57"
+    ],
+    "retrieved_context_ids": [
+      "8939253d-3272-4915-8c2b-c60062aeb818",
+      "324bc249-0e84-46e9-b77f-856c76cd5353",
+      "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+      "7abe62fa-6fdb-4466-a16b-73e1770f0c57",
+      "2e55093d-0a0f-4fd9-954b-4fc72df9eac0",
+      "da79aa00-567d-434c-8441-915ac080f918",
+      "f4580736-a09e-471f-93d2-8089c695eb67",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "d3b7d61b-50f0-4b96-a770-785a9f3c3886",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e"
+    ],
+    "scores": [
+      0.057745294555288845,
+      0.054454613135865026,
+      0.047373266306467744,
+      0.04726067971426343,
+      0.0469754681144733,
+      0.04257786142653313,
+      0.03707877997791066,
+      0.03228061460722403,
+      0.032001078612504244,
+      0.03146321272746825
+    ],
+    "latency_ms": 248.10230000002775,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 0.5,
+      "recall_at_3": 0.5,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.3333333333333333,
+      "precision_at_5": 0.4,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TP034",
+    "question_type": "adverse_reaction",
+    "expected_answerable": true,
+    "needs_human_review": false,
+    "reference_context_ids": [
+      "7abe62fa-6fdb-4466-a16b-73e1770f0c57",
+      "2e55093d-0a0f-4fd9-954b-4fc72df9eac0"
+    ],
+    "retrieved_context_ids": [
+      "7abe62fa-6fdb-4466-a16b-73e1770f0c57",
+      "2e55093d-0a0f-4fd9-954b-4fc72df9eac0",
+      "5e7838ae-0b80-4d05-b266-deb52de7b401",
+      "324bc249-0e84-46e9-b77f-856c76cd5353",
+      "8f3ed830-3a06-41c6-8b06-cfcf6d36a83c",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+      "f7a9837d-f8db-4461-abd8-a3607db2276f",
+      "f9cfc75b-a5e7-4633-a798-4b17ea462325",
+      "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+      "da79aa00-567d-434c-8441-915ac080f918"
+    ],
+    "scores": [
+      0.05769410560951858,
+      0.04781228839978766,
+      0.04777172958478522,
+      0.046038597864263196,
+      0.04315226885310391,
+      0.04303501769883268,
+      0.03884540891246982,
+      0.03818929430549353,
+      0.03766902886234119,
+      0.03730069738359594
+    ],
+    "latency_ms": 352.61480000008305,
+    "metrics": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "hit_at_5": 1.0,
+      "hit_at_10": 1.0,
+      "mrr": 1.0,
+      "recall_at_1": 0.5,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.6666666666666666,
+      "precision_at_5": 0.4,
+      "precision_at_10": 0.2
+    },
+    "ragas": {
+      "context_precision": 0.2,
+      "context_recall": 1.0
+    }
+  },
+  {
+    "question_id": "TN006",
+    "question_type": "negative_out_of_scope",
+    "expected_answerable": false,
+    "needs_human_review": false,
+    "reference_context_ids": [],
+    "retrieved_context_ids": [
+      "71d2e37c-44e2-4972-8e6b-a6449c2f8404",
+      "5de4d74d-720e-4d86-a836-f946d70a2d32",
+      "ffcf7308-6e83-47bc-a519-0b4b7ba44562",
+      "f4580736-a09e-471f-93d2-8089c695eb67",
+      "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+      "54fdf811-dedd-4016-b144-3e4bfdcd67c8",
+      "0f6b0fc1-9d70-479f-a87d-a26e954e2adb",
+      "ba3d1d87-0c2d-4b67-a0c2-4615c8249c2a",
+      "da79aa00-567d-434c-8441-915ac080f918",
+      "646d4165-73db-4f69-84da-5f393cd81988"
+    ],
+    "scores": [
+      0.0620683946453157,
+      0.05960715829186784,
+      0.04997850763425421,
+      0.048672171642079334,
+      0.0470103995398075,
+      0.038759854641492154,
+      0.033538945525011084,
+      0.03345781086849174,
+      0.03320414227181739,
+      0.032167047301149054
+    ],
+    "latency_ms": 281.04480000001786,
+    "metrics": {},
+    "ragas": {}
+  },
+  {
+    "question_id": "TN007",
+    "question_type": "negative_out_of_scope",
+    "expected_answerable": false,
+    "needs_human_review": false,
+    "reference_context_ids": [],
+    "retrieved_context_ids": [
+      "9131e9a9-eff3-4f4e-a20b-4bdd456c35bc",
+      "54fdf811-dedd-4016-b144-3e4bfdcd67c8",
+      "7c33fbb7-e931-4f6b-9520-23875ec9ee5b",
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "23c6ca0d-04bf-4081-b90a-9819029dcd73",
+      "ba3d1d87-0c2d-4b67-a0c2-4615c8249c2a",
+      "63b53156-440d-40c1-bc88-5c07c23ae77f",
+      "09f3c6d5-9e0c-4545-960f-b16c69abbeb1",
+      "0f6b0fc1-9d70-479f-a87d-a26e954e2adb",
+      "71d2e37c-44e2-4972-8e6b-a6449c2f8404"
+    ],
+    "scores": [
+      0.0540738665841652,
+      0.045435405095418296,
+      0.04275181006603554,
+      0.0377326078858235,
+      0.035437686082776663,
+      0.034816937851000436,
+      0.034614101593926146,
+      0.034400519671515244,
+      0.033945637283040515,
+      0.03312126485172774
+    ],
+    "latency_ms": 197.39949999893724,
+    "metrics": {},
+    "ragas": {}
+  },
+  {
+    "question_id": "TN008",
+    "question_type": "negative_out_of_scope",
+    "expected_answerable": false,
+    "needs_human_review": false,
+    "reference_context_ids": [],
+    "retrieved_context_ids": [
+      "bc88f538-e881-4c81-85e9-fca20614315d",
+      "b66e5419-8a9c-47f4-866d-ebdb95b174b2",
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "21efe016-3004-45f3-a070-29ce2ecb0019",
+      "4c0dde2a-0432-4cb2-ad33-987f5979ff76",
+      "63e9db23-9c0a-4e6a-a272-3d118d242ca2",
+      "64fa07b8-63c3-43c8-899e-5bd6282225ed",
+      "391ad5dc-0d1c-4350-85ba-5aa601d9ac0d",
+      "59d57c8a-c9d7-4f8d-b9a1-a2816f1f01f7",
+      "16efaa44-1554-4748-8407-48fac0bced94"
+    ],
+    "scores": [
+      0.03666609817476415,
+      0.03664846209161867,
+      0.034498298430381595,
+      0.0333969616298876,
+      0.032780540776419474,
+      0.029706889675127756,
+      0.02200866030889844,
+      0.0212721873774673,
+      0.017949769133613222,
+      0.017806704268736
+    ],
+    "latency_ms": 159.10190000158764,
+    "metrics": {},
+    "ragas": {}
+  },
+  {
+    "question_id": "TN009",
+    "question_type": "negative_out_of_scope",
+    "expected_answerable": false,
+    "needs_human_review": false,
+    "reference_context_ids": [],
+    "retrieved_context_ids": [
+      "54fdf811-dedd-4016-b144-3e4bfdcd67c8",
+      "63b53156-440d-40c1-bc88-5c07c23ae77f",
+      "e96acbc9-66b4-4df4-953b-3f7b0a846bbc",
+      "0f6b0fc1-9d70-479f-a87d-a26e954e2adb",
+      "646d4165-73db-4f69-84da-5f393cd81988",
+      "21efe016-3004-45f3-a070-29ce2ecb0019",
+      "21d38039-895b-46a4-8902-96e380ce41aa",
+      "c404e320-0bf2-4325-be92-7a0614f201ca",
+      "36bac780-b1a2-42dc-8cca-3605f80c5521",
+      "919e93ca-fed9-4dde-b9b8-f870e207a3f3"
+    ],
+    "scores": [
+      0.032140961650987565,
+      0.031819527223256185,
+      0.03165667176960703,
+      0.029294138812308995,
+      0.029168401629402308,
+      0.02908895550276104,
+      0.022008268825591558,
+      0.021498379670656646,
+      0.021260180140986587,
+      0.02080986718570485
+    ],
+    "latency_ms": 132.94330000007903,
+    "metrics": {},
+    "ragas": {}
+  },
+  {
+    "question_id": "TN010",
+    "question_type": "negative_out_of_scope",
+    "expected_answerable": false,
+    "needs_human_review": false,
+    "reference_context_ids": [],
+    "retrieved_context_ids": [
+      "54fdf811-dedd-4016-b144-3e4bfdcd67c8",
+      "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+      "2cea4ea7-7aaf-4c54-ac4e-b660de52065d",
+      "fbf62ef9-25b7-437c-98d8-c4934fba0fe6",
+      "e96acbc9-66b4-4df4-953b-3f7b0a846bbc",
+      "d4c1a9ca-23c5-4ae0-9a51-c56675b2e6d1",
+      "8f3ed830-3a06-41c6-8b06-cfcf6d36a83c",
+      "bc88f538-e881-4c81-85e9-fca20614315d",
+      "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+      "fd678588-5ac2-400d-95c5-3309537781ec"
+    ],
+    "scores": [
+      0.045395292526301395,
+      0.037379032258064514,
+      0.03712913125212484,
+      0.031988838195800784,
+      0.0316098707482055,
+      0.03116178637411709,
+      0.030834931014240653,
+      0.030348824549874403,
+      0.029463466292933414,
+      0.02929203904139531
+    ],
+    "latency_ms": 132.39359999897715,
+    "metrics": {},
+    "ragas": {}
+  },
+  {
+    "question_id": "TN011",
+    "question_type": "negative_out_of_scope",
+    "expected_answerable": false,
+    "needs_human_review": false,
+    "reference_context_ids": [],
+    "retrieved_context_ids": [
+      "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+      "63e9db23-9c0a-4e6a-a272-3d118d242ca2",
+      "d2e0fc0a-bf0e-4226-abbf-e9f3dea2fce8",
+      "a3d42ca5-54b5-4b8d-be4e-79337aaab880",
+      "fd678588-5ac2-400d-95c5-3309537781ec",
+      "84c0a864-176f-4776-a15e-167fc2518e5d",
+      "b10b8f1c-ed17-44ca-8d7c-1a4f19a12c67",
+      "8f3ed830-3a06-41c6-8b06-cfcf6d36a83c",
+      "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+      "21efe016-3004-45f3-a070-29ce2ecb0019"
+    ],
+    "scores": [
+      0.032248928070068364,
+      0.03097788345640984,
+      0.03085573400769915,
+      0.030651310497606304,
+      0.03045444303088718,
+      0.03007012362093539,
+      0.029889926751454673,
+      0.029210201190996772,
+      0.029042263507843016,
+      0.0289709694140537
+    ],
+    "latency_ms": 198.0621999982759,
+    "metrics": {},
+    "ragas": {}
+  }
+]

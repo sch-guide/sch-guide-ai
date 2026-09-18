@@ -1,0 +1,21 @@
+{
+  "focused_gold_review_tests": {
+    "passed": 10,
+    "failed": 0
+  },
+  "related_regression": {
+    "passed": 36,
+    "failed": 0,
+    "warnings": 2
+  },
+  "full_pytest": {
+    "passed": 587,
+    "skipped": 4,
+    "failed": 0,
+    "warnings": 9
+  },
+  "ruff": "pass",
+  "git_diff_check": "pass",
+  "code_review": "pass_no_actionable_defect",
+  "security_audit": "pass"
+}

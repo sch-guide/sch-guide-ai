@@ -1,0 +1,21 @@
+{
+  "status": "passed",
+  "actionable_defects": 0,
+  "reviewed_boundaries": [
+    "offline_only_transport_boundary",
+    "provider_wire_schema_compatibility",
+    "server_validator_preservation",
+    "raw_free_artifact_persistence",
+    "tf027_human_review_gate",
+    "operational_uat_call_limits",
+    "production_retrieval_non_change"
+  ],
+  "resolved_findings": [
+    {
+      "finding": "provider wire schema contained unconfirmed minItems/maxItems keywords",
+      "resolution": "removed only from the common wire schema while retaining existing server-side Pydantic limits"
+    }
+  ],
+  "production_files_changed": 0,
+  "actual_external_calls": 0
+}

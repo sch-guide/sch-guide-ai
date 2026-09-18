@@ -1,0 +1,47 @@
+{
+  "stable_version": "v0.9",
+  "uat": {
+    "schema_version": 1,
+    "dataset_version": "schat-v1-operational-uat-v1",
+    "case_count": 36,
+    "pass_count": 28,
+    "fail_count": 8,
+    "scope_counts": {
+      "sedation": 14,
+      "transfusion": 18,
+      "out_of_scope": 4
+    },
+    "failure_counts": {
+      "hospital_domain_mismatch": 5,
+      "pre_budget_not_supported": 3
+    },
+    "actual_provider_calls": 0,
+    "actual_vision_calls": 0,
+    "generation_status": "pending_external_transfer_approval",
+    "correct_evidence_contract": "server_assessment_not_human_gold"
+  },
+  "retrieval": {
+    "hit_at_1": 0.3974358974358974,
+    "hit_at_3": 0.6538461538461539,
+    "hit_at_5": 0.7948717948717948,
+    "hit_at_10": 0.8846153846153846,
+    "mrr": 0.5601648351648352,
+    "recall_at_1": 0.3141025641025641,
+    "recall_at_3": 0.5741758241758241,
+    "recall_at_5": 0.717032967032967,
+    "recall_at_10": 0.8379120879120879,
+    "precision_at_1": 0.3974358974358974,
+    "precision_at_3": 0.26068376068376065,
+    "precision_at_5": 0.19743589743589743,
+    "precision_at_10": 0.11923076923076924,
+    "ragas_id_context_precision": 0.11923076923076924,
+    "ragas_id_context_recall": 0.8379120879120879
+  },
+  "fixture_sha256": {
+    "operational_uat": "2e9043e5bbf73504b39fefc03181611bb50ec6645c4c6273a6e07d8631bc627a",
+    "operational_gold": "673971e81f857df08744df3148b2cc67c03a7ac33e821d56e4cc845619a4a5f6",
+    "transfusion_retrieval": "7a5af33e815f59c320bae1da37a4fd9de1b1f8965dd3c95480bbda32e87da070"
+  },
+  "actual_provider_calls": 0,
+  "actual_vision_calls": 0
+}

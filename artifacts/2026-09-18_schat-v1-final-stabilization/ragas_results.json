@@ -1,0 +1,26 @@
+{
+  "bm25_current": {
+    "id_context_precision": 0.2571428571428572,
+    "id_context_recall": 0.45225211296639867,
+    "faithfulness": "pending_external_llm_judge_approval",
+    "answer_relevancy": "pending_external_llm_judge_approval"
+  },
+  "production_hybrid": {
+    "id_context_precision": 0.5364890400604686,
+    "id_context_recall": 0.821026592455164,
+    "faithfulness": "pending_external_llm_judge_approval",
+    "answer_relevancy": "pending_external_llm_judge_approval"
+  },
+  "e5_large_eval": {
+    "id_context_precision": 0.3,
+    "id_context_recall": 0.5014893836322408,
+    "faithfulness": "pending_external_llm_judge_approval",
+    "answer_relevancy": "pending_external_llm_judge_approval"
+  },
+  "bm25_e5_rrf_eval": {
+    "id_context_precision": 0.3142857142857143,
+    "id_context_recall": 0.5352040816326531,
+    "faithfulness": "pending_external_llm_judge_approval",
+    "answer_relevancy": "pending_external_llm_judge_approval"
+  }
+}

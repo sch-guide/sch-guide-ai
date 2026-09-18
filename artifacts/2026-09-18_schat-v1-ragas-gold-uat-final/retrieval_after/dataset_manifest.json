@@ -1,0 +1,56 @@
+{
+  "schema_version": 3,
+  "dataset_id": "transfusion-retrieval",
+  "dataset_version": "transfusion-retrieval-v3",
+  "document_version": "sha256:5fc6a9a0d5ff5721954fad8f2855c204301e59ef0b28a91d8d9bdbaf48cb659b",
+  "document": {
+    "id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+    "name": "실무지침서_수혈간호.pdf",
+    "page_count": 17,
+    "chunk_count": 105,
+    "chunk_version": 4,
+    "model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "dimensions": 384
+  },
+  "case_count": 90,
+  "positive_case_count": 79,
+  "approved_case_count": 78,
+  "human_review_case_count": 1,
+  "negative_case_count": 11,
+  "question_type_counts": {
+    "adverse_reaction": 8,
+    "fact_specific": 10,
+    "monitoring": 2,
+    "negative_out_of_scope": 11,
+    "paraphrase": 6,
+    "preparation": 10,
+    "procedure": 7,
+    "product_specific": 18,
+    "temporal": 18
+  },
+  "cutoffs": [
+    1,
+    3,
+    5,
+    10
+  ],
+  "gold_policy": {
+    "selection": "manual_page_review_independent_of_retrieval_output",
+    "approved_aggregate": "needs_human_review_false_only_after_audited_review",
+    "ambiguous_or_table_or_image": "flag_and_exclude_from_approved_aggregate",
+    "source_text_in_fixture": false,
+    "negative_metrics": "excluded_from_positive_ir_and_ragas_aggregates",
+    "negative_gold_contexts": "empty",
+    "structural_table_approval": "rendered_page_plus_catalog_fingerprint",
+    "image_interpretation": "never_auto_approved",
+    "expanded_variants": "independently_authored_semantic_variants_of_approved_gold"
+  },
+  "reference_fingerprint_algorithm": "sha256",
+  "review_audit": {
+    "reviewed_case_count": 14,
+    "auto_approved_case_count": 13,
+    "remaining_human_review_case_count": 1,
+    "approved_structural_table_count": 12,
+    "approved_nearby_text_count": 1
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "status": "READY_EXCEPT_IMAGE_AND_LIVE_RAGAS",
+  "provider_live_status": "BLOCKED_BY_EXTERNAL_TRANSFER_APPROVAL",
+  "provider_calls": 0,
+  "llm_judge_calls": 0,
+  "tf027_needs_human_review": true,
+  "production_image_gold_approved": false
+}

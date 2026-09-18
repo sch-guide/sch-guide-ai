@@ -30,7 +30,7 @@ from mvp.library import (
     Embedder,
     bounded_embedding_question,
 )
-from mvp.query import plan_query
+from mvp.query import plan_query, resolve_document_scope
 from mvp.repository import Repository
 from mvp.settings import GuideError, load_settings
 from mvp.storage import source_store
@@ -163,7 +163,10 @@ try:
     library = repository_type(settings, auth, source_store(settings, auth))
     revision = library.revision()
     documents = library.documents()
-    selected = [d["id"] for d in documents]  # 직원은 관리자가 등록한 전체 지침을 자동 검색
+    selected_ids, context_document_ids = resolve_document_scope(
+        documents, st.session_state.get('document_scope_id', ''),
+    )
+    selected = list(selected_ids)
 except GuideError as exc:
     st.session_state.clear()
     st.error(str(exc))
@@ -187,6 +190,18 @@ header(settings, turns, admin=admin, page=page, on_navigate=navigate, documents=
 with st.sidebar:
     with st.container(key='sidebar_main'):
         brand()
+        document_labels = {
+            '': '전체 등록 지침',
+            **{str(document['id']): str(document['document_name']) for document in documents},
+        }
+        st.selectbox(
+            '질문 범위',
+            options=list(document_labels),
+            format_func=document_labels.get,
+            key='document_scope_id',
+            on_change=clear_conversation,
+            help='지침 하나를 선택하면 생략된 주제를 해당 문서 근거로만 확인합니다.',
+        )
         with st.container(key='sidebar_new'):
             st.button('새 대화 시작', icon=':material/add:', type='primary', width='stretch', on_click=clear_conversation)
         if admin:
@@ -295,7 +310,9 @@ else:
             previous_sources = [hit.chunk.document_id for hit in turns[-1].get('hits', [])
                                 if hit.chunk.id in previous_cited] if turns else []
             plan = (pending.get('plan') if pending and not typed_question else None) or plan_query(
-                question, previous, follow_up, documents, previous_sources)
+                question, previous, follow_up, documents, previous_sources,
+                context_document_ids=context_document_ids,
+            )
             query = plan.query
             turn = dict(question=question, query=query, plan=plan, hits=[], answer=None, error=None)
             if plan.domain == 'out_of_scope':

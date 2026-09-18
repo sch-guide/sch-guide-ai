@@ -1,0 +1,13 @@
+{
+  "harness_schema_version": 1,
+  "offline_only": true,
+  "actual_external_calls": 0,
+  "provider_labels": [
+    "groq",
+    "gemini"
+  ],
+  "same_evidence_sha256": true,
+  "same_schema_sha256": true,
+  "source_unit_limit": 16,
+  "persisted_raw_clinical_text": false
+}
