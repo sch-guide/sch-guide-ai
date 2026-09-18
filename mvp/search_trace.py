@@ -42,4 +42,4 @@ def candidate_trace(trace, chunks, bm25_scores, dense_hits, candidates):
 def finish_trace(trace, seeds, hits):
     if trace is not None:
         trace.update(reranked_top5=[hit_row(h) for h in seeds[:5]], final_hits=[hit_row(h) for h in hits],
-                     reason='retrieved' if hits else 'no_candidates_after_rerank')
+                     reason=trace.get('context_selection', {}).get('reason', 'context_ready' if hits else 'no_candidates_after_rerank'))

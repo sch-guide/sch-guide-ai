@@ -73,3 +73,64 @@ def test_same_parent_id_in_other_document_not_included():
 def test_zero_budget_returns_no_context():
     a=chunk(0)
     assert expand_context('수혈 혈압 주기는?',[Hit(a,.9)],[a],limit=0)==[]
+
+
+def test_relevant_supplement_does_not_make_complete_core_empty():
+    core=[chunk(i) for i in range(2)]
+    extra=[chunk(i,'extra','수혈 교육을 시행한다.') for i in range(2,15)]
+    trace={}
+    hits=expand_context('수혈 혈압 확인 주기는?', [Hit(core[0],.9),Hit(extra[0],.8)],core+extra,limit=12,trace=trace)
+    assert {h.chunk.id for h in hits}=={c.id for c in core}
+    assert all(h.context_complete for h in hits)
+    assert trace['context_selection']['reason']=='context_ready'
+
+
+def test_required_overflow_reason():
+    a=[chunk(i) for i in range(7)]
+    b=[chunk(i,'second','수혈 체온은 30분마다 확인한다.') for i in range(7,14)]
+    trace={}
+    hits=expand_context('수혈 혈압 및 체온 확인 주기는?', [Hit(a[0],.9),Hit(b[0],.8)],a+b,limit=12,trace=trace)
+    assert hits==[]
+    assert trace['context_selection']['reason']=='context_budget_exceeded'
+
+
+def test_saved_top_parent_with_large_generic_supplement():
+    import json
+    from pathlib import Path
+    from dataclasses import fields
+    data=json.loads((Path(__file__).parent/'fixtures/trf001_parent_completion.json').read_text(encoding='utf-8'))
+    names={f.name for f in fields(Chunk)}
+    core=[Chunk(**{k:v for k,v in c.items() if k in names}) for c in data['chunks']]
+    seed=Hit(next(c for c in core if c.id==data['seed']['chunk_id']),.9)
+    extra=[chunk(i,'supplement','수혈 교육을 시행한다.') for i in range(100,113)]
+    hits=expand_context(data['question'],[seed,Hit(extra[0],.8)],core+extra,limit=12)
+    assert hits and len(hits)==len(core) and all(h.context_complete for h in hits)
+
+
+def test_trace_distinguishes_empty_seeds_and_missing_aspect():
+    trace={}
+    assert expand_context('수혈 혈압 주기는?',[],[],trace=trace)==[]
+    assert trace['context_selection']['reason']=='no_candidates_after_rerank'
+    a=chunk(0,text='수혈 혈압 확인을 교육한다.')
+    trace={}
+    assert expand_context('수혈 혈압 확인 주기는?',[Hit(a,.9)],[a],trace=trace)==[]
+    assert trace['context_selection']['reason']=='no_complete_required_parent'
+
+
+def test_existing_plan_document_requirements_preserved():
+    a=chunk(0)
+    b=replace(chunk(1),document_id='other')
+    plan=replace(plan_query('수혈 혈압 확인 주기는?'),document_ids=('doc','other'),min_documents=2)
+    hits=expand_context(plan.query,[Hit(a,.9),Hit(b,.8)],[a,b],limit=2,plan=plan)
+    assert {h.chunk.document_id for h in hits}=={'doc','other'}
+    trace={}
+    assert expand_context(plan.query,[Hit(a,.9),Hit(b,.8)],[a,b],limit=1,plan=plan,trace=trace)==[]
+    assert trace['context_selection']['reason']=='context_budget_exceeded'
+
+
+def test_finish_trace_preserves_context_failure_reason():
+    from mvp.search_trace import finish_trace
+    a=chunk(0)
+    trace={'context_selection':{'reason':'context_budget_exceeded'}}
+    finish_trace(trace,[Hit(a,.9)],[])
+    assert trace['reason']=='context_budget_exceeded'

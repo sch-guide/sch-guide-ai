@@ -41,7 +41,7 @@ def neighbors(seed, chunks, radius=2):
     return sorted(result, key=lambda c: c.index)
 
 
-def expand_context(question, seeds, chunks, limit=12):
+def expand_context(question, seeds, chunks, limit=12, *, plan=None, trace=None):
     # 같은 항목의 문맥만 유지하고 다른 문서로 확장하지 않습니다.
     selected, seen = [], set()
     def complete_context():
@@ -52,13 +52,23 @@ def expand_context(question, seeds, chunks, limit=12):
                       if (c.document_id, c.parent_id) in parents and c.id not in ids}
         return [replace(h, context_complete=(h.chunk.document_id, h.chunk.parent_id) not in incomplete)
                 for h in selected]
+    def finish(reason, result):
+        if trace is not None:
+            trace.setdefault('context_selection', {}).update(reason=reason, limit=limit,
+                seed_count=len(seeds), selected_chunk_count=len(result))
+        return result
+    if not seeds:
+        return finish('no_candidates_after_rerank', [])
     if limit <= 0:
-        return []
-    # Reuse the existing topic test; do not infer that a lower-ranked relevant
-    # parent is dispensable merely to fit the budget.
-    from mvp.evidence import relevant_body
+        return finish('context_budget_exceeded', [])
+    # Relevance supplies parent candidates, not an unconditional requirement
+    # to retain every candidate. Coverage and evidence checks constrain selection.
+    from mvp.evidence import relevant_body, assess_evidence, GENERIC
+    from mvp.library import terms, term_matches
+    from mvp.grounding import explicit_conflicts
+    from itertools import combinations
     from mvp.query import plan_query
-    plan = plan_query(question)
+    plan = plan or plan_query(question)
     required = [seed for seed in seeds if relevant_body(plan, seed)]
     if required and any(seed.chunk.parent_id for seed in required):
         def parent_key(chunk):
@@ -72,26 +82,63 @@ def expand_context(question, seeds, chunks, limit=12):
                 members = {c.id: c for c in siblings}
                 members[seed.chunk.id] = seed.chunk
                 groups[key] = (seed, sorted(members.values(), key=lambda c: c.index))
-        total = sum(len(members) for _, members in groups.values())
-        if total > limit:
-            # No partial required parent and no complete subset that silently
-            # drops another required parent. The existing caller handles no hits.
-            return []
-        # Keep original seed order/scores; siblings alone are context-only.
-        ids = set()
-        for seed in required:
-            key = (seed.chunk.document_id, seed.chunk.id)
-            if key not in ids:
-                selected.append(seed)
-                ids.add(key)
-        for seed, members in groups.values():
-            for chunk in members:
-                key = (chunk.document_id, chunk.id)
-                if key not in ids:
-                    selected.append(replace(seed, chunk=chunk, lexical=0,
-                                            bm25_score=0, context_only=True))
+        ordered = list(groups)
+        def build(keys):
+            wanted = set(keys)
+            result, ids = [], set()
+            for seed in required:
+                key = (seed.chunk.document_id, seed.chunk.id)
+                if parent_key(seed.chunk) in wanted and key not in ids:
+                    result.append(seed)
                     ids.add(key)
-        return complete_context()
+            for key in keys:
+                seed, members = groups[key]
+                for chunk in members:
+                    identifier = (chunk.document_id, chunk.id)
+                    if identifier not in ids:
+                        result.append(replace(seed, chunk=chunk, lexical=0, bm25_score=0, context_only=True))
+                        ids.add(identifier)
+            return result
+        all_hits = build(ordered)
+        current = plan.query.split(' / 추가 질문: ')[-1]
+        words = [word for word in terms(current) if word not in GENERIC]
+        supported = {word for word in words if any(term_matches(word, h.chunk.text) for h in all_hits)}
+        # Existing explicit conflict evidence must not be hidden by selection.
+        conflict_ids = {identifier for pair in explicit_conflicts(all_hits) for identifier in pair}
+        if trace is not None:
+            trace['context_selection'] = dict(parent_candidates=[
+                dict(document_id=key[0], parent_id=key[1], seed_rank=i+1,
+                     chunk_count=len(groups[key][1])) for i, key in enumerate(ordered)],
+                all_parent_chunk_count=len(all_hits))
+        feasible = []
+        sufficient_over_budget = False
+        # At most max_seeds parents (normally six): enumerate bounded combinations
+        # without changing retrieval scores or calling search/LLM.
+        for count in range(1, len(ordered)+1):
+            for tail in combinations(range(1, len(ordered)), count-1):
+                ranks = (0,) + tail
+                keys = [ordered[i] for i in ranks]
+                selected = build(keys)
+                completed = complete_context()
+                if not all(h.context_complete for h in completed):
+                    continue
+                if not conflict_ids.issubset({h.chunk.id for h in completed}):
+                    continue
+                retained = {word for word in words if any(term_matches(word, h.chunk.text) for h in completed)}
+                if not supported.issubset(retained):
+                    continue
+                if not assess_evidence(plan, completed).sufficient:
+                    continue
+                if len(completed) > limit:
+                    sufficient_over_budget = True
+                    continue
+                feasible.append((ranks, keys, completed))
+        if not feasible:
+            return finish('context_budget_exceeded' if sufficient_over_budget else 'no_complete_required_parent', [])
+        _, chosen, result = min(feasible, key=lambda item: item[0])
+        if trace is not None:
+            trace['context_selection']['selected_parents'] = [dict(document_id=k[0], parent_id=k[1]) for k in chosen]
+        return finish('context_ready', result)
     groups = [[s.chunk] + [c for c in neighbors(s.chunk, chunks) if c.id != s.chunk.id] for s in seeds]
     # 검색 후보를 먼저 확보한 뒤 앞뒤를 추가하여 여러 문서의 비교 근거를 남깁니다.
     for depth in range(max((len(g) for g in groups), default=0)):
@@ -105,5 +152,5 @@ def expand_context(question, seeds, chunks, limit=12):
                                                                bm25_score=0, context_only=True))
                 seen.add(signature)
             if len(selected) >= limit:
-                return complete_context()
-    return complete_context()
+                return finish('context_ready', complete_context())
+    return finish('context_ready', complete_context())

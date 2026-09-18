@@ -146,6 +146,6 @@ def search(library, question, vector, doc_ids, minimum, plan=None, trace=None):
     candidate_trace(trace, [library.chunks[i] for i in indices], bm25,
                     [by_id[library.chunks[indices[p]].id] for p in dense], candidates)
     seeds = rerank(plan, candidates, minimum, trace=trace)
-    hits = expand_context(question, seeds, [library.chunks[i] for i in indices], limit=plan.max_hits)
+    hits = expand_context(question, seeds, [library.chunks[i] for i in indices], limit=plan.max_hits, plan=plan, trace=trace)
     finish_trace(trace, seeds, hits)
     return hits
