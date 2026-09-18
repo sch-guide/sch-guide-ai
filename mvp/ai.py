@@ -81,13 +81,16 @@ class Answer(BaseModel):
 def validate_answer(raw, hits, trace=None):
     from mvp.evidence import sentence_evidence
 
+    statement = None
+    statement_index = None
+    sources = {}
     try:
         result = Answer.model_validate(json.loads(raw))
         if result.answerable != bool(result.statements):
             raise ValueError("inconsistent")
         sources = {h.chunk.id: h.chunk for h in hits}
         verified = []
-        for statement in result.statements:
+        for statement_index, statement in enumerate(result.statements, 1):
             # 화면에서 순서를 붙이므로 모델의 형식용 step1/단계1 라벨은 버립니다.
             # 용량/횟수 등 내용을 나타내는 숫자에는 이 예외를 적용하지 않습니다.
             if re.fullmatch(r'(?:step|단계|절차)\s*#?\s*\d+', statement.label.strip(), re.I):
@@ -123,6 +126,8 @@ def validate_answer(raw, hits, trace=None):
             for sentence, evidence in sentences:
                 verified.append(Statement(text=sentence, label=statement.label,
                                           evidence=[Evidence(chunk_id=e.chunk_id, quote=sentence) for e in evidence]))
+        statement = None
+        statement_index = None
         if len(verified) > 10:
             raise ValueError('too many sentences')
         result.statements = verified
@@ -133,10 +138,12 @@ def validate_answer(raw, hits, trace=None):
         return result
     except (ValidationError, ValueError, TypeError, KeyError) as exc:
         if trace is not None:
-            # 검증기에서 생성한 고정 코드만 저장합니다. 모델 원문/예외 본문은 남기지 않습니다.
+            # 고정 reason과 민감정보를 제외한 내부 진단만 저장합니다.
             reasons = {'inconsistent', 'markup', 'citation', 'unsupported action', 'number', 'unit',
                        'unsupported sentence', 'too many sentences', 'unsupported conflict'}
             trace['validation_reason'] = str(exc) if type(exc) is ValueError and str(exc) in reasons else 'schema_or_privacy'
+            from mvp.validation_trace import record_failure
+            record_failure(trace, trace['validation_reason'], statement, statement_index, sources)
         raise GuideError("AI 답변의 출처·형식을 확인하지 못해 표시하지 않았습니다. 검색된 원문을 확인해 주세요. (AI_EVIDENCE)") from None
 
 
