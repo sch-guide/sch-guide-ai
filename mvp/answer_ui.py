@@ -50,6 +50,45 @@ def source_anchor(index, group_key):
     return 'source-' + hashlib.sha256(f'{index}:{group_key}'.encode()).hexdigest()[:20]
 
 
+def fallback_outline(statements, chunks, procedure):
+    """Extract labels, never summarize clinical sentences or change source order."""
+    norm=lambda text: re.sub(r'\s+', ' ', text).strip()
+    entries=[]
+    for statement in statements:
+        headings={norm(v) for e in statement.evidence
+                  for v in (chunks[e.chunk_id].section,chunks[e.chunk_id].title) if v}
+        labels=[]
+        if procedure:
+            # PDF flowchart labels precede bullet bodies, at chunk start or after ↓.
+            # Require a body in this chunk; dangling labels are not claimed as steps.
+            for segment in re.split(r'(?m)^\s*↓\s*$',statement.text):
+                lines=[norm(line) for line in segment.splitlines() if norm(line)]
+                prefix=[]
+                for line in lines:
+                    if re.match(r'^(?:Ÿ|[•●▪]|[-*]\s)',line):
+                        label=' '.join(prefix)
+                        if label and len(label)<=120 and not re.search(r'[.!?。！？]',label):
+                            labels.append(label)
+                        break
+                    if line not in headings:
+                        prefix.append(line)
+            # Distinct metadata subheadings are usable when they name an action.
+            if not labels:
+                for e in statement.evidence:
+                    section=norm(chunks[e.chunk_id].section)
+                    if re.search(r'(?:작성|시행|수령|확인|관찰|기록|시작|중지|반납)$',section):
+                        labels.append(section)
+        else:
+            labels=[b for b in fallback_display(statement.text,headings) if b not in headings]
+        entries.extend((label,statement) for label in labels)
+    # Exact whitespace-normalized duplicate only; keep differing facts/conditions.
+    seen=set(); result=[]
+    for label,statement in entries:
+        if label not in seen:
+            seen.add(label);result.append((label,statement))
+    return result
+
+
 def _location(chunk):
     return f'p.{chunk.page}' if chunk.source_type == 'pdf' else (chunk.location or '위치 미입력')
 
@@ -65,9 +104,11 @@ def _is_stale(updated_date):
         return False
 
 
-def render_answer(answer, hits, index, source_view, *, on_review=None, checklists=(), on_checklist=None):
+def render_answer(answer, hits, index, source_view, *, on_review=None, checklists=(), on_checklist=None,
+                  question_kind=None, _detail=False):
     """문장별 인용은 유지하면서 같은 문서·위치의 chunk는 하나의 출처로 묶습니다."""
-    if getattr(answer, 'answer_kind', None) == 'evidence_only':
+    fallback = getattr(answer, 'answer_kind', None) == 'evidence_only'
+    if fallback and not _detail:
         st.markdown('### 근거 기반 안내')
         st.caption('AI가 생성한 답변이 아니라 등록 지침의 원문 근거를 표시합니다. 출처와 전체 문맥을 함께 확인하세요.')
     chunks = {hit.chunk.id: hit.chunk for hit in hits}
@@ -88,6 +129,24 @@ def render_answer(answer, hits, index, source_view, *, on_review=None, checklist
     def references(statement):
         keys = dict.fromkeys(chunk_to_group[e.chunk_id] for e in statement.evidence)
         return ' '.join(f'[[{numbers[key]}]](#{anchors[key]})' for key in keys)
+
+    if fallback and not _detail:
+        st.markdown('### 핵심 안내')
+        procedure=question_kind=='procedure'
+        outline=fallback_outline(answer.statements,chunks,procedure)
+        if not outline:
+            st.caption('원문에서 명확한 단계명을 확인하기 어려워 전체 근거를 아래에 제공합니다.')
+        for number,(label,statement) in enumerate(outline if procedure else outline[:8],1):
+            prefix=f'{number}. ' if procedure else '- '
+            st.markdown(prefix+escape(label)+' '+references(statement))
+        if procedure:
+            st.caption('원문의 단계명 목록입니다. 각 단계의 조건·주의사항과 세부 내용은 전체 근거를 확인하세요.')
+        elif len(outline)>8:
+            st.caption(f'전체 {len(outline)}개 근거 중 앞의 8개를 표시합니다. 나머지 내용은 아래에서 확인하세요.')
+        with st.expander('근거 원문 자세히 보기',expanded=False):
+            render_answer(answer,hits,index,source_view,on_review=on_review,checklists=checklists,
+                          on_checklist=on_checklist,question_kind=question_kind,_detail=True)
+        return
 
     source_docs = {group['chunk'].document_id for group in groups.values()}
     revisions = [group['chunk'].updated_date for group in groups.values() if group['chunk'].updated_date]
@@ -110,10 +169,9 @@ def render_answer(answer, hits, index, source_view, *, on_review=None, checklist
         st.markdown('\n'.join(rows))
     else:
         for number, statement in enumerate(answer.statements, 1):
-            if getattr(answer, 'answer_kind', None) == 'evidence_only':
-                headings = [chunks[e.chunk_id].section for e in statement.evidence]
-                for block in fallback_display(statement.text, headings):
-                    st.markdown('- ' + escape(block) + ' ' + references(statement))
+            if fallback:
+                st.text(statement.text)
+                st.markdown(references(statement))
                 continue
             prefix = f'{number}. ' if answer.format == 'steps' else ('- ' if answer.format == 'bullets' else '')
             st.markdown(prefix + escape(statement.text) + ' ' + references(statement))

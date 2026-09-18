@@ -218,7 +218,8 @@ def show_turn(turn, index):
         if answer:
             if answer.answerable:
                 render_answer(answer, hits, index, source_view, on_review=review_answer,
-                              checklists=turn.get("checklists", ()), on_checklist=checklist_dialog)
+                              checklists=turn.get("checklists", ()), on_checklist=checklist_dialog,
+                              question_kind=getattr(turn.get('plan'), 'kind', None))
             else:
                 st.write(NO_GUIDELINE)
         elif turn.get("clarification"):

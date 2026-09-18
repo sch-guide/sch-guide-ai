@@ -31,6 +31,8 @@ assert answer.statements[0].text==raw and chunk.text==raw
 assert answer.statements[0].evidence[0].quote==raw
 ''').run()
     assert not app.exception
+    assert app.expander[0].label=='근거 원문 자세히 보기'
+    assert any(x.value=='Ÿ  수혈 전  15분 확인한다.\n↓' for x in app.expander[0].text)
     assert any('수혈 전 15분 확인한다' in x.value and 'Ÿ' not in x.value for x in app.markdown)
     button=next(b for b in app.button if b.key=='open_source_0_1')
     assert 'p.5' in button.label
