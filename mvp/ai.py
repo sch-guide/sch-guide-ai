@@ -317,8 +317,7 @@ def prompt_messages(question, hits, byte_budget, token_budget=None, plan=None):
     return messages, selected
 
 
-def generate(settings, question, hits, user_id, quota=None, transport=None, plan=None, trace=None,
-             _capture=None, _retry_messages=None):
+def generate(settings, question, hits, user_id, quota=None, transport=None, plan=None, trace=None):
     from mvp.evidence import assess_evidence, citation_section
     from mvp.grounding import explicit_conflicts
     from mvp.query import plan_query
@@ -360,10 +359,13 @@ def generate(settings, question, hits, user_id, quota=None, transport=None, plan
         (plan.kind == 'comparison' and len(plan.entities) > 1 and not set(plan.entities).issubset(selected_entities)) or
         (plan.document_ids and not set(plan.document_ids).issubset(selected_docs))):
         return blocked('budget_missing_document_or_entity', selected)
-    if _retry_messages is not None:
-        messages = _retry_messages
-    if _capture is not None:
-        _capture.update(selected=list(selected), messages=messages)
+    from mvp.grounded_answer import _generation_context
+    recovery = _generation_context.get()
+    if recovery is not None:
+        if recovery['messages'] is not None:
+            messages = recovery['messages']
+        if recovery['capture'] is not None:
+            recovery['capture'].update(selected=list(selected), messages=messages)
     endpoint = settings.llm_endpoint()  # 근거/설정 오류일 때는 사용량도 차감하지 않습니다.
     reserved = estimated_tokens(messages, settings.llm_provider)
     try:

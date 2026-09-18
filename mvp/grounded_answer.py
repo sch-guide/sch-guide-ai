@@ -1,11 +1,27 @@
 """Web recovery: validated retry, then explicitly extractive source display."""
 from copy import deepcopy
+from contextvars import ContextVar
 from typing import Literal
 from pydantic import BaseModel
 from mvp import ai
 from mvp.evidence import assess_evidence
 from mvp.grounding import explicit_conflicts
 from mvp.query import plan_query
+
+
+# Per-call state, never forwarded as public generate kwargs or written to trace.
+_generation_context = ContextVar('grounded_generation_context', default=None)
+
+
+def _invoke(settings, question, hits, user_id, quota, transport, plan, trace, *, capture=None, messages=None):
+    token=_generation_context.set({'capture':capture,'messages':messages})
+    try:
+        if quota is None and transport is None:
+            return ai.generate(settings,question,hits,user_id,plan=plan,trace=trace)
+        return ai.generate(settings,question,hits,user_id,quota=quota,transport=transport,
+                           plan=plan,trace=trace)
+    finally:
+        _generation_context.reset(token)
 
 
 class SourceQuote(BaseModel):
@@ -72,12 +88,8 @@ def generate(settings, question, hits, user_id, quota=None, transport=None, plan
     trace={} if trace is None else trace
     plan=plan or plan_query(question)
     capture={}
-    options={}
-    if quota is not None: options['quota']=quota
-    if transport is not None: options['transport']=transport
     try:
-        answer,used=ai.generate(settings,question,hits,user_id,**options,
-            plan=plan,trace=trace,_capture=capture)
+        answer,used=_invoke(settings,question,hits,user_id,quota,transport,plan,trace,capture=capture)
         reason=trace.get('final_validation_reason') or trace.get('validation_reason')
         eligible=not answer.answerable and reason in {'unsupported sentence','label_not_in_quote','number','unit'}
         if not eligible:
@@ -100,6 +112,5 @@ def generate(settings, question, hits, user_id, quota=None, transport=None, plan
     def retry():
         if ai.estimated_tokens(messages,settings.llm_provider)>ai.GROQ_REQUEST_TOKEN_BUDGET:
             raise ai.GuideError('Strict retry exceeds request budget. (AI_LENGTH)')
-        return ai.generate(settings,question,selected,user_id,**options,
-            plan=plan,trace=retry_trace,_retry_messages=messages)
+        return _invoke(settings,question,selected,user_id,quota,transport,plan,retry_trace,messages=messages)
     return recover_answer(question,selected,plan,retry,trace)

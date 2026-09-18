@@ -8,6 +8,38 @@ from mvp.query import plan_query
 from mvp.grounded_answer import recover_answer, evidence_only
 
 
+def test_wrapper_passes_only_original_public_arguments(monkeypatch):
+    from mvp import grounded_answer as g
+    from mvp.settings import Settings
+    received=[]
+    def original_signature(settings, question, hits, user_id, quota=None, transport=None, plan=None, trace=None):
+        received.append((quota,transport,plan,trace))
+        return ai.Answer(answerable=False,statements=[]),hits
+    monkeypatch.setattr(ai,'generate',original_signature)
+    result,_=g.generate(Settings(),'수혈 활력징후 관찰',hits(),'u')
+    assert not result.answerable and len(received)==1
+
+
+def test_public_signature_and_internal_context_reset():
+    import inspect
+    from mvp import grounded_answer as g
+    assert list(inspect.signature(ai.generate).parameters)==[
+        'settings','question','hits','user_id','quota','transport','plan','trace']
+    assert g._generation_context.get() is None
+
+
+def test_capture_is_internal_and_reset_even_on_exception(monkeypatch):
+    from mvp import grounded_answer as g
+    capture={}
+    def generate(settings,question,hits,user_id,quota=None,transport=None,plan=None,trace=None):
+        assert g._generation_context.get()['capture'] is capture
+        raise RuntimeError('mock failure')
+    monkeypatch.setattr(ai,'generate',generate)
+    with pytest.raises(RuntimeError):
+        g._invoke(None,'q',[], 'u',None,None,None,{},capture=capture)
+    assert g._generation_context.get() is None
+
+
 def hits():
     return [Hit(Chunk('c','d','guide.pdf',5,'수혈','수혈',None,
         '수혈 전, 수혈 시작 후 15분, 수혈 종료 시까지 30분마다 활력징후와 부작용 유무를 관찰한다.',0),.9)]
