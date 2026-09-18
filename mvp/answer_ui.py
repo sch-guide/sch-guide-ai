@@ -32,6 +32,9 @@ def _is_stale(updated_date):
 
 def render_answer(answer, hits, index, source_view, *, on_review=None, checklists=(), on_checklist=None):
     """문장별 인용은 유지하면서 같은 문서·위치의 chunk는 하나의 출처로 묶습니다."""
+    if getattr(answer, 'answer_kind', None) == 'evidence_only':
+        st.markdown('### 근거 기반 안내')
+        st.caption('AI가 생성한 답변이 아니라 등록 지침의 원문 근거를 표시합니다. 출처와 전체 문맥을 함께 확인하세요.')
     chunks = {hit.chunk.id: hit.chunk for hit in hits}
     groups, chunk_to_group = {}, {}
     for statement in answer.statements:

@@ -16,7 +16,8 @@ if str(PROJECT_ROOT) not in sys.path:
 
 import streamlit as st
 
-from mvp.ai import AI_VERSION, generate
+from mvp.ai import AI_VERSION
+from mvp.grounded_answer import generate
 from mvp.answer_ui import render_answer
 from mvp.auth import LocalAuth
 from mvp.checklist_ui import checklist_dialog, matching_checklists
