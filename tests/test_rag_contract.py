@@ -324,8 +324,9 @@ def test_truncated_semantic_block_abstains_without_omitting_cautions():
     parts = [replace(chunk(str(i), f'PCN 교육 절차 {i}를 확인합니다.', index=i), parent_id='same-block')
              for i in range(7)]
     hits = expand_context('PCN 교육 절차', [Hit(parts[0], .9)], parts)
-    assert hits and not all(h.context_complete for h in hits)
-    assert not assess_evidence(plan_query('PCN 교육 절차'), hits).sufficient
+    assert len(hits) == 7 and all(h.context_complete for h in hits)
+    limited = expand_context('PCN 교육 절차', [Hit(parts[0], .9)], parts, limit=6)
+    assert not assess_evidence(plan_query('PCN 교육 절차'), limited).sufficient
 
 
 def test_offtopic_chat_stops_before_loading_embedding_model(monkeypatch, tmp_path):

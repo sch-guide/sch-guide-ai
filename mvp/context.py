@@ -52,6 +52,46 @@ def expand_context(question, seeds, chunks, limit=12):
                       if (c.document_id, c.parent_id) in parents and c.id not in ids}
         return [replace(h, context_complete=(h.chunk.document_id, h.chunk.parent_id) not in incomplete)
                 for h in selected]
+    if limit <= 0:
+        return []
+    # Reuse the existing topic test; do not infer that a lower-ranked relevant
+    # parent is dispensable merely to fit the budget.
+    from mvp.evidence import relevant_body
+    from mvp.query import plan_query
+    plan = plan_query(question)
+    required = [seed for seed in seeds if relevant_body(plan, seed)]
+    if required and any(seed.chunk.parent_id for seed in required):
+        def parent_key(chunk):
+            return chunk.document_id, chunk.parent_id or chunk.id
+        groups = {}
+        for seed in required:
+            key = parent_key(seed.chunk)
+            if key not in groups:
+                siblings = [c for c in chunks if parent_key(c) == key]
+                # A missing seed in an inconsistent catalog must not disappear.
+                members = {c.id: c for c in siblings}
+                members[seed.chunk.id] = seed.chunk
+                groups[key] = (seed, sorted(members.values(), key=lambda c: c.index))
+        total = sum(len(members) for _, members in groups.values())
+        if total > limit:
+            # No partial required parent and no complete subset that silently
+            # drops another required parent. The existing caller handles no hits.
+            return []
+        # Keep original seed order/scores; siblings alone are context-only.
+        ids = set()
+        for seed in required:
+            key = (seed.chunk.document_id, seed.chunk.id)
+            if key not in ids:
+                selected.append(seed)
+                ids.add(key)
+        for seed, members in groups.values():
+            for chunk in members:
+                key = (chunk.document_id, chunk.id)
+                if key not in ids:
+                    selected.append(replace(seed, chunk=chunk, lexical=0,
+                                            bm25_score=0, context_only=True))
+                    ids.add(key)
+        return complete_context()
     groups = [[s.chunk] + [c for c in neighbors(s.chunk, chunks) if c.id != s.chunk.id] for s in seeds]
     # 검색 후보를 먼저 확보한 뒤 앞뒤를 추가하여 여러 문서의 비교 근거를 남깁니다.
     for depth in range(max((len(g) for g in groups), default=0)):
