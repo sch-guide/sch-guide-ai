@@ -15,6 +15,20 @@ from mvp.ui import document_summary
 REVIEW_LABEL = "원본 지침서를 검토했으며, 환자 개인정보가 없는 등록용 자료입니다."
 
 
+def chunk_quality_caption(document):
+    """개발 용어 없이 저장된 청킹 자동검사 결과를 설명한다."""
+    quality = document.get("chunk_quality")
+    if not quality:
+        return "새 자동검사 전 문서입니다. 재색인하면 검사 결과를 볼 수 있습니다."
+    return (
+        f"자동검사 {quality.get('status', '결과 없음')} · "
+        f"반복 머리말 {quality.get('repeated_labels_detected', 0)}개는 검색 위치 표지로 유지하고, "
+        f"짧은 제목 {quality.get('heading_markers_detected', 0)}개는 답변 본문에서 자동 제외합니다. "
+        f"같은 내용 {quality.get('duplicates', 0)}개 · "
+        f"가장 긴 조각 {quality.get('max_tokens', 0)}/110(제한 안쪽)"
+    )
+
+
 def finish(message, error=False):
     # 파일 업로더도 새로 만들어 업로드 임시 바이트를 다음 화면에 남기지 않습니다.
     st.session_state["upload_epoch"] = st.session_state.get("upload_epoch", 0) + 1
@@ -141,6 +155,7 @@ def render_admin(library, auth, settings, model_factory):
                 key='manage_document')
             doc = by_id[chosen]
             st.caption(f"검색 문단 {doc.get('chunk_count', 0)}개 · 임베딩 재사용 {doc.get('embedding_reused', 0)}개 · 새 계산 {doc.get('embedding_computed', 0)}개")
+            st.caption(chunk_quality_caption(doc))
             st.caption('등록일(UTC): ' + doc['created_at'][:10])
             st.caption('마지막 색인(UTC): ' + (doc.get('indexed_at') or '미생성'))
             if doc["last_error"]:

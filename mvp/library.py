@@ -10,12 +10,13 @@ from uuid import uuid4
 import numpy as np
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
+from mvp.chunking import repeated_edge_label_count, repeated_edge_labels, validate_chunk_texts
 from mvp.medical_terms import ALIASES
 from mvp.settings import DIMENSIONS, MODEL, ROOT, GuideError
 
 NO_GUIDELINE = "등록된 지침서에서 확인할 수 없습니다."
 SEARCH_VERSION = 15
-CHUNK_VERSION = 4
+CHUNK_VERSION = 5
 # 이 단어만 겹치는 경우에는 서로 다른 시술의 문서를 근거로 채택하지 않습니다.
 INTENT_TERMS = {
     "목적", "절차", "정의", "방법", "순서", "준비", "준비물", "주의", "주의사항",
@@ -235,7 +236,10 @@ class Embedder:
             raise GuideError("검색 벡터를 만들지 못했습니다. 문서 크기와 메모리를 확인하세요. (EMBED)") from None
 
 
-def make_chunks(document, embedder, *, title="", section="", updated_date=None, file_hash=""):
+def make_chunks(document, embedder, *, title="", section="", updated_date=None, file_hash="",
+                _chunk_version=CHUNK_VERSION):
+    if _chunk_version not in {4, CHUNK_VERSION}:
+        raise ValueError("unsupported chunk version")
     protect_private("\n".join([document.document_name, title, section] + [p.text for p in document.pages]))
     if not document.text_page_count:
         raise GuideError("추출된 글이 없습니다. 스캔 PDF는 OCR 처리 후 등록해 주세요.")
@@ -244,7 +248,7 @@ def make_chunks(document, embedder, *, title="", section="", updated_date=None, 
                     section=section, updated_date=updated_date, file_hash=file_hash,
                     page_count=len(document.pages), model=MODEL, source_type=document.source_type)
     from mvp.pdf_layout import EXTRACTION_VERSION
-    metadata.update(extraction_version=EXTRACTION_VERSION, chunk_version=CHUNK_VERSION, warnings=list(document.warnings),
+    metadata.update(extraction_version=EXTRACTION_VERSION, chunk_version=_chunk_version, warnings=list(document.warnings),
                     missing_locations=[p.number if p.number is not None else p.location
                                        for p in document.pages if p.error or not p.text])
     splitter = RecursiveCharacterTextSplitter(
@@ -252,10 +256,13 @@ def make_chunks(document, embedder, *, title="", section="", updated_date=None, 
         separators=["\n\n", "\n", ". ", " ", ""], strip_whitespace=True,
     )
     chunks = []
+    repeated_labels = repeated_edge_labels(document.pages) if _chunk_version >= 5 else frozenset()
+    repeated_label_count = repeated_edge_label_count(document.pages, repeated_labels)
+    heading_marker_count = 0
+    from mvp.structure import looks_like_heading, semantic_blocks
     for page in document.pages:
         if page.error or not page.text:
             continue
-        from mvp.structure import semantic_blocks
         for block, block_section, parent in semantic_blocks(page, doc_id, section):
             header = page.header or (block.splitlines()[0] if " | " in block else "")
             header = header.strip()
@@ -270,11 +277,23 @@ def make_chunks(document, embedder, *, title="", section="", updated_date=None, 
             else:
                 texts = splitter.split_text(block)
             for text in texts:
+                if _chunk_version >= 5:
+                    heading_marker_count += bool(looks_like_heading(text))
                 chunks.append(Chunk(str(uuid4()), doc_id, document.document_name, page.number,
                                     metadata["title"], block_section, updated_date, text, len(chunks),
                                     document.source_type, page.location, parent_id=parent))
     if not chunks or len(chunks) > 5000:
         raise GuideError("문서당 1~5,000개 문단을 지원합니다. 큰 문서는 나누어 등록해 주세요.")
+    if _chunk_version >= 5:
+        quality = validate_chunk_texts((chunk.text for chunk in chunks), embedder.count, max_tokens=110)
+        if quality["empty"] or quality["too_long"]:
+            raise GuideError("청킹 자동검사를 통과하지 못했습니다. 문서 구조를 확인해 주세요. (CHUNK_QUALITY)")
+        metadata["chunk_quality"] = {
+            "status": "통과",
+            **quality,
+            "repeated_labels_detected": repeated_label_count,
+            "heading_markers_detected": heading_marker_count,
+        }
     chunks = [replace(chunk, previous_chunk_id=chunks[i-1].id if i else None,
                       next_chunk_id=chunks[i+1].id if i+1 < len(chunks) else None) for i, chunk in enumerate(chunks)]
     metadata['chunk_count'] = len(chunks)

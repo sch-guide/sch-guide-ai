@@ -5,6 +5,14 @@ import re
 from uuid import UUID
 
 
+def looks_like_heading(value):
+    """완결된 지시문과 수치 단계는 제외하고 짧은 항목 제목만 찾는다."""
+    value = value.strip()
+    return (len(value) <= 60 and not re.search(r'(?:다[.!?]?|[。.!?])$', value)
+            and (re.match(r'^(?:\d+(?:\.\d+)*[.)]|[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ]+[. ]|[가-하]\))\s*\S', value)
+                 or value in {'목적', '준비물', '주의사항', '적응증', '금기', '시행 방법', '절차'}))
+
+
 def semantic_blocks(page, document_id, fallback_section=''):
     section = page.section or fallback_section
     buffer = []
@@ -25,11 +33,7 @@ def semantic_blocks(page, document_id, fallback_section=''):
             continue
         for line in paragraph.splitlines():
             value = line.strip()
-            # 완결된 지시문/수치 단계를 제목으로 추측하지 않습니다.
-            heading = (len(value) <= 60 and not re.search(r'(?:다[.!?]?|[。.!?])$', value)
-                       and (re.match(r'^(?:\d+(?:\.\d+)*[.)]|[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ]+[. ]|[가-하]\))\s*\S', value)
-                            or value in {'목적', '준비물', '주의사항', '적응증', '금기', '시행 방법', '절차'}))
-            if heading:
+            if looks_like_heading(value):
                 if buffer:
                     yield block(buffer, section)
                 section = ' > '.join(x for x in (page.section or fallback_section, value) if x)
