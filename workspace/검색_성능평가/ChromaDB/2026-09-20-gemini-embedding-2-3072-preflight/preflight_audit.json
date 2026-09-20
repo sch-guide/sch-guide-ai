@@ -1431,7 +1431,7 @@
     "uat_fixture": "tests/fixtures/schat_v1_operational_uat.json",
     "uat_fixture_sha256": "7832e9e88787ca3c141346dce8eeaa915440f0fce72ee18a3cc91608737988df",
     "reviewed_gold_fixture": "tests/fixtures/schat_v1_operational_gold_reviewed.json",
-    "reviewed_gold_fixture_sha256": "0485c2192324082594bb66cc398097b3abc3ca4dc32066963db69d99a4f9067c",
+    "reviewed_gold_fixture_sha256": "8cacec8c97e6ff583c2788f0334bdd1d20f0802465ecdc2e879d6fb9935a59c5",
     "approved_positive_case_count": 21,
     "production_changed": false,
     "gold_or_fixture_changed": false,
