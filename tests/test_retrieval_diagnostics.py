@@ -10,19 +10,19 @@ import numpy as np
 import pytest
 from docx import Document
 
-from mvp.ai import Quota, answer_text, generate
-from mvp.auth import LocalAuth
-from mvp.cloud import StaffLibrary
-from mvp.cloud_repository import CloudRepository
-from mvp.diagnostic_ui import BM25_CSV_COLUMNS, bm25_csv, bm25_debug_rows
-from mvp.diagnostics import extraction_summary, run_diagnostics, safe_failure, vectors_summary
-from mvp.documents import PdfDocument, PdfPage
-from mvp.evidence import assess_evidence
-from mvp.library import DIMENSIONS, NO_GUIDELINE, Chunk, Hit, LocalLibrary
-from mvp.query import plan_query
-from mvp.repository import Repository, database
-from mvp.settings import GuideError, Settings
-from mvp.storage import source_store
+from src.ai import Quota, answer_text, generate
+from src.auth import LocalAuth
+from src.cloud import StaffLibrary
+from src.cloud_repository import CloudRepository
+from src.diagnostic_ui import BM25_CSV_COLUMNS, bm25_csv, bm25_debug_rows
+from src.diagnostics import extraction_summary, run_diagnostics, safe_failure, vectors_summary
+from src.documents import PdfDocument, PdfPage
+from src.evidence import assess_evidence
+from src.library import DIMENSIONS, NO_GUIDELINE, Chunk, Hit, LocalLibrary
+from src.query import plan_query
+from src.repository import Repository, database
+from src.settings import GuideError, Settings
+from src.storage import source_store
 
 QUESTION = '진정간호 목적에 대해 알려줘'
 BODY = '교육용 용어 카드를 읽어 문서 이해를 돕는다.'
@@ -322,7 +322,7 @@ def test_missing_original_does_not_hide_saved_chunk_retrieval():
 def test_ocr_dependency_is_checked_only_for_scan_candidates(monkeypatch, images):
     from contextlib import nullcontext
 
-    from mvp.pdf_layout import enhance_pdf
+    from src.pdf_layout import enhance_pdf
     text = '' if images else 'This is a text PDF containing a complete paragraph. ' * 3
     document = PdfDocument('fixture.pdf', (PdfPage(1, text),))
     class Page:
@@ -335,10 +335,10 @@ def test_ocr_dependency_is_checked_only_for_scan_candidates(monkeypatch, images)
     class PDF:
         pages = [page]
     calls = []
-    monkeypatch.setattr('mvp.pdf_layout.bookmark_sections', lambda _: {})
+    monkeypatch.setattr('src.pdf_layout.bookmark_sections', lambda _: {})
     monkeypatch.setattr('pdfplumber.open', lambda _: nullcontext(PDF()))
-    monkeypatch.setattr('mvp.pdf_layout.ocr_status', lambda: calls.append('checked') or (False, 'OCR unavailable'))
-    monkeypatch.setattr('mvp.pdf_layout.ocr_page', lambda *a: pytest.fail('Unavailable OCR must not run'))
+    monkeypatch.setattr('src.pdf_layout.ocr_status', lambda: calls.append('checked') or (False, 'OCR unavailable'))
+    monkeypatch.setattr('src.pdf_layout.ocr_page', lambda *a: pytest.fail('Unavailable OCR must not run'))
     result = enhance_pdf(document, b'fixture', ocr=True)
     assert result.pages[0].text == text
     if images:
@@ -356,8 +356,8 @@ def test_admin_diagnostic_form_runs_real_repository_search(monkeypatch, tmp_path
     monkeypatch.setenv('GUIDE_DATA_DIR', str(tmp_path / 'library'))
     monkeypatch.setenv('GUIDE_STORAGE_BACKEND', 'local')
     st.cache_resource.clear()
-    monkeypatch.setattr('mvp.library.Embedder', FixtureModel)
-    monkeypatch.setattr('mvp.ai.generate', lambda *a, **k: pytest.fail('LLM not requested'))
+    monkeypatch.setattr('src.library.Embedder', FixtureModel)
+    monkeypatch.setattr('src.ai.generate', lambda *a, **k: pytest.fail('LLM not requested'))
     app = registered_app(monkeypatch, tmp_path)
     next(b for b in app.button if b.key == 'nav_manage').click().run()
     assert not app.exception

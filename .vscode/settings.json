@@ -1,8 +1,19 @@
 {
   "files.exclude": {
+    "**/.agents": true,
+    "**/.git": true,
     "**/.pytest-*": true,
+    "**/.pytest*": true,
     "**/.pytest_cache": true,
     "**/.ruff_cache": true,
-    "**/__pycache__": true
+    "**/.streamlit": true,
+    "**/.tmp": true,
+    "**/.venv": true,
+    "**/.venv-*": true,
+    "**/.vscode": true,
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    "**/debug.log": true,
+    "**/tmp": true
   }
 }

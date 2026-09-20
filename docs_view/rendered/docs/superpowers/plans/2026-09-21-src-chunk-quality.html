@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SRC Chunk Quality Implementation Plan · SCHAT 문서</title><link rel="stylesheet" href="../../../../assets/style.css"></head>
+<body><main class="document-pane"><div class="official-notice"><div><strong>열람용 복사본</strong><span>공식 정본은 docs/입니다.</span></div></div>
+<article class="markdown-body"><h1 id="section-1">SRC Chunk Quality Implementation Plan</h1>
+<blockquote><p><strong>For agentic workers:</strong> REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (<code>- [ ]</code>) syntax for tracking.</p></blockquote>
+<p><strong>Goal:</strong> Preserve current <code>src</code> chunk contents while adding automatic chunk-quality checks and a plain-Korean administrator summary.</p>
+<p><strong>Architecture:</strong> Put pure quality calculations in <code>src/chunking.py</code>, call them from <code>src.library.make_chunks</code>, persist the summary with document metadata, and render it in <code>src.admin_ui</code>. Existing version-4 evaluation fixtures remain reproducible through an explicit private compatibility argument.</p>
+<p><strong>Tech Stack:</strong> Python, pytest, Streamlit, PostgreSQL/Supabase migration SQL</p>
+<p><strong>Spec:</strong> <code>docs/superpowers/specs/2026-09-21-src-chunk-quality-design.md</code></p>
+<h2 id="section-2">Global Constraints</h2>
+<ul><li>Do not change produced chunk text, order, size, or overlap behavior.</li><li>Do not automatically reindex existing documents.</li><li>Fail registration before persistence only for empty or over-110-token chunks.</li><li>Keep repeated labels and heading markers as informational counts.</li><li>Do not send source documents to an external provider.</li></ul>
+<hr>
+<h3 id="section-3">Task 1: Pure quality checks</h3>
+<p><strong>Files:</strong></p>
+<ul><li>Create: <code>src/chunking.py</code></li><li>Create: <code>tests/test_chunking_v5.py</code></li></ul>
+<p><strong>Interfaces:</strong></p>
+<ul><li>Produces: <code>repeated_edge_labels(pages)</code>, <code>repeated_edge_label_count(pages, labels)</code>, and <code>validate_chunk_texts(texts, count_tokens, max_tokens=110)</code>.</li></ul>
+<ul><li>[x] Write tests for repeated edge labels, table/sentence exclusions, empty chunks, oversized chunks, and duplicates.</li><li>[x] Run <code>pytest tests/test_chunking_v5.py -q</code> and confirm import failure.</li><li>[x] Add the minimal pure implementation.</li><li>[x] Run the focused tests and confirm they pass.</li></ul>
+<h3 id="section-4">Task 2: Integrate checks without changing chunks</h3>
+<p><strong>Files:</strong></p>
+<ul><li>Modify: <code>src/library.py</code></li><li>Modify: <code>src/structure.py</code> only if the existing public heading detector is unavailable.</li><li>Modify: <code>tests/test_chunking_v5.py</code></li></ul>
+<p><strong>Interfaces:</strong></p>
+<ul><li>Consumes: Task 1 quality functions and <code>src.structure.looks_like_heading</code>.</li><li>Produces: <code>make_chunks(..., _chunk_version=CHUNK_VERSION)</code> metadata containing <code>chunk_quality</code> for version 5.</li></ul>
+<ul><li>[x] Add tests for version-5 metadata, the quality gate, heading counts, and version-4 fixture compatibility.</li><li>[x] Run the focused tests and confirm the new assertions fail.</li><li>[x] Set <code>CHUNK_VERSION = 5</code> and integrate the audit after chunk creation.</li><li>[x] Compare version-4 and version-5 chunk text lists in a regression test.</li><li>[x] Run focused chunking and existing library tests.</li></ul>
+<h3 id="section-5">Task 3: Persist and explain results</h3>
+<p><strong>Files:</strong></p>
+<ul><li>Modify: <code>src/admin_ui.py</code></li><li>Modify: <code>src/migrations/20260910_operational_pgvector.sql</code></li><li>Create: <code>tests/test_admin_chunk_quality.py</code></li></ul>
+<p><strong>Interfaces:</strong></p>
+<ul><li>Consumes: document metadata field <code>chunk_quality</code>.</li><li>Produces: <code>chunk_quality_caption(document)</code> and a nullable JSONB storage column.</li></ul>
+<ul><li>[x] Add failing tests for the easy Korean caption and legacy-document message.</li><li>[x] Add the caption helper and display it in document management.</li><li>[x] Add <code>chunk_quality jsonb</code> to the operational schema and publish/reindex functions.</li><li>[x] Run focused administrator, repository, and schema tests.</li></ul>
+<h3 id="section-6">Task 4: Compatibility, documentation, and verification</h3>
+<p><strong>Files:</strong></p>
+<ul><li>Modify: evaluation tools that intentionally consume frozen version-4 fixtures.</li><li>Create: <code>docs/07_쉬운_작업일지/2026-09-21_청킹_자동검사.md</code></li><li>Create: <code>workspace/과거작업/문서이력/superpowers/progress/2026-09-21-src-chunk-quality.md</code></li></ul>
+<p><strong>Interfaces:</strong></p>
+<ul><li>Consumes: <code>make_chunks(..., _chunk_version=4)</code> for frozen evaluation fixtures.</li><li>Produces: passing focused tests, full tests, Ruff, docs view, and operational UAT evidence.</li></ul>
+<ul><li>[x] Update only frozen evaluation paths to request version 4 explicitly.</li><li>[x] Add a nontechnical work log and progress record.</li><li>[x] Run focused tests, full <code>pytest</code>, Ruff, <code>git diff --check</code>, docs-view build, secret audit, and the operational UAT.</li><li>[x] Review the final diff to confirm no automatic reindex or chunk-content rewrite was introduced.</li></ul></article></main></body></html>

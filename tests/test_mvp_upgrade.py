@@ -9,16 +9,16 @@ import numpy as np
 import pytest
 from docx import Document
 
-from mvp.ai import Quota, generate, validate_answer
-from mvp.auth import LocalAuth
-from mvp.documents import read_document
-from mvp.evaluate_cases import CASES, corpus, fixture_answer
-from mvp.grounding import explicit_conflicts
-from mvp.library import DIMENSIONS, Hit, LocalLibrary, chunk_payload, make_chunks
-from mvp.query import plan_query
-from mvp.repository import Repository
-from mvp.settings import GuideError, Settings
-from mvp.storage import source_store
+from src.ai import Quota, generate, validate_answer
+from src.auth import LocalAuth
+from src.documents import read_document
+from src.evaluate_cases import CASES, corpus, fixture_answer
+from src.grounding import explicit_conflicts
+from src.library import DIMENSIONS, Hit, LocalLibrary, chunk_payload, make_chunks
+from src.query import plan_query
+from src.repository import Repository
+from src.settings import GuideError, Settings
+from src.storage import source_store
 
 
 class Model:
@@ -85,7 +85,7 @@ def test_raw_text_location_and_adjacent_ids_survive_serialization():
 
 
 def test_parsing_and_embedding_reuse_on_reindex_and_replacement(tmp_path, monkeypatch):
-    import mvp.documents as documents
+    import src.documents as documents
     documents._PARSED.clear()
     original_reader, parses = documents._read_document, []
     def counted(*args, **kwargs):
@@ -153,7 +153,7 @@ def test_comparison_missing_one_side_stops_before_network():
 
 
 def test_streamlit_secrets_and_environment_override_dotenv(monkeypatch):
-    import mvp.settings as settings
+    import src.settings as settings
     monkeypatch.setattr(settings, 'streamlit_secrets', lambda: {'GUIDE_LLM_MODEL': 'secret-model', 'GUIDE_MODE': 'local'})
     monkeypatch.delenv('GUIDE_LLM_MODEL', raising=False)
     assert settings.load_settings().llm_model == 'secret-model'

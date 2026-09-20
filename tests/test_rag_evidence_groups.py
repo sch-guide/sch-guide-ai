@@ -4,7 +4,7 @@ from dataclasses import replace
 import httpx
 import pytest
 
-from mvp.ai import (
+from src.ai import (
     Quota,
     answer_text,
     generate,
@@ -12,10 +12,10 @@ from mvp.ai import (
     serialize_evidence_groups,
     validate_answer,
 )
-from mvp.evidence import assess_evidence, evidence_groups, required_coverage_loss
-from mvp.library import NO_GUIDELINE, Chunk, Hit
-from mvp.query import plan_query
-from mvp.settings import GuideError, Settings
+from src.evidence import assess_evidence, evidence_groups, required_coverage_loss
+from src.library import NO_GUIDELINE, Chunk, Hit
+from src.query import plan_query
+from src.settings import GuideError, Settings
 
 
 def chunk(identifier, text, index, *, parent='', section='진정 절차'):
@@ -114,7 +114,7 @@ def test_missing_required_unit_after_budget_blocks_mock_transport(monkeypatch):
     second = Hit(chunk('second', '진정 중 상태를 기록한다.', 1, parent='same'), .7,
                  context_only=True)
     plan = plan_query('진정간호 절차는?')
-    monkeypatch.setattr('mvp.ai.prompt_messages', lambda *args, **kwargs: ([
+    monkeypatch.setattr('src.ai.prompt_messages', lambda *args, **kwargs: ([
         {'role': 'system', 'content': 'fixture'}, {'role': 'user', 'content': 'fixture'}
     ], [first]))
 
@@ -128,7 +128,7 @@ def test_optional_group_budget_loss_allows_exactly_one_mock_call(monkeypatch, tm
     required = Hit(chunk('required', '진정 절차를 확인한다.', 0), .8, bm25_score=.5)
     optional = Hit(chunk('optional', '관련 안내문을 확인한다.', 1), .7, context_only=True)
     plan = plan_query('진정간호 절차는?')
-    monkeypatch.setattr('mvp.ai.prompt_messages', lambda *args, **kwargs: ([
+    monkeypatch.setattr('src.ai.prompt_messages', lambda *args, **kwargs: ([
         {'role': 'system', 'content': 'fixture'}, {'role': 'user', 'content': 'fixture'}
     ], [required]))
     calls = []

@@ -13,7 +13,7 @@ from html import escape
 
 import httpx
 
-from mvp.ai import (
+from src.ai import (
     GROQ_REQUEST_TOKEN_BUDGET,
     OUTPUT_LIMIT,
     PROMPT_EVIDENCE_SCHEMA_VERSION,
@@ -25,20 +25,20 @@ from mvp.ai import (
     generate,
     prompt_messages,
 )
-from mvp.evidence import (
+from src.evidence import (
     PROCEDURE_ACTION,
     assess_evidence,
     build_source_unit_catalog,
     required_coverage_loss,
     source_sentences,
 )
-from mvp.library import NO_GUIDELINE
-from mvp.query import plan_query
-from mvp.settings import ROOT, Settings
+from src.library import NO_GUIDELINE
+from src.query import plan_query
+from src.settings import ROOT, Settings
 from tools.rag_phase1_evaluate import stage_recall
 from tools.rag_phase2_evaluate import _load_q002
 
-DEFAULT_OUTPUT = ROOT / 'artifacts' / '2026-09-13_rag-output-limit-mock'
+DEFAULT_OUTPUT = ROOT / 'workspace' / 'RAG_실험' / '2026-09-13_rag-output-limit-mock'
 
 
 class MockQuota:

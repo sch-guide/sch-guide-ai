@@ -9,10 +9,10 @@ import pytest
 from pglast import parse_sql
 from streamlit.testing.v1 import AppTest
 
-from mvp.ai import Quota, RateLimitError, estimated_tokens, generate, validate_answer
-from mvp.cloud import StaffLibrary
-from mvp.documents import PdfDocument, PdfPage
-from mvp.library import (
+from src.ai import Quota, RateLimitError, estimated_tokens, generate, validate_answer
+from src.cloud import StaffLibrary
+from src.documents import PdfDocument, PdfPage
+from src.library import (
     Chunk,
     Hit,
     LocalLibrary,
@@ -23,9 +23,10 @@ from mvp.library import (
     retrieval_question,
     validate_checklist,
 )
-from mvp.settings import DIMENSIONS, MODEL, GuideError, Settings, reject_secret_key
+from src.settings import DIMENSIONS, MODEL, GuideError, Settings, reject_secret_key
+from src.ui import connection_state
 
-APP = Path(__file__).resolve().parents[1] / "mvp" / "app.py"
+APP = Path(__file__).resolve().parents[1] / "src" / "app.py"
 
 
 def part(identifier="chunk-1", document="doc-1", page=3, text="교육실 사용 전 예약 확인표를 확인합니다."):
@@ -63,10 +64,10 @@ def registered_app(monkeypatch, tmp_path):
 
     from docx import Document
 
-    from mvp.auth import LocalAuth
-    from mvp.repository import Repository
-    from mvp.settings import load_settings
-    from mvp.storage import source_store
+    from src.auth import LocalAuth
+    from src.repository import Repository
+    from src.settings import load_settings
+    from src.storage import source_store
 
     settings = load_settings()
     auth = LocalAuth(settings.library_dir)
@@ -241,6 +242,109 @@ def test_single_ai_call_uses_only_selected_chunks_and_returns_validated_answer(t
     assert answer.answerable and sources[0].chunk.id == chunk.id and len(calls) == 1
 
 
+def test_gemini_openai_compat_uses_low_reasoning_and_larger_output_limit(tmp_path):
+    calls = []
+    chunk = part()
+
+    def handle(request):
+        calls.append(request)
+        payload = json.loads(request.content)
+        assert payload["model"] == "gemini-3.7-flash"
+        assert payload["reasoning_effort"] == "low"
+        assert payload["max_tokens"] == 8192
+        return httpx.Response(200, json={"choices": [{"finish_reason": "stop",
+            "message": {"content": valid_response(chunk)}}]})
+
+    settings = Settings(
+        llm_provider="internal",
+        llm_url="https://generativelanguage.googleapis.com/v1beta/openai",
+        llm_model="gemini-3.7-flash",
+        llm_approved=True,
+    )
+    answer, _ = generate(
+        settings,
+        "교육실 사용 전 확인 사항",
+        [Hit(chunk, 0.8)],
+        "a",
+        Quota(tmp_path / "quota.sqlite3"),
+        httpx.MockTransport(handle),
+    )
+
+    assert answer.answerable
+    assert len(calls) == 1
+
+
+def test_internal_provider_retries_one_transient_503_then_returns_answer(tmp_path, monkeypatch):
+    calls = []
+    chunk = part()
+
+    def handle(request):
+        calls.append(request)
+        if len(calls) == 1:
+            return httpx.Response(503, json={"error": {"status": "UNAVAILABLE"}})
+        return httpx.Response(200, json={"choices": [{"finish_reason": "stop",
+            "message": {"content": valid_response(chunk)}}]})
+
+    monkeypatch.setattr("src.ai.time.sleep", lambda _: None)
+    settings = Settings(llm_provider="internal", llm_url="https://example.invalid/v1",
+                        llm_model="hospital-model", llm_approved=True)
+    trace = {}
+    answer, _ = generate(
+        settings,
+        "교육실 사용 전 확인 사항",
+        [Hit(chunk, 0.8)],
+        "a",
+        Quota(tmp_path / "quota.sqlite3"),
+        httpx.MockTransport(handle),
+        trace=trace,
+    )
+
+    assert answer.answerable
+    assert len(calls) == 2
+    assert trace["provider_retry_count"] == 1
+
+
+def test_internal_provider_stops_after_one_transient_503(tmp_path, monkeypatch):
+    calls = []
+
+    def handle(request):
+        calls.append(request)
+        return httpx.Response(503, json={"error": {"status": "UNAVAILABLE"}})
+
+    monkeypatch.setattr("src.ai.time.sleep", lambda _: None)
+    settings = Settings(llm_provider="internal", llm_url="https://example.invalid/v1",
+                        llm_model="hospital-model", llm_approved=True)
+    trace = {}
+    with pytest.raises(GuideError, match="AI_UNAVAILABLE"):
+        generate(
+            settings,
+            "교육실 사용 전 확인 사항",
+            [Hit(part(), 0.8)],
+            "a",
+            Quota(tmp_path / "quota.sqlite3"),
+            httpx.MockTransport(handle),
+            trace=trace,
+        )
+
+    assert len(calls) == 2
+    assert trace["provider_retry_count"] == 1
+    assert trace["response_http_status"] == 503
+
+
+def test_transient_provider_unavailable_is_not_shown_as_connection_problem():
+    settings = Settings(
+        llm_provider="internal",
+        llm_url="https://example.invalid/v1",
+        llm_model="hospital-model",
+        llm_approved=True,
+    )
+
+    assert connection_state(
+        settings,
+        [{"error": "AI 서버가 일시적으로 혼잡합니다. (AI_UNAVAILABLE)"}],
+    ) == ("잠시 대기", "waiting")
+
+
 @pytest.mark.parametrize("status,code", [(429,"AI_RATE"), (401,"AI_AUTH"), (500,"AI_SERVER")])
 def test_api_failure_is_not_misreported_as_missing_guideline(tmp_path, status, code):
     settings = Settings(llm_provider="internal", llm_url="https://example.invalid/v1",
@@ -310,7 +414,7 @@ def test_staff_without_configuration_fails_closed(monkeypatch):
 def test_chat_form_sources_and_new_conversation_with_source_buttons(monkeypatch, tmp_path):
     monkeypatch.setenv("GUIDE_MODE", "local")
     monkeypatch.setenv("GUIDE_LLM_PROVIDER", "disabled")
-    monkeypatch.setattr("mvp.library.Embedder", FakeEmbedder)
+    monkeypatch.setattr("src.library.Embedder", FakeEmbedder)
     app = registered_app(monkeypatch, tmp_path)
     assert not app.exception
     assert app.chat_input[0].disabled is False
@@ -328,11 +432,11 @@ def test_chat_form_sources_and_new_conversation_with_source_buttons(monkeypatch,
 
 
 def test_bm25_chat_debug_is_collected_and_shown_only_to_admin(monkeypatch, tmp_path):
-    from mvp.auth import LocalAuth
+    from src.auth import LocalAuth
 
     monkeypatch.setenv("GUIDE_MODE", "local")
     monkeypatch.setenv("GUIDE_LLM_PROVIDER", "disabled")
-    monkeypatch.setattr("mvp.library.Embedder", FakeEmbedder)
+    monkeypatch.setattr("src.library.Embedder", FakeEmbedder)
     app = registered_app(monkeypatch, tmp_path)
     ask(app, "교육실 예약 확인")
     trace = app.session_state["turns"][-1]["search_trace"]
@@ -359,7 +463,7 @@ def test_ai_answer_is_rendered_in_chat_after_real_validation(monkeypatch, tmp_pa
     monkeypatch.setenv("GUIDE_LLM_BASE_URL", "https://example.invalid/v1")
     monkeypatch.setenv("GUIDE_LLM_MODEL", "hospital-model")
     monkeypatch.setenv("GUIDE_LLM_APPROVED", "true")
-    monkeypatch.setattr("mvp.library.Embedder", FakeEmbedder)
+    monkeypatch.setattr("src.library.Embedder", FakeEmbedder)
     calls = []
     def response(request):
         calls.append(request)
@@ -374,7 +478,7 @@ def test_ai_answer_is_rendered_in_chat_after_real_validation(monkeypatch, tmp_pa
     def invoke(settings, question, hits, user_id, **kwargs):
         return generate(settings, question, hits, user_id, Quota(tmp_path / "ui.sqlite3"),
                         httpx.MockTransport(response), **kwargs)
-    monkeypatch.setattr("mvp.ai.generate", invoke)
+    monkeypatch.setattr("src.ai.generate", invoke)
     app = registered_app(monkeypatch, tmp_path)
     ask(app, "교육실 사용 전 확인할 사항은?")
     assert not app.exception
@@ -391,8 +495,8 @@ def test_ai_answer_is_rendered_in_chat_after_real_validation(monkeypatch, tmp_pa
 
 def test_typing_and_empty_submission_do_not_call_ai(monkeypatch, tmp_path):
     monkeypatch.setenv("GUIDE_MODE", "local")
-    monkeypatch.setattr("mvp.library.Embedder", FakeEmbedder)
-    monkeypatch.setattr("mvp.ai.generate", lambda *args: pytest.fail("Unsubmitted input must not call AI"))
+    monkeypatch.setattr("src.library.Embedder", FakeEmbedder)
+    monkeypatch.setattr("src.ai.generate", lambda *args: pytest.fail("Unsubmitted input must not call AI"))
     app = registered_app(monkeypatch, tmp_path)
     app.session_state["question_input"] = "작성 중인 질문"
     app.run()
@@ -404,12 +508,12 @@ def test_typing_and_empty_submission_do_not_call_ai(monkeypatch, tmp_path):
 
 def test_follow_up_form_and_new_conversation_use_only_question_context(monkeypatch, tmp_path):
     monkeypatch.setenv("GUIDE_MODE", "local")
-    monkeypatch.setattr("mvp.library.Embedder", FakeEmbedder)
+    monkeypatch.setattr("src.library.Embedder", FakeEmbedder)
     calls = []
     def answer(settings, question, hits, user_id, **kwargs):
         calls.append(question)
         return validate_answer('{"answerable":false,"statements":[]}', hits), hits
-    monkeypatch.setattr("mvp.ai.generate", answer)
+    monkeypatch.setattr("src.ai.generate", answer)
     app = registered_app(monkeypatch, tmp_path)
     ask(app, "교육실 예약 확인")
     next(c for c in app.checkbox if c.label == "이전 질문에 이어서 묻기").check().run()
@@ -429,10 +533,10 @@ def test_groq_receives_only_locally_retrieved_chunks_and_citations_are_grouped(m
 
     from docx import Document
 
-    from mvp.auth import LocalAuth
-    from mvp.repository import Repository
-    from mvp.settings import load_settings
-    from mvp.storage import source_store
+    from src.auth import LocalAuth
+    from src.repository import Repository
+    from src.settings import load_settings
+    from src.storage import source_store
 
     monkeypatch.setenv("GUIDE_MODE", "local")
     monkeypatch.setenv("GUIDE_LLM_PROVIDER", "groq_free")
@@ -440,7 +544,7 @@ def test_groq_receives_only_locally_retrieved_chunks_and_citations_are_grouped(m
     monkeypatch.setenv("GUIDE_LLM_API_KEY", "synthetic-key")
     monkeypatch.setenv("GUIDE_LLM_APPROVED", "true")
     monkeypatch.setenv("GUIDE_GROQ_FREE_CONFIRMED", "true")
-    monkeypatch.setattr("mvp.library.Embedder", FakeEmbedder)
+    monkeypatch.setattr("src.library.Embedder", FakeEmbedder)
     app = registered_app(monkeypatch, tmp_path)
     settings, auth = load_settings(), app.session_state["auth"]
     repo = Repository(settings, auth, source_store(settings, auth))
@@ -475,10 +579,10 @@ def test_groq_receives_only_locally_retrieved_chunks_and_citations_are_grouped(m
     def invoke(config, question, hits, user_id, **kwargs):
         return generate(config, question, hits, user_id, Quota(tmp_path / "groq.sqlite3"),
                         httpx.MockTransport(response), **kwargs)
-    monkeypatch.setattr("mvp.ai.generate", invoke)
+    monkeypatch.setattr("src.ai.generate", invoke)
     # 질문 시 원본 저장소를 다시 읽거나 체크리스트를 조회하면 실패하도록 검증합니다.
-    monkeypatch.setattr("mvp.storage.LocalSourceStore.read", lambda *a: pytest.fail("Original read during chat"))
-    monkeypatch.setattr("mvp.repository.Repository.list_checklists", lambda *a: [])
+    monkeypatch.setattr("src.storage.LocalSourceStore.read", lambda *a: pytest.fail("Original read during chat"))
+    monkeypatch.setattr("src.repository.Repository.list_checklists", lambda *a: [])
     app.run()
     ask(app, "VRE 검색 시험")
     assert not app.exception and len(captured) == 1
@@ -506,7 +610,7 @@ def test_concurrent_quota_cannot_exceed_global_limit(tmp_path):
 
 
 def test_korean_input_uses_model_tokens_instead_of_utf8_byte_count():
-    from mvp.ai import OUTPUT_LIMIT
+    from src.ai import OUTPUT_LIMIT
     messages = [{"role": "user", "content": "가상 교육실 안내에서 예약 확인 방법을 알려주세요. " * 30}]
     byte_reservation = len(json.dumps(messages, ensure_ascii=False).encode()) + OUTPUT_LIMIT
     estimate = estimated_tokens(messages, "groq_free")
@@ -609,7 +713,7 @@ def test_retry_button_waits_and_reuses_original_question_context(monkeypatch, tm
     import time
     monkeypatch.setenv("GUIDE_MODE", "local")
     monkeypatch.setenv("GUIDE_LLM_PROVIDER", "disabled")
-    monkeypatch.setattr("mvp.library.Embedder", FakeEmbedder)
+    monkeypatch.setattr("src.library.Embedder", FakeEmbedder)
     calls = []
     def limited_then_answer(settings, question, hits, user_id, **kwargs):
         calls.append(question)
@@ -619,7 +723,7 @@ def test_retry_button_waits_and_reuses_original_question_context(monkeypatch, tm
         response = json.dumps({"answerable": True, "statements": [
             {"text": chunk.text, "evidence": [{"chunk_id": chunk.id, "quote": chunk.text}]}]})
         return validate_answer(response, hits), hits
-    monkeypatch.setattr("mvp.ai.generate", limited_then_answer)
+    monkeypatch.setattr("src.ai.generate", limited_then_answer)
     app = registered_app(monkeypatch, tmp_path)
     ask(app, "교육실 예약 확인")
     assert not app.exception
@@ -636,14 +740,14 @@ def test_retry_button_waits_and_reuses_original_question_context(monkeypatch, tm
 
 def test_identical_question_reuses_only_current_session_validated_answer(monkeypatch, tmp_path):
     monkeypatch.setenv('GUIDE_MODE', 'local')
-    monkeypatch.setattr('mvp.library.Embedder', FakeEmbedder)
+    monkeypatch.setattr('src.library.Embedder', FakeEmbedder)
     calls = []
     def respond(settings, question, hits, user_id, **kwargs):
         calls.append(question)
         source = hits[0].chunk
         return validate_answer(json.dumps({'answerable': True, 'statements': [{'text': source.text,
             'evidence': [{'chunk_id': source.id, 'quote': source.text}]}]}), hits), hits
-    monkeypatch.setattr('mvp.ai.generate', respond)
+    monkeypatch.setattr('src.ai.generate', respond)
     app = registered_app(monkeypatch, tmp_path)
     ask(app, '교육실 예약 확인')
     ask(app, '교육실 예약 확인')

@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "evaluation_date": "2026-09-19",
+  "evaluator_file": "tools/current_hybrid_evaluate.py",
+  "engine": "current_hybrid",
+  "retrieval_contract": {
+    "engine": "current_hybrid",
+    "production_search": "mvp.library.LocalLibrary.search",
+    "minilm_calls_per_query": 1,
+    "bm25_enabled": true,
+    "faiss_enabled": true,
+    "rrf_enabled": true,
+    "reranker_enabled": true,
+    "context_expansion": true,
+    "evidence_gate": false,
+    "source_unit": false,
+    "llm_calls": 0,
+    "validator_calls": 0
+  },
+  "corpus": {
+    "catalog_revision": 2,
+    "fingerprint_algorithm": "mvp.library.fingerprint_sha256",
+    "fingerprint": "f114e736f5ca9d487ec6be225ae5e942b5cbc25df1d85a648eaaf7bba98d2010",
+    "document_count": 2,
+    "chunk_count": 147,
+    "document_ids": [
+      "49efc318-d430-4b3b-8c16-2779c52f1401",
+      "bc3d0de4-6560-4560-b78f-645e82cddd94"
+    ]
+  },
+  "gold": {
+    "fixture": "tests/fixtures/schat_v1_operational_gold_reviewed.json",
+    "fixture_sha256": "0485c2192324082594bb66cc398097b3abc3ca4dc32066963db69d99a4f9067c",
+    "dataset_version": "schat-v1-operational-gold-reviewed-v1",
+    "approved_positive_case_count": 21,
+    "deferred_positive_case_count": 11,
+    "approved_abstention_case_count": 4,
+    "negative_handling": "separate_not_queried_by_positive_retrieval_evaluator"
+  },
+  "query_processing": {
+    "planner": "mvp.query.plan_query",
+    "embedding_projection": "mvp.library.bounded_embedding_question(plan.expanded)",
+    "follow_up_context": true,
+    "document_scope_filter": true,
+    "context_expansion": true
+  },
+  "embedding": {
+    "model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "runtime_library": "fastembed",
+    "runtime_version": "0.8.0",
+    "dimension": 384,
+    "normalization": "l2_unit",
+    "minimum_norm": 1.0,
+    "maximum_norm": 1.0
+  },
+  "hybrid": {
+    "implementation": "mvp.library.LocalLibrary.search",
+    "components": [
+      "BM25Index",
+      "FAISS IndexFlatIP",
+      "RRF",
+      "reranker",
+      "context expansion"
+    ],
+    "minimum_similarity": 0.38,
+    "separate_reimplementation": false
+  },
+  "top_k": [
+    1,
+    3,
+    5,
+    10
+  ]
+}

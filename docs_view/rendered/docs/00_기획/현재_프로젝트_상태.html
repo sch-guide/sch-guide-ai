@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SCHAT 현재 상태 · SCHAT 문서</title><link rel="stylesheet" href="../../../assets/style.css"></head>
+<body><main class="document-pane"><div class="official-notice"><div><strong>열람용 복사본</strong><span>공식 정본은 docs/입니다.</span></div></div>
+<article class="markdown-body"><h1 id="section-1">SCHAT 현재 상태</h1>
+<blockquote><p>이 문서는 과거 이력이 아니라 현재 실제 코드와 검증 상태만 설명한다.</p></blockquote>
+<h2 id="section-2">기준 상태</h2>
+<div class="table-wrap"><table><thead><tr><th class="align-left">항목</th><th class="align-left">현재 값</th></tr></thead><tbody><tr><td class="align-left">공식 안정 복구 기준점</td><td class="align-left"><strong>v0.9</strong></td></tr><tr><td class="align-left">작업 브랜치</td><td class="align-left"><code>boha-rag</code></td></tr><tr><td class="align-left">v1.0 준비 상태</td><td class="align-left"><strong>최종 READY 재판정 전</strong></td></tr><tr><td class="align-left">최신 문서 현행화 기준</td><td class="align-left">2026-09-21</td></tr><tr><td class="align-left">외부 평가 호출</td><td class="align-left">기존 Groq 기록 유지, Gemini Embedding 2 요청 168회, Gemini controlled-generation 3 case 평가</td></tr><tr><td class="align-left">외부 전송 범위</td><td class="align-left">승인된 evaluation-only 범위만 사용, 원문·질문·응답은 artifact에 저장하지 않음</td></tr><tr><td class="align-left">Git commit/tag/push</td><td class="align-left">0회</td></tr></tbody></table></div>
+<p><code>v0.9</code>와 이전 <code>v0.8</code> tag는 이동하거나 변경하지 않았다.</p>
+<h2 id="section-3">Production 구조</h2>
+<pre><code class="language-text">질문 분석
+  → 명시적 문서 범위 + 질문 의미 결합
+  → BM25 + MiniLM semantic/vector
+  → RRF + existing reranker
+  → context expansion / parent atomicity
+  → pre/post evidence gate
+  → Facet-slot SourceUnit selection
+  → server reconstruction
+  → AnswerCoverage + validate_answer()
+  → presentation sidecar
+  → Streamlit 답변·출처 UI</code></pre>
+<ul><li>Production retrieval/embedding/validator 변경: 0건</li><li>문서 등록 단계에는 청크 문장을 바꾸지 않는 형식·품질 자동검사가 추가됨</li><li>Facet-slot distinct SourceUnit limit: 16</li><li>Q006와 운영 out-of-scope: provider transport 0회</li><li>Citation, number, unit, time, condition, negation, action, branch, phase와 source-order validator 유지</li></ul>
+<h2 id="section-4">Gold·Retrieval·RAGAS</h2>
+<ul><li>Approved Positive Gold: <strong>21건</strong></li><li>Deferred: <strong>11건</strong>, 자동 승인 0건</li><li>Approved abstention Gold: <strong>4건</strong></li><li>Production hybrid: Hit@10 0.9524, MRR 0.7370, ID Precision 0.5365, ID Recall 0.8210</li><li>BM25 current: Hit@10 0.9048, MRR 0.5822</li><li>ChromaDB + MiniLM: Hit@10 0.3333, MRR 0.1093</li><li>ChromaDB + Gemini Embedding 2: Hit@10 0.9524, MRR 0.4337, ID Precision 0.3095, ID Recall 0.5593</li><li>Gemini Embedding 2 ChromaDB는 147개 문서 청크와 21개 질문을 사용한 evaluation-only이며 Production에는 연결하지 않았다.</li><li>E5와 BM25+E5: evaluation-only</li><li>과거 Groq Live RAGAS: <code>STOPPED_ON_CRITICAL_FACT_PRESERVATION</code></li><li>Gemini controlled-generation 재평가: <code>UAT-T02</code> 저장 로직 수정 완료, <code>UAT-T12</code> evaluation 검사기 구간 결합 오탐 수정 완료, <code>UAT-T11</code> required coverage 보강 완료·Live 재평가 대기</li><li>Faithfulness/Answer Relevancy: 원 질문·generated answer의 judge 전송 권한이 없어 pending</li></ul>
+<h2 id="section-5">기능 상태</h2>
+<div class="table-wrap"><table><thead><tr><th class="align-left">영역</th><th class="align-left">상태</th></tr></thead><tbody><tr><td class="align-left">Text retrieval / verified extractive answer</td><td class="align-left">Production 운영</td></tr><tr><td class="align-left">Production retrieval</td><td class="align-left">BM25 + MiniLM + RRF + existing reranker 유지</td></tr><tr><td class="align-left">Presentation sidecar</td><td class="align-left">Production 운영</td></tr><tr><td class="align-left">Controlled generation</td><td class="align-left">Evaluation-only Gemini 3 case 재평가, T12 검사기 오탐 수정 완료, T11 required coverage 보강 완료·Live 재평가 대기</td></tr><tr><td class="align-left">Structured table</td><td class="align-left">Approved 5/5, 운영 승인 subset 2/2 Top-10</td></tr><tr><td class="align-left">Image/diagram</td><td class="align-left">10/10 사람 검수 완료, Production Gold 미승인·v1.0 범위 제외</td></tr><tr><td class="align-left">Operational UAT</td><td class="align-left">마지막 전체 운영 검증 <strong>36/36 PASS</strong></td></tr><tr><td class="align-left">Full pytest</td><td class="align-left">최신 실행 <strong>985 passed, 5 skipped, 15 warnings</strong></td></tr><tr><td class="align-left">문서 전용 테스트</td><td class="align-left"><strong>9 passed</strong></td></tr><tr><td class="align-left">ChromaDB</td><td class="align-left">MiniLM·Gemini Embedding 2 비교 완료, Production 미통합</td></tr><tr><td class="align-left">Qdrant</td><td class="align-left">Production 미통합, 향후 후보</td></tr></tbody></table></div>
+<h2 id="section-6">사람이 해야 할 다음 작업</h2>
+<ol><li>강화된 coverage 계약으로 <code>UAT-T11</code>을 Live 재평가한다(외부 호출은 별도 승인 후 실행).</li><li>T12의 과거 candidate에 대해 사람이 판정한 별도 <code>검사 시행 누락</code>은 다음 재평가 때 다시 확인한다.</li><li>검색 결과와 Gold의 독립적인 사람 검수 범위를 확정한다.</li><li>위 작업 이후 v1.0 readiness와 Live RAGAS 범위를 다시 판정한다.</li></ol></article></main></body></html>

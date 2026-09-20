@@ -12,7 +12,7 @@ import pytest
 from jsonschema import Draft202012Validator
 from jsonschema import ValidationError as JSONSchemaError
 
-from mvp.ai import (
+from src.ai import (
     AI_VERSION,
     GROQ_REQUEST_TOKEN_BUDGET,
     OUTPUT_LIMIT,
@@ -28,7 +28,7 @@ from mvp.ai import (
     prompt_messages,
     validate_source_unit_selection,
 )
-from mvp.evidence import (
+from src.evidence import (
     answer_coverage,
     assess_evidence,
     build_source_unit_catalog,
@@ -38,9 +38,9 @@ from mvp.evidence import (
     procedure_coverage,
     source_sentences,
 )
-from mvp.library import NO_GUIDELINE, Chunk, Hit
-from mvp.query import plan_query
-from mvp.settings import GuideError, Settings
+from src.library import NO_GUIDELINE, Chunk, Hit
+from src.query import plan_query
+from src.settings import GuideError, Settings
 from tools.rag_phase2_evaluate import _load_q002
 from tools.rag_source_unit_evaluate import _safe_group_selection_counts
 
@@ -576,7 +576,7 @@ def test_empty_facet_selection_object_fails_closed(q002):
 
 
 def test_reconstruction_still_fails_closed_on_bad_citation(q002, monkeypatch):
-    import mvp.ai as ai_module
+    import src.ai as ai_module
 
     plan, hits, assessment, catalog, _, _, required_ids = q002
     contract = facet_contract_for(plan, assessment, catalog)
@@ -683,7 +683,7 @@ def test_q002_general_facets_accept_gold_without_production_gold_ids(q002):
     assert set(requirement.required_action_slots) <= set(coverage.selected_action_slots)
     assert set(requirement.required_action_families) == set(coverage.selected_action_families)
 
-    production = (Path(__file__).parents[1] / 'mvp' / 'evidence.py').read_text(encoding='utf-8')
+    production = (Path(__file__).parents[1] / 'src' / 'evidence.py').read_text(encoding='utf-8')
     assert 'Q002' not in production
     assert 'chunk-000' not in production
     assert 'common-order' not in production

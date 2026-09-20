@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "audit_type": "raw_free_live_request_ledger",
+  "maximum_requests": 168,
+  "actual_http_request_count": 29,
+  "successful_request_count": 28,
+  "failed_request_count": 0,
+  "retry_count": 0,
+  "actual_input_tokens": 1729,
+  "actual_total_tokens": 1729,
+  "raw_request_payload_stored": false,
+  "raw_provider_response_stored": false
+}

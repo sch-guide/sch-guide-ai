@@ -1,14 +1,21 @@
 # 병원 실무지침 AI
 
-등록된 병원 실무지침을 검색하고, 검색된 근거만 Groq에 전달해 답변과 출처를 표시하는 Streamlit 앱입니다.
+등록된 병원 실무지침을 검색하고, 검색된 근거만 설정에서 승인한 AI Provider에 전달해 답변과 출처를 표시하는 Streamlit 앱입니다.
 
 - 직원: AI 채팅, 이전 질문 이어 묻기, 답변 근거와 관련 원문 확인
 - 관리자: PDF·DOCX·XLSX 등록·교체·삭제·재색인
 - 검색: 무료 다국어 로컬 임베딩 + BM25/Vector 혼합 검색 + RRF + 규칙 기반 재정렬
-- 답변: 등록 지침의 검색 근거가 있을 때만 Groq로 생성
+- 답변: 등록 지침의 검색 근거가 있을 때만 승인된 AI Provider로 생성
 - 출처: 문서명, 항목, 페이지 또는 문단 위치, 개정일
 
 병원 원문, API 키, 계정 DB와 검색 인덱스는 이 공개 저장소에 올리지 않습니다.
+
+## 프로젝트 문서
+
+- 공식 문서 정본: [`docs/README.md`](docs/README.md)
+- 렌더링·열람용 복사본: [`docs_view/index.html`](docs_view/index.html)
+
+요구사항, 설계, 평가 판정은 항상 `docs/`를 기준으로 한다. `docs_view/`는 공식 정본이 아니다.
 
 ## 근거 기반 검색·답변 계약
 
@@ -25,9 +32,9 @@
 
 LLM 호출 전 주제 근거, 요청한 용량·간격·주의·해제 기준 등의 존재, 비교 대상 문서/개체,
 의미 단위의 누락 여부를 검사합니다. 토큰 예산으로 근거를 줄인 후에도 다시 검사합니다.
-근거가 부족하면 Groq를 호출하지 않고 **등록된 지침서에서 확인할 수 없습니다.** 를 표시합니다.
+근거가 부족하면 AI Provider를 호출하지 않고 **등록된 지침서에서 확인할 수 없습니다.** 를 표시합니다.
 
-Groq는 관련 원문 문장을 선택·배열하는 추출형 답변을 만듭니다. 임의 의역이나 일반 의학지식의 추가는 허용하지 않습니다.
+승인된 AI Provider는 관련 원문 문장을 선택·배열하는 추출형 답변을 만듭니다. 임의 의역이나 일반 의학지식의 추가는 허용하지 않습니다.
 각 문장은 제공한 chunk의 완전한 문장/행과 일치해야 하고, 그 문장을 포함하는 출처만 연결됩니다.
 부분 인용으로 조건·부정을 제거하거나, 문장/출처를 새로 만들거나, 질문의 필수 항목을 빠뜨리면 동일한 근거 부족 문구로 끝납니다.
 답변에는 문장별 인용과 문서명·페이지/위치·관련 원문을 표시합니다.
@@ -80,11 +87,11 @@ PDF의 한 문장이 지면 너비 때문에 여러 줄로 나뉜 경우, 명확
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q
-.\.venv\Scripts\python.exe -m ruff check mvp tests
-.\.venv\Scripts\python.exe -m mvp.evaluate_cases
+.\.venv\Scripts\python.exe -m ruff check src tests tools
+.\.venv\Scripts\python.exe -m src.evaluate_cases
 ```
 
-마지막 명령은 합성 문서와 실제 로컬 임베딩으로 검색을 평가합니다. 기본 답변은 검증용 fixture이며 실제 Groq 응답 품질 평가가 아닙니다.
+마지막 명령은 합성 문서와 실제 로컬 임베딩으로 검색을 평가합니다. 기본 답변은 검증용 fixture이며 실제 외부 AI 응답 품질 평가가 아닙니다.
 `tests/test_rag_contract.py`는 운영 Supabase 요청/응답 대역을 통해 BM25 누락 복구·권한·캐시·거절·문장별 인용을 확인합니다.
 기본/부분/전체 DB migration 조합, 500개를 넘는 chunk 조회, 선택 열 자동 조정과 권한 오류 시 중단도 검사합니다.
 
@@ -99,10 +106,10 @@ PostgREST 오류 코드의 의미는 [공식 오류 문서](https://docs.postgre
 |---|---|
 | Repository | sch-guide/sch-guide-ai |
 | Branch | main |
-| Main file path | mvp/app.py |
+| Main file path | src/app.py |
 | Python | 3.12 |
 
-배포 전에 Supabase SQL Editor에서 mvp/schema.sql, mvp/storage_schema.sql, mvp/migrations/20260910_operational_pgvector.sql 순서로 실행하고, Streamlit Cloud의 Settings → Secrets에 아래 항목을 실제 값으로 등록합니다. 기존 설치에는 마지막 migration만 추가 실행합니다.
+배포 전에 Supabase SQL Editor에서 src/schema.sql, src/storage_schema.sql, src/migrations/20260910_operational_pgvector.sql 순서로 실행하고, Streamlit Cloud의 Settings → Secrets에 실제 값을 등록합니다. 기존 설치에는 마지막 migration만 추가 실행합니다. 아래는 **Groq를 선택한 경우의 예시**입니다. 로컬 Gemini 설정은 `internal` Provider와 OpenAI 호환 endpoint를 사용할 수 있으며, 실제 API 키와 endpoint 값은 문서에 기록하지 않습니다.
 
 ~~~toml
 GUIDE_MODE = "staff"
@@ -128,12 +135,12 @@ GUIDE_SUPABASE_PUBLISHABLE_KEY에는 관리자용 service_role 비밀 키를 사
 
 ~~~powershell
 py -3.12 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r mvp\requirements.txt
-Copy-Item mvp\.env.example mvp\.env
-.\.venv\Scripts\python.exe -m streamlit run mvp\app.py --server.address 127.0.0.1 --server.port 8502
+.\.venv\Scripts\python.exe -m pip install -r src\requirements.txt
+Copy-Item src\.env.example src\.env
+.\.venv\Scripts\python.exe -m streamlit run src\app.py --server.address 127.0.0.1 --server.port 8502
 ~~~
 
-로컬에서만 mvp/.env의 GUIDE_MODE=local을 사용할 수 있습니다. 외부 배포는 staff 모드와 Supabase 인증을 사용합니다.
+로컬에서만 src/.env의 GUIDE_MODE=local을 사용할 수 있습니다. 외부 배포는 staff 모드와 Supabase 인증을 사용합니다.
 
 ## 보안
 

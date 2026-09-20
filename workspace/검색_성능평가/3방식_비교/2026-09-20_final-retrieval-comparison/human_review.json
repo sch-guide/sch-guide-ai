@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "reviews": [
+    {
+      "case_id": "UAT-S01",
+      "retriever_reviews": {
+        "bm25": "적절",
+        "gemini_chroma": "적절",
+        "current_hybrid": "적절"
+      },
+      "preferred_retriever": "",
+      "overall_note": "세 방식 모두 정답 근거를 찾았음. BM25와 Hybrid는 Gold가 1위, ChromaDB는 2위에 위치하여 BM25/Hybrid가 순위 측면에서 더 우수함.",
+      "reviewer": "뽀",
+      "timestamp": "2026-09-20T15:17:31+09:00"
+    },
+    {
+      "case_id": "UAT-S02",
+      "retriever_reviews": {
+        "bm25": "부분적절",
+        "gemini_chroma": "적절",
+        "current_hybrid": "적절"
+      },
+      "preferred_retriever": "current_hybrid",
+      "overall_note": "Hybrid는 Top 10 대부분이 질문과 직접 관련된 Gold 근거로 구성되어 가장 검색 품질이 높았음. Gemini Chroma도 관련 근거를 다수 검색했으나 일부 비Gold 결과가 포함되었고, BM25는 정답을 1위에 찾았으나 관련 근거의 범위가 상대적으로 좁았음.",
+      "reviewer": "뽀",
+      "timestamp": "2026-09-20T15:25:05+09:00"
+    },
+    {
+      "case_id": "UAT-T01",
+      "retriever_reviews": {
+        "bm25": "부적절",
+        "gemini_chroma": "적절",
+        "current_hybrid": "부분적절"
+      },
+      "preferred_retriever": "gemini_chroma",
+      "overall_note": "",
+      "reviewer": "뽀",
+      "timestamp": "2026-09-20T15:29:19+09:00"
+    },
+    {
+      "case_id": "UAT-T02",
+      "retriever_reviews": {
+        "bm25": "부분적절",
+        "gemini_chroma": "부분적절",
+        "current_hybrid": "부분적절"
+      },
+      "preferred_retriever": "",
+      "overall_note": "",
+      "reviewer": "뽀",
+      "timestamp": "2026-09-20T15:30:26+09:00"
+    },
+    {
+      "case_id": "UAT-T11",
+      "retriever_reviews": {
+        "bm25": "부적절",
+        "gemini_chroma": "적절",
+        "current_hybrid": "부적절"
+      },
+      "preferred_retriever": "gemini_chroma",
+      "overall_note": "Gemini Chroma는 질문과 관련된 표 기반 근거를 가장 적절하게 찾았고, BM25와 Hybrid는 관련성이 낮은 결과가 포함되어 부적절로 판단함.",
+      "reviewer": "뽀",
+      "timestamp": "2026-09-20T15:10:40+09:00"
+    }
+  ]
+}

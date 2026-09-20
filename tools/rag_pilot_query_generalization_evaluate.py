@@ -13,24 +13,24 @@ from pathlib import Path
 import httpx
 import numpy as np
 
-from mvp.ai import (
+from src.ai import (
     GROQ_REQUEST_TOKEN_BUDGET,
     FacetSlotSelectionContract,
     generate,
     prompt_messages,
 )
-from mvp.context import expand_context
-from mvp.evidence import assess_evidence
-from mvp.library import Hit, bounded_embedding_question, embedding_question, terms
-from mvp.query import plan_query, topic_words
-from mvp.retrieval import (
+from src.context import expand_context
+from src.evidence import assess_evidence
+from src.library import Hit, bounded_embedding_question, embedding_question, terms
+from src.query import plan_query, topic_words
+from src.retrieval import (
     BM25Index,
     lexical_tokens,
     rank_bm25_candidates,
     rerank,
     rrf,
 )
-from mvp.settings import ROOT
+from src.settings import ROOT
 from tools.bm25_evaluate import DEFAULT_QUESTIONS
 from tools.rag_facet_slot_evaluate import (
     MockQuota,
@@ -41,7 +41,7 @@ from tools.rag_facet_slot_evaluate import (
 from tools.rag_phase1_evaluate import _stable_positions
 from tools.rag_procedure_live_evaluate import pilot_corpus
 
-DEFAULT_OUTPUT = ROOT / 'artifacts' / '2026-09-14_rag-pilot-query-generalization'
+DEFAULT_OUTPUT = ROOT / 'workspace' / 'RAG_실험' / '2026-09-14_rag-pilot-query-generalization'
 PARAPHRASES = (
     ('P01', 'purpose', '진정간호 목적 알려줘'),
     ('P02', 'purpose', '진정 간호는 왜 시행하나요?'),

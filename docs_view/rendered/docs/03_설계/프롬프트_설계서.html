@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>프롬프트_설계서 · SCHAT 문서</title><link rel="stylesheet" href="../../../assets/style.css"></head>
+<body><main class="document-pane"><div class="official-notice"><div><strong>열람용 복사본</strong><span>공식 정본은 docs/입니다.</span></div></div>
+<article class="markdown-body"><p>﻿# SCHAT 근거 기반 자연어 답변 Prompt 설계서</p>
+<h2 id="section-1">1. 문서 상태와 범위</h2>
+<ul><li>상태: <strong>설계 초안</strong></li><li>대상 Prompt 후보: <code>v1.0-natural-grounded</code></li><li>실행 범위: offline/mock evaluation-only</li><li>Production 연결: 하지 않음</li><li><code>publish_controlled</code>: <code>false</code> 유지</li><li>semantic support: <code>pending</code> 유지</li></ul>
+<p>이 문서는 SCHAT의 검증된 근거를 자연스러운 한국어로 재구성할 수 있는지 평가하기 위한 설계를 정의한다. Production Retrieval, Gold, fixture, DB, schema와 기존 validator 계약은 변경하지 않는다. 이 초안이 검토되기 전에는 Prompt loader, 평가 도구, 검수 앱을 구현하지 않는다.</p>
+<h2 id="section-2">2. 현재 extractive 답변 구조</h2>
+<p>현재 Groq Production 경로의 LLM은 최종 문장을 자유롭게 생성하지 않는다.</p>
+<pre><code class="language-text">사용자 질문
+  → QueryPlan
+  → Production Retrieval
+  → EvidenceGroup / SourceUnit catalog
+  → LLM이 request-local SourceUnit ID만 선택
+  → server가 SourceUnit.exact_text로 Answer 재구성
+  → AnswerCoverage / validate_answer()
+  → presentation sidecar
+  → UI</code></pre>
+<p>서버 재구성은 다음 identity를 유지한다.</p>
+<ul><li><code>Statement.text = SourceUnit.exact_text</code></li><li><code>Evidence.quote = SourceUnit.exact_text</code></li><li><code>Evidence.chunk_id = SourceUnit.chunk_id</code></li></ul>
+<p>따라서 현재 답변이 원문을 이어 붙인 것처럼 보이는 이유는 검색 실패가 아니라, 선택된 SourceUnit 원문을 문장 단위로 그대로 게시하는 안전 설계 때문이다. SourceUnit 선택에는 LLM을 사용하지만, Groq 경로에서 LLM은 최종 자연어 답변 작성자가 아니다.</p>
+<h2 id="section-3">3. 목표와 비목표</h2>
+<h3 id="section-4">목표</h3>
+<ul><li>결론을 먼저 제시하는 간결한 한국어 답변 후보를 만든다.</li><li>여러 내용은 질문 유형과 server metadata에 따라 번호와 소제목으로 표시한다.</li><li>원문 나열 대신 임상 의미를 유지한 자연스러운 재서술을 허용한다.</li><li>각 문장에 실제로 뒷받침하는 SourceUnit만 연결한다.</li><li>기존 안전 검증을 모두 통과한 후보만 사람 검수 대상으로 제시한다.</li><li>Prompt version과 SHA-256을 raw-free metadata로 기록할 수 있게 한다.</li></ul>
+<h3 id="section-5">비목표</h3>
+<ul><li>Production <code>generate()</code> 경로 연결</li><li><code>publish_controlled=True</code> 전환</li><li>validator 완화 또는 우회</li><li>Production Retrieval 변경</li><li>외부 Provider 호출</li><li>Prompt 후보의 v1.0 확정</li></ul>
+<h2 id="section-6">4. Controlled generation 흐름</h2>
+<p>기존 <code>src/controlled_generation.py</code>의 contract와 fail-closed 결정을 재사용한다.</p>
+<pre><code class="language-text">검증된 SourceUnit
+  → versioned Prompt loader
+  → offline Mock candidate
+  → closed response schema
+  → SourceUnit ID / citation 검증
+  → number·unit·time·condition·negation·action 검증
+  → branch·phase·source order·coverage 검증
+  → semantic_support_pending
+  → 사람 검수 화면에 candidate 표시
+  → Production에는 기존 extractive Answer 유지</code></pre>
+<p>Candidate 검증이 실패하면 retry나 자동 수정을 하지 않는다. 즉시 기존 extractive Answer로 fallback한다. 모든 규칙을 통과해도 semantic entailment가 승인된 별도 validator로 확정되지 않았으므로 candidate를 Production에 게시하지 않는다.</p>
+<h2 id="section-7">5. YAML Prompt 구조</h2>
+<p>Prompt는 다음 파일로 관리한다.</p>
+<pre><code class="language-text">src/config/prompts/
+├─ registry.yaml
+└─ v1.0-natural-grounded.yaml</code></pre>
+<p><code>registry.yaml</code>은 후보 버전, 상태, 파일 경로와 Production 비활성 상태를 선언한다. 버전 파일은 다음 정보를 포함한다.</p>
+<ul><li><code>prompt_version</code></li><li><code>created_at</code></li><li><code>purpose</code></li><li><code>status</code></li><li><code>safety_contract_version</code></li><li><code>compatible_validator_version</code></li><li>system instruction</li><li>answer instruction</li><li>safety rules</li><li>질문 유형별 presentation 정책</li><li>후속 질문 정책</li></ul>
+<p>Python 코드에는 동일 Prompt 본문을 중복 저장하지 않는다. loader는 직접 의존성 <code>PyYAML&gt;=6,&lt;7</code>의 <code>SafeLoader</code>를 확장해 duplicate key를 거부하며, 허용된 디렉터리의 <code>.yaml</code> 파일만 읽는다. 필수 field·version 일치·<code>publish_controlled=false</code>를 fail-closed로 검증한다. 실행 artifact에는 Prompt 본문 대신 version과 SHA-256만 기록한다.</p>
+<h3 id="section-8">사람이 읽는 YAML 원칙</h3>
+<ul><li>YAML key와 코드가 직접 비교하는 status, purpose, version, strategy 값은 안정 계약이므로 영어를 유지한다.</li><li><code>system</code>, <code>instruction</code>, runtime 안내 문장과 safety rule은 팀원과 멘토가 바로 검토할 수 있도록 한글로 작성한다.</li><li>영어 계약값의 의미는 바로 위 YAML comment에서 한글로 설명한다.</li><li>runtime template의 <code>{source_unit_id}</code>, <code>{exact_text}</code>, <code>{intent}</code>, <code>{requested_phase}</code>, <code>{slot_id}</code>, <code>{category}</code>, <code>{supporting_source_unit_ids}</code> placeholder는 변경하지 않는다.</li><li>한글화는 표현 형식만 바꾸며 안전 규칙의 의미와 순서, validator 및 Production 연결 상태를 변경하지 않는다.</li></ul>
+<h2 id="section-9">6. 답변 생성 원칙</h2>
+<p>Prompt는 다음을 요구한다.</p>
+<ol><li>제공된 Evidence만 사용한다.</li><li>질문의 결론을 먼저 답한다.</li><li>Evidence 문장을 그대로 나열하지 않고 필요한 의미만 자연스럽게 재구성한다.</li><li>숫자, 단위, 시간, 조건, 예외, 금기, 부정과 임상 행위의 의미를 바꾸지 않는다.</li><li>절차의 SourceUnit 순서를 바꾸거나 서로 다른 branch·phase를 한 문장에 섞지 않는다.</li><li>각 statement는 실제 지원 SourceUnit ID를 하나 이상 제출한다.</li><li>근거가 부족하면 내용을 만들지 않고 기존 fallback을 사용한다.</li><li>Markdown 제목, 번호와 citation 표시 문자열은 candidate text에 직접 넣지 않는다.</li></ol>
+<p>마지막 규칙은 임상 문장과 표시용 구조를 분리하기 위한 것이다. 번호·소제목·출처 표시는 candidate 검증 후 server presentation이 담당한다.</p>
+<h3 id="section-10">자연스러운 재서술 허용 범위</h3>
+<p>다음 변환은 SourceUnit의 임상 의미가 그대로 유지되는 경우에만 허용한다.</p>
+<ul><li>어순 변경</li><li>연결어 추가</li><li>중복 표현 제거</li><li>동일 의미의 자연스러운 표현 변경</li></ul>
+<p>다음 변환은 금지한다.</p>
+<ul><li>새로운 임상 개념 추가</li><li>새로운 인과관계 추가</li><li>행위 주체 변경</li><li>조건·금기 강도 변경</li><li>근거에 없는 강조 추가</li></ul>
+<p>허용 항목에 해당하더라도 기존 number·unit·time·condition·negation·action 및 branch·phase·source order·AnswerCoverage 검증을 모두 통과해야 한다. 규칙 기반 검증을 통과한 것만으로 의미 동치가 확정되는 것은 아니므로 <code>semantic_support_pending</code> 상태와 사람 검수를 유지한다.</p>
+<h2 id="section-11">7. 질문 유형별 presentation 규칙</h2>
+<p>표시 구조는 가능한 한 QueryPlan과 검증된 SourceUnit metadata에서 결정한다. LLM이 임의의 소제목을 생성하지 않는다.</p>
+<div class="table-wrap"><table><thead><tr><th class="align-left">질문 유형</th><th class="align-left">server 표시 전략</th></tr></thead><tbody><tr><td class="align-left">사실 질문</td><td class="align-left">첫 검증 statement를 핵심 답변으로 먼저 표시하고 필요한 보충 statement만 이어 표시</td></tr><tr><td class="align-left">준비사항</td><td class="align-left">준비·시행 전 phase를 우선하되 SourceUnit 순서 유지</td></tr><tr><td class="align-left">절차</td><td class="align-left">검증된 source order대로 번호 표시, branch와 phase가 있을 때만 구분</td></tr><tr><td class="align-left">조건/예외</td><td class="align-left">Evidence에서 조건·예외 marker가 검증된 statement만 해당 section에 표시</td></tr><tr><td class="align-left">비교</td><td class="align-left">각 비교 대상의 실제 citation이 있을 때만 대상별 구분</td></tr><tr><td class="align-left">요약</td><td class="align-left">핵심 요약 section을 표시하되 필수 coverage를 생략하지 않음</td></tr><tr><td class="align-left">수치/시간</td><td class="align-left">지원 SourceUnit에 존재하는 숫자·단위·시간만 표시</td></tr><tr><td class="align-left">금기/부정</td><td class="align-left">원문의 부정·금기 의미가 validator에서 동일하다고 확인된 경우만 표시</td></tr><tr><td class="align-left">table-related</td><td class="align-left">검증된 structured-table SourceUnit/row identity가 있을 때만 표시</td></tr></tbody></table></div>
+<p><code>기본 원칙</code>, <code>상황별 기준</code>, <code>예외</code>, <code>주의사항</code>은 해당 근거가 실제로 있을 때만 생성되는 고정 presentation label이다. Evidence에 없는 section을 형식을 채우기 위해 만들지 않는다. 성인·소아 구분은 SourceUnit <code>branch</code>, 시행 전·중·후는 <code>phase</code> metadata를 사용한다.</p>
+<h2 id="section-12">8. Citation 연결 방식</h2>
+<ul><li>Candidate statement는 <code>supporting_source_unit_ids</code>를 제출한다.</li><li>validator는 모든 ID가 해당 요청의 SourceUnit catalog에 존재하는지 검사한다.</li><li>chunk ID와 exact quote는 Provider가 작성하지 않고 server가 SourceUnit에서 복원한다.</li><li>표시용 citation은 각 문장 바로 뒤에 배치한다.</li><li>한 문장을 지원하지 않는 SourceUnit을 단순히 함께 인용하는 것은 허용하지 않는다.</li><li>citation reassessment와 AnswerCoverage는 실제 인용된 근거만 사용한다.</li><li>문단 병합은 모든 포함 문장을 같은 citation 집합이 지원할 때만 허용한다.</li></ul>
+<p>검수 artifact에는 raw Evidence, exact quote, Provider payload를 저장하지 않는다.</p>
+<h2 id="section-13">9. 후속 질문 허용 조건</h2>
+<p>후속 질문은 LLM response schema에 넣지 않고 server의 표시 전용 sidecar에서 선택적으로 만든다. 다음 조건을 모두 만족해야 한다.</p>
+<ul><li>최대 1개</li><li>현재 답변에서 다루지 않은 인접 phase·branch·aspect가 QueryPlan/SourceUnit metadata에 존재</li><li>해당 주제를 지원하는 selectable SourceUnit이 존재</li><li>새 수치, 조건, 예외, 금기나 환자별 판단을 포함하지 않음</li><li>질문에 대한 답변처럼 보이지 않도록 본문과 분리</li><li>사람 검수 결과나 artifact에 후속 질문 원문을 저장하지 않음</li></ul>
+<p>조건을 충족하지 않으면 후속 질문을 표시하지 않는다.</p>
+<p>후속 질문 구조는 향후 별도 평가를 위해 유지하지만 <code>v1.0-natural-grounded</code> 평가에서는 <code>enabled_for_evaluation=false</code>로 기본 비활성화한다. 이번 버전은 본문 자연어 재구성의 의미 보존 검증을 먼저 완료하며, 후속 질문은 별도 평가와 승인 후에만 활성화 여부를 결정한다.</p>
+<h2 id="section-14">10. 기존 validator와 safety boundary</h2>
+<p>다음 계약은 변경하거나 완화하지 않는다.</p>
+<ul><li>request-local SourceUnit ID와 closed schema</li><li>citation chunk ID와 exact quote 복원</li><li><code>AnswerCoverage</code></li><li><code>validate_answer()</code></li><li>number / unit / time</li><li>condition / exception</li><li>negation / prohibition</li><li>action</li><li>branch / phase</li><li>source order와 parent atomicity</li><li>Q006 zero-call 경계</li><li>근거 부족·검증 실패 시 extractive fallback</li></ul>
+<p>새 presentation role을 도입하는 경우에도 role은 임상 text를 수정하지 않는다. <code>예외</code>와 <code>주의사항</code> role은 source marker가 없으면 거부한다. 이 검사는 기존 validator를 대체하는 것이 아니라 그 앞뒤에 추가되는 더 엄격한 표시 검증이다.</p>
+<h2 id="section-15">11. <code>publish_controlled=false</code> 유지 이유</h2>
+<p>현재 controlled validator는 구조, ID, 숫자·단위, 조건·부정과 coverage 불변을 검사하지만, 재서술 문장 전체가 SourceUnit과 의미적으로 동치임을 완전하게 증명하지는 않는다. 규칙을 통과한 문장도 미세한 의미 확장이나 행위 주체 변경 가능성이 남는다.</p>
+<p>따라서 이번 단계의 정상 판정도 다음과 같다.</p>
+<ul><li><code>publish_controlled=false</code></li><li><code>semantic_support_pending=true</code></li><li><code>fallback_to_extractive=true</code></li><li><code>retry_count=0</code></li></ul>
+<h2 id="section-16">12. Offline/Mock 평가 방법</h2>
+<p>외부 API 없이 최소 다음 유형을 평가한다.</p>
+<ul><li>준비사항</li><li>절차</li><li>조건·예외</li><li>수치·시간</li><li>금기·부정</li><li>table-related</li></ul>
+<p>각 case에서 동일 SourceUnit을 사용해 기존 extractive Answer와 결정적 Mock controlled candidate를 만든다. 다음을 비교한다.</p>
+<ul><li>질문 직접성</li><li>자연스러움</li><li>필수 사실 coverage</li><li>조건·예외 보존</li><li>숫자·단위·시간 정확성</li><li>citation 일치</li><li>branch·phase·source order</li><li>unsupported 내용 추가 여부</li><li>모든 기존 validator 결과</li></ul>
+<p>Mock은 Prompt와 validator 계약을 검증할 뿐 실제 Provider의 자연어 품질을 증명하지 않는다. 실제 자연스러움 판정은 local-only 사람 검수에서 수행한다.</p>
+<h2 id="section-17">13. 사람 검수</h2>
+<p>로컬 검수 화면은 case별로 기존 extractive Answer와 controlled candidate를 나란히 보여준다. 화면은 원문을 메모리에만 읽으며 외부 요청을 하지 않는다.</p>
+<p>사람 검수 항목:</p>
+<ul><li><code>preferred_answer</code></li><li><code>naturalness</code></li><li><code>accuracy</code></li><li><code>completeness</code></li><li><code>grounding</code></li><li><code>semantic_equivalence</code></li><li><code>동일</code></li><li><code>경미한 변화</code></li><li><code>의미 변경</code></li><li><code>판단 어려움</code></li><li><code>note</code></li></ul>
+<p>저장 metadata:</p>
+<ul><li><code>case_id</code></li><li>위 검수 항목</li><li><code>prompt_version</code></li><li><code>timestamp</code></li></ul>
+<p>저장하지 않는 항목:</p>
+<ul><li>질문 원문</li><li>병원 원문·raw Evidence</li><li>답변 전문</li><li>Provider payload·raw response</li><li>후속 질문 원문</li></ul>
+<h2 id="section-18">14. Production 적용 전 추가 조건</h2>
+<p>Production 적용은 이번 작업 범위가 아니며 다음 조건을 모두 별도로 충족해야 한다.</p>
+<ol><li>병원 Evidence 외부 전송 정책과 Provider/model/region/retention 승인</li><li>실제 Provider candidate를 사용한 별도 Live 평가 승인</li><li>semantic entailment validator의 설계·검증·승인</li><li>대표 Gold/UAT 전 유형에 대한 사람 검수 완료</li><li>extractive 대비 정확성·grounding 비열등 확인</li><li>unsupported 추가, 조건·부정·행위 주체 변경 0건 확인</li><li>fallback, timeout, quota, 보안 artifact 회귀 검증</li><li>별도의 Production publish 승인</li></ol>
+<p>위 조건 전에는 Prompt 후보가 우수해도 <code>publish_controlled=false</code>를 유지한다.</p></article></main></body></html>

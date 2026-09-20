@@ -7,11 +7,11 @@ import httpx
 import numpy as np
 import pytest
 
-from mvp.ai import Quota, answer_text, generate, validate_answer
-from mvp.evidence import assess_evidence, source_sentences
-from mvp.library import DIMENSIONS, NO_GUIDELINE, Chunk, Hit, LocalLibrary, clean, has_substantive_body
-from mvp.query import plan_query
-from mvp.settings import GuideError, Settings
+from src.ai import Quota, answer_text, generate, validate_answer
+from src.evidence import assess_evidence, source_sentences
+from src.library import DIMENSIONS, NO_GUIDELINE, Chunk, Hit, LocalLibrary, clean, has_substantive_body
+from src.query import plan_query
+from src.settings import GuideError, Settings
 
 WRAPPED = '교육 자료의 누락을 예방하기 위해 담당자가 학습자의\n상태를 확인하고 안내문을 읽도록 돕기 위함이다.'
 

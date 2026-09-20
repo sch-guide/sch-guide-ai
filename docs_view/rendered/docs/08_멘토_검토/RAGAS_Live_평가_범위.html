@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RAGAS와 Live 평가는 어디까지 할 것인가 · SCHAT 문서</title><link rel="stylesheet" href="../../../assets/style.css"></head>
+<body><main class="document-pane"><div class="official-notice"><div><strong>열람용 복사본</strong><span>공식 정본은 docs/입니다.</span></div></div>
+<article class="markdown-body"><h1 id="section-1">RAGAS와 Live 평가는 어디까지 할 것인가</h1>
+<h2 id="section-2">결론</h2>
+<p>현재는 <strong>외부 AI를 부르지 않아도 계산할 수 있는 검색 점수와 안전 검사는 완료</strong>했습니다. Faithfulness와 Answer Relevancy는 질문·답변·근거를 외부 평가 AI에 보내야 하므로 자동으로 실행하지 않습니다. 병원 데이터 전송 범위와 비용을 사람이 승인한 뒤에만 실행합니다.</p>
+<h2 id="section-3">이미 완료된 평가</h2>
+<div class="table-wrap"><table><thead><tr><th class="align-left">평가</th><th class="align-left">의미</th><th class="align-left">현재 상태</th></tr></thead><tbody><tr><td class="align-left">Hit@1/3/5/10</td><td class="align-left">정답 근거가 상위 검색 결과 안에 있는지</td><td class="align-left">완료</td></tr><tr><td class="align-left">MRR</td><td class="align-left">정답 근거가 얼마나 앞쪽에 나오는지</td><td class="align-left">완료</td></tr><tr><td class="align-left">Recall·Precision</td><td class="align-left">필요한 근거를 얼마나 찾고 불필요한 근거를 얼마나 줄였는지</td><td class="align-left">완료</td></tr><tr><td class="align-left">ID Context Precision·Recall</td><td class="align-left">원문 대신 안전한 근거 ID로 계산한 검색 품질</td><td class="align-left">완료</td></tr><tr><td class="align-left">Citation·숫자·단위·시간 등</td><td class="align-left">답변이 근거와 안전 규칙을 지켰는지</td><td class="align-left">로컬 검사 유지</td></tr><tr><td class="align-left">Out-of-scope zero-call</td><td class="align-left">범위 밖 질문에서 외부 AI를 호출하지 않는지</td><td class="align-left">완료</td></tr></tbody></table></div>
+<h2 id="section-4">아직 실행하지 않는 평가</h2>
+<div class="table-wrap"><table><thead><tr><th class="align-left">평가</th><th class="align-left">필요한 입력</th><th class="align-left">현재 결정</th></tr></thead><tbody><tr><td class="align-left">Faithfulness</td><td class="align-left">생성 답변과 근거 문맥</td><td class="align-left">외부 전송 승인 전 pending</td></tr><tr><td class="align-left">Answer Relevancy</td><td class="align-left">승인 질문과 생성 답변</td><td class="align-left">외부 전송 승인 전 pending</td></tr><tr><td class="align-left">LLM Context Precision·Recall</td><td class="align-left">질문·근거와 judge 모델</td><td class="align-left">ID 기반 점수와 구분해 pending</td></tr></tbody></table></div>
+<h2 id="section-5">실행 전 반드시 정할 것</h2>
+<ol><li>외부로 보낼 수 있는 데이터가 질문·근거·답변 중 어디까지인지 정합니다.</li><li>승인된 Positive Gold 21건만 사용할지, 먼저 대표 subset을 사용할지 정합니다.</li><li>같은 judge 모델과 같은 prompt를 모든 비교 대상에 적용합니다.</li><li>원문·전체 prompt·raw response·API key는 산출물에 저장하지 않습니다.</li><li>실제 안전 실패가 한 건이라도 나오면 확대 실행을 중단합니다.</li></ol>
+<h2 id="section-6">권장 실행 순서</h2>
+<p><code>로컬 synthetic 검사 → 승인된 대표 subset → 사람 의미 검수 → 승인 21건 확대</code></p>
+<p>이 문서는 외부 호출을 승인하는 문서가 아닙니다. 현재 외부 API 호출 수는 <strong>0회</strong>입니다.</p></article></main></body></html>

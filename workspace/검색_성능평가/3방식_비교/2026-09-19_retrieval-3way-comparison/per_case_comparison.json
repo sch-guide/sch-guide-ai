@@ -1,0 +1,1001 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "case_id": "UAT-S01",
+      "question_type": "fact_specific",
+      "document_scope": "sedation",
+      "raw_values": {
+        "hit_at_10": {
+          "bm25_only": 1.0,
+          "chromadb_only": 1.0,
+          "current_hybrid": 1.0
+        },
+        "mrr": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.1111111111111111,
+          "current_hybrid": 1.0
+        },
+        "recall_at_10": {
+          "bm25_only": 1.0,
+          "chromadb_only": 1.0,
+          "current_hybrid": 1.0
+        },
+        "precision_at_10": {
+          "bm25_only": 0.1,
+          "chromadb_only": 0.1,
+          "current_hybrid": 0.16666666666666666
+        }
+      },
+      "metric_winners": {
+        "hit_at_10": [
+          "bm25_only",
+          "chromadb_only",
+          "current_hybrid"
+        ],
+        "mrr": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "recall_at_10": [
+          "bm25_only",
+          "chromadb_only",
+          "current_hybrid"
+        ],
+        "precision_at_10": [
+          "current_hybrid"
+        ]
+      },
+      "overall_winners": [
+        "current_hybrid"
+      ],
+      "complete_tie": false
+    },
+    {
+      "case_id": "UAT-S02",
+      "question_type": "procedure",
+      "document_scope": "sedation",
+      "raw_values": {
+        "hit_at_10": {
+          "bm25_only": 1.0,
+          "chromadb_only": 1.0,
+          "current_hybrid": 1.0
+        },
+        "mrr": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.125,
+          "current_hybrid": 1.0
+        },
+        "recall_at_10": {
+          "bm25_only": 0.25,
+          "chromadb_only": 0.08333333333333333,
+          "current_hybrid": 0.8333333333333334
+        },
+        "precision_at_10": {
+          "bm25_only": 0.3,
+          "chromadb_only": 0.1,
+          "current_hybrid": 1.0
+        }
+      },
+      "metric_winners": {
+        "hit_at_10": [
+          "bm25_only",
+          "chromadb_only",
+          "current_hybrid"
+        ],
+        "mrr": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "recall_at_10": [
+          "current_hybrid"
+        ],
+        "precision_at_10": [
+          "current_hybrid"
+        ]
+      },
+      "overall_winners": [
+        "current_hybrid"
+      ],
+      "complete_tie": false
+    },
+    {
+      "case_id": "UAT-S03",
+      "question_type": "preparation",
+      "document_scope": "sedation",
+      "raw_values": {
+        "hit_at_10": {
+          "bm25_only": 0.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "mrr": {
+          "bm25_only": 0.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "recall_at_10": {
+          "bm25_only": 0.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.8
+        },
+        "precision_at_10": {
+          "bm25_only": 0.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.4
+        }
+      },
+      "metric_winners": {
+        "hit_at_10": [
+          "current_hybrid"
+        ],
+        "mrr": [
+          "current_hybrid"
+        ],
+        "recall_at_10": [
+          "current_hybrid"
+        ],
+        "precision_at_10": [
+          "current_hybrid"
+        ]
+      },
+      "overall_winners": [
+        "current_hybrid"
+      ],
+      "complete_tie": false
+    },
+    {
+      "case_id": "UAT-S04",
+      "question_type": "cautions",
+      "document_scope": "sedation",
+      "raw_values": {
+        "hit_at_10": {
+          "bm25_only": 1.0,
+          "chromadb_only": 1.0,
+          "current_hybrid": 1.0
+        },
+        "mrr": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.125,
+          "current_hybrid": 1.0
+        },
+        "recall_at_10": {
+          "bm25_only": 0.2857142857142857,
+          "chromadb_only": 0.14285714285714285,
+          "current_hybrid": 1.0
+        },
+        "precision_at_10": {
+          "bm25_only": 0.2,
+          "chromadb_only": 0.1,
+          "current_hybrid": 0.7
+        }
+      },
+      "metric_winners": {
+        "hit_at_10": [
+          "bm25_only",
+          "chromadb_only",
+          "current_hybrid"
+        ],
+        "mrr": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "recall_at_10": [
+          "current_hybrid"
+        ],
+        "precision_at_10": [
+          "current_hybrid"
+        ]
+      },
+      "overall_winners": [
+        "current_hybrid"
+      ],
+      "complete_tie": false
+    },
+    {
+      "case_id": "UAT-S05",
+      "question_type": "fact_specific",
+      "document_scope": "sedation",
+      "raw_values": {
+        "hit_at_10": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "mrr": {
+          "bm25_only": 0.16666666666666666,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.5
+        },
+        "recall_at_10": {
+          "bm25_only": 0.3333333333333333,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "precision_at_10": {
+          "bm25_only": 0.1,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.3
+        }
+      },
+      "metric_winners": {
+        "hit_at_10": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "mrr": [
+          "current_hybrid"
+        ],
+        "recall_at_10": [
+          "current_hybrid"
+        ],
+        "precision_at_10": [
+          "current_hybrid"
+        ]
+      },
+      "overall_winners": [
+        "current_hybrid"
+      ],
+      "complete_tie": false
+    },
+    {
+      "case_id": "UAT-S06",
+      "question_type": "fact_specific",
+      "document_scope": "sedation",
+      "raw_values": {
+        "hit_at_10": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "mrr": {
+          "bm25_only": 0.14285714285714285,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.14285714285714285
+        },
+        "recall_at_10": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "precision_at_10": {
+          "bm25_only": 0.2,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.2222222222222222
+        }
+      },
+      "metric_winners": {
+        "hit_at_10": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "mrr": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "recall_at_10": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "precision_at_10": [
+          "current_hybrid"
+        ]
+      },
+      "overall_winners": [
+        "current_hybrid"
+      ],
+      "complete_tie": false
+    },
+    {
+      "case_id": "UAT-S08",
+      "question_type": "temporal",
+      "document_scope": "sedation",
+      "raw_values": {
+        "hit_at_10": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "mrr": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "recall_at_10": {
+          "bm25_only": 0.25,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.8333333333333334
+        },
+        "precision_at_10": {
+          "bm25_only": 0.3,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        }
+      },
+      "metric_winners": {
+        "hit_at_10": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "mrr": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "recall_at_10": [
+          "current_hybrid"
+        ],
+        "precision_at_10": [
+          "current_hybrid"
+        ]
+      },
+      "overall_winners": [
+        "current_hybrid"
+      ],
+      "complete_tie": false
+    },
+    {
+      "case_id": "UAT-S09",
+      "question_type": "comparison",
+      "document_scope": "sedation",
+      "raw_values": {
+        "hit_at_10": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "mrr": {
+          "bm25_only": 0.25,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.5
+        },
+        "recall_at_10": {
+          "bm25_only": 0.5,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "precision_at_10": {
+          "bm25_only": 0.4,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.8
+        }
+      },
+      "metric_winners": {
+        "hit_at_10": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "mrr": [
+          "current_hybrid"
+        ],
+        "recall_at_10": [
+          "current_hybrid"
+        ],
+        "precision_at_10": [
+          "current_hybrid"
+        ]
+      },
+      "overall_winners": [
+        "current_hybrid"
+      ],
+      "complete_tie": false
+    },
+    {
+      "case_id": "UAT-S11",
+      "question_type": "procedure",
+      "document_scope": "sedation",
+      "raw_values": {
+        "hit_at_10": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "mrr": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "recall_at_10": {
+          "bm25_only": 0.4166666666666667,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.8333333333333334
+        },
+        "precision_at_10": {
+          "bm25_only": 0.5,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        }
+      },
+      "metric_winners": {
+        "hit_at_10": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "mrr": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "recall_at_10": [
+          "current_hybrid"
+        ],
+        "precision_at_10": [
+          "current_hybrid"
+        ]
+      },
+      "overall_winners": [
+        "current_hybrid"
+      ],
+      "complete_tie": false
+    },
+    {
+      "case_id": "UAT-S12",
+      "question_type": "follow_up",
+      "document_scope": "sedation",
+      "raw_values": {
+        "hit_at_10": {
+          "bm25_only": 1.0,
+          "chromadb_only": 1.0,
+          "current_hybrid": 1.0
+        },
+        "mrr": {
+          "bm25_only": 0.3333333333333333,
+          "chromadb_only": 0.1,
+          "current_hybrid": 1.0
+        },
+        "recall_at_10": {
+          "bm25_only": 0.625,
+          "chromadb_only": 0.125,
+          "current_hybrid": 0.375
+        },
+        "precision_at_10": {
+          "bm25_only": 0.5,
+          "chromadb_only": 0.1,
+          "current_hybrid": 0.3333333333333333
+        }
+      },
+      "metric_winners": {
+        "hit_at_10": [
+          "bm25_only",
+          "chromadb_only",
+          "current_hybrid"
+        ],
+        "mrr": [
+          "current_hybrid"
+        ],
+        "recall_at_10": [
+          "bm25_only"
+        ],
+        "precision_at_10": [
+          "bm25_only"
+        ]
+      },
+      "overall_winners": [
+        "current_hybrid"
+      ],
+      "complete_tie": false
+    },
+    {
+      "case_id": "UAT-S13",
+      "question_type": "procedure",
+      "document_scope": "sedation",
+      "raw_values": {
+        "hit_at_10": {
+          "bm25_only": 1.0,
+          "chromadb_only": 1.0,
+          "current_hybrid": 1.0
+        },
+        "mrr": {
+          "bm25_only": 0.5,
+          "chromadb_only": 0.3333333333333333,
+          "current_hybrid": 1.0
+        },
+        "recall_at_10": {
+          "bm25_only": 0.5454545454545454,
+          "chromadb_only": 0.36363636363636365,
+          "current_hybrid": 0.9090909090909091
+        },
+        "precision_at_10": {
+          "bm25_only": 0.6,
+          "chromadb_only": 0.4,
+          "current_hybrid": 1.0
+        }
+      },
+      "metric_winners": {
+        "hit_at_10": [
+          "bm25_only",
+          "chromadb_only",
+          "current_hybrid"
+        ],
+        "mrr": [
+          "current_hybrid"
+        ],
+        "recall_at_10": [
+          "current_hybrid"
+        ],
+        "precision_at_10": [
+          "current_hybrid"
+        ]
+      },
+      "overall_winners": [
+        "current_hybrid"
+      ],
+      "complete_tie": false
+    },
+    {
+      "case_id": "UAT-S14",
+      "question_type": "fact_specific",
+      "document_scope": "sedation",
+      "raw_values": {
+        "hit_at_10": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "mrr": {
+          "bm25_only": 0.3333333333333333,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.5
+        },
+        "recall_at_10": {
+          "bm25_only": 0.5,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "precision_at_10": {
+          "bm25_only": 0.2,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.4
+        }
+      },
+      "metric_winners": {
+        "hit_at_10": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "mrr": [
+          "current_hybrid"
+        ],
+        "recall_at_10": [
+          "current_hybrid"
+        ],
+        "precision_at_10": [
+          "current_hybrid"
+        ]
+      },
+      "overall_winners": [
+        "current_hybrid"
+      ],
+      "complete_tie": false
+    },
+    {
+      "case_id": "UAT-T01",
+      "question_type": "preparation",
+      "document_scope": "transfusion",
+      "raw_values": {
+        "hit_at_10": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "mrr": {
+          "bm25_only": 0.5,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.3333333333333333
+        },
+        "recall_at_10": {
+          "bm25_only": 0.42857142857142855,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "precision_at_10": {
+          "bm25_only": 0.3,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.7
+        }
+      },
+      "metric_winners": {
+        "hit_at_10": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "mrr": [
+          "bm25_only"
+        ],
+        "recall_at_10": [
+          "current_hybrid"
+        ],
+        "precision_at_10": [
+          "current_hybrid"
+        ]
+      },
+      "overall_winners": [
+        "bm25_only"
+      ],
+      "complete_tie": false
+    },
+    {
+      "case_id": "UAT-T02",
+      "question_type": "procedure",
+      "document_scope": "transfusion",
+      "raw_values": {
+        "hit_at_10": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "mrr": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.5
+        },
+        "recall_at_10": {
+          "bm25_only": 0.6363636363636364,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.8181818181818182
+        },
+        "precision_at_10": {
+          "bm25_only": 0.7,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.9
+        }
+      },
+      "metric_winners": {
+        "hit_at_10": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "mrr": [
+          "bm25_only"
+        ],
+        "recall_at_10": [
+          "current_hybrid"
+        ],
+        "precision_at_10": [
+          "current_hybrid"
+        ]
+      },
+      "overall_winners": [
+        "bm25_only"
+      ],
+      "complete_tie": false
+    },
+    {
+      "case_id": "UAT-T03",
+      "question_type": "cautions",
+      "document_scope": "transfusion",
+      "raw_values": {
+        "hit_at_10": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "mrr": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "recall_at_10": {
+          "bm25_only": 0.25,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.75
+        },
+        "precision_at_10": {
+          "bm25_only": 0.1,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.3
+        }
+      },
+      "metric_winners": {
+        "hit_at_10": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "mrr": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "recall_at_10": [
+          "current_hybrid"
+        ],
+        "precision_at_10": [
+          "current_hybrid"
+        ]
+      },
+      "overall_winners": [
+        "current_hybrid"
+      ],
+      "complete_tie": false
+    },
+    {
+      "case_id": "UAT-T11",
+      "question_type": "table_lookup",
+      "document_scope": "transfusion",
+      "raw_values": {
+        "hit_at_10": {
+          "bm25_only": 0.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.0
+        },
+        "mrr": {
+          "bm25_only": 0.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.0
+        },
+        "recall_at_10": {
+          "bm25_only": 0.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.0
+        },
+        "precision_at_10": {
+          "bm25_only": 0.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.0
+        }
+      },
+      "metric_winners": {
+        "hit_at_10": [
+          "bm25_only",
+          "chromadb_only",
+          "current_hybrid"
+        ],
+        "mrr": [
+          "bm25_only",
+          "chromadb_only",
+          "current_hybrid"
+        ],
+        "recall_at_10": [
+          "bm25_only",
+          "chromadb_only",
+          "current_hybrid"
+        ],
+        "precision_at_10": [
+          "bm25_only",
+          "chromadb_only",
+          "current_hybrid"
+        ]
+      },
+      "overall_winners": [
+        "bm25_only",
+        "chromadb_only",
+        "current_hybrid"
+      ],
+      "complete_tie": true
+    },
+    {
+      "case_id": "UAT-T12",
+      "question_type": "temporal",
+      "document_scope": "transfusion",
+      "raw_values": {
+        "hit_at_10": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "mrr": {
+          "bm25_only": 0.3333333333333333,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.5
+        },
+        "recall_at_10": {
+          "bm25_only": 0.5,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.875
+        },
+        "precision_at_10": {
+          "bm25_only": 0.4,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.7
+        }
+      },
+      "metric_winners": {
+        "hit_at_10": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "mrr": [
+          "current_hybrid"
+        ],
+        "recall_at_10": [
+          "current_hybrid"
+        ],
+        "precision_at_10": [
+          "current_hybrid"
+        ]
+      },
+      "overall_winners": [
+        "current_hybrid"
+      ],
+      "complete_tie": false
+    },
+    {
+      "case_id": "UAT-T13",
+      "question_type": "cautions",
+      "document_scope": "transfusion",
+      "raw_values": {
+        "hit_at_10": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "mrr": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "recall_at_10": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "precision_at_10": {
+          "bm25_only": 0.2,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.2857142857142857
+        }
+      },
+      "metric_winners": {
+        "hit_at_10": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "mrr": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "recall_at_10": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "precision_at_10": [
+          "current_hybrid"
+        ]
+      },
+      "overall_winners": [
+        "current_hybrid"
+      ],
+      "complete_tie": false
+    },
+    {
+      "case_id": "UAT-T15",
+      "question_type": "preparation",
+      "document_scope": "transfusion",
+      "raw_values": {
+        "hit_at_10": {
+          "bm25_only": 1.0,
+          "chromadb_only": 1.0,
+          "current_hybrid": 1.0
+        },
+        "mrr": {
+          "bm25_only": 0.5,
+          "chromadb_only": 1.0,
+          "current_hybrid": 1.0
+        },
+        "recall_at_10": {
+          "bm25_only": 0.3333333333333333,
+          "chromadb_only": 0.3333333333333333,
+          "current_hybrid": 1.0
+        },
+        "precision_at_10": {
+          "bm25_only": 0.1,
+          "chromadb_only": 0.1,
+          "current_hybrid": 0.3333333333333333
+        }
+      },
+      "metric_winners": {
+        "hit_at_10": [
+          "bm25_only",
+          "chromadb_only",
+          "current_hybrid"
+        ],
+        "mrr": [
+          "chromadb_only",
+          "current_hybrid"
+        ],
+        "recall_at_10": [
+          "current_hybrid"
+        ],
+        "precision_at_10": [
+          "current_hybrid"
+        ]
+      },
+      "overall_winners": [
+        "current_hybrid"
+      ],
+      "complete_tie": false
+    },
+    {
+      "case_id": "UAT-T16",
+      "question_type": "summary",
+      "document_scope": "transfusion",
+      "raw_values": {
+        "hit_at_10": {
+          "bm25_only": 1.0,
+          "chromadb_only": 1.0,
+          "current_hybrid": 1.0
+        },
+        "mrr": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.5,
+          "current_hybrid": 0.5
+        },
+        "recall_at_10": {
+          "bm25_only": 0.14285714285714285,
+          "chromadb_only": 0.14285714285714285,
+          "current_hybrid": 0.7142857142857143
+        },
+        "precision_at_10": {
+          "bm25_only": 0.1,
+          "chromadb_only": 0.1,
+          "current_hybrid": 0.625
+        }
+      },
+      "metric_winners": {
+        "hit_at_10": [
+          "bm25_only",
+          "chromadb_only",
+          "current_hybrid"
+        ],
+        "mrr": [
+          "bm25_only"
+        ],
+        "recall_at_10": [
+          "current_hybrid"
+        ],
+        "precision_at_10": [
+          "current_hybrid"
+        ]
+      },
+      "overall_winners": [
+        "bm25_only"
+      ],
+      "complete_tie": false
+    },
+    {
+      "case_id": "UAT-T17",
+      "question_type": "follow_up",
+      "document_scope": "transfusion",
+      "raw_values": {
+        "hit_at_10": {
+          "bm25_only": 1.0,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "mrr": {
+          "bm25_only": 0.16666666666666666,
+          "chromadb_only": 0.0,
+          "current_hybrid": 1.0
+        },
+        "recall_at_10": {
+          "bm25_only": 0.5,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.5
+        },
+        "precision_at_10": {
+          "bm25_only": 0.1,
+          "chromadb_only": 0.0,
+          "current_hybrid": 0.1
+        }
+      },
+      "metric_winners": {
+        "hit_at_10": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "mrr": [
+          "current_hybrid"
+        ],
+        "recall_at_10": [
+          "bm25_only",
+          "current_hybrid"
+        ],
+        "precision_at_10": [
+          "bm25_only",
+          "current_hybrid"
+        ]
+      },
+      "overall_winners": [
+        "current_hybrid"
+      ],
+      "complete_tie": false
+    }
+  ]
+}

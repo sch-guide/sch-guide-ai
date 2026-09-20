@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-09-21 · 청킹 자동검사 · SCHAT 문서</title><link rel="stylesheet" href="../../../assets/style.css"></head>
+<body><main class="document-pane"><div class="official-notice"><div><strong>열람용 복사본</strong><span>공식 정본은 docs/입니다.</span></div></div>
+<article class="markdown-body"><h1 id="section-1">2026-09-21 · 청킹 자동검사</h1>
+<h2 id="section-2">무엇을 바꿨나</h2>
+<p>지침서를 검색하기 좋은 작은 조각으로 나눈 뒤, 그 결과에 문제가 없는지 프로그램이 자동으로 확인하도록 만들었습니다.</p>
+<p>자동으로 확인하는 항목은 다음과 같습니다.</p>
+<ul><li>내용이 비어 있는 조각이 있는가</li><li>검색 모델이 읽을 수 있는 길이보다 긴 조각이 있는가</li><li>완전히 같은 조각이 중복되었는가</li><li>여러 페이지에 같은 머리말이 반복되는가</li><li>내용 없이 제목만 있는 짧은 조각이 몇 개인가</li></ul>
+<h2 id="section-3">문제가 있으면 어떻게 되나</h2>
+<p>비어 있거나 너무 긴 조각이 있으면 문서를 저장하기 전에 중단합니다. 반복 머리말과 짧은 제목은 문서의 위치를 알려 주는 표지로 쓸 수 있기 때문에 없애지 않고 개수만 알려 줍니다.</p>
+<h2 id="section-4">검색 결과가 달라지나</h2>
+<p>이번 작업은 청킹 문장, 순서, 길이, 겹치는 범위를 바꾸지 않았습니다. 기존 방식과 새 방식으로 만든 청크 문장을 직접 비교했고 모두 같았습니다. 진정간호 일반화 회귀 질문 45개도 새 방식에서 45개 모두 통과했습니다. 이는 별도의 v1 운영 UAT 36건과 다른 검사입니다.</p>
+<h2 id="section-5">내가 화면에서 보는 내용</h2>
+<p>관리자 화면에서 다음처럼 볼 수 있습니다.</p>
+<blockquote><p>자동검사 통과 · 반복 머리말 7개 · 짧은 제목 2개 · 같은 내용 0개 · 가장 긴 조각 98/110</p></blockquote>
+<p>기존 문서는 바로 바뀌지 않습니다. 해당 문서를 재색인하면 검사 결과가 새로 생깁니다.</p>
+<h2 id="section-6">운영 반영</h2>
+<p>2026-09-21에 Supabase <code>실무지침</code> 프로젝트에 운영 데이터베이스 변경을 적용했습니다. 청킹 검사 결과를 저장하는 항목 6개와 문서 등록·재색인·검색 함수 3개가 존재하는지 확인 쿼리로 검증했습니다.</p>
+<h2 id="section-7">핵심 한 줄</h2>
+<blockquote><p>사람이 청크를 전부 읽지 않아도 명확한 형식 문제는 자동으로 막고, 검색 내용은 그대로 유지했습니다.</p></blockquote></article></main></body></html>

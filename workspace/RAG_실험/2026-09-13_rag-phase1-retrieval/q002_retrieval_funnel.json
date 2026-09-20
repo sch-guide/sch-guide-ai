@@ -1,0 +1,117 @@
+{
+  "artifact_type": "raw_free_compatibility_projection",
+  "projection_version": "q002_phase1_hits_v1",
+  "status": "compatible",
+  "funnel": {
+    "improved_evidence": [
+      {
+        "chunk_id": "eval-741858d2e9162acf8d38-chunk-00013",
+        "semantic_score": 0.39694908261299133,
+        "bm25_score": 6.142280101776123,
+        "rrf_score": 0.02738245361196181,
+        "rerank_score": 0.040558046272865744,
+        "context_only": false,
+        "context_complete": true
+      },
+      {
+        "chunk_id": "eval-741858d2e9162acf8d38-chunk-00015",
+        "semantic_score": 0.6131593585014343,
+        "bm25_score": 0.034560974687337875,
+        "rrf_score": 0.027417840375586856,
+        "rerank_score": 0.04232311524359833,
+        "context_only": false,
+        "context_complete": true
+      },
+      {
+        "chunk_id": "eval-741858d2e9162acf8d38-chunk-00016",
+        "semantic_score": 0.6131593585014343,
+        "bm25_score": 0.0,
+        "rrf_score": 0.027417840375586856,
+        "rerank_score": 0.04232311524359833,
+        "context_only": true,
+        "context_complete": true
+      },
+      {
+        "chunk_id": "eval-741858d2e9162acf8d38-chunk-00019",
+        "semantic_score": 0.6543147563934326,
+        "bm25_score": 0.0,
+        "rrf_score": 0.028991596638655463,
+        "rerank_score": 0.04422611468980293,
+        "context_only": true,
+        "context_complete": true
+      },
+      {
+        "chunk_id": "eval-741858d2e9162acf8d38-chunk-00020",
+        "semantic_score": 0.6543147563934326,
+        "bm25_score": 0.0,
+        "rrf_score": 0.028991596638655463,
+        "rerank_score": 0.04422611468980293,
+        "context_only": true,
+        "context_complete": true
+      },
+      {
+        "chunk_id": "eval-741858d2e9162acf8d38-chunk-00021",
+        "semantic_score": 0.6543147563934326,
+        "bm25_score": 0.0,
+        "rrf_score": 0.028991596638655463,
+        "rerank_score": 0.04422611468980293,
+        "context_only": true,
+        "context_complete": true
+      },
+      {
+        "chunk_id": "eval-741858d2e9162acf8d38-chunk-00022",
+        "semantic_score": 0.6543147563934326,
+        "bm25_score": 0.0,
+        "rrf_score": 0.028991596638655463,
+        "rerank_score": 0.04422611468980293,
+        "context_only": true,
+        "context_complete": true
+      },
+      {
+        "chunk_id": "eval-741858d2e9162acf8d38-chunk-00023",
+        "semantic_score": 0.6543147563934326,
+        "bm25_score": 0.26669788360595703,
+        "rrf_score": 0.028991596638655463,
+        "rerank_score": 0.04422611468980293,
+        "context_only": false,
+        "context_complete": true
+      },
+      {
+        "chunk_id": "eval-741858d2e9162acf8d38-chunk-00024",
+        "semantic_score": 0.6543147563934326,
+        "bm25_score": 0.0,
+        "rrf_score": 0.028991596638655463,
+        "rerank_score": 0.04422611468980293,
+        "context_only": true,
+        "context_complete": true
+      },
+      {
+        "chunk_id": "eval-741858d2e9162acf8d38-chunk-00025",
+        "semantic_score": 0.6543147563934326,
+        "bm25_score": 0.0,
+        "rrf_score": 0.028991596638655463,
+        "rerank_score": 0.04422611468980293,
+        "context_only": true,
+        "context_complete": true
+      },
+      {
+        "chunk_id": "eval-741858d2e9162acf8d38-chunk-00026",
+        "semantic_score": 0.6543147563934326,
+        "bm25_score": 0.0,
+        "rrf_score": 0.028991596638655463,
+        "rerank_score": 0.04422611468980293,
+        "context_only": true,
+        "context_complete": true
+      },
+      {
+        "chunk_id": "eval-741858d2e9162acf8d38-chunk-00027",
+        "semantic_score": 0.6543147563934326,
+        "bm25_score": 0.0,
+        "rrf_score": 0.028991596638655463,
+        "rerank_score": 0.04422611468980293,
+        "context_only": true,
+        "context_complete": true
+      }
+    ]
+  }
+}

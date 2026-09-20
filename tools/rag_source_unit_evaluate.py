@@ -13,8 +13,8 @@ from pathlib import Path
 import httpx
 from jsonschema import Draft202012Validator
 
-import mvp.ai as ai_module
-from mvp.ai import (
+import src.ai as ai_module
+from src.ai import (
     AI_VERSION,
     GROQ_REQUEST_TOKEN_BUDGET,
     OUTPUT_LIMIT,
@@ -28,15 +28,15 @@ from mvp.ai import (
     prompt_evidence_envelope,
     prompt_messages,
 )
-from mvp.evidence import assess_evidence
-from mvp.library import NO_GUIDELINE
-from mvp.query import plan_query
-from mvp.settings import ROOT, Settings
+from src.evidence import assess_evidence
+from src.library import NO_GUIDELINE
+from src.query import plan_query
+from src.settings import ROOT, Settings
 from tools.rag_groq_evaluate import EvaluationQuota, RejectTransport, evaluate
 from tools.rag_phase1_evaluate import stage_recall
 from tools.rag_phase2_evaluate import _load_q002
 
-DEFAULT_OUTPUT = ROOT / "artifacts" / "2026-09-14_rag-source-unit-selection"
+DEFAULT_OUTPUT = ROOT / "workspace" / "RAG_실험" / "2026-09-14_rag-source-unit-selection"
 
 
 def _safe_group_selection_counts(raw, contract):

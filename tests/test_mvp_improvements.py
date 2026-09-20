@@ -10,10 +10,10 @@ from docx import Document
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 
-from mvp.ai import Quota, validate_answer
-from mvp.context import neighbors
-from mvp.documents import read_document
-from mvp.library import (
+from src.ai import Quota, validate_answer
+from src.context import neighbors
+from src.documents import read_document
+from src.library import (
     Chunk,
     Hit,
     LocalLibrary,
@@ -22,8 +22,8 @@ from mvp.library import (
     make_chunks,
     retrieval_question,
 )
-from mvp.pdf_layout import EXTRACTION_VERSION
-from mvp.settings import DIMENSIONS, GuideError, Settings
+from src.pdf_layout import EXTRACTION_VERSION
+from src.settings import DIMENSIONS, GuideError, Settings
 
 
 class Model:
@@ -57,7 +57,7 @@ def test_context_stops_at_competing_acronym_and_document_boundaries():
 
 
 def test_requested_purpose_ranks_above_generic_high_vector_score():
-    from mvp.library import rank_hits
+    from src.library import rank_hits
     generic = chunk('general', 'PCN 가상 교육 자료를 배포합니다.')
     purpose = chunk('purpose', 'PCN 교육 목적은 검색 기능 검증입니다.', index=1)
     hits = rank_hits('PCN 목적', [Hit(generic, .99), Hit(purpose, .25)])
@@ -136,7 +136,7 @@ def test_real_local_ocr_reads_synthetic_korean_scan_and_preserves_page():
     from PIL import Image, ImageDraw, ImageFont
     from pypdf import PdfReader, PdfWriter
 
-    from mvp.pdf_layout import ocr_status
+    from src.pdf_layout import ocr_status
     if not ocr_status()[0]:
         pytest.skip('Optional Tesseract kor+eng runtime is not installed')
     font_path = Path('C:/Windows/Fonts/malgun.ttf')
@@ -160,7 +160,7 @@ def test_real_local_ocr_reads_synthetic_korean_scan_and_preserves_page():
 
 
 def test_evaluation_reports_expected_page_coverage_and_latency_without_questions():
-    from mvp.evaluate import evaluate
+    from src.evaluate import evaluate
     library = LocalLibrary()
     library.docs = [{'id': 'synthetic'}]
     library.chunks = [chunk('a', 'PCN 가상 교육 절차')]

@@ -1,9 +1,15 @@
-from mvp.ai import Answer, Evidence, Statement
-from mvp.answer_ui import grouped_statement_markdown, uses_grouped_procedure
-from mvp.evidence import SourceUnit
-from mvp.presentation import (
+from src.ai import Answer, Evidence, Statement
+from src.answer_ui import (
+    grouped_statement_markdown,
+    styled_statement_markdown,
+    uses_grouped_procedure,
+    uses_structured_presentation,
+)
+from src.evidence import SourceUnit
+from src.presentation import (
     AnswerPresentation,
     StatementPresentation,
+    answer_display_rows,
     build_answer_presentation,
     leading_marker,
     procedure_display_rows,
@@ -127,3 +133,84 @@ def test_only_steps_with_a_complete_sidecar_use_grouped_procedure_ui():
     for format in ('paragraph', 'bullets', 'summary', 'comparison'):
         assert not uses_grouped_procedure(answer_for((unit,), format=format), sidecar)
     assert not uses_grouped_procedure(answer_for((unit,)), None)
+
+
+def test_style_routing_metadata_is_private_and_contains_no_clinical_text():
+    unit = source_unit('su001', '환자 상태를 확인한다.', (1, 1))
+    answer = answer_for((unit,), format='bullets')
+
+    presentation = build_answer_presentation(answer, (unit,), intent='preparation')
+    answer.attach_presentation(presentation)
+
+    assert presentation.intent == 'preparation'
+    assert presentation.answer_format == 'bullets'
+    assert answer.model_dump()['statements'][0]['text'] == unit.exact_text
+    assert 'presentation' not in answer.model_dump()
+    encoded = repr(presentation)
+    assert unit.exact_text not in encoded
+
+
+def test_display_rows_route_summary_without_reordering_or_rewriting():
+    units = (
+        source_unit('su001', '첫 근거 문장이다.', (1, 1)),
+        source_unit('su002', '둘째 근거 문장이다.', (1, 2)),
+    )
+    answer = answer_for(units, format='summary')
+    presentation = build_answer_presentation(answer, units, intent='summary')
+
+    rows = answer_display_rows(presentation)
+
+    assert [(row.kind, row.label) for row in rows if row.kind != 'statement'] == [
+        ('section', '핵심 요약'),
+    ]
+    assert [row.statement_index for row in rows if row.kind == 'statement'] == [0, 1]
+
+
+def test_display_rows_add_branch_and_temporal_headings_without_sorting():
+    units = (
+        source_unit('su001', '성인 전 근거다.', (1, 1), 'adult', 'before'),
+        source_unit('su002', '성인 후 근거다.', (1, 2), 'adult', 'after'),
+        source_unit('su003', '소아 중 근거다.', (2, 1), 'pediatric', 'during'),
+    )
+    answer = answer_for(units, format='bullets')
+    presentation = build_answer_presentation(answer, units, intent='cautions')
+
+    rows = answer_display_rows(presentation)
+
+    assert [(row.kind, row.label) for row in rows if row.kind != 'statement'] == [
+        ('branch', '성인'),
+        ('phase', '시행 전'),
+        ('phase', '시행 후'),
+        ('branch', '소아'),
+        ('phase', '시행 중'),
+    ]
+    assert [row.statement_index for row in rows if row.kind == 'statement'] == [0, 1, 2]
+
+
+def test_non_procedure_styles_change_only_display_prefix():
+    unit = source_unit('su001', '환자 상태를 확인한다.', (1, 1))
+    statement = answer_for((unit,), format='bullets').statements[0]
+    item = StatementPresentation(0, 'su001', 'common', 'unspecified', (1, 1), '')
+
+    assert styled_statement_markdown(
+        statement, item, '[[1]](#source)', intent='preparation', answer_format='bullets'
+    ).startswith('☐ 환자 상태를 확인한다')
+    assert styled_statement_markdown(
+        statement, item, '', intent='cautions', answer_format='bullets'
+    ).startswith('- ⚠️ 환자 상태를 확인한다')
+    assert styled_statement_markdown(
+        statement, item, '', intent='purpose', answer_format='paragraph'
+    ) == r'환자 상태를 확인한다\.'
+    assert statement.text == unit.exact_text
+
+
+def test_complete_sidecar_routes_all_non_comparison_formats():
+    item = StatementPresentation(0, 'su001', 'common', 'unspecified', (1, 1), '')
+    unit = source_unit('su001', '근거 문장이다.', (1, 1))
+    for answer_format in ('paragraph', 'steps', 'bullets', 'summary'):
+        answer = answer_for((unit,), format=answer_format)
+        sidecar = AnswerPresentation((item,), intent='fact', answer_format=answer_format)
+        assert uses_structured_presentation(answer, sidecar)
+    answer = answer_for((unit,), format='comparison')
+    sidecar = AnswerPresentation((item,), intent='comparison', answer_format='comparison')
+    assert not uses_structured_presentation(answer, sidecar)

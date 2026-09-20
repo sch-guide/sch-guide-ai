@@ -1,4 +1,4 @@
-from mvp.ai import AI_VERSION, GROQ_REQUEST_TOKEN_BUDGET, OUTPUT_LIMIT, PROMPT_EVIDENCE_SCHEMA_VERSION
+from src.ai import AI_VERSION, GROQ_REQUEST_TOKEN_BUDGET, OUTPUT_LIMIT, PROMPT_EVIDENCE_SCHEMA_VERSION
 
 
 def test_strict_schema_descriptions_and_grounding_contracts_pass_mock_evaluation():

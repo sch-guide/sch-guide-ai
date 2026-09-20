@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="SCHAT 공식 문서의 읽기 전용 검수 화면">
+  <title>SCHAT 프로젝트 문서 검수</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#document-content">본문으로 건너뛰기</a>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="프로젝트 문서 목록">
+      <div class="sidebar-head">
+        <div class="brand-mark" aria-hidden="true">S</div>
+        <div>
+          <p class="eyebrow">SCHAT OFFICIAL DOCS</p>
+          <h1>프로젝트 문서 검수</h1>
+        </div>
+      </div>
+      <div class="official-notice">
+        <span class="notice-dot" aria-hidden="true"></span>
+        <div><strong>공식 정본</strong><span>docs/ 원본을 읽기 전용으로 표시합니다.</span></div>
+      </div>
+      <div class="sidebar-summary">
+        <span>전체 문서</span><strong><span id="document-count">0</span>건</strong>
+      </div>
+      <div class="toolbar">
+        <label class="search-box" for="document-search">
+          <span aria-hidden="true">⌕</span>
+          <input id="document-search" type="search" placeholder="문서명·제목·본문 검색" autocomplete="off">
+          <kbd>/</kbd>
+        </label>
+        <button class="icon-button" id="theme-toggle" type="button" aria-label="다크 모드로 전환" aria-pressed="false">
+          <span class="theme-icon" aria-hidden="true">◐</span>
+        </button>
+      </div>
+      <p class="search-status" id="search-status" aria-live="polite"></p>
+      <nav class="document-tree" id="document-tree" aria-label="문서 탐색"></nav>
+      <div class="sidebar-foot">
+        <span class="readonly-pill">읽기 전용</span>
+        <span>docs_view · 렌더링 복사본</span>
+      </div>
+    </aside>
+
+    <div class="workspace">
+      <header class="mobile-bar">
+        <button class="menu-button" id="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">☰</button>
+        <span>프로젝트 문서 검수</span>
+        <button class="icon-button mobile-theme" id="mobile-theme-toggle" type="button" aria-label="테마 전환">◐</button>
+      </header>
+      <main class="document-pane" id="document-content" tabindex="-1">
+        <div class="document-chrome">
+          <nav class="breadcrumb" id="breadcrumb" aria-label="현재 문서 경로"></nav>
+          <span class="source-badge">SOURCE · docs/</span>
+        </div>
+        <section class="metadata-card" id="metadata-card" hidden></section>
+        <article class="markdown-body" id="document-body">
+          <div class="loading-state">문서를 불러오는 중입니다.</div>
+        </article>
+        <footer class="document-footer">
+          이 화면은 열람용 복사본입니다. 공식 문서의 유일한 정본은 <strong>docs/</strong>입니다.
+        </footer>
+      </main>
+    </div>
+  </div>
+  <div class="sidebar-scrim" id="sidebar-scrim" hidden></div>
+  <script src="assets/documents.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

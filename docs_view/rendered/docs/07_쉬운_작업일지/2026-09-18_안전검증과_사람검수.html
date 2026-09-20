@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-09-18 · 안전 검증과 사람 검수 · SCHAT 문서</title><link rel="stylesheet" href="../../../assets/style.css"></head>
+<body><main class="document-pane"><div class="official-notice"><div><strong>열람용 복사본</strong><span>공식 정본은 docs/입니다.</span></div></div>
+<article class="markdown-body"><h1 id="section-1">2026-09-18 · 안전 검증과 사람 검수</h1>
+<h2 id="section-2">이날 하려고 했던 일</h2>
+<p>시스템이 찾은 근거와 만든 답변을 믿을 수 있는지 확인하고, 버전 1.0으로 넘어갈 준비가 됐는지 판단하려고 했습니다.</p>
+<h2 id="section-3">실제로 한 일</h2>
+<ul><li>실제 업무 질문에 가까운 질문 36건으로 운영 기능을 점검했습니다.</li><li>사람이 직접 질문별 정답 근거를 검수했습니다.</li><li>승인된 질문 21건과 보류된 질문 11건을 분리했습니다.</li><li>지침서 범위 밖 질문 4건은 AI를 부르지 않고 차단되는지 확인했습니다.</li><li>답변의 출처, 숫자, 단위, 시간, 조건, 부정 표현, 행동 순서가 바뀌지 않는지 검사하는 안전장치를 정리했습니다.</li><li>표 질문과 이미지 질문을 일반 텍스트 질문과 구분해 평가했습니다.</li></ul>
+<h2 id="section-4">왜 필요했나</h2>
+<p>검색 점수가 높더라도 답변에서 “즉시 중단”을 “중단을 고려”로 바꾸거나 숫자와 제제를 섞으면 위험합니다. 그래서 검색 성능과 별도로 답변의 임상적 의미가 보존되는지 확인해야 했습니다.</p>
+<h2 id="section-5">확인된 결과</h2>
+<div class="table-wrap"><table><thead><tr><th class="align-left">확인 항목</th><th class="align-right">결과</th></tr></thead><tbody><tr><td class="align-left">운영 질문 점검</td><td class="align-right">36/36 통과</td></tr><tr><td class="align-left">사람이 승인한 Positive Gold</td><td class="align-right">21건</td></tr><tr><td class="align-left">추가 검토가 필요한 질문</td><td class="align-right">11건</td></tr><tr><td class="align-left">범위 밖 질문 차단</td><td class="align-right">4/4, 외부 AI 호출 0회</td></tr><tr><td class="align-left">이미지 질문 TF027</td><td class="align-right">사람 검수 10/10 완료, v1.0 검색 근거에서는 제외</td></tr><tr><td class="align-left">공식 복구 기준점</td><td class="align-right">v0.9 유지</td></tr></tbody></table></div>
+<h2 id="section-6">아직 해결되지 않은 문제</h2>
+<ul><li>실제 외부 AI가 만든 답변에 대한 Live 평가가 완전히 끝나지 않았습니다.</li><li>일부 답변에서 필수 사실이나 조건이 빠져 안전하게 중단되는 사례가 있었습니다.</li><li>따라서 최종 상태는 <code>READY_EXCEPT_LIVE_RAGAS</code>, 즉 “대부분 준비됐지만 실제 AI 답변 평가가 남음”이었습니다.</li></ul>
+<h2 id="section-7">다음에 할 일</h2>
+<p>검색 구조를 같은 조건에서 비교하고, 승인된 근거만 이용해 실제 AI 답변의 안전성을 단계적으로 확인하기로 했습니다.</p>
+<h2 id="section-8">핵심 한 줄</h2>
+<blockquote><p>이 날은 사람이 확인한 정답 기준을 만들고, 틀린 답변을 내보내지 않도록 안전장치를 세운 날입니다.</p></blockquote></article></main></body></html>

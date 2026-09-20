@@ -9,9 +9,9 @@ from pypdf import PdfWriter
 from reportlab.pdfgen import canvas
 from streamlit.testing.v1 import AppTest
 
-from mvp.documents import MAX_FILE_BYTES, PdfInputError, read_pdf
+from src.documents import MAX_FILE_BYTES, PdfInputError, read_pdf
 
-APP = Path(__file__).resolve().parents[1] / "mvp" / "preview.py"
+APP = Path(__file__).resolve().parents[1] / "src" / "preview.py"
 
 
 def sample_pdf() -> bytes:
@@ -90,7 +90,7 @@ def test_failed_extraction_keeps_original_page_number():
 def test_upload_page_change_cached_extraction_and_bad_replacement(monkeypatch):
     upload = uploaded_pdf(sample_pdf())
     monkeypatch.setattr("streamlit.file_uploader", lambda *args, **kwargs: upload)
-    with patch("mvp.documents.read_pdf", wraps=read_pdf) as reader:
+    with patch("src.documents.read_pdf", wraps=read_pdf) as reader:
         app = AppTest.from_file(str(APP), default_timeout=30).run()
         assert not app.exception
         assert app.session_state["pdf_document"].text_page_count == 2

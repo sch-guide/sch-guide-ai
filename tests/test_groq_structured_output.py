@@ -5,7 +5,7 @@ import json
 import httpx
 import pytest
 
-from mvp.ai import (
+from src.ai import (
     AI_VERSION,
     GROQ_REQUEST_TOKEN_BUDGET,
     OUTPUT_LIMIT,
@@ -18,8 +18,8 @@ from mvp.ai import (
     groq_answer_json_schema,
     validate_answer,
 )
-from mvp.library import NO_GUIDELINE, Chunk, Hit
-from mvp.settings import GuideError, Settings
+from src.library import NO_GUIDELINE, Chunk, Hit
+from src.settings import GuideError, Settings
 
 
 def source():

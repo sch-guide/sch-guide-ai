@@ -14,7 +14,7 @@ import httpx
 from jsonschema import Draft202012Validator
 from jsonschema import ValidationError as JSONSchemaError
 
-from mvp.ai import (
+from src.ai import (
     AI_VERSION,
     GROQ_REQUEST_TOKEN_BUDGET,
     OUTPUT_LIMIT,
@@ -27,10 +27,10 @@ from mvp.ai import (
     response_schema_tokens,
     validate_source_unit_selection,
 )
-from mvp.evidence import assess_evidence
-from mvp.library import NO_GUIDELINE
-from mvp.query import plan_query
-from mvp.settings import GuideError, Settings
+from src.evidence import assess_evidence
+from src.library import NO_GUIDELINE
+from src.query import plan_query
+from src.settings import GuideError, Settings
 from tools.rag_phase1_evaluate import stage_recall
 from tools.rag_phase2_evaluate import _load_q002
 

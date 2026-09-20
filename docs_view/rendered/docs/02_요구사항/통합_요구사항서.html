@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SCHAT 현재 요구사항 · SCHAT 문서</title><link rel="stylesheet" href="../../../assets/style.css"></head>
+<body><main class="document-pane"><div class="official-notice"><div><strong>열람용 복사본</strong><span>공식 정본은 docs/입니다.</span></div></div>
+<article class="markdown-body"><h1 id="section-1">SCHAT 현재 요구사항</h1>
+<h2 id="section-2">제품 목표</h2>
+<p>병원 실무지침서 안의 근거만 검색해 간호사의 자연어 질문에 답하고, 문장·항목별 출처를 제시하며, 근거가 부족하면 승인된 문구로 abstain한다.</p>
+<h2 id="section-3">고정 안전 계약</h2>
+<ul><li>Facet-slot과 distinct selection limit 16</li><li>Parent atomicity, PromptCoverage, AnswerCoverage</li><li><code>validate_answer()</code> 전체</li><li>Exact citation/source sentence</li><li>Number, unit, time, condition, contraindication, negation, action</li><li>Branch, phase, source order, duplicate evidence</li><li>Q006 및 out-of-scope provider zero-call</li><li>자동 보충·축소·의미 dedup·재정렬 금지</li></ul>
+<h2 id="section-4">Retrieval</h2>
+<ul><li>Production은 <code>BM25 + MiniLM semantic/vector + RRF + 기존 reranker</code>를 유지한다.</li><li>E5/Hybrid/Chroma는 동일 corpus·gold·Top-K로 검증하되 production에는 자동 반영하지 않는다.</li><li>질문 문자열, gold ID, chunk ID를 production scoring에 하드코딩하지 않는다.</li><li>명시적으로 선택된 단일 문서는 질문 의미와 실제 substantive retrieval 결과가 모두 일치할 때만</li></ul>
+<p>  domain/topic admission 보조 신호로 사용한다.</p>
+<ul><li>선택 문서만으로 hospital admission하거나 out-of-scope를 덮어쓰지 않는다.</li></ul>
+<h2 id="section-5">평가 체계</h2>
+<ul><li>Retrieval metric은 검색기 자체를 동일 corpus/Gold/Top-K에서 비교한다.</li><li>RAGAS ID Context Precision/Recall은 provider 없이 항상 추적한다.</li><li>Faithfulness/Answer Relevancy와 LLM Context metric은 외부 judge 승인 뒤 같은 dataset에서 실행한다.</li><li>Gold는 사람이 승인한 절대 기준이며 retrieval 출력으로 자동 수정하지 않는다.</li><li>UAT는 자연어 처리, UI, citation, table/image pending과 zero-call을 확인하는 최종 사용성 검수다.</li></ul>
+<h2 id="section-6">Generation</h2>
+<ul><li>Provider에는 승인 후에도 request-local SourceUnit ID, 선택 exact text, intent, schema, safety instruction만 전송한다.</li><li>전체 질문·문서·PDF·선택되지 않은 chunk·사용자 식별자는 전송하지 않는다.</li><li>Semantic support가 확정되지 않으면 controlled candidate를 공개하지 않고 verified extractive answer로 fallback한다.</li><li>실제 Groq/Gemini 호출과 API key 처리는 별도 사용자 승인 전까지 금지한다.</li></ul>
+<h2 id="section-7">Table과 Image</h2>
+<ul><li>Table은 header/cell 관계와 document/page/table/row citation을 보존한다.</li><li>Table exact text는 로컬 메모리/UI에서만 사용하고 artifact에는 저장하지 않는다.</li><li>Image의 화살표, 순서, 수치, decision branch는 사람이 검수하기 전 추정하지 않는다.</li><li>TF027은 검수 완료 전 production gold와 answerability에 연결하지 않는다.</li></ul>
+<h2 id="section-8">운영과 보안</h2>
+<ul><li>병원 원문, 전체 prompt, raw provider response, API key, Authorization을 artifact/Git에 저장하지 않는다.</li><li>Major 변경마다 focused/full pytest, Ruff, <code>git diff --check</code>, code review, artifact audit를 수행한다.</li><li>사용자 승인 없이 commit, tag, push하지 않는다.</li></ul></article></main></body></html>

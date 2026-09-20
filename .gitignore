@@ -11,7 +11,6 @@ __pycache__/
 .ruff_cache/
 data/
 logs/
-artifacts/
 *.pdf
 *.docx
 *.xlsx
@@ -49,6 +48,7 @@ __pycache__/
 .pytest-tmp-*/
 .tmp/
 .tmp-*/
+tmp/
 
 # Ruff / type checker cache
 .ruff_cache/
@@ -62,9 +62,31 @@ __pycache__/
 *.sqlite
 *.sqlite3
 
+# Regenerable local vector indexes
+artifacts/**/chroma_index/
+
 # OS / editor temp
 .DS_Store
 Thumbs.db
 
 # Logs
 *.log
+
+# Local historical work (may contain raw or security-sensitive artifacts)
+/workspace/과거작업/
+
+# Local-only review and temporary work (never commit)
+/workspace/데이터_검수/
+/workspace/임시작업/
+
+# Legacy evaluation workspaces are local-only; approved raw-free summaries may
+# be added explicitly when a reproducible test requires them.
+/workspace/RAGAS/
+/workspace/UAT/
+/workspace/RAG_실험/
+
+# Regenerable evaluation vector indexes
+/workspace/**/chroma_index/
+
+# Local-only controlled-generation review source (contains display text)
+/workspace/임시작업/controlled_generation_review_source/

@@ -8,15 +8,15 @@ import httpx
 import numpy as np
 import pytest
 
-from mvp.ai import Quota, answer_text, generate, validate_answer
-from mvp.cloud import DatabaseError, StaffLibrary
-from mvp.cloud_repository import CloudRepository
-from mvp.context import expand_context
-from mvp.documents import PdfDocument, PdfPage
-from mvp.evidence import assess_evidence
-from mvp.library import DIMENSIONS, NO_GUIDELINE, Chunk, Hit, LocalLibrary, make_chunks
-from mvp.query import plan_query
-from mvp.settings import GuideError, Settings
+from src.ai import Quota, answer_text, generate, validate_answer
+from src.cloud import DatabaseError, StaffLibrary
+from src.cloud_repository import CloudRepository
+from src.context import expand_context
+from src.documents import PdfDocument, PdfPage
+from src.evidence import admitted_plan, assess_evidence
+from src.library import DIMENSIONS, NO_GUIDELINE, Chunk, Hit, LocalLibrary, make_chunks
+from src.query import plan_query
+from src.settings import GuideError, Settings
 
 
 def chunk(identifier='c', text='PCN 교육 안내문을 확인합니다.', section='PCN 교육', document='doc', index=0):
@@ -54,6 +54,118 @@ def test_fullwidth_question_normalization_and_offtopic_followup():
     assert plan_query('그럼 오늘 날씨는?', previous='PCN 교육 방법').domain == 'out_of_scope'
 
 
+def test_single_document_context_is_search_context_not_automatic_domain_admission():
+    documents = [{
+        'id': 'sedation',
+        'title': '진정간호',
+        'document_name': '실무지침서_진정간호.pdf',
+    }]
+
+    plan = plan_query(
+        '성인은 몇 분마다 모니터링해?',
+        documents=documents,
+        context_document_ids=('sedation',),
+    )
+
+    assert plan.domain == 'unknown'
+    assert plan.context_document_ids == ('sedation',)
+    assert plan.context_topics == ('진정간호',)
+    assert plan.expanded.startswith('진정간호 ')
+
+
+def test_single_document_context_admits_only_matching_substantive_evidence():
+    documents = [{
+        'id': 'sedation',
+        'title': '진정간호',
+        'document_name': '실무지침서_진정간호.pdf',
+    }]
+    plan = plan_query(
+        '성인은 몇 분마다 모니터링해?',
+        documents=documents,
+        context_document_ids=('sedation',),
+    )
+    source = replace(
+        chunk(
+            text='[성인]\n진정 중 활력징후와 산소포화도를 15분 간격으로 모니터링한다.',
+            section='진정 중',
+            document='sedation',
+        ),
+        title='진정간호',
+        document_name='실무지침서_진정간호.pdf',
+    )
+
+    assessment = assess_evidence(plan, [Hit(source, .9, lexical=1)])
+
+    assert assessment.sufficient
+    assert assessment.admitted_domain == 'hospital'
+    assert assessment.admission_reason == 'single_document_context_and_evidence'
+
+
+def test_evidence_backed_admission_is_preserved_for_post_budget_validation():
+    documents = [{
+        'id': 'sedation',
+        'title': '진정간호',
+        'document_name': '실무지침서_진정간호.pdf',
+    }]
+    plan = plan_query(
+        '몇 분마다 모니터링해?',
+        documents=documents,
+        context_document_ids=('sedation',),
+    )
+    source = replace(
+        chunk(
+            text='진정 중 활력징후와 산소포화도를 15분 간격으로 모니터링한다.',
+            section='진정 중',
+            document='sedation',
+        ),
+        title='진정간호',
+        document_name='실무지침서_진정간호.pdf',
+    )
+
+    before = assess_evidence(plan, [Hit(source, .9, lexical=1)])
+    validated_plan = admitted_plan(plan, before)
+    after = assess_evidence(validated_plan, [Hit(source, .9, lexical=1)])
+
+    assert before.sufficient
+    assert validated_plan.domain == 'hospital'
+    assert validated_plan.canonical_topics == ('진정간호',)
+    assert after.sufficient
+
+
+@pytest.mark.parametrize('question', [
+    '화성 우주선의 궤도 계산 공식은?',
+    '오늘 서울 날씨 알려줘',
+    '내 증상으로 병명을 진단해줘',
+    '회사 휴가 신청 절차 알려줘',
+    '학교 숙제 준비사항 알려줘',
+])
+def test_document_context_never_overrides_out_of_scope_or_unsupported_question(question):
+    documents = [{
+        'id': 'sedation',
+        'title': '진정간호',
+        'document_name': '실무지침서_진정간호.pdf',
+    }]
+    plan = plan_query(
+        question,
+        documents=documents,
+        context_document_ids=('sedation',),
+    )
+    source = replace(
+        chunk(
+            text='[성인]\n진정 중 활력징후와 산소포화도를 15분 간격으로 모니터링한다.',
+            section='진정 중',
+            document='sedation',
+        ),
+        title='진정간호',
+        document_name='실무지침서_진정간호.pdf',
+    )
+
+    assessment = assess_evidence(plan, [Hit(source, .99, lexical=1)])
+
+    assert not assessment.sufficient
+    assert assessment.admitted_domain != 'hospital'
+
+
 @pytest.mark.parametrize('question', ['PCN 세척량은?', 'PCN 교체 주기는?', 'PCN 제거 속도는?',
                                     'PCN 해제 기준은?', 'PCN 교육 방법은?'])
 def test_medical_topic_without_requested_evidence_abstains_before_api(question):
@@ -74,7 +186,7 @@ def test_every_requested_aspect_required_before_and_after_budget(monkeypatch):
             Hit(chunk('interval', 'PCN 세척 간격은 가상값 3시간입니다.', index=1), .8)]
     plan = plan_query('PCN 세척량과 간격은?')
     assert assess_evidence(plan, hits).sufficient
-    monkeypatch.setattr('mvp.ai.prompt_messages', lambda *a, **k: ([], hits[:1]))
+    monkeypatch.setattr('src.ai.prompt_messages', lambda *a, **k: ([], hits[:1]))
     result, _ = generate(configured(), plan.query, hits, 'employee', plan=plan,
                          transport=httpx.MockTransport(lambda r: pytest.fail('LLM called')))
     assert answer_text(result) == NO_GUIDELINE
@@ -213,13 +325,13 @@ def test_cloud_search_passes_temporal_order_to_rrf(monkeypatch):
         chunk('neutral', '진정 환자 상태를 확인합니다.', section='', index=2),
     ]
     captured = {}
-    from mvp.retrieval import rrf as original_rrf
+    from src.retrieval import rrf as original_rrf
 
     def capture_rrf(dense, lexical):
         captured['lexical'] = list(lexical)
         return original_rrf(dense, lexical)
 
-    monkeypatch.setattr('mvp.retrieval.rrf', capture_rrf)
+    monkeypatch.setattr('src.retrieval.rrf', capture_rrf)
     plan = plan_query('진정 전 준비사항은?')
 
     repo.search(plan.query, np.zeros(DIMENSIONS), ['doc'], .38, plan=plan)
@@ -365,8 +477,8 @@ def test_offtopic_chat_stops_before_loading_embedding_model(monkeypatch, tmp_pat
     monkeypatch.setenv('GUIDE_DATA_DIR', str(tmp_path / 'library'))
     monkeypatch.setenv('GUIDE_STORAGE_BACKEND', 'local')
     st.cache_resource.clear()
-    monkeypatch.setattr('mvp.library.Embedder', lambda: pytest.fail('Embedding must not run'))
-    monkeypatch.setattr('mvp.ai.generate', lambda *a, **k: pytest.fail('LLM must not run'))
+    monkeypatch.setattr('src.library.Embedder', lambda: pytest.fail('Embedding must not run'))
+    monkeypatch.setattr('src.ai.generate', lambda *a, **k: pytest.fail('LLM must not run'))
     app = registered_app(monkeypatch, tmp_path)
     ask(app, '간호사에게 주식 추천해줘')
     assert not app.exception
@@ -381,12 +493,12 @@ def test_failed_search_stops_progress_and_shows_safe_database_code(monkeypatch, 
     monkeypatch.setenv('GUIDE_DATA_DIR', str(tmp_path / 'library'))
     monkeypatch.setenv('GUIDE_STORAGE_BACKEND', 'local')
     st.cache_resource.clear()
-    monkeypatch.setattr('mvp.library.Embedder', FakeEmbedder)
-    monkeypatch.setattr('mvp.ai.generate', lambda *a, **k: pytest.fail('LLM must not run'))
+    monkeypatch.setattr('src.library.Embedder', FakeEmbedder)
+    monkeypatch.setattr('src.ai.generate', lambda *a, **k: pytest.fail('LLM must not run'))
     def failed_search(*args, **kwargs):
         raise DatabaseError(httpx.Response(403, json={'code': '42501', 'message': 'private detail'}),
                             '/rest/v1/guide_chunks')
-    monkeypatch.setattr('mvp.repository.Repository.search', failed_search)
+    monkeypatch.setattr('src.repository.Repository.search', failed_search)
     app = registered_app(monkeypatch, tmp_path)
     ask(app, '교육실 사용 방법은?')
     assert not app.exception

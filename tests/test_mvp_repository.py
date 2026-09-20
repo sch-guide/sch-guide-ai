@@ -14,15 +14,15 @@ from pglast import parse_sql
 from reportlab.pdfgen import canvas
 from streamlit.testing.v1 import AppTest
 
-from mvp.auth import LocalAuth
-from mvp.cloud import StaffLibrary
-from mvp.documents import PdfInputError, read_document
-from mvp.library import NO_GUIDELINE, validate_checklist
-from mvp.repository import Repository, database
-from mvp.settings import DIMENSIONS, GuideError, Settings
-from mvp.storage import LocalSourceStore, SupabaseSourceStore, source_store
+from src.auth import LocalAuth
+from src.cloud import StaffLibrary
+from src.documents import PdfInputError, read_document
+from src.library import NO_GUIDELINE, validate_checklist
+from src.repository import Repository, database
+from src.settings import DIMENSIONS, GuideError, Settings
+from src.storage import LocalSourceStore, SupabaseSourceStore, source_store
 
-APP = Path(__file__).resolve().parents[1] / "mvp" / "app.py"
+APP = Path(__file__).resolve().parents[1] / "src" / "app.py"
 
 
 def ask(app, question):
@@ -340,7 +340,7 @@ def test_staff_ui_has_no_admin_widgets_and_discards_revoked_conversations(setup,
     monkeypatch.setenv("GUIDE_DATA_DIR", str(settings.library_dir))
     monkeypatch.setenv("GUIDE_STORAGE_BACKEND", "local")
     monkeypatch.setenv("GUIDE_LLM_PROVIDER", "disabled")
-    monkeypatch.setattr("mvp.library.Embedder", Model)
+    monkeypatch.setattr("src.library.Embedder", Model)
     doc_id = repo.register("safe.docx", word_bytes(), Model())
     app = AppTest.from_file(str(APP), default_timeout=30).run()
     assert not app.exception
@@ -399,8 +399,8 @@ def test_no_evidence_returns_exact_requested_message_without_ai(setup, monkeypat
     monkeypatch.setenv("GUIDE_MODE", "local")
     monkeypatch.setenv("GUIDE_DATA_DIR", str(settings.library_dir))
     monkeypatch.setenv("GUIDE_STORAGE_BACKEND", "local")
-    monkeypatch.setattr("mvp.library.Embedder", Model)
-    monkeypatch.setattr("mvp.ai.generate", lambda *a: pytest.fail("No evidence must not call LLM"))
+    monkeypatch.setattr("src.library.Embedder", Model)
+    monkeypatch.setattr("src.ai.generate", lambda *a: pytest.fail("No evidence must not call LLM"))
     repo.register("safe.docx", word_bytes(), Model())
     app = AppTest.from_file(str(APP), default_timeout=30).run()
     app.session_state["auth"] = staff
@@ -423,7 +423,7 @@ def test_catalog_does_not_persist_staff_questions_or_answers(setup):
 def test_admin_backup_is_consistent_verified_and_staff_is_denied(setup):
     import sqlite3
 
-    from mvp.operations import create_backup, verify_backup
+    from src.operations import create_backup, verify_backup
     settings, admin, staff, repo, employee = setup
     repo.register("safe.docx", word_bytes(), Model())
     with pytest.raises(GuideError):

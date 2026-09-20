@@ -11,9 +11,9 @@ from pathlib import Path
 import httpx
 import pytest
 
-from mvp.ai import Quota, generate
-from mvp.library import Chunk, Hit
-from mvp.settings import GuideError, Settings
+from src.ai import Quota, generate
+from src.library import Chunk, Hit
+from src.settings import GuideError, Settings
 from tools.rag_groq_evaluate import SingleCallTransport
 
 FIXTURE = Path(__file__).parent / "fixtures" / "groq_strict_chat_completion.json"
