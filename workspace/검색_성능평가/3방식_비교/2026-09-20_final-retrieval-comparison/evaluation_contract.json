@@ -15,7 +15,7 @@
   },
   "gold": {
     "fixture": "tests/fixtures/schat_v1_operational_gold_reviewed.json",
-    "fixture_sha256": "0485c2192324082594bb66cc398097b3abc3ca4dc32066963db69d99a4f9067c",
+    "fixture_sha256": "8cacec8c97e6ff583c2788f0334bdd1d20f0802465ecdc2e879d6fb9935a59c5",
     "dataset_version": "schat-v1-operational-gold-reviewed-v1",
     "approved_positive_case_count": 21,
     "deferred_positive_case_count": 11,
