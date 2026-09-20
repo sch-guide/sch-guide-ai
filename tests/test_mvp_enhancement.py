@@ -9,14 +9,14 @@ import pytest
 from docx import Document
 from pglast import parse_sql
 
-from mvp.ai import Quota, RateLimitError, generate
-from mvp.auth import LocalAuth
-from mvp.checklist_ui import matching_checklists
-from mvp.library import DIMENSIONS, Hit
-from mvp.medical_terms import ABBREVIATIONS, ALIASES
-from mvp.repository import Repository
-from mvp.settings import Settings
-from mvp.storage import source_store
+from src.ai import Quota, RateLimitError, generate
+from src.auth import LocalAuth
+from src.checklist_ui import matching_checklists
+from src.library import DIMENSIONS, Hit
+from src.medical_terms import ABBREVIATIONS, ALIASES
+from src.repository import Repository
+from src.settings import Settings
+from src.storage import source_store
 from tests.test_mvp_chat import part
 
 
@@ -87,9 +87,21 @@ def test_review_request_stores_only_hash_and_source_ids(tmp_path):
 
 def test_pgvector_migration_is_parseable_and_keeps_rls():
     sql = (pytest.importorskip('pathlib').Path(__file__).parents[1] /
-           'mvp/migrations/20260910_operational_pgvector.sql').read_text(encoding='utf-8')
+           'src/migrations/20260910_operational_pgvector.sql').read_text(encoding='utf-8')
     assert len(parse_sql(sql)) >= 30
     lowered = sql.lower()
     assert 'enable row level security' in lowered
     assert 'service_role' not in lowered
     assert 'guide_request_review' in lowered and 'guide_reindex' in lowered
+
+
+def test_pgvector_migration_persists_chunk_quality_for_admin_display():
+    sql = (pytest.importorskip('pathlib').Path(__file__).parents[1] /
+           'src/migrations/20260910_operational_pgvector.sql').read_text(encoding='utf-8')
+
+    assert 'add column if not exists chunk_version' in sql
+    assert 'add column if not exists chunk_quality' in sql
+    assert 'add column if not exists extraction_version' in sql
+    assert 'add column if not exists warnings' in sql
+    assert 'add column if not exists missing_locations' in sql
+    assert sql.count("doc->'chunk_quality'") >= 2

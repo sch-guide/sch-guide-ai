@@ -18,28 +18,28 @@ from pathlib import Path
 import httpx
 import numpy as np
 
-from mvp.ai import (
+from src.ai import (
     GROQ_REQUEST_TOKEN_BUDGET,
     answer_text,
     generate,
     prompt_messages,
 )
-from mvp.context import expand_context
-from mvp.evidence import assess_evidence
-from mvp.library import (
+from src.context import expand_context
+from src.evidence import assess_evidence
+from src.library import (
     NO_GUIDELINE,
     Embedder,
     Hit,
     bounded_embedding_question,
 )
-from mvp.query import plan_query
-from mvp.retrieval import BM25Index, rank_bm25_candidates, rerank, rrf
-from mvp.settings import ROOT, load_settings
+from src.query import plan_query
+from src.retrieval import BM25Index, rank_bm25_candidates, rerank, rrf
+from src.settings import ROOT, load_settings
 from tools.bm25_evaluate import DEFAULT_QUESTIONS, stable_evaluation_chunks
 from tools.rag_phase1_evaluate import DEFAULT_SOURCE, _stable_positions, stage_recall
 from tools.rag_phase2_evaluate import _load_q002
 
-DEFAULT_OUTPUT = ROOT / "artifacts" / "2026-09-14_rag-procedure-answer-coverage"
+DEFAULT_OUTPUT = ROOT / "workspace" / "RAG_실험" / "2026-09-14_rag-procedure-answer-coverage"
 PILOT_IDS = ("Q001", "Q003", "Q004", "Q005")
 COMMON_STOP_CODES = {"AI_AUTH", "AI_SERVER", "AI_RESPONSE", "AI_TIMEOUT", "AI_LIMIT"}
 
@@ -364,9 +364,11 @@ def prepare_q002():
     )
 
 
-def pilot_corpus():
+def pilot_corpus(*, chunk_version=4):
     model = Embedder()
-    metadata, chunks, _ = stable_evaluation_chunks(DEFAULT_SOURCE, model)
+    metadata, chunks, _ = stable_evaluation_chunks(
+        DEFAULT_SOURCE, model, chunk_version=chunk_version
+    )
     vectors = model.encode([chunk.text for chunk in chunks])
     return model, metadata, chunks, vectors
 

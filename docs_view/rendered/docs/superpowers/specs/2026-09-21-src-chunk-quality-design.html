@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SRC 청킹 자동검사 설계 · SCHAT 문서</title><link rel="stylesheet" href="../../../../assets/style.css"></head>
+<body><main class="document-pane"><div class="official-notice"><div><strong>열람용 복사본</strong><span>공식 정본은 docs/입니다.</span></div></div>
+<article class="markdown-body"><h1 id="section-1">SRC 청킹 자동검사 설계</h1>
+<h2 id="section-2">목표</h2>
+<p>현재 <code>src</code> 청킹 결과의 내용을 바꾸지 않고, 문서 등록·재색인 때 객관적인 품질 문제를 자동으로 검사하고 관리자에게 쉬운 한국어로 보여준다.</p>
+<h2 id="section-3">바뀌는 것</h2>
+<ul><li>빈 조각, 110토큰 초과 조각, 완전히 같은 중복 조각을 자동으로 센다.</li><li>여러 페이지 가장자리에 반복되는 짧은 머리말과 제목만 있는 조각을 참고 수치로 센다.</li><li>빈 조각 또는 110토큰 초과 조각이 있으면 저장 전에 중단한다.</li><li>검사 결과를 문서 메타데이터에 저장하고 관리자 화면에서 쉬운 문장으로 표시한다.</li><li>새 청킹 버전은 5로 표시한다.</li></ul>
+<h2 id="section-4">바뀌지 않는 것</h2>
+<ul><li>청크의 원문, 순서, 크기, 겹침 규칙을 바꾸지 않는다.</li><li>기존 검색·답변 선택 규칙을 바꾸지 않는다.</li><li>기존 문서를 자동으로 재색인하거나 교체하지 않는다.</li><li>환자·병원 문서를 외부 서비스로 보내지 않는다.</li></ul>
+<h2 id="section-5">운영 방식</h2>
+<p>기존 문서는 검사 결과가 없는 상태로 계속 사용할 수 있다. 관리자가 해당 문서를 재색인하면 그때 자동검사 결과가 생성된다.</p></article></main></body></html>

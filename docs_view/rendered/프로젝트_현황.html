@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SCHAT 프로젝트 현황</title>
+  <style>
+    :root{--navy:#103b55;--blue:#0e7490;--line:#cbdde3;--ok:#166534;--warn:#9a3412}
+    *{box-sizing:border-box}body{margin:0;font-family:system-ui,"Malgun Gothic",sans-serif;background:#f5f8fa;color:#173042;line-height:1.55}
+    header{padding:40px max(24px,calc((100% - 1080px)/2));color:#fff;background:linear-gradient(130deg,var(--navy),var(--blue))}
+    main{max-width:1080px;margin:auto;padding:26px 24px 54px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;margin:14px 0}.ok{color:var(--ok)}.warn{color:var(--warn)}table{border-collapse:collapse;width:100%}th,td{border:1px solid var(--line);padding:9px;text-align:left}th{background:#eef7f8}a{color:var(--blue);font-weight:700}
+  </style>
+</head>
+<body>
+<header><h1>SCHAT 프로젝트 현황</h1><p>병원 실무지침 기반 검색·답변·출처·표·이미지 안전 경계의 현재 정본</p></header>
+<main>
+  <section class="grid">
+    <div class="card"><small>공식 안정 버전</small><h2>v0.9</h2><p>v0.8과 함께 tag 보존</p></div>
+    <div class="card"><small>v1 최종 판정</small><h2 class="ok">v1.0-rc1 후보</h2><p>운영 UAT 36/36</p></div>
+    <div class="card"><small>전체 테스트</small><h2 class="ok">587 passed</h2><p>4 skipped · 9 warnings</p></div>
+    <div class="card"><small>외부 호출/전송</small><h2 class="ok">0회</h2><p>Groq · Gemini · Vision</p></div>
+  </section>
+
+  <section class="card"><h2>Production</h2><p><strong>BM25 + MiniLM semantic/vector + RRF + 기존 reranker</strong></p><p>명시적 문서 범위 + evidence-backed admission → Facet-slot → server reconstruction → AnswerCoverage/validate_answer → presentation sidecar</p></section>
+
+  <section class="card"><h2>운영 UAT</h2><table><thead><tr><th>범위</th><th>전체</th><th>PASS</th><th>FAIL</th></tr></thead><tbody><tr><td>진정</td><td>14</td><td>14</td><td>0</td></tr><tr><td>수혈</td><td>18</td><td>18</td><td>0</td></tr><tr><td>Out-of-scope</td><td>4</td><td>4</td><td>0</td></tr><tr><th>합계</th><th>36</th><th>36</th><th>0</th></tr></tbody></table><p class="ok">수정 전 8개 fail-closed 차단을 일반화된 document-context admission으로 해결했습니다.</p></section>
+
+  <section class="grid">
+    <div class="card"><h2>Table</h2><p class="ok">Approved 5/5 · Hit@10 1.0</p><p>MM003 first gold rank 2</p></div>
+    <div class="card"><h2>Generation</h2><p>Offline Groq/Gemini harness 완료</p><p class="warn">Live 외부 전송 승인 대기</p></div>
+    <div class="card"><h2>Image</h2><p>TF027 checklist 10개</p><p class="warn">Human review pending</p></div>
+  </section>
+
+  <section class="card"><h2>Retrieval · RAGAS · Gold</h2><table><thead><tr><th>항목</th><th>결과</th></tr></thead><tbody><tr><td>Hit@10 / MRR / Recall@10</td><td>0.8846 / 0.5602 / 0.8379</td></tr><tr><td>ID Context Precision / Recall</td><td>0.1192 / 0.8379</td></tr><tr><td>수정 전후 retrieval</td><td class="ok">모든 지표 동일</td></tr><tr><td>운영 승인 Gold</td><td>abstention 4/4</td></tr><tr><td>운영 positive Gold</td><td class="warn">local 검수 도구 완료 · 승인 0/32</td></tr></tbody></table></section>
+
+  <section class="card"><h2>안전·보안</h2><ul><li>Q006/out-of-scope zero-call 유지</li><li>Validator 완화 0건</li><li>Artifact 43 files: exact source/forbidden key/secret marker 0</li><li>검색 알고리즘과 embedding 변경 0건</li><li>외부 호출/전송 0회</li><li>Commit/tag/push 0건</li></ul></section>
+
+  <section class="card"><h2>문서</h2><ul><li><a href="../../docs/00_기획/현재_프로젝트_상태.md">현재 상태</a></li><li><a href="../../docs/04_구현_테스트/테스트_현황.md">테스트 현황</a></li><li><a href="../../workspace/과거작업/문서이력/rag/64_SCHAT_V1_RAGAS_GOLD_UAT_FINAL_RESULT.md">RAGAS·Gold·UAT 최종 결과</a></li><li><a href="../../workspace/과거작업/문서이력/rag/65_SCHAT_OPERATIONAL_GOLD_HUMAN_REVIEW_GUIDE.md">Positive Gold 사람 검수 안내</a></li><li><a href="../../workspace/데이터_검수/2026-09-18_schat-operational-gold-human-review/review.html">Gold 검수 도구 현황</a></li><li><a href="../../docs/06_변경이력/복구기준점.md">복구 기준점</a></li></ul></section>
+</main>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SCHAT 답변 생성 · SCHAT 문서</title><link rel="stylesheet" href="../../../assets/style.css"></head>
+<body><main class="document-pane"><div class="official-notice"><div><strong>열람용 복사본</strong><span>공식 정본은 docs/입니다.</span></div></div>
+<article class="markdown-body"><h1 id="section-1">SCHAT 답변 생성</h1>
+<h2 id="section-2">현재 Production</h2>
+<p>Provider가 선택한 SourceUnit을 server가 다음처럼 복원한다.</p>
+<ul><li><code>Statement.text = SourceUnit.exact_text</code></li><li><code>Evidence.quote = SourceUnit.exact_text</code></li><li><code>Evidence.chunk_id = SourceUnit.chunk_id</code></li></ul>
+<p>그 뒤 AnswerCoverage와 <code>validate_answer()</code> 전체를 통과한 Answer만 UI에 전달한다.</p>
+<h2 id="section-3">Controlled generation</h2>
+<ul><li>Groq/Gemini 공통 offline contract와 Mock validator가 준비돼 있다.</li><li>공통 evidence, instruction, JSON schema를 쓰고 provider별 wire envelope만 다르다.</li><li>Citation, number, unit, time, condition, negation, action, branch, phase, coverage를 server가 재검증한다.</li><li>Semantic support가 미확정이면 publish하지 않고 extractive fallback을 사용한다.</li><li>이번 최종 검증에서 실제 Groq/Gemini 호출은 각각 0회다.</li></ul>
+<h2 id="section-4">Live pending 사유</h2>
+<p>다음 승인이 명시적으로 확인되지 않았다.</p>
+<ol><li>병원 evidence exact text 외부 전송 정책</li><li>provider/model/region/retention 조건</li><li>허용 case와 provider별 호출 상한</li></ol>
+<p>따라서 최종 provider 판정은 <code>E — 외부 전송 승인 부재로 Live 미평가</code>다.</p>
+<h2 id="section-5">Gold와 RAGAS</h2>
+<ul><li>Generated answer가 없으므로 Faithfulness와 Answer Relevancy는 pending이다.</li><li>운영 positive Gold 32건은 사람의 mapping/critical-fact 승인 전 provisional이다.</li><li>Provider candidate가 semantic/citation/number/unit/time/condition/negation/action/branch/phase/</li></ul>
+<p>  AnswerCoverage 중 하나라도 실패하면 공개하지 않고 verified extractive answer로 fallback한다.</p>
+<h2 id="section-6">Presentation</h2>
+<p>Presentation sidecar는 statement index, SourceUnit ID, branch, phase, source order, leading marker만 사용한다. 임상 문장을 새로 만들거나 citation을 변경하지 않는다.</p></article></main></body></html>

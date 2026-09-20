@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SCHAT 표와 이미지 현재 상태 · SCHAT 문서</title><link rel="stylesheet" href="../../../assets/style.css"></head>
+<body><main class="document-pane"><div class="official-notice"><div><strong>열람용 복사본</strong><span>공식 정본은 docs/입니다.</span></div></div>
+<article class="markdown-body"><h1 id="section-1">SCHAT 표와 이미지 현재 상태</h1>
+<h2 id="section-2">Structured table</h2>
+<div class="table-wrap"><table><thead><tr><th class="align-left">항목</th><th class="align-right">현재 값</th></tr></thead><tbody><tr><td class="align-left">Table records</td><td class="align-right">5</td></tr><tr><td class="align-left">Search rows</td><td class="align-right">38</td></tr><tr><td class="align-left">Approved table cases</td><td class="align-right">5</td></tr><tr><td class="align-left">Hit@10</td><td class="align-right">1.0</td></tr><tr><td class="align-left">MM003 first gold rank</td><td class="align-right">2</td></tr></tbody></table></div>
+<p>Table citation은 document/page/table ID/row index를 보존한다. Exact cell/row text는 로컬 UI에서만 표시하며 artifact에는 ID, bbox, fingerprint와 hash만 저장한다. Production repository schema에는 table persistence가 아직 연결되지 않았다.</p>
+<p>운영 UAT의 table/mixed 질문은 local structured table 후보를 함께 확인한다. 후보가 발견돼도 <code>candidate_found_not_human_gold</code>로 기록하며, 사람이 승인한 Gold로 자동 승격하지 않는다.</p>
+<h2 id="section-3">TF027 image/diagram</h2>
+<ul><li>checklist 10개 항목: 1차 사람 검수 완료</li><li>판정: <code>confirmed</code> 7개, <code>uncertain</code> 3개</li><li>1차 reviewer: 완료</li><li>2차 reviewer: 미완료</li><li><code>needs_human_review=true</code></li><li><code>production_gold_approved=false</code></li><li><code>included_in_aggregate=false</code></li><li>최종 결정: <code>reject</code> — Production image Gold로 사용하지 않음</li><li>Vision/provider API 호출: 0회</li></ul>
+<p>로컬 검수 화면:</p>
+<pre><code class="language-powershell">.\.venv\Scripts\streamlit.exe run tools/tf027_human_review_app.py</code></pre>
+<p>화면은 왼쪽에 원본 PDF page와 후보 bbox 오버레이, 오른쪽에 10개 검수 항목을 표시한다. 사람이 <code>확인됨/불확실/해당 없음</code>을 선택하고 직접 확인한 node, edge, branch, sequence, number, unit, time만 입력한다. 화면을 여는 것만으로는 파일을 만들지 않는다.</p>
+<p>저장 버튼을 누르면 원본 checklist를 덮어쓰지 않고 아래 별도 fixture에 저장한다.</p>
+<p><code>tests/fixtures/tf027_image_human_review_reviewed.json</code></p>
+<p>모든 필수 값, 불확실성 0건, 서로 다른 reviewer 2명의 승인이 있을 때만 Production image Gold 플래그가 파생된다. 현재는 1차 검수를 마쳤지만 불확실 항목과 2차 승인 미완료로 최종 reject 되었으며 image retrieval aggregate나 production answerability에 연결하지 않는다.</p>
+<h2 id="section-4">Multimodal routing</h2>
+<p>Text/table/image/mixed evidence metadata는 유지하지만 image pending 상태는 retrieval answerability에 연결하지 않는다. 모든 질문에서 모든 retriever를 실행하지 않는다.</p></article></main></body></html>

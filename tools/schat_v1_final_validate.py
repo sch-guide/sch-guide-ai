@@ -314,8 +314,8 @@ def _mean_p95(values: list[float]) -> dict[str, float]:
 
 
 def _post_budget_selection(plan, pre):
-    from mvp.ai import GROQ_REQUEST_TOKEN_BUDGET, prompt_messages
-    from mvp.evidence import admitted_plan, assess_evidence
+    from src.ai import GROQ_REQUEST_TOKEN_BUDGET, prompt_messages
+    from src.evidence import admitted_plan, assess_evidence
 
     plan = admitted_plan(plan, pre)
 
@@ -349,11 +349,11 @@ def evaluate_operational_uat(
     Provider and vision calls are deliberately absent. Exact questions and source
     text are used only in memory and are removed by ``safe_uat_result``.
     """
-    from mvp.evidence import assess_evidence
-    from mvp.library import Embedder, bounded_embedding_question
-    from mvp.query import plan_query
-    from mvp.repository import snapshot
-    from mvp.settings import GuideError
+    from src.evidence import assess_evidence
+    from src.library import Embedder, bounded_embedding_question
+    from src.query import plan_query
+    from src.repository import snapshot
+    from src.settings import GuideError
     from tools.chroma_baseline_evaluate import load_catalog
     from tools.schat_v1_ragas_gold_uat_evaluate import evaluate_gold_match
     from tools.structured_table_evidence import (
@@ -913,13 +913,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=root / "artifacts" / "2026-09-18_schat-v1-final-validation",
+        default=root / "workspace" / "과거작업" / "평가산출물" / "2026-09-18_schat-v1-final-validation",
     )
     return parser.parse_args()
 
 
 def main() -> None:
-    from mvp.repository import snapshot
+    from src.repository import snapshot
     from tools.schat_multimodal_mvp_evaluate import (
         DEFAULT_FIXTURE,
         DEFAULT_MULTIMODAL,

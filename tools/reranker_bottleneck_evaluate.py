@@ -15,7 +15,7 @@ from pathlib import Path
 from statistics import fmean
 from typing import Any, Sequence
 
-from mvp.retrieval import lexical_tokens
+from src.retrieval import lexical_tokens
 from tools.bm25_vector_fairness_evaluate import (
     CORE_METRICS,
     _group_metrics,
@@ -29,8 +29,8 @@ from tools.retrieval_strategy_evaluate import _evaluated_result
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_FIXTURE = ROOT / "tests" / "fixtures" / "transfusion_retrieval_baseline.json"
 DEFAULT_CATALOG = ROOT / "data" / "library" / "catalog.sqlite3"
-DEFAULT_FROZEN = ROOT / "artifacts" / "2026-09-17_bm25-e5-retrieval-strategy-02"
-DEFAULT_OUTPUT = ROOT / "artifacts" / "2026-09-18_schat-final-mvp-completion" / "retrieval"
+DEFAULT_FROZEN = ROOT / "workspace" / "과거작업" / "평가산출물" / "2026-09-17_bm25-e5-retrieval-strategy-02"
+DEFAULT_OUTPUT = ROOT / "workspace" / "과거작업" / "평가산출물" / "2026-09-18_schat-final-mvp-completion" / "retrieval"
 STRATEGIES = (
     "no_reranker",
     "normalized_input",

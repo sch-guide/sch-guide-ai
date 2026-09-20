@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SCHAT 시스템 설계 · Current Truth</title>
+  <style>
+    :root {
+      --navy: #102a43;
+      --ink: #243b53;
+      --muted: #627d98;
+      --line: #d9e2ec;
+      --paper: #f7f9fc;
+      --white: #ffffff;
+      --teal: #087f8c;
+      --teal-soft: #e7f5f5;
+      --blue: #1d4ed8;
+      --blue-soft: #eaf1ff;
+      --amber: #9a6700;
+      --amber-soft: #fff6db;
+      --rose: #b42318;
+      --rose-soft: #fff0ee;
+      --violet: #6941c6;
+      --violet-soft: #f2edff;
+      --shadow: 0 12px 34px rgba(16, 42, 67, .09);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      overflow-x: clip;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 85% 2%, rgba(8,127,140,.10), transparent 26rem),
+        linear-gradient(180deg, #eef4f8 0, var(--paper) 25rem);
+      font-family: Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", "Segoe UI", sans-serif;
+      line-height: 1.62;
+    }
+    a { color: inherit; }
+    .shell { width: min(1240px, calc(100% - 40px)); margin: 0 auto; }
+    .hero { padding: 68px 0 44px; }
+    .eyebrow { margin: 0 0 12px; color: var(--teal); font-size: .78rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    h1 { max-width: 830px; margin: 0; color: var(--navy); font-size: clamp(2.25rem, 5vw, 4.65rem); line-height: 1.04; letter-spacing: -.045em; }
+    .lead { max-width: 780px; margin: 24px 0 0; color: #486581; font-size: clamp(1.03rem, 2vw, 1.25rem); }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .chip { padding: 7px 11px; border: 1px solid rgba(8,127,140,.25); border-radius: 999px; background: rgba(255,255,255,.76); color: #075e68; font-size: .78rem; font-weight: 700; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0,1.45fr) minmax(280px,.55fr); gap: 28px; align-items: end; }
+    .hero-grid > *, .section-head > *, .boundary-grid > *, .grid-3 > *, .roadmap > * { min-width: 0; }
+    .truth-card { padding: 24px; border: 1px solid rgba(8,127,140,.18); border-radius: 22px; background: rgba(255,255,255,.84); box-shadow: var(--shadow); }
+    .truth-card strong { display:block; margin-bottom: 8px; color: var(--navy); font-size: 1.06rem; }
+    .truth-card p { margin: 0; color: var(--muted); font-size: .91rem; overflow-wrap: anywhere; }
+    nav { position: sticky; top: 0; z-index: 20; border-block: 1px solid var(--line); background: rgba(247,249,252,.92); backdrop-filter: blur(14px); }
+    .nav-inner { display:flex; gap: 7px; overflow-x: auto; padding: 11px 0; scrollbar-width: thin; }
+    nav a { flex: 0 0 auto; padding: 7px 11px; border-radius: 9px; color: #486581; font-size: .78rem; font-weight: 750; text-decoration:none; }
+    nav a:hover { background: var(--white); color: var(--teal); }
+    main { padding: 28px 0 74px; }
+    section { scroll-margin-top: 70px; margin-top: 32px; padding: clamp(24px,4vw,44px); border: 1px solid var(--line); border-radius: 24px; background: rgba(255,255,255,.94); box-shadow: 0 7px 24px rgba(16,42,67,.055); }
+    .section-head { display:flex; gap: 20px; justify-content:space-between; align-items:end; margin-bottom: 28px; }
+    .section-no { color: var(--teal); font-size: .76rem; font-weight: 850; letter-spacing: .14em; }
+    h2 { margin: 5px 0 0; color: var(--navy); font-size: clamp(1.5rem, 3vw, 2.15rem); line-height: 1.18; letter-spacing: -.025em; }
+    h3 { margin: 26px 0 12px; color: var(--navy); font-size: 1.07rem; }
+    .section-note { max-width: 440px; margin:0; color: var(--muted); font-size: .88rem; }
+    .diagram { padding: 28px; border: 1px solid #dce8ed; border-radius: 20px; background: linear-gradient(145deg,#f8fcfd,#f3f7fb); overflow-x:auto; }
+    .flow { min-width: 900px; display:grid; gap: 14px; }
+    .flow-row { display:grid; grid-template-columns: repeat(5,1fr); gap: 12px; align-items:stretch; }
+    .node { position:relative; min-height: 95px; padding: 16px; border: 1px solid var(--line); border-radius: 15px; background: var(--white); }
+    .node::after { content:"→"; position:absolute; right:-19px; top:50%; z-index:2; color:#9fb3c8; font-weight:900; transform:translateY(-50%); }
+    .node:last-child::after { display:none; }
+    .node b { display:block; margin-bottom: 5px; color:var(--navy); font-size:.89rem; }
+    .node span { display:block; color:var(--muted); font-size:.75rem; line-height:1.45; }
+    .node.input { border-top:4px solid var(--navy); }
+    .node.search { border-top:4px solid var(--teal); }
+    .node.guard { border-top:4px solid var(--amber); }
+    .node.generate { border-top:4px solid var(--blue); }
+    .node.output { border-top:4px solid var(--violet); }
+    .architecture-stage { padding: clamp(26px, 4vw, 50px); background: linear-gradient(150deg,#f8fbfd 0%,#eef6f7 100%); }
+    .architecture-stage .section-head { align-items:start; }
+    .arch-legend { display:flex; flex-wrap:wrap; gap:9px; justify-content:flex-end; }
+    .legend-item { display:inline-flex; align-items:center; gap:7px; padding:6px 10px; border:1px solid var(--line); border-radius:999px; background:white; color:#486581; font-size:.72rem; font-weight:800; }
+    .legend-swatch { width:10px; height:10px; border-radius:3px; }
+    .legend-swatch.production { background:var(--teal); }
+    .legend-swatch.conditional { background:var(--blue); }
+    .legend-swatch.evaluation { background:#d48a08; }
+    .legend-swatch.future { background:var(--violet); }
+    .arch-panel { position:relative; margin-top:22px; padding:clamp(22px,4vw,42px); border:1px solid #cad9e2; border-radius:22px; background:white; box-shadow:0 14px 38px rgba(16,42,67,.08); }
+    .arch-panel-title { display:flex; align-items:start; justify-content:space-between; gap:18px; margin-bottom:28px; padding-bottom:18px; border-bottom:1px solid var(--line); }
+    .arch-panel-title h3 { margin:0; font-size:clamp(1.25rem,2.5vw,1.75rem); }
+    .arch-panel-title p { max-width:460px; margin:3px 0 0; color:var(--muted); font-size:.82rem; text-align:right; }
+    .exec-chain { width:min(760px,100%); margin:0 auto; display:flex; flex-direction:column; align-items:center; }
+    .arch-box { position:relative; width:100%; padding:15px 20px; border:1px solid #b9d9dc; border-left:6px solid var(--teal); border-radius:14px; background:linear-gradient(90deg,#f0fbfa,#fff 72%); text-align:center; box-shadow:0 5px 14px rgba(16,42,67,.055); }
+    .arch-box strong { display:block; color:var(--navy); font-size:1rem; line-height:1.35; }
+    .arch-box small { display:block; margin-top:4px; color:#68839a; font-family:"Cascadia Code",Consolas,monospace; font-size:.69rem; line-height:1.35; }
+    .arch-box.entry { border-color:#bdcbd8; border-left-color:var(--navy); background:linear-gradient(90deg,#f1f5f8,#fff 72%); }
+    .arch-box.conditional { border-color:#c5d4fa; border-left-color:var(--blue); background:linear-gradient(90deg,#edf3ff,#fff 72%); }
+    .arch-box.guard { border-color:#ead2a0; border-left-color:var(--amber); background:linear-gradient(90deg,#fff8e8,#fff 72%); }
+    .arch-box.final { border-color:#cfc3f1; border-left-color:var(--violet); background:linear-gradient(90deg,#f5f1ff,#fff 72%); }
+    .arch-box .box-badge { position:absolute; top:50%; right:14px; padding:3px 7px; border-radius:999px; background:rgba(29,78,216,.09); color:var(--blue); font-family:inherit; font-size:.62rem; font-weight:850; transform:translateY(-50%); }
+    .arch-arrow { position:relative; width:2px; height:31px; background:#8fb2bc; }
+    .arch-arrow::after { content:""; position:absolute; left:50%; bottom:-1px; width:8px; height:8px; border-right:2px solid #648d98; border-bottom:2px solid #648d98; transform:translateX(-50%) rotate(45deg); }
+    .outcomes { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
+    .outcome { padding:6px 9px; border-radius:8px; font-size:.72rem; font-weight:850; }
+    .outcome.answer { background:var(--teal-soft); color:#07666f; }
+    .outcome.abstain { background:var(--rose-soft); color:var(--rose); }
+    .hybrid-canvas { width:min(980px,100%); margin:0 auto; }
+    .hybrid-source, .hybrid-join, .hybrid-step { width:min(620px,100%); margin:0 auto; }
+    .fork-marker { display:grid; place-items:center; width:38px; height:38px; margin:0 auto; border:2px solid var(--teal); background:white; color:var(--teal); font-size:.72rem; font-weight:900; transform:rotate(45deg); }
+    .fork-marker span { transform:rotate(-45deg); }
+    .split-connector { position:relative; width:75%; height:42px; margin:0 auto; border-top:2px solid #8fb2bc; }
+    .split-connector::before, .split-connector::after { content:""; position:absolute; top:-2px; width:2px; height:42px; background:#8fb2bc; }
+    .split-connector::before { left:0; }
+    .split-connector::after { right:0; }
+    .hybrid-branches { display:grid; grid-template-columns:1fr 1.25fr; gap:28px; align-items:start; }
+    .branch-column { min-width:0; padding:18px; border:1px solid #d6e4e9; border-radius:18px; background:#f8fbfc; }
+    .branch-label { margin-bottom:12px; color:var(--teal); font-size:.7rem; font-weight:900; letter-spacing:.1em; text-align:center; }
+    .branch-column .arch-box { min-height:76px; display:flex; flex-direction:column; justify-content:center; }
+    .backend-split { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .backend-split .arch-box { padding-inline:10px; }
+    .backend-split .arch-box small { font-size:.62rem; }
+    .mini-arrow { width:2px; height:25px; margin:0 auto; background:#8fb2bc; }
+    .join-connector { position:relative; width:75%; height:48px; margin:0 auto; border-bottom:2px solid #8fb2bc; }
+    .join-connector::before, .join-connector::after { content:""; position:absolute; bottom:-2px; width:2px; height:48px; background:#8fb2bc; }
+    .join-connector::before { left:0; }
+    .join-connector::after { right:0; }
+    .join-connector .join-arrow { position:absolute; left:50%; bottom:-10px; width:9px; height:9px; border-right:2px solid #648d98; border-bottom:2px solid #648d98; transform:translateX(-50%) rotate(45deg); }
+    .hybrid-join { margin-top:18px; border-left-color:var(--navy); border-color:#bdcbd8; background:linear-gradient(90deg,#eff4f7,#fff 72%); }
+    .evaluation-rail { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:30px; padding-top:22px; border-top:2px dashed #dcc58e; }
+    .eval-box { padding:13px 10px; border:1px solid #edcf92; border-radius:12px; background:var(--amber-soft); color:#715000; text-align:center; }
+    .eval-box strong { display:block; font-size:.79rem; }
+    .eval-box small { display:block; margin-top:3px; color:#917331; font-size:.64rem; }
+    .future-box { margin-top:12px; padding:13px; border:2px dashed #c4b5eb; border-radius:12px; background:var(--violet-soft); color:var(--violet); text-align:center; font-size:.78rem; font-weight:850; }
+    .future-box small { display:block; margin-top:3px; font-weight:650; }
+    .mode-map { display:grid; grid-template-columns:1fr 1fr; gap:22px; align-items:stretch; }
+    .mode-lane { position:relative; padding:18px; border:1px solid var(--line); border-radius:18px; background:#f8fbfc; }
+    .mode-lane.local { border-top:5px solid var(--teal); }
+    .mode-lane.staff { border-top:5px solid var(--blue); }
+    .mode-lane h4 { margin:0 0 14px; color:var(--navy); font-size:1rem; text-align:center; }
+    .mode-lane .arch-box + .mini-arrow + .arch-box { margin-top:0; }
+    .shared-merge { width:min(700px,100%); margin:18px auto 0; padding:14px 18px; border-radius:14px; background:var(--navy); color:white; text-align:center; font-size:.84rem; font-weight:850; }
+    .safety-chain { display:grid; grid-template-columns:repeat(5,1fr); gap:24px; align-items:stretch; }
+    .safety-chain .arch-box { min-height:118px; display:flex; flex-direction:column; justify-content:center; }
+    .safety-chain .arch-box::after { content:"→"; position:absolute; right:-19px; top:50%; color:#648d98; font-size:1.2rem; font-weight:900; transform:translateY(-50%); }
+    .safety-chain .arch-box:last-child::after { display:none; }
+    .scope-map { display:grid; grid-template-columns:1.25fr .75fr; gap:20px; }
+    .scope-column { padding:20px; border-radius:18px; }
+    .scope-column.production { border:1px solid #b7e0d8; background:#f0fbf8; }
+    .scope-column.evaluation { border:1px dashed #e0b966; background:#fff9eb; }
+    .scope-column h4 { margin:0 0 14px; color:var(--navy); }
+    .scope-items { display:grid; grid-template-columns:repeat(2,1fr); gap:9px; }
+    .scope-item { padding:11px; border:1px solid rgba(16,42,67,.12); border-radius:10px; background:rgba(255,255,255,.8); color:#486581; font-size:.73rem; font-weight:800; text-align:center; }
+    .compare-contract { padding:13px 16px; border:1px solid #c7d5e0; border-radius:12px; background:#f2f6f9; color:var(--navy); font-size:.79rem; font-weight:850; text-align:center; }
+    .compare-branches { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:18px; }
+    .compare-branch { padding:18px; border:1px solid #c4b5eb; border-top:5px solid var(--violet); border-radius:14px; background:#faf8ff; text-align:center; }
+    .compare-branch strong { display:block; color:var(--navy); }
+    .compare-branch small { display:block; margin-top:5px; color:var(--muted); }
+    .compare-output { margin-top:18px; padding:15px; border-radius:12px; background:var(--violet-soft); color:var(--violet); font-size:.78rem; font-weight:850; text-align:center; }
+    .mentor-primary { border:2px solid #9fd4d8; }
+    .mentor-caption { margin:20px 0 0; padding:12px 16px; border-radius:10px; background:var(--teal-soft); color:#07666f; font-size:.84rem; font-weight:850; text-align:center; }
+    .compact-panel { padding-block:30px; }
+    .compact-mode .mode-lane { display:flex; flex-direction:column; justify-content:center; min-height:125px; }
+    .compact-mode .scope-item { font-size:.86rem; }
+    .simple-compare { grid-template-columns:1fr auto 1fr auto 1fr; align-items:center; }
+    .simple-compare .compare-branch { min-width:0; }
+    .simple-compare .compare-branch.future { border-style:dashed; background:var(--violet-soft); }
+    .vs-label { color:var(--muted); font-size:.75rem; font-weight:900; text-align:center; }
+    .implementation-reference { margin-top:24px; padding:20px; border:1px solid var(--line); border-radius:16px; background:#fff; }
+    .implementation-reference h3 { margin:0 0 12px; font-size:1rem; }
+    .split { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:18px 0; }
+    .lane { padding:20px; border-radius:18px; border:1px solid var(--line); }
+    .lane.local { background:var(--teal-soft); border-color:#bee3e6; }
+    .lane.staff { background:var(--blue-soft); border-color:#cad9ff; }
+    .lane h3 { margin:0 0 12px; }
+    .lane ul, .boundary ul { margin:0; padding-left:20px; }
+    .lane li, .boundary li { margin:6px 0; }
+    .merge { width:max-content; margin:4px auto 0; padding:12px 24px; border-radius:999px; background:var(--navy); color:white; font-size:.86rem; font-weight:800; }
+    .arrow-down { text-align:center; color:#9fb3c8; font-size:1.55rem; line-height:1.25; }
+    .pipeline { display:grid; grid-template-columns:repeat(6,1fr); gap:8px; margin-top:22px; }
+    .stage { padding:14px 12px; border-radius:13px; background:#f4f7fa; border:1px solid var(--line); text-align:center; color:#486581; font-size:.77rem; font-weight:750; }
+    .stage.hot { color:#075e68; background:var(--teal-soft); border-color:#b8dddf; }
+    .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; }
+    .card { padding:20px; border:1px solid var(--line); border-radius:17px; background:#fff; }
+    .card .tag { display:inline-block; margin-bottom:12px; padding:4px 8px; border-radius:7px; background:#edf2f7; color:#526d82; font-size:.69rem; font-weight:850; letter-spacing:.04em; }
+    .card h3 { margin:0 0 7px; }
+    .card p { margin:0; color:var(--muted); font-size:.85rem; }
+    .callout { margin-top:18px; padding:17px 20px; border-left:4px solid var(--amber); border-radius:10px; background:var(--amber-soft); color:#694d00; font-size:.88rem; }
+    .boundary-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .boundary { padding:24px; border-radius:19px; }
+    .boundary.prod { background:linear-gradient(145deg,#e7f7f4,#f8fffd); border:1px solid #b7e0d8; }
+    .boundary.eval { background:linear-gradient(145deg,#fff4e8,#fffbf4); border:1px solid #f2d3aa; }
+    .boundary h3 { margin:0 0 12px; }
+    .status { display:inline-flex; gap:7px; align-items:center; margin-bottom:13px; font-size:.73rem; font-weight:850; letter-spacing:.07em; text-transform:uppercase; }
+    .dot { width:9px; height:9px; border-radius:50%; background:currentColor; }
+    table { display:block; width:100%; overflow-x:auto; border-collapse:separate; border-spacing:0; border:1px solid var(--line); border-radius:14px; font-size:.82rem; }
+    th, td { padding:12px 13px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+    th { color:var(--navy); background:#edf2f7; font-size:.75rem; letter-spacing:.02em; }
+    tr:last-child td { border-bottom:0; }
+    td:first-child { color:var(--navy); font-weight:700; }
+    code { padding:2px 5px; border-radius:5px; background:#edf2f7; color:#334e68; font-family:"Cascadia Code",Consolas,monospace; font-size:.88em; }
+    .roadmap { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+    .route { padding:22px; border-radius:18px; border:1px solid var(--line); background:white; }
+    .route .num { display:grid; place-items:center; width:34px; height:34px; margin-bottom:14px; border-radius:10px; background:var(--navy); color:white; font-weight:900; }
+    .route h3 { margin:0 0 8px; }
+    .route p { margin:0; color:var(--muted); font-size:.84rem; }
+    .metrics { display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; }
+    .metric { padding:7px 10px; border-radius:8px; background:var(--violet-soft); color:var(--violet); font-size:.73rem; font-weight:800; }
+    footer { padding:0 0 55px; color:var(--muted); font-size:.8rem; }
+    footer .line { padding-top:20px; border-top:1px solid var(--line); display:flex; justify-content:space-between; gap:20px; }
+    @media (max-width: 860px) {
+      .hero-grid { display:block; }
+      .truth-card { width:100%; margin-top:28px; }
+      .split, .boundary-grid, .grid-3, .roadmap { grid-template-columns:1fr; }
+      .section-head { display:block; }
+      .section-note { margin-top:10px; }
+      .pipeline { grid-template-columns:repeat(2,1fr); }
+      .arch-panel-title { display:block; }
+      .arch-panel-title p { margin-top:8px; text-align:left; }
+      .arch-legend { margin-top:16px; justify-content:flex-start; }
+      .hybrid-branches { grid-template-columns:1fr; gap:14px; }
+      .mode-map, .scope-map { grid-template-columns:1fr; }
+      .safety-chain { grid-template-columns:1fr; }
+      .safety-chain .arch-box::after { content:"↓"; right:auto; left:50%; top:auto; bottom:-25px; transform:translateX(-50%); }
+      .compare-branches { grid-template-columns:1fr; }
+      .simple-compare { grid-template-columns:1fr; }
+      .vs-label { padding-block:2px; }
+      .split-connector, .join-connector { display:none; }
+      .branch-column + .branch-column { margin-top:0; }
+      .branch-column::before { content:"↓"; display:block; margin:-13px 0 8px; color:#648d98; font-weight:900; text-align:center; }
+      .hybrid-join { margin-top:14px; }
+      .evaluation-rail { grid-template-columns:1fr 1fr; }
+      section { border-radius:18px; }
+    }
+    @media (max-width: 520px) {
+      .shell { width:min(100% - 22px,1240px); }
+      .hero { padding-top:43px; }
+      .meta { display:grid; grid-template-columns:1fr 1fr; }
+      .chip { min-width:0; max-width:100%; overflow-wrap:anywhere; text-align:center; }
+      .pipeline { grid-template-columns:1fr; }
+      .architecture-stage { padding-inline:14px; }
+      .arch-panel { padding:18px 12px; }
+      .arch-box { padding:13px 12px; }
+      .arch-box .box-badge { position:static; display:inline-block; width:max-content; margin:7px auto 0; transform:none; }
+      .backend-split, .evaluation-rail { grid-template-columns:1fr; }
+      .scope-items { grid-template-columns:1fr; }
+      .outcomes { grid-template-columns:1fr; }
+      th, td { padding:9px; }
+    }
+    @media print {
+      body { background:white; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+      nav { display:none; }
+      .shell { width:100%; }
+      .hero { padding:24px 0; }
+      section { break-inside:auto; box-shadow:none; margin-top:18px; }
+      .diagram { overflow:visible; }
+      .flow { min-width:0; }
+      .flow-row { grid-template-columns:repeat(5,1fr); }
+      .arch-panel, .mode-lane, .scope-column, .compare-branch, table { break-inside:avoid; page-break-inside:avoid; }
+      .arch-panel { box-shadow:none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="shell hero-grid">
+      <div>
+        <p class="eyebrow">System architecture · Current truth</p>
+        <h1>SCHAT<br>검증 가능한 근거의 흐름</h1>
+        <p class="lead">질문 정규화에서 Hybrid Retrieval, SourceUnit 선택, 서버 원문 재구성, validator와 abstention까지—현재 실행 코드의 경계를 한 화면에 정리했습니다.</p>
+        <div class="meta">
+          <span class="chip">2026-09-19</span>
+          <span class="chip">branch · boha-rag</span>
+          <span class="chip">Production 변경 없음</span>
+          <span class="chip">외부 라이브러리 없음</span>
+        </div>
+      </div>
+      <aside class="truth-card">
+        <strong>핵심 설계 원칙</strong>
+        <p>Retriever가 후보를 찾고, 규칙이 근거를 좁히며, Provider는 ID만 선택합니다. 최종 문장은 서버가 검증된 원문에서 재구성합니다.</p>
+      </aside>
+    </div>
+  </header>
+
+  <nav aria-label="페이지 목차">
+    <div class="shell nav-inner">
+      <a href="#architecture">핵심 구조도</a>
+      <a href="#overview">전체 구성</a>
+      <a href="#flow">질문 처리</a>
+      <a href="#hybrid">Hybrid</a>
+      <a href="#generation">생성·검증</a>
+      <a href="#boundary">경계</a>
+      <a href="#storage">저장소·버전</a>
+      <a href="#truth">Current truth</a>
+      <a href="#roadmap">비교 계획</a>
+    </div>
+  </nav>
+
+  <main class="shell">
+    <section id="architecture" class="architecture-stage">
+      <div class="section-head">
+        <div><span class="section-no">00 · MENTOR VIEW</span><h2>10초 안에 보는 SCHAT 구조</h2></div>
+        <div class="arch-legend" aria-label="구조도 색상 범례">
+          <span class="legend-item"><span class="legend-swatch production"></span>현재 Production</span>
+          <span class="legend-item"><span class="legend-swatch future"></span>비교 예정</span>
+        </div>
+      </div>
+
+      <div class="arch-panel">
+        <div class="arch-panel-title"><h3>1. 전체 구조</h3></div>
+        <div class="exec-chain" role="img" aria-label="사용자 질문이 화면, 질문 정리, 하이브리드 검색, 근거 선택, AI 근거 선택과 서버 원문 구성, 안전 검증을 거쳐 최종 답변 또는 abstention으로 이어지는 구조">
+          <div class="arch-box entry"><strong>사용자</strong><small>질문 입력</small></div>
+          <div class="arch-arrow"></div>
+          <div class="arch-box entry"><strong>Streamlit</strong><small>질문 입력 / 화면</small></div>
+          <div class="arch-arrow"></div>
+          <div class="arch-box"><strong>QueryPlan</strong><small>질문 정리</small></div>
+          <div class="arch-arrow"></div>
+          <div class="arch-box"><strong>Hybrid Retrieval</strong><small>키워드 + 의미 검색</small></div>
+          <div class="arch-arrow"></div>
+          <div class="arch-box guard"><strong>Evidence</strong><small>답변 근거 선택</small></div>
+          <div class="arch-arrow"></div>
+          <div class="arch-box conditional"><strong>Groq + 서버 재구성</strong><small>근거 ID 선택 / 원문 구성</small></div>
+          <div class="arch-arrow"></div>
+          <div class="arch-box guard"><strong>Validator</strong><small>답변 안전 검증</small></div>
+          <div class="arch-arrow"></div>
+          <div class="arch-box final"><strong>최종 결과</strong><small>검증 답변 / Abstention</small></div>
+        </div>
+      </div>
+
+      <div class="arch-panel mentor-primary">
+        <div class="arch-panel-title"><h3>2. Hybrid Retrieval 구조</h3></div>
+        <div class="hybrid-canvas" role="img" aria-label="사용자 질문이 BM25 키워드 검색과 MiniLM 의미 검색으로 갈라지고 의미 검색은 FAISS 또는 pgvector를 사용한 뒤 두 결과가 RRF에서 합쳐지는 구조">
+          <div class="arch-box entry hybrid-source"><strong>사용자 질문</strong><small>같은 질문을 두 방식으로 검색</small></div>
+          <div class="arch-arrow" style="margin:0 auto"></div>
+          <div class="fork-marker" aria-hidden="true"><span>분기</span></div>
+          <div class="split-connector" aria-hidden="true"></div>
+          <div class="hybrid-branches">
+            <div class="branch-column">
+              <div class="arch-box"><strong>BM25</strong><small>키워드 검색</small></div>
+            </div>
+            <div class="branch-column">
+              <div class="arch-box"><strong>MiniLM</strong><small>의미 검색</small></div>
+              <div class="mini-arrow" aria-hidden="true"></div>
+              <div class="arch-box entry"><strong>FAISS / pgvector</strong><small>Local / Staff</small></div>
+            </div>
+          </div>
+          <div class="join-connector" aria-hidden="true"><span class="join-arrow"></span></div>
+          <div class="arch-box hybrid-join"><strong>RRF</strong><small>검색 결과 합치기</small></div>
+          <div class="arch-arrow" style="margin:0 auto"></div>
+          <div class="arch-box hybrid-step"><strong>Reranker</strong><small>다시 정렬</small></div>
+          <div class="arch-arrow" style="margin:0 auto"></div>
+          <div class="arch-box guard hybrid-step"><strong>Evidence</strong><small>근거 선택</small></div>
+        </div>
+        <p class="mentor-caption">현재 SCHAT는 BM25 키워드 검색과 MiniLM 의미 검색을 함께 사용하므로 Hybrid Retrieval 구조임.</p>
+      </div>
+
+      <div class="arch-panel compact-panel">
+        <div class="arch-panel-title"><h3>3. Local / Staff 차이</h3></div>
+        <div class="mode-map compact-mode" role="img" aria-label="Local은 BM25 MiniLM FAISS, Staff는 BM25 MiniLM pgvector를 사용하는 구조">
+          <div class="mode-lane local"><h4>Local</h4><div class="scope-item">BM25 + MiniLM + FAISS</div></div>
+          <div class="mode-lane staff"><h4>Staff</h4><div class="scope-item">BM25 + MiniLM + pgvector</div></div>
+        </div>
+        <p class="mentor-caption">Local/Staff 차이는 Vector backend 차이이며, 둘 다 Hybrid Retrieval 구조는 동일함.</p>
+      </div>
+
+      <div class="arch-panel compact-panel">
+        <div class="arch-panel-title"><h3>4. Generation / Validation</h3></div>
+        <div class="safety-chain" role="img" aria-label="검증된 Evidence에서 SourceUnit ID 계약을 만들고 Groq가 ID만 선택한 뒤 서버가 원문을 재구성하고 validator를 통과시키는 구조">
+          <div class="arch-box guard"><strong>Evidence</strong><small>검증된 근거</small></div>
+          <div class="arch-box"><strong>SourceUnit Catalog</strong><small>요청별 허용 ID</small></div>
+          <div class="arch-box conditional"><strong>Groq ID 선택</strong><small>자유 문장 생성 없음</small></div>
+          <div class="arch-box"><strong>서버 원문 재구성</strong><small>ID → exact text</small></div>
+          <div class="arch-box guard"><strong>Validators</strong><small>PASS 답변 / FAIL abstain</small></div>
+        </div>
+        <p class="mentor-caption">Groq는 최종 임상 문장을 쓰지 않고 SourceUnit ID만 선택하며, 서버가 원문을 재구성하고 다시 검증함.</p>
+      </div>
+
+      <div class="arch-panel compact-panel">
+        <div class="arch-panel-title"><h3>5. Production / Evaluation-only</h3></div>
+        <div class="scope-map" role="img" aria-label="현재 Production 실행 요소와 Evaluation 또는 Pending 요소를 분리한 구조">
+          <div class="scope-column production">
+            <h4>Production · 현재 실행</h4>
+            <div class="scope-items">
+              <div class="scope-item">BM25 + MiniLM</div><div class="scope-item">FAISS / pgvector</div>
+              <div class="scope-item">RRF + Reranker</div><div class="scope-item">Context / Parent</div>
+              <div class="scope-item">SourceUnit / Exact text</div><div class="scope-item">Validators / Coverage</div>
+            </div>
+          </div>
+          <div class="scope-column evaluation">
+            <h4>Evaluation / Pending</h4>
+            <div class="scope-items">
+              <div class="scope-item">Controlled paraphrase</div><div class="scope-item">Structured Table</div>
+              <div class="scope-item">Image / TF027</div><div class="scope-item">E5 / ChromaDB</div>
+            </div>
+          </div>
+        </div>
+        <p class="mentor-caption">ChromaDB는 현재 Production 검색기가 아니라 별도 비교 실험 대상임.</p>
+      </div>
+
+      <div class="arch-panel compact-panel">
+        <div class="arch-panel-title"><h3>6. 향후 비교 계획</h3></div>
+        <div role="img" aria-label="Pure BM25, ChromaDB, Current Hybrid를 동일 질문 Gold Top-k로 비교하고 검색 지표와 RAGAS를 확인하는 계획">
+          <div class="compare-branches simple-compare">
+            <div class="compare-branch"><strong>Pure BM25</strong></div><div class="vs-label">VS</div>
+            <div class="compare-branch future"><strong>ChromaDB</strong><small>현재 미적용</small></div><div class="vs-label">VS</div>
+            <div class="compare-branch"><strong>Current Hybrid</strong></div>
+          </div>
+          <div class="arch-arrow" style="margin:10px auto 0"></div>
+          <div class="compare-contract">동일 질문 / 동일 Gold / 동일 Top-k</div>
+          <div class="arch-arrow" style="margin:0 auto"></div>
+          <div class="compare-output">Hit@k / MRR / Recall / Precision / RAGAS</div>
+        </div>
+        <p class="mentor-caption">검색 방식만 바꿔 동일 조건에서 성능을 비교할 예정임.</p>
+      </div>
+
+      <div class="implementation-reference">
+        <h3>구현 참고</h3>
+        <table>
+          <thead><tr><th>구조도 단계</th><th>실제 구현 파일</th></tr></thead>
+          <tbody>
+            <tr><td>Streamlit / QueryPlan</td><td><code>src/app.py</code> · <code>src/query.py</code></td></tr>
+            <tr><td>BM25 / MiniLM / FAISS</td><td><code>src/retrieval.py</code> · <code>src/library.py</code></td></tr>
+            <tr><td>Staff pgvector</td><td><code>src/cloud.py</code></td></tr>
+            <tr><td>Evidence / AI / Validator</td><td><code>src/context.py</code> · <code>src/evidence.py</code> · <code>src/ai.py</code> · <code>src/grounding.py</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="overview">
+      <div class="section-head">
+        <div><span class="section-no">01 · OVERVIEW</span><h2>전체 시스템 구성도</h2></div>
+        <p class="section-note">Vector backend는 환경별로 달라도, RRF 이후의 안전 경로는 동일합니다.</p>
+      </div>
+      <div class="diagram" role="img" aria-label="사용자 질문이 검색, 근거 선정, SourceUnit 선택, 검증을 거쳐 답변으로 표시되는 전체 흐름">
+        <div class="flow">
+          <div class="flow-row">
+            <div class="node input"><b>사용자 질문</b><span>Streamlit · 문서 범위</span></div>
+            <div class="node input"><b>Query Plan</b><span>정규화 · 확장 · 의도 · branch/phase</span></div>
+            <div class="node search"><b>Hybrid 후보</b><span>BM25 + MiniLM vector</span></div>
+            <div class="node search"><b>RRF + Reranker</b><span>rank 결합 · 규칙 기반 선별</span></div>
+            <div class="node guard"><b>Context / Evidence</b><span>parent atomicity · sufficiency gate</span></div>
+          </div>
+          <div class="flow-row">
+            <div class="node generate"><b>SourceUnit Catalog</b><span>요청별 허용 ID 계약</span></div>
+            <div class="node generate"><b>Groq ID 선택</b><span>자유 임상 생성 없음</span></div>
+            <div class="node generate"><b>서버 재구성</b><span>선택 ID → exact_text</span></div>
+            <div class="node guard"><b>Validators</b><span>citation · 수치 · 단위 · 행위 · 순서</span></div>
+            <div class="node output"><b>답변 + 출처</b><span>검증 성공만 표시 · 실패 시 abstain</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="callout"><strong>불변식:</strong> similarity는 정답 확률이 아니며, Evidence가 부족하면 문장을 보완하지 않습니다. Provider 결과도 서버 validator를 통과하기 전에는 답변이 아닙니다.</div>
+    </section>
+
+    <section id="flow">
+      <div class="section-head">
+        <div><span class="section-no">02 · REQUEST PATH</span><h2>질문 처리 상세 흐름도</h2></div>
+        <p class="section-note">질문에서 화면 표시까지의 운영 순서와 각 단계의 fail-closed 지점을 보여줍니다.</p>
+      </div>
+      <div class="pipeline" aria-label="질문 처리 단계">
+        <div class="stage hot">1. Normalize<br>질문 정리</div>
+        <div class="stage hot">2. Expand<br>검색 표현 확장</div>
+        <div class="stage hot">3. Retrieve<br>두 후보군 검색</div>
+        <div class="stage hot">4. Fuse<br>RRF 결합</div>
+        <div class="stage">5. Rerank<br>규칙 선별</div>
+        <div class="stage">6. Expand<br>문맥 확장</div>
+        <div class="stage">7. Assess<br>근거 충분성</div>
+        <div class="stage">8. Budget<br>필수 근거 보존</div>
+        <div class="stage">9. Select<br>SourceUnit ID</div>
+        <div class="stage">10. Rebuild<br>원문 재구성</div>
+        <div class="stage">11. Validate<br>안전 검증</div>
+        <div class="stage">12. Present<br>답변·출처 UI</div>
+      </div>
+      <div class="grid-3" style="margin-top:22px">
+        <article class="card"><span class="tag">BEFORE PROVIDER</span><h3>근거가 부족하면 0-call</h3><p>Out-of-scope, clarification, 필수 group/facet 누락, parent 불완전은 Provider 호출 전에 차단합니다.</p></article>
+        <article class="card"><span class="tag">DURING SELECTION</span><h3>허용된 ID만 선택</h3><p>요청별 strict schema가 unknown ID, 중복, 순서, branch/phase, coverage 위반을 거부합니다.</p></article>
+        <article class="card"><span class="tag">AFTER REBUILD</span><h3>인용 근거로 재평가</h3><p>재구성 후 citation·number·unit·action·source order와 실제 인용 Evidence 충분성을 다시 검사합니다.</p></article>
+      </div>
+    </section>
+
+    <section id="hybrid">
+      <div class="section-head">
+        <div><span class="section-no">03 · HYBRID RETRIEVAL</span><h2>하나의 검색 계약, 두 개의 Vector backend</h2></div>
+        <p class="section-note">BM25 구현과 query pipeline은 공통입니다. 환경에 따라 dense 검색 엔진만 달라집니다.</p>
+      </div>
+      <div class="split">
+        <article class="lane local">
+          <h3>Local</h3>
+          <ul>
+            <li>자체 <code>BM25Index</code></li>
+            <li>FastEmbed 0.8.0 MiniLM · 384차원</li>
+            <li>FAISS <code>IndexFlatIP</code></li>
+            <li>SQLite catalog에서 승인 corpus snapshot 로드</li>
+          </ul>
+        </article>
+        <article class="lane staff">
+          <h3>Staff</h3>
+          <ul>
+            <li>허용 chunk 기반 자체 <code>BM25Index</code></li>
+            <li>FastEmbed 0.8.0 MiniLM · 384차원</li>
+            <li>Supabase pgvector <code>guide_search</code> RPC</li>
+            <li>Supabase Auth + JWT/RLS 문서 범위</li>
+          </ul>
+        </article>
+      </div>
+      <div class="arrow-down">↓</div><div class="merge">RRF · reciprocal rank 기반 후보 결합</div><div class="arrow-down">↓</div>
+      <div class="pipeline">
+        <div class="stage">heading/body 검사</div><div class="stage">topic compatibility</div><div class="stage">lexical support</div><div class="stage">coverage / focus</div><div class="stage">context expansion</div><div class="stage">Evidence gate</div>
+      </div>
+      <div class="callout"><code>rank-bm25==0.2.2</code>는 설치돼 있지만 Production BM25는 <code>src/retrieval.py</code>의 자체 구현입니다. 모델 이름에 sentence-transformers가 포함돼도 패키지는 미설치이며, 실제 MiniLM runtime은 FastEmbed입니다.</div>
+    </section>
+
+    <section id="generation">
+      <div class="section-head">
+        <div><span class="section-no">04 · GENERATION SAFETY</span><h2>생성보다 선택, 선택보다 검증</h2></div>
+        <p class="section-note">Groq production 경로는 SourceUnit ID 선택기로 제한됩니다.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card"><span class="tag">CONTRACT</span><h3>Request-local IDs</h3><p>Evidence group/facet마다 선택 가능한 SourceUnit ID가 schema enum으로 닫힙니다.</p></article>
+        <article class="card"><span class="tag">RECONSTRUCTION</span><h3>Exact source text</h3><p>서버가 선택 ID를 원문과 chunk citation으로 복원합니다. Provider 문장을 그대로 게시하지 않습니다.</p></article>
+        <article class="card"><span class="tag">VALIDATION</span><h3>Fail closed</h3><p>인용, 숫자, 단위, 행위, 순서, 문서·entity coverage가 하나라도 실패하면 결과를 표시하지 않습니다.</p></article>
+      </div>
+      <h3>Abstention이 발생하는 대표 경계</h3>
+      <table>
+        <thead><tr><th>경계</th><th>실패 예</th><th>동작</th></tr></thead>
+        <tbody>
+          <tr><td>질문</td><td>out-of-scope, clarification 필요</td><td>검색/Provider 0-call</td></tr>
+          <tr><td>Evidence</td><td>필수 facet, branch, phase 또는 parent block 누락</td><td><code>answerable=false</code></td></tr>
+          <tr><td>Selection</td><td>unknown ID, 중복, wrong group, source order 위반</td><td>Provider 결과 폐기</td></tr>
+          <tr><td>Validation</td><td>원문에 없는 수치·단위·행위 또는 citation</td><td>답변 미표시, 원문 안내</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="boundary">
+      <div class="section-head">
+        <div><span class="section-no">05 · SCOPE BOUNDARY</span><h2>Production과 Evaluation-only</h2></div>
+        <p class="section-note">같은 저장소에 존재한다는 사실과 운영 경로에 연결됐다는 사실을 분리합니다.</p>
+      </div>
+      <div class="boundary-grid">
+        <article class="boundary prod">
+          <div class="status" style="color:#087f5b"><span class="dot"></span>Production</div>
+          <h3>현재 실행 경로</h3>
+          <ul>
+            <li>자체 BM25 + MiniLM semantic/vector</li>
+            <li>FAISS local / pgvector staff</li>
+            <li>RRF + 기존 규칙 기반 reranker</li>
+            <li>Context expansion / parent atomicity</li>
+            <li>SourceUnit ID 선택 → exact 재구성</li>
+            <li>기존 validator + AnswerCoverage</li>
+          </ul>
+        </article>
+        <article class="boundary eval">
+          <div class="status" style="color:#a15c00"><span class="dot"></span>Evaluation / Pending</div>
+          <h3>운영 미연결</h3>
+          <ul>
+            <li>Controlled paraphrase — semantic support pending</li>
+            <li>Structured Table Retrieval — local evaluation tool</li>
+            <li>Image routing — metadata only</li>
+            <li>TF027 — Production image Gold 제외</li>
+            <li>E5 — evaluation-only</li>
+            <li>ChromaDB — 별도 평가 환경</li>
+          </ul>
+        </article>
+      </div>
+      <div class="callout"><strong>Controlled paraphrase:</strong> 형식·ID·수치·단위·조건·부정 검증을 통과해도 semantic support가 미확정이므로 <code>publish_controlled=false</code>, extractive fallback을 유지합니다.</div>
+    </section>
+
+    <section id="storage">
+      <div class="section-head">
+        <div><span class="section-no">06 · STORAGE &amp; RUNTIME</span><h2>저장소와 Dependency 버전</h2></div>
+        <p class="section-note">SQLite의 운영 상태 저장과 vector similarity 계산을 구분합니다.</p>
+      </div>
+      <table>
+        <thead><tr><th>구성</th><th>역할</th><th>Similarity 계산</th></tr></thead>
+        <tbody>
+          <tr><td>SQLite</td><td>catalog · local accounts · usage · vector snapshot 저장</td><td>아니오</td></tr>
+          <tr><td>FAISS IndexFlatIP</td><td>로컬 dense vector search</td><td>예</td></tr>
+          <tr><td>Supabase pgvector</td><td>직원 환경 dense vector RPC</td><td>예</td></tr>
+          <tr><td>Supabase Auth/RLS</td><td>직원 인증과 문서 접근 범위</td><td>아니오</td></tr>
+          <tr><td>ChromaDB</td><td>별도 evaluation baseline</td><td>Production 아님</td></tr>
+        </tbody>
+      </table>
+      <h3>프로젝트 <code>.venv</code> 확인값 · 2026-09-19</h3>
+      <div class="metrics">
+        <span class="metric">Python 3.12.14</span><span class="metric">Streamlit 1.63.0</span><span class="metric">FastEmbed 0.8.0</span><span class="metric">FAISS 1.15.0</span><span class="metric">NumPy 2.5.3</span><span class="metric">Pydantic 2.13.5</span><span class="metric">httpx 0.28.1</span><span class="metric">pdfplumber 0.11.10</span><span class="metric">rank-bm25 0.2.2</span><span class="metric">sentence-transformers 미설치</span>
+      </div>
+    </section>
+
+    <section id="truth">
+      <div class="section-head">
+        <div><span class="section-no">07 · IMPLEMENTATION MAP</span><h2>실제 구현 파일 Current-Truth</h2></div>
+        <p class="section-note">설계 용어를 실행 코드의 책임 위치에 연결합니다.</p>
+      </div>
+      <table>
+        <thead><tr><th>책임</th><th>파일</th><th>핵심 구현</th></tr></thead>
+        <tbody>
+          <tr><td>질문 계획</td><td><code>src/query.py</code></td><td><code>plan_query()</code></td></tr>
+          <tr><td>MiniLM runtime</td><td><code>src/library.py</code></td><td>FastEmbed <code>TextEmbedding</code></td></tr>
+          <tr><td>Local Hybrid</td><td><code>src/retrieval.py</code></td><td><code>BM25Index</code>, RRF, rerank, FAISS</td></tr>
+          <tr><td>Staff Hybrid</td><td><code>src/cloud.py</code></td><td>local BM25 + <code>guide_search</code> RPC</td></tr>
+          <tr><td>문맥 보존</td><td><code>src/context.py</code></td><td>neighbors, branch, parent atomicity</td></tr>
+          <tr><td>Evidence / SourceUnit</td><td><code>src/evidence.py</code></td><td>sufficiency, catalog, AnswerCoverage</td></tr>
+          <tr><td>선택·재구성·검증</td><td><code>src/ai.py</code></td><td>strict schema, exact rebuild, <code>validate_answer()</code></td></tr>
+          <tr><td>Table evaluation</td><td><code>tools/structured_table_evidence.py</code></td><td>table/row/cell parser metadata</td></tr>
+          <tr><td>Image metadata route</td><td><code>src/evidence_routing.py</code></td><td>text/table/image/mixed candidate status</td></tr>
+          <tr><td>E5 / Chroma evaluation</td><td><code>tools/*evaluate.py</code></td><td>Production change false</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="roadmap">
+      <div class="section-head">
+        <div><span class="section-no">08 · EVALUATION ROADMAP</span><h2>Pure BM25 / ChromaDB / Hybrid 비교 계획</h2></div>
+        <p class="section-note">아래는 향후 평가 계획이며 현재 Production 변경을 의미하지 않습니다.</p>
+      </div>
+      <div class="roadmap">
+        <article class="route"><div class="num">A</div><h3>Pure BM25</h3><p>현재 자체 BM25Index의 순위만 사용해 lexical baseline을 고정합니다.</p></article>
+        <article class="route"><div class="num">B</div><h3>ChromaDB</h3><p>별도 evaluation 환경에서 동일 corpus fingerprint와 Top-k 계약을 사용합니다.</p></article>
+        <article class="route"><div class="num">C</div><h3>Current Hybrid</h3><p>BM25 + MiniLM + RRF + 기존 reranker를 현재 운영 baseline으로 둡니다.</p></article>
+      </div>
+      <h3>동일 계약</h3>
+      <div class="pipeline">
+        <div class="stage hot">Human-reviewed Gold</div><div class="stage hot">같은 질문 집합</div><div class="stage hot">같은 chunk snapshot</div><div class="stage">Top-k 1/3/5/10</div><div class="stage">유형별 실패 분석</div><div class="stage">안전/UAT gate</div>
+      </div>
+      <div class="metrics">
+        <span class="metric">Hit@1/3/5/10</span><span class="metric">MRR</span><span class="metric">Recall@1/3/5/10</span><span class="metric">Precision@1/3/5/10</span><span class="metric">ID Context Precision</span><span class="metric">ID Context Recall</span><span class="metric">Latency</span><span class="metric">Memory</span>
+      </div>
+      <div class="callout"><strong>채택 gate:</strong> 단일 평균 metric이나 최신 기술이라는 이유로 경로를 바꾸지 않습니다. Production 변경은 유형별 실패 분석, 주요 UAT, validator, Q006 zero-call, parent atomicity를 통과한 뒤 별도 설계·승인을 받습니다.</div>
+    </section>
+  </main>
+
+  <footer class="shell">
+    <div class="line"><span>SCHAT system architecture · current truth</span><span>정적 단일 HTML · 외부 요청 없음</span></div>
+  </footer>
+</body>
+</html>

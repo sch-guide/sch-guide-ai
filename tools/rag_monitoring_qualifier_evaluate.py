@@ -8,14 +8,14 @@ from datetime import date
 from html import escape
 from pathlib import Path
 
-from mvp.library import SEARCH_VERSION
-from mvp.query import MONITORING_ITEM_PATTERNS
-from mvp.settings import ROOT
+from src.library import SEARCH_VERSION
+from src.query import MONITORING_ITEM_PATTERNS
+from src.settings import ROOT
 from tools.rag_pilot_query_generalization_evaluate import retrieve_funnel
 from tools.rag_procedure_live_evaluate import pilot_corpus
 
 DEFAULT_FIXTURE = ROOT / 'tests' / 'fixtures' / 'monitoring_qualifier_queries.json'
-DEFAULT_OUTPUT = ROOT / 'artifacts' / '2026-09-16_rag-monitoring-qualifier-generalization'
+DEFAULT_OUTPUT = ROOT / 'workspace' / 'RAG_실험' / '2026-09-16_rag-monitoring-qualifier-generalization'
 
 
 def load_cases(path: Path = DEFAULT_FIXTURE) -> list[dict]:

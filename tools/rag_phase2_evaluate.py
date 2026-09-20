@@ -9,22 +9,22 @@ from html import escape
 
 import httpx
 
-from mvp.ai import (
+from src.ai import (
     GROQ_REQUEST_TOKEN_BUDGET,
     answer_text,
     estimated_tokens,
     generate,
     prompt_messages,
 )
-from mvp.evidence import assess_evidence, required_coverage_loss
-from mvp.library import NO_GUIDELINE, Chunk, Embedder, Hit
-from mvp.query import plan_query
-from mvp.settings import ROOT, Settings
+from src.evidence import assess_evidence, required_coverage_loss
+from src.library import NO_GUIDELINE, Chunk, Embedder, Hit
+from src.query import plan_query
+from src.settings import ROOT, Settings
 from tools.bm25_evaluate import stable_evaluation_chunks
 from tools.rag_phase1_evaluate import DEFAULT_GOLD, DEFAULT_SOURCE, stage_recall
 
-PHASE1_REPORT = ROOT / "artifacts" / "2026-09-13_rag-phase1-retrieval" / "q002_retrieval_funnel.json"
-DEFAULT_OUTPUT = ROOT / "artifacts" / "2026-09-13_rag-phase2-evidence-generation"
+PHASE1_REPORT = ROOT / "workspace" / "RAG_실험" / "2026-09-13_rag-phase1-retrieval" / "q002_retrieval_funnel.json"
+DEFAULT_OUTPUT = ROOT / "workspace" / "RAG_실험" / "2026-09-13_rag-phase2-evidence-generation"
 
 
 def _mock_groq_settings():
@@ -70,7 +70,7 @@ def _load_q002():
     phase1 = json.loads(PHASE1_REPORT.read_text(encoding="utf-8"))
     gold = json.loads(DEFAULT_GOLD.read_text(encoding="utf-8"))
     model = Embedder()
-    metadata, chunks, _ = stable_evaluation_chunks(DEFAULT_SOURCE, model)
+    metadata, chunks, _ = stable_evaluation_chunks(DEFAULT_SOURCE, model, chunk_version=4)
     by_id = {chunk.id: chunk for chunk in chunks}
     hits = [Hit(
         by_id[row["chunk_id"]], row["semantic_score"], bm25_score=row["bm25_score"],

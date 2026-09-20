@@ -16,8 +16,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Sequence
 
-from mvp.library import Chunk
-from mvp.retrieval import BM25Index, lexical_tokens
+from src.library import Chunk
+from src.retrieval import BM25Index, lexical_tokens
 from tools.chroma_baseline_evaluate import CatalogChunk, ensure_raw_text_free, load_catalog
 from tools.retrieval_strategy_evaluate import _engine_summary, _evaluated_result
 from tools.schat_mvp_stabilize import validate_review_audit
@@ -27,9 +27,9 @@ DEFAULT_PDF = ROOT / "data" / "실무지침서_수혈간호.pdf"
 DEFAULT_CATALOG = ROOT / "data" / "library" / "catalog.sqlite3"
 DEFAULT_FIXTURE = ROOT / "tests" / "fixtures" / "transfusion_retrieval_baseline.json"
 DEFAULT_TEXT_RESULTS = (
-    ROOT / "artifacts" / "2026-09-17_transfusion-expanded-retrieval" / "bm25_results.json"
+    ROOT / "workspace" / "과거작업" / "평가산출물" / "2026-09-17_transfusion-expanded-retrieval" / "bm25_results.json"
 )
-DEFAULT_OUTPUT = ROOT / "artifacts" / "2026-09-17_schat-mvp-stabilization"
+DEFAULT_OUTPUT = ROOT / "workspace" / "과거작업" / "평가산출물" / "2026-09-17_schat-mvp-stabilization"
 _TABLE_UNIT_CACHE: dict[tuple[Any, ...], tuple["TableUnit", ...]] = {}
 
 

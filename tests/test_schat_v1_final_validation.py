@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 from streamlit.testing.v1 import AppTest
 
-from mvp.query import resolve_document_scope
+from src.query import resolve_document_scope
 from tools.schat_v1_final_validate import (
     _rss_bytes,
     assess_provider_live_readiness,

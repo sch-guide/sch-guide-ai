@@ -7,11 +7,11 @@ import json
 from html import escape
 from pathlib import Path
 
-from mvp.ai import AI_VERSION, GROQ_REQUEST_TOKEN_BUDGET, OUTPUT_LIMIT
-from mvp.settings import ROOT
+from src.ai import AI_VERSION, GROQ_REQUEST_TOKEN_BUDGET, OUTPUT_LIMIT
+from src.settings import ROOT
 from tools.rag_groq_evaluate import evaluate
 
-DEFAULT_OUTPUT = ROOT / "artifacts" / "2026-09-13_rag-groq-schema-description-live"
+DEFAULT_OUTPUT = ROOT / "workspace" / "RAG_실험" / "2026-09-13_rag-groq-schema-description-live"
 
 
 def safe_report(report):

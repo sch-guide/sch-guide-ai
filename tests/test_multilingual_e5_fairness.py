@@ -16,7 +16,7 @@ from tools.multilingual_e5_fairness_evaluate import (
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "data" / "library" / "catalog.sqlite3"
 FIXTURE = ROOT / "tests" / "fixtures" / "transfusion_retrieval_baseline.json"
-BASELINE = ROOT / "artifacts" / "2026-09-17_bm25-vector-fairness-validation"
+BASELINE = ROOT / "workspace" / "과거작업" / "평가산출물" / "2026-09-17_bm25-vector-fairness-validation"
 
 
 class FakeLocalE5:

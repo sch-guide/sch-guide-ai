@@ -1,0 +1,3127 @@
+{
+  "schema_version": 1,
+  "engine": "chromadb_only",
+  "cases": [
+    {
+      "case_id": "UAT-S01",
+      "question_type": "fact_specific",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "b8aa4248-5304-4e92-8d46-378c29d2ea1f"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "b8aa4248-5304-4e92-8d46-378c29d2ea1f"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "558b2b3e-8cb7-41ef-82cf-4e1682334793",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "",
+          "similarity": 0.80405414,
+          "distance": 0.19594586,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "69ca3d17-b293-4115-84fe-0f5ef94abc51",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "",
+          "similarity": 0.80405414,
+          "distance": 0.19594586,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "92e53b9f-1df1-4b5e-a0e2-55c1e7178d93",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "",
+          "similarity": 0.80405414,
+          "distance": 0.19594586,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "44294275-91b5-4920-af48-680451084266",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "",
+          "similarity": 0.80405414,
+          "distance": 0.19594586,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.7283206,
+          "distance": 0.2716794,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "3a8c7132-b8d0-4d22-96d3-3661cc828b8b",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 6,
+          "section": "",
+          "similarity": 0.68780637,
+          "distance": 0.31219363,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "b99a3b47-ae9e-4992-9c68-a855e413ad77",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 7,
+          "section": "",
+          "similarity": 0.63212496,
+          "distance": 0.36787504,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "466dfba9-2a70-43c4-acb1-072205e7617a",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.60221022,
+          "distance": 0.39778978,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "b8aa4248-5304-4e92-8d46-378c29d2ea1f",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "1. 목적",
+          "similarity": 0.58168525,
+          "distance": 0.41831475,
+          "gold_hit": true
+        },
+        {
+          "rank": 10,
+          "chunk_id": "19050bbd-4aa4-48fc-975f-512af6495ef9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 5,
+          "section": "",
+          "similarity": 0.57856154,
+          "distance": 0.42143846,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.1111111111111111,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.1,
+        "ragas_id_context_precision": 0.1,
+        "ragas_id_context_recall": 1.0
+      },
+      "latency_ms": {
+        "embedding": 16.246,
+        "query": 7.646,
+        "total": 23.892
+      },
+      "failure_category": "gold_below_rank_1"
+    },
+    {
+      "case_id": "UAT-S02",
+      "question_type": "procedure",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "58f75e7c-abca-44af-973d-7f3ab82de79e",
+        "f6270c31-269f-4ed1-980f-28595246784e",
+        "466dfba9-2a70-43c4-acb1-072205e7617a",
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf",
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "466dfba9-2a70-43c4-acb1-072205e7617a",
+        "58f75e7c-abca-44af-973d-7f3ab82de79e",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd",
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+        "f6270c31-269f-4ed1-980f-28595246784e",
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "558b2b3e-8cb7-41ef-82cf-4e1682334793",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "",
+          "similarity": 0.90945506,
+          "distance": 0.09054494,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "69ca3d17-b293-4115-84fe-0f5ef94abc51",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "",
+          "similarity": 0.90945506,
+          "distance": 0.09054494,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "92e53b9f-1df1-4b5e-a0e2-55c1e7178d93",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "",
+          "similarity": 0.90945506,
+          "distance": 0.09054494,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "44294275-91b5-4920-af48-680451084266",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "",
+          "similarity": 0.90945506,
+          "distance": 0.09054494,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "3a8c7132-b8d0-4d22-96d3-3661cc828b8b",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 6,
+          "section": "",
+          "similarity": 0.76638359,
+          "distance": 0.23361641,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.74369884,
+          "distance": 0.25630116,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "b99a3b47-ae9e-4992-9c68-a855e413ad77",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 7,
+          "section": "",
+          "similarity": 0.66175729,
+          "distance": 0.33824271,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.65431476,
+          "distance": 0.34568524,
+          "gold_hit": true
+        },
+        {
+          "rank": 9,
+          "chunk_id": "19050bbd-4aa4-48fc-975f-512af6495ef9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 5,
+          "section": "",
+          "similarity": 0.62003547,
+          "distance": 0.37996453,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "d9895e63-9d78-4bb7-8ccc-94f1583111e6",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 5,
+          "section": "",
+          "similarity": 0.61526334,
+          "distance": 0.38473666,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.125,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.08333333333333333,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.1,
+        "ragas_id_context_precision": 0.1,
+        "ragas_id_context_recall": 0.08333333333333333
+      },
+      "latency_ms": {
+        "embedding": 6.842,
+        "query": 4.713,
+        "total": 11.555
+      },
+      "failure_category": "gold_below_rank_1"
+    },
+    {
+      "case_id": "UAT-S03",
+      "question_type": "preparation",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "58f75e7c-abca-44af-973d-7f3ab82de79e",
+        "f6270c31-269f-4ed1-980f-28595246784e",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "58f75e7c-abca-44af-973d-7f3ab82de79e",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd",
+        "f6270c31-269f-4ed1-980f-28595246784e"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "f95da1ef-2d7e-421d-a4b5-7ac0f0636c89",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "8. 외래에서의 소아 진정치료 절차",
+          "similarity": 0.88529199,
+          "distance": 0.11470801,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.74657452,
+          "distance": 0.25342548,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "558b2b3e-8cb7-41ef-82cf-4e1682334793",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "",
+          "similarity": 0.72578132,
+          "distance": 0.27421868,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "69ca3d17-b293-4115-84fe-0f5ef94abc51",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "",
+          "similarity": 0.72578132,
+          "distance": 0.27421868,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "92e53b9f-1df1-4b5e-a0e2-55c1e7178d93",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "",
+          "similarity": 0.72578132,
+          "distance": 0.27421868,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "44294275-91b5-4920-af48-680451084266",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "",
+          "similarity": 0.72578132,
+          "distance": 0.27421868,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "f8cd6c11-0535-4185-bacd-58b4f4d2ce46",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "6. 진정 절차",
+          "similarity": 0.68103713,
+          "distance": 0.31896287,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "19050bbd-4aa4-48fc-975f-512af6495ef9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 5,
+          "section": "",
+          "similarity": 0.56346214,
+          "distance": 0.43653786,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "3a8c7132-b8d0-4d22-96d3-3661cc828b8b",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 6,
+          "section": "",
+          "similarity": 0.5495283,
+          "distance": 0.4504717,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "dcc0a81c-b9e8-4b0a-b47a-a2a8b557b035",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "4. 범위",
+          "similarity": 0.54042184,
+          "distance": 0.45957816,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 0.0,
+        "mrr": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0,
+        "ragas_id_context_precision": 0.0,
+        "ragas_id_context_recall": 0.0
+      },
+      "latency_ms": {
+        "embedding": 6.01,
+        "query": 4.137,
+        "total": 10.147
+      },
+      "failure_category": "no_gold_hit_top_10"
+    },
+    {
+      "case_id": "UAT-S04",
+      "question_type": "cautions",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "b8aa4248-5304-4e92-8d46-378c29d2ea1f",
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd",
+        "d9895e63-9d78-4bb7-8ccc-94f1583111e6",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd",
+        "b8aa4248-5304-4e92-8d46-378c29d2ea1f",
+        "d9895e63-9d78-4bb7-8ccc-94f1583111e6",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "558b2b3e-8cb7-41ef-82cf-4e1682334793",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "",
+          "similarity": 0.88006556,
+          "distance": 0.11993444,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "69ca3d17-b293-4115-84fe-0f5ef94abc51",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "",
+          "similarity": 0.88006556,
+          "distance": 0.11993444,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "92e53b9f-1df1-4b5e-a0e2-55c1e7178d93",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "",
+          "similarity": 0.88006556,
+          "distance": 0.11993444,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "44294275-91b5-4920-af48-680451084266",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "",
+          "similarity": 0.88006556,
+          "distance": 0.11993444,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "3a8c7132-b8d0-4d22-96d3-3661cc828b8b",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 6,
+          "section": "",
+          "similarity": 0.73970115,
+          "distance": 0.26029885,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.73848665,
+          "distance": 0.26151335,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "b99a3b47-ae9e-4992-9c68-a855e413ad77",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 7,
+          "section": "",
+          "similarity": 0.64546239,
+          "distance": 0.35453761,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "d9895e63-9d78-4bb7-8ccc-94f1583111e6",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 5,
+          "section": "",
+          "similarity": 0.62125468,
+          "distance": 0.37874532,
+          "gold_hit": true
+        },
+        {
+          "rank": 9,
+          "chunk_id": "466dfba9-2a70-43c4-acb1-072205e7617a",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.6211198,
+          "distance": 0.3788802,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "f6270c31-269f-4ed1-980f-28595246784e",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.61472267,
+          "distance": 0.38527733,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.125,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.14285714285714285,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.1,
+        "ragas_id_context_precision": 0.1,
+        "ragas_id_context_recall": 0.14285714285714285
+      },
+      "latency_ms": {
+        "embedding": 5.473,
+        "query": 3.404,
+        "total": 8.877
+      },
+      "failure_category": "gold_below_rank_1"
+    },
+    {
+      "case_id": "UAT-S05",
+      "question_type": "fact_specific",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "558b2b3e-8cb7-41ef-82cf-4e1682334793",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "",
+          "similarity": 0.83408523,
+          "distance": 0.16591477,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "69ca3d17-b293-4115-84fe-0f5ef94abc51",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "",
+          "similarity": 0.83408523,
+          "distance": 0.16591477,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "92e53b9f-1df1-4b5e-a0e2-55c1e7178d93",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "",
+          "similarity": 0.83408523,
+          "distance": 0.16591477,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "44294275-91b5-4920-af48-680451084266",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "",
+          "similarity": 0.83408523,
+          "distance": 0.16591477,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.77603441,
+          "distance": 0.22396559,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "f8cd6c11-0535-4185-bacd-58b4f4d2ce46",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "6. 진정 절차",
+          "similarity": 0.71470505,
+          "distance": 0.28529495,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "f95da1ef-2d7e-421d-a4b5-7ac0f0636c89",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "8. 외래에서의 소아 진정치료 절차",
+          "similarity": 0.710805,
+          "distance": 0.289195,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "3a8c7132-b8d0-4d22-96d3-3661cc828b8b",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 6,
+          "section": "",
+          "similarity": 0.69325173,
+          "distance": 0.30674827,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "19050bbd-4aa4-48fc-975f-512af6495ef9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 5,
+          "section": "",
+          "similarity": 0.64571738,
+          "distance": 0.35428262,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "3e55183f-469d-4e07-8ef0-f47ebfba30b9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "5. 진정 대상 의약품 목록",
+          "similarity": 0.58557284,
+          "distance": 0.41442716,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 0.0,
+        "mrr": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0,
+        "ragas_id_context_precision": 0.0,
+        "ragas_id_context_recall": 0.0
+      },
+      "latency_ms": {
+        "embedding": 7.512,
+        "query": 4.033,
+        "total": 11.545
+      },
+      "failure_category": "no_gold_hit_top_10"
+    },
+    {
+      "case_id": "UAT-S06",
+      "question_type": "fact_specific",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "f95da1ef-2d7e-421d-a4b5-7ac0f0636c89",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "8. 외래에서의 소아 진정치료 절차",
+          "similarity": 0.78866601,
+          "distance": 0.21133399,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "558b2b3e-8cb7-41ef-82cf-4e1682334793",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "",
+          "similarity": 0.7196691,
+          "distance": 0.2803309,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "69ca3d17-b293-4115-84fe-0f5ef94abc51",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "",
+          "similarity": 0.7196691,
+          "distance": 0.2803309,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "92e53b9f-1df1-4b5e-a0e2-55c1e7178d93",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "",
+          "similarity": 0.7196691,
+          "distance": 0.2803309,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "44294275-91b5-4920-af48-680451084266",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "",
+          "similarity": 0.7196691,
+          "distance": 0.2803309,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "f8cd6c11-0535-4185-bacd-58b4f4d2ce46",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "6. 진정 절차",
+          "similarity": 0.70864546,
+          "distance": 0.29135454,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.68789697,
+          "distance": 0.31210303,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "dcc0a81c-b9e8-4b0a-b47a-a2a8b557b035",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "4. 범위",
+          "similarity": 0.64281619,
+          "distance": 0.35718381,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "3e55183f-469d-4e07-8ef0-f47ebfba30b9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "5. 진정 대상 의약품 목록",
+          "similarity": 0.59159946,
+          "distance": 0.40840054,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "42b44e36-1690-48b9-988a-54b702123b96",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.59159946,
+          "distance": 0.40840054,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 0.0,
+        "mrr": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0,
+        "ragas_id_context_precision": 0.0,
+        "ragas_id_context_recall": 0.0
+      },
+      "latency_ms": {
+        "embedding": 8.662,
+        "query": 3.866,
+        "total": 12.527
+      },
+      "failure_category": "no_gold_hit_top_10"
+    },
+    {
+      "case_id": "UAT-S08",
+      "question_type": "temporal",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+        "58f75e7c-abca-44af-973d-7f3ab82de79e",
+        "f6270c31-269f-4ed1-980f-28595246784e",
+        "466dfba9-2a70-43c4-acb1-072205e7617a",
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "466dfba9-2a70-43c4-acb1-072205e7617a",
+        "58f75e7c-abca-44af-973d-7f3ab82de79e",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd",
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+        "f6270c31-269f-4ed1-980f-28595246784e",
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "f95da1ef-2d7e-421d-a4b5-7ac0f0636c89",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "8. 외래에서의 소아 진정치료 절차",
+          "similarity": 0.9544791,
+          "distance": 0.0455209,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.70009482,
+          "distance": 0.29990518,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "f8cd6c11-0535-4185-bacd-58b4f4d2ce46",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "6. 진정 절차",
+          "similarity": 0.63736773,
+          "distance": 0.36263227,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "558b2b3e-8cb7-41ef-82cf-4e1682334793",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "",
+          "similarity": 0.63165867,
+          "distance": 0.36834133,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "69ca3d17-b293-4115-84fe-0f5ef94abc51",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "",
+          "similarity": 0.63165867,
+          "distance": 0.36834133,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "92e53b9f-1df1-4b5e-a0e2-55c1e7178d93",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "",
+          "similarity": 0.63165867,
+          "distance": 0.36834133,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "44294275-91b5-4920-af48-680451084266",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "",
+          "similarity": 0.63165867,
+          "distance": 0.36834133,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "19050bbd-4aa4-48fc-975f-512af6495ef9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 5,
+          "section": "",
+          "similarity": 0.51480722,
+          "distance": 0.48519278,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "dcc0a81c-b9e8-4b0a-b47a-a2a8b557b035",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "4. 범위",
+          "similarity": 0.49420524,
+          "distance": 0.50579476,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "3a8c7132-b8d0-4d22-96d3-3661cc828b8b",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 6,
+          "section": "",
+          "similarity": 0.49058473,
+          "distance": 0.50941527,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 0.0,
+        "mrr": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0,
+        "ragas_id_context_precision": 0.0,
+        "ragas_id_context_recall": 0.0
+      },
+      "latency_ms": {
+        "embedding": 7.323,
+        "query": 3.618,
+        "total": 10.942
+      },
+      "failure_category": "no_gold_hit_top_10"
+    },
+    {
+      "case_id": "UAT-S09",
+      "question_type": "comparison",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "e9334cb8-37e1-46ad-a242-7ab429c227f9",
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+        "e9334cb8-37e1-46ad-a242-7ab429c227f9",
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "f8cd6c11-0535-4185-bacd-58b4f4d2ce46",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "6. 진정 절차",
+          "similarity": 0.73017442,
+          "distance": 0.26982558,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "f95da1ef-2d7e-421d-a4b5-7ac0f0636c89",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "8. 외래에서의 소아 진정치료 절차",
+          "similarity": 0.67743653,
+          "distance": 0.32256347,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "3e55183f-469d-4e07-8ef0-f47ebfba30b9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "5. 진정 대상 의약품 목록",
+          "similarity": 0.66472185,
+          "distance": 0.33527815,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "42b44e36-1690-48b9-988a-54b702123b96",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.66472185,
+          "distance": 0.33527815,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.65413022,
+          "distance": 0.34586978,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "558b2b3e-8cb7-41ef-82cf-4e1682334793",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "",
+          "similarity": 0.64617038,
+          "distance": 0.35382962,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "69ca3d17-b293-4115-84fe-0f5ef94abc51",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "",
+          "similarity": 0.64617038,
+          "distance": 0.35382962,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "92e53b9f-1df1-4b5e-a0e2-55c1e7178d93",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "",
+          "similarity": 0.64617038,
+          "distance": 0.35382962,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "44294275-91b5-4920-af48-680451084266",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "",
+          "similarity": 0.64617038,
+          "distance": 0.35382962,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "3a8c7132-b8d0-4d22-96d3-3661cc828b8b",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 6,
+          "section": "",
+          "similarity": 0.62186873,
+          "distance": 0.37813127,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 0.0,
+        "mrr": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0,
+        "ragas_id_context_precision": 0.0,
+        "ragas_id_context_recall": 0.0
+      },
+      "latency_ms": {
+        "embedding": 10.55,
+        "query": 4.298,
+        "total": 14.848
+      },
+      "failure_category": "no_gold_hit_top_10"
+    },
+    {
+      "case_id": "UAT-S11",
+      "question_type": "procedure",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "58f75e7c-abca-44af-973d-7f3ab82de79e",
+        "f6270c31-269f-4ed1-980f-28595246784e",
+        "466dfba9-2a70-43c4-acb1-072205e7617a",
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf",
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "466dfba9-2a70-43c4-acb1-072205e7617a",
+        "58f75e7c-abca-44af-973d-7f3ab82de79e",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd",
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+        "f6270c31-269f-4ed1-980f-28595246784e",
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "f95da1ef-2d7e-421d-a4b5-7ac0f0636c89",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "8. 외래에서의 소아 진정치료 절차",
+          "similarity": 0.91154116,
+          "distance": 0.08845884,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.70885062,
+          "distance": 0.29114938,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "558b2b3e-8cb7-41ef-82cf-4e1682334793",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "",
+          "similarity": 0.67426831,
+          "distance": 0.32573169,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "69ca3d17-b293-4115-84fe-0f5ef94abc51",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "",
+          "similarity": 0.67426831,
+          "distance": 0.32573169,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "92e53b9f-1df1-4b5e-a0e2-55c1e7178d93",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "",
+          "similarity": 0.67426831,
+          "distance": 0.32573169,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "44294275-91b5-4920-af48-680451084266",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "",
+          "similarity": 0.67426831,
+          "distance": 0.32573169,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "f8cd6c11-0535-4185-bacd-58b4f4d2ce46",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "6. 진정 절차",
+          "similarity": 0.64809811,
+          "distance": 0.35190189,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "dcc0a81c-b9e8-4b0a-b47a-a2a8b557b035",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "4. 범위",
+          "similarity": 0.53714836,
+          "distance": 0.46285164,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "19050bbd-4aa4-48fc-975f-512af6495ef9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 5,
+          "section": "",
+          "similarity": 0.51838619,
+          "distance": 0.48161381,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "3a8c7132-b8d0-4d22-96d3-3661cc828b8b",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 6,
+          "section": "",
+          "similarity": 0.5038299,
+          "distance": 0.4961701,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 0.0,
+        "mrr": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0,
+        "ragas_id_context_precision": 0.0,
+        "ragas_id_context_recall": 0.0
+      },
+      "latency_ms": {
+        "embedding": 7.599,
+        "query": 4.78,
+        "total": 12.379
+      },
+      "failure_category": "no_gold_hit_top_10"
+    },
+    {
+      "case_id": "UAT-S12",
+      "question_type": "follow_up",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd",
+        "f6270c31-269f-4ed1-980f-28595246784e",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845",
+        "d9895e63-9d78-4bb7-8ccc-94f1583111e6",
+        "3a8c7132-b8d0-4d22-96d3-3661cc828b8b"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "3a8c7132-b8d0-4d22-96d3-3661cc828b8b",
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd",
+        "d9895e63-9d78-4bb7-8ccc-94f1583111e6",
+        "f6270c31-269f-4ed1-980f-28595246784e",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "f95da1ef-2d7e-421d-a4b5-7ac0f0636c89",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "8. 외래에서의 소아 진정치료 절차",
+          "similarity": 0.82294482,
+          "distance": 0.17705518,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "dcc0a81c-b9e8-4b0a-b47a-a2a8b557b035",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "4. 범위",
+          "similarity": 0.66042578,
+          "distance": 0.33957422,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.65952456,
+          "distance": 0.34047544,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "f8cd6c11-0535-4185-bacd-58b4f4d2ce46",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "6. 진정 절차",
+          "similarity": 0.63186693,
+          "distance": 0.36813307,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "558b2b3e-8cb7-41ef-82cf-4e1682334793",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "",
+          "similarity": 0.61677861,
+          "distance": 0.38322139,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "69ca3d17-b293-4115-84fe-0f5ef94abc51",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "",
+          "similarity": 0.61677861,
+          "distance": 0.38322139,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "92e53b9f-1df1-4b5e-a0e2-55c1e7178d93",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "",
+          "similarity": 0.61677861,
+          "distance": 0.38322139,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "44294275-91b5-4920-af48-680451084266",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "",
+          "similarity": 0.61677861,
+          "distance": 0.38322139,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "19050bbd-4aa4-48fc-975f-512af6495ef9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 5,
+          "section": "",
+          "similarity": 0.52544016,
+          "distance": 0.47455984,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "3a8c7132-b8d0-4d22-96d3-3661cc828b8b",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 6,
+          "section": "",
+          "similarity": 0.5067687,
+          "distance": 0.4932313,
+          "gold_hit": true
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.1,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.125,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.1,
+        "ragas_id_context_precision": 0.1,
+        "ragas_id_context_recall": 0.125
+      },
+      "latency_ms": {
+        "embedding": 12.796,
+        "query": 3.688,
+        "total": 16.485
+      },
+      "failure_category": "gold_below_rank_1"
+    },
+    {
+      "case_id": "UAT-S13",
+      "question_type": "procedure",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf",
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "b8aa4248-5304-4e92-8d46-378c29d2ea1f",
+        "d9895e63-9d78-4bb7-8ccc-94f1583111e6",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd",
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "b8aa4248-5304-4e92-8d46-378c29d2ea1f",
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+        "d9895e63-9d78-4bb7-8ccc-94f1583111e6",
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "dcc0a81c-b9e8-4b0a-b47a-a2a8b557b035",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "4. 범위",
+          "similarity": 0.75019801,
+          "distance": 0.24980199,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "f6270c31-269f-4ed1-980f-28595246784e",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.70176619,
+          "distance": 0.29823381,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "similarity": 0.68192667,
+          "distance": 0.31807333,
+          "gold_hit": true
+        },
+        {
+          "rank": 4,
+          "chunk_id": "558b2b3e-8cb7-41ef-82cf-4e1682334793",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "",
+          "similarity": 0.66782343,
+          "distance": 0.33217657,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "69ca3d17-b293-4115-84fe-0f5ef94abc51",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "",
+          "similarity": 0.66782343,
+          "distance": 0.33217657,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "92e53b9f-1df1-4b5e-a0e2-55c1e7178d93",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "",
+          "similarity": 0.66782343,
+          "distance": 0.33217657,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "44294275-91b5-4920-af48-680451084266",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "",
+          "similarity": 0.66782343,
+          "distance": 0.33217657,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.65162772,
+          "distance": 0.34837228,
+          "gold_hit": true
+        },
+        {
+          "rank": 9,
+          "chunk_id": "a986e86f-c4a6-45c4-85c0-5967202de62b",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "similarity": 0.63982731,
+          "distance": 0.36017269,
+          "gold_hit": true
+        },
+        {
+          "rank": 10,
+          "chunk_id": "d9895e63-9d78-4bb7-8ccc-94f1583111e6",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 5,
+          "section": "",
+          "similarity": 0.63563889,
+          "distance": 0.36436111,
+          "gold_hit": true
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.3333333333333333,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.09090909090909091,
+        "recall_at_5": 0.09090909090909091,
+        "recall_at_10": 0.36363636363636365,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.4,
+        "ragas_id_context_precision": 0.4,
+        "ragas_id_context_recall": 0.36363636363636365
+      },
+      "latency_ms": {
+        "embedding": 13.947,
+        "query": 4.096,
+        "total": 18.043
+      },
+      "failure_category": "gold_below_rank_1"
+    },
+    {
+      "case_id": "UAT-S14",
+      "question_type": "fact_specific",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "f6270c31-269f-4ed1-980f-28595246784e"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "f6270c31-269f-4ed1-980f-28595246784e",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "558b2b3e-8cb7-41ef-82cf-4e1682334793",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "",
+          "similarity": 0.73081779,
+          "distance": 0.26918221,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "69ca3d17-b293-4115-84fe-0f5ef94abc51",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "",
+          "similarity": 0.73081779,
+          "distance": 0.26918221,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "92e53b9f-1df1-4b5e-a0e2-55c1e7178d93",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "",
+          "similarity": 0.73081779,
+          "distance": 0.26918221,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "44294275-91b5-4920-af48-680451084266",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "",
+          "similarity": 0.73081779,
+          "distance": 0.26918221,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "dcc0a81c-b9e8-4b0a-b47a-a2a8b557b035",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "4. 범위",
+          "similarity": 0.64654601,
+          "distance": 0.35345399,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "7b17d4cb-1579-452e-a702-043a35bdcf74",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "3) 과다진정으로 인해 산소를 투여함에도 산소포화도가 95%이하로 지속되면(시술 중이면 시술을 중지)",
+          "similarity": 0.64171267,
+          "distance": 0.35828733,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.62278521,
+          "distance": 0.37721479,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "6999a7ea-802d-4753-a3c4-4897e0772ed2",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "2) 진정치료 중(시술 중, 회복 시 동일 적용) 산소포화도가 95%이하로 저하 시 환자 모니터링 및",
+          "similarity": 0.60429573,
+          "distance": 0.39570427,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "90301c7b-ecca-4ae4-8065-1ef60e325b63",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "7. 응급상황 발생 시 대처 방안",
+          "similarity": 0.59217173,
+          "distance": 0.40782827,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "3a8c7132-b8d0-4d22-96d3-3661cc828b8b",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 6,
+          "section": "",
+          "similarity": 0.56559944,
+          "distance": 0.43440056,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 0.0,
+        "mrr": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0,
+        "ragas_id_context_precision": 0.0,
+        "ragas_id_context_recall": 0.0
+      },
+      "latency_ms": {
+        "embedding": 9.528,
+        "query": 4.52,
+        "total": 14.048
+      },
+      "failure_category": "no_gold_hit_top_10"
+    },
+    {
+      "case_id": "UAT-T01",
+      "question_type": "preparation",
+      "document_scope": "transfusion",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "a952e706-800e-493c-886a-8f06602fb2be",
+        "d2e0fc0a-bf0e-4226-abbf-e9f3dea2fce8",
+        "b10b8f1c-ed17-44ca-8d7c-1a4f19a12c67",
+        "f9cfc75b-a5e7-4633-a798-4b17ea462325",
+        "b8c70ff9-e1b2-40ce-9a0a-f65a53899d13",
+        "21d38039-895b-46a4-8902-96e380ce41aa",
+        "8259ed27-8646-4502-a959-aab1e9f1770f"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "21d38039-895b-46a4-8902-96e380ce41aa",
+        "8259ed27-8646-4502-a959-aab1e9f1770f",
+        "a952e706-800e-493c-886a-8f06602fb2be",
+        "b10b8f1c-ed17-44ca-8d7c-1a4f19a12c67",
+        "b8c70ff9-e1b2-40ce-9a0a-f65a53899d13",
+        "d2e0fc0a-bf0e-4226-abbf-e9f3dea2fce8",
+        "f9cfc75b-a5e7-4633-a798-4b17ea462325"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "16efaa44-1554-4748-8407-48fac0bced94",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "2) 수혈 전 검사 확인 및 시행",
+          "similarity": 0.76867604,
+          "distance": 0.23132396,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "fb4884e3-8fea-42fa-b996-7e9c333e7fef",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "",
+          "similarity": 0.76773483,
+          "distance": 0.23226517,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eeb8db46-f757-41f1-9ca5-c022f3d4ea3e",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 2,
+          "section": "",
+          "similarity": 0.76773483,
+          "distance": 0.23226517,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "17e22a4e-78d9-4607-b75b-151e52cc4d20",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 4,
+          "section": "",
+          "similarity": 0.76773483,
+          "distance": 0.23226517,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "fbb0340e-b19d-43c3-a23a-5ee07899e8cd",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "",
+          "similarity": 0.76773483,
+          "distance": 0.23226517,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "e4892114-b8eb-4f39-a7c4-427217039236",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 6,
+          "section": "",
+          "similarity": 0.76773483,
+          "distance": 0.23226517,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "9c5f18b5-9491-4cb2-9eba-9a0d2462f8bb",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "",
+          "similarity": 0.76773483,
+          "distance": 0.23226517,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "c141d593-8af3-43e4-b0a9-f60c7c49da12",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 11,
+          "section": "",
+          "similarity": 0.76773483,
+          "distance": 0.23226517,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "635840ee-2aa9-43b0-86b4-74229536c495",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "",
+          "similarity": 0.76773483,
+          "distance": 0.23226517,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "cf1adf23-d1e1-4e53-990c-b241ad636d39",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 13,
+          "section": "",
+          "similarity": 0.76773483,
+          "distance": 0.23226517,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 0.0,
+        "mrr": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0,
+        "ragas_id_context_precision": 0.0,
+        "ragas_id_context_recall": 0.0
+      },
+      "latency_ms": {
+        "embedding": 7.457,
+        "query": 7.453,
+        "total": 14.91
+      },
+      "failure_category": "no_gold_hit_top_10"
+    },
+    {
+      "case_id": "UAT-T02",
+      "question_type": "procedure",
+      "document_scope": "transfusion",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+        "7e68f70a-ba74-4eb8-bbae-c7e9f7340567",
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+        "b225ae64-72d2-4e59-81c0-57f5d8438666",
+        "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+        "98d006ac-5212-4c8c-8a63-4cbd4d6caffc",
+        "84c0a864-176f-4776-a15e-167fc2518e5d",
+        "9552a4ac-31b4-43a8-aa92-37bd3e89362a",
+        "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+        "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+        "f7a9837d-f8db-4461-abd8-a3607db2276f"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+        "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+        "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+        "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+        "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+        "7e68f70a-ba74-4eb8-bbae-c7e9f7340567",
+        "84c0a864-176f-4776-a15e-167fc2518e5d",
+        "9552a4ac-31b4-43a8-aa92-37bd3e89362a",
+        "98d006ac-5212-4c8c-8a63-4cbd4d6caffc",
+        "b225ae64-72d2-4e59-81c0-57f5d8438666",
+        "f7a9837d-f8db-4461-abd8-a3607db2276f"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "63cb7040-3526-4f6f-9f88-e295bbe5edaf",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 16,
+          "section": "7. 혈액제제 재 불출",
+          "similarity": 0.67301548,
+          "distance": 0.32698452,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "fb4884e3-8fea-42fa-b996-7e9c333e7fef",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "",
+          "similarity": 0.60750407,
+          "distance": 0.39249593,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eeb8db46-f757-41f1-9ca5-c022f3d4ea3e",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 2,
+          "section": "",
+          "similarity": 0.60750407,
+          "distance": 0.39249593,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "17e22a4e-78d9-4607-b75b-151e52cc4d20",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 4,
+          "section": "",
+          "similarity": 0.60750407,
+          "distance": 0.39249593,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "fbb0340e-b19d-43c3-a23a-5ee07899e8cd",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "",
+          "similarity": 0.60750407,
+          "distance": 0.39249593,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "e4892114-b8eb-4f39-a7c4-427217039236",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 6,
+          "section": "",
+          "similarity": 0.60750407,
+          "distance": 0.39249593,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "9c5f18b5-9491-4cb2-9eba-9a0d2462f8bb",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "",
+          "similarity": 0.60750407,
+          "distance": 0.39249593,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "c141d593-8af3-43e4-b0a9-f60c7c49da12",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 11,
+          "section": "",
+          "similarity": 0.60750407,
+          "distance": 0.39249593,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "635840ee-2aa9-43b0-86b4-74229536c495",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "",
+          "similarity": 0.60750407,
+          "distance": 0.39249593,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "cf1adf23-d1e1-4e53-990c-b241ad636d39",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 13,
+          "section": "",
+          "similarity": 0.60750407,
+          "distance": 0.39249593,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 0.0,
+        "mrr": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0,
+        "ragas_id_context_precision": 0.0,
+        "ragas_id_context_recall": 0.0
+      },
+      "latency_ms": {
+        "embedding": 7.36,
+        "query": 7.196,
+        "total": 14.557
+      },
+      "failure_category": "no_gold_hit_top_10"
+    },
+    {
+      "case_id": "UAT-T03",
+      "question_type": "cautions",
+      "document_scope": "transfusion",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "8259ed27-8646-4502-a959-aab1e9f1770f",
+        "5de4d74d-720e-4d86-a836-f946d70a2d32",
+        "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+        "59d57c8a-c9d7-4f8d-b9a1-a2816f1f01f7"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "59d57c8a-c9d7-4f8d-b9a1-a2816f1f01f7",
+        "5de4d74d-720e-4d86-a836-f946d70a2d32",
+        "8259ed27-8646-4502-a959-aab1e9f1770f",
+        "c78ff32d-ea17-41fd-98ef-2e8872f01df3"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "16efaa44-1554-4748-8407-48fac0bced94",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "2) 수혈 전 검사 확인 및 시행",
+          "similarity": 0.73609948,
+          "distance": 0.26390052,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "fb4884e3-8fea-42fa-b996-7e9c333e7fef",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "",
+          "similarity": 0.69630092,
+          "distance": 0.30369908,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eeb8db46-f757-41f1-9ca5-c022f3d4ea3e",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 2,
+          "section": "",
+          "similarity": 0.69630092,
+          "distance": 0.30369908,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "17e22a4e-78d9-4607-b75b-151e52cc4d20",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 4,
+          "section": "",
+          "similarity": 0.69630092,
+          "distance": 0.30369908,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "fbb0340e-b19d-43c3-a23a-5ee07899e8cd",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "",
+          "similarity": 0.69630092,
+          "distance": 0.30369908,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "e4892114-b8eb-4f39-a7c4-427217039236",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 6,
+          "section": "",
+          "similarity": 0.69630092,
+          "distance": 0.30369908,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "9c5f18b5-9491-4cb2-9eba-9a0d2462f8bb",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "",
+          "similarity": 0.69630092,
+          "distance": 0.30369908,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "c141d593-8af3-43e4-b0a9-f60c7c49da12",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 11,
+          "section": "",
+          "similarity": 0.69630092,
+          "distance": 0.30369908,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "635840ee-2aa9-43b0-86b4-74229536c495",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "",
+          "similarity": 0.69630092,
+          "distance": 0.30369908,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "cf1adf23-d1e1-4e53-990c-b241ad636d39",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 13,
+          "section": "",
+          "similarity": 0.69630092,
+          "distance": 0.30369908,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 0.0,
+        "mrr": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0,
+        "ragas_id_context_precision": 0.0,
+        "ragas_id_context_recall": 0.0
+      },
+      "latency_ms": {
+        "embedding": 9.903,
+        "query": 7.039,
+        "total": 16.942
+      },
+      "failure_category": "no_gold_hit_top_10"
+    },
+    {
+      "case_id": "UAT-T11",
+      "question_type": "table_lookup",
+      "document_scope": "transfusion",
+      "expected_evidence_type": "table",
+      "gold_ids": [
+        "tbl-c6a809a33d22566a6006:tr-52332cc5918c5663a51f",
+        "tbl-c6a809a33d22566a6006:tr-1e822fa6adaa18902ed8",
+        "tbl-c6a809a33d22566a6006:tr-4ec5fd89f516f887eb0c"
+      ],
+      "gold_ids_in_chromadb_corpus": [],
+      "gold_ids_outside_chromadb_corpus": [
+        "tbl-c6a809a33d22566a6006:tr-1e822fa6adaa18902ed8",
+        "tbl-c6a809a33d22566a6006:tr-4ec5fd89f516f887eb0c",
+        "tbl-c6a809a33d22566a6006:tr-52332cc5918c5663a51f"
+      ],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "16efaa44-1554-4748-8407-48fac0bced94",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "2) 수혈 전 검사 확인 및 시행",
+          "similarity": 0.64947879,
+          "distance": 0.35052121,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "63cb7040-3526-4f6f-9f88-e295bbe5edaf",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 16,
+          "section": "7. 혈액제제 재 불출",
+          "similarity": 0.63679367,
+          "distance": 0.36320633,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "fb4884e3-8fea-42fa-b996-7e9c333e7fef",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "",
+          "similarity": 0.62709999,
+          "distance": 0.37290001,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eeb8db46-f757-41f1-9ca5-c022f3d4ea3e",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 2,
+          "section": "",
+          "similarity": 0.62709999,
+          "distance": 0.37290001,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "17e22a4e-78d9-4607-b75b-151e52cc4d20",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 4,
+          "section": "",
+          "similarity": 0.62709999,
+          "distance": 0.37290001,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "fbb0340e-b19d-43c3-a23a-5ee07899e8cd",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "",
+          "similarity": 0.62709999,
+          "distance": 0.37290001,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "e4892114-b8eb-4f39-a7c4-427217039236",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 6,
+          "section": "",
+          "similarity": 0.62709999,
+          "distance": 0.37290001,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "9c5f18b5-9491-4cb2-9eba-9a0d2462f8bb",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "",
+          "similarity": 0.62709999,
+          "distance": 0.37290001,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "c141d593-8af3-43e4-b0a9-f60c7c49da12",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 11,
+          "section": "",
+          "similarity": 0.62709999,
+          "distance": 0.37290001,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "635840ee-2aa9-43b0-86b4-74229536c495",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "",
+          "similarity": 0.62709999,
+          "distance": 0.37290001,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 0.0,
+        "mrr": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0,
+        "ragas_id_context_precision": 0.0,
+        "ragas_id_context_recall": 0.0
+      },
+      "latency_ms": {
+        "embedding": 9.604,
+        "query": 6.523,
+        "total": 16.127
+      },
+      "failure_category": "gold_not_in_chromadb_corpus"
+    },
+    {
+      "case_id": "UAT-T12",
+      "question_type": "temporal",
+      "document_scope": "transfusion",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+        "7e68f70a-ba74-4eb8-bbae-c7e9f7340567",
+        "98d006ac-5212-4c8c-8a63-4cbd4d6caffc",
+        "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+        "b225ae64-72d2-4e59-81c0-57f5d8438666",
+        "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+        "84c0a864-176f-4776-a15e-167fc2518e5d"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+        "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+        "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+        "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+        "7e68f70a-ba74-4eb8-bbae-c7e9f7340567",
+        "84c0a864-176f-4776-a15e-167fc2518e5d",
+        "98d006ac-5212-4c8c-8a63-4cbd4d6caffc",
+        "b225ae64-72d2-4e59-81c0-57f5d8438666"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "63cb7040-3526-4f6f-9f88-e295bbe5edaf",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 16,
+          "section": "7. 혈액제제 재 불출",
+          "similarity": 0.69983113,
+          "distance": 0.30016887,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "fb4884e3-8fea-42fa-b996-7e9c333e7fef",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "",
+          "similarity": 0.66611814,
+          "distance": 0.33388186,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eeb8db46-f757-41f1-9ca5-c022f3d4ea3e",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 2,
+          "section": "",
+          "similarity": 0.66611814,
+          "distance": 0.33388186,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "17e22a4e-78d9-4607-b75b-151e52cc4d20",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 4,
+          "section": "",
+          "similarity": 0.66611814,
+          "distance": 0.33388186,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "fbb0340e-b19d-43c3-a23a-5ee07899e8cd",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "",
+          "similarity": 0.66611814,
+          "distance": 0.33388186,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "e4892114-b8eb-4f39-a7c4-427217039236",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 6,
+          "section": "",
+          "similarity": 0.66611814,
+          "distance": 0.33388186,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "9c5f18b5-9491-4cb2-9eba-9a0d2462f8bb",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "",
+          "similarity": 0.66611814,
+          "distance": 0.33388186,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "c141d593-8af3-43e4-b0a9-f60c7c49da12",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 11,
+          "section": "",
+          "similarity": 0.66611814,
+          "distance": 0.33388186,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "635840ee-2aa9-43b0-86b4-74229536c495",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "",
+          "similarity": 0.66611814,
+          "distance": 0.33388186,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "cf1adf23-d1e1-4e53-990c-b241ad636d39",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 13,
+          "section": "",
+          "similarity": 0.66611814,
+          "distance": 0.33388186,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 0.0,
+        "mrr": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0,
+        "ragas_id_context_precision": 0.0,
+        "ragas_id_context_recall": 0.0
+      },
+      "latency_ms": {
+        "embedding": 5.801,
+        "query": 7.89,
+        "total": 13.691
+      },
+      "failure_category": "no_gold_hit_top_10"
+    },
+    {
+      "case_id": "UAT-T13",
+      "question_type": "cautions",
+      "document_scope": "transfusion",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "8259ed27-8646-4502-a959-aab1e9f1770f",
+        "c78ff32d-ea17-41fd-98ef-2e8872f01df3"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "8259ed27-8646-4502-a959-aab1e9f1770f",
+        "c78ff32d-ea17-41fd-98ef-2e8872f01df3"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "fb4884e3-8fea-42fa-b996-7e9c333e7fef",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "",
+          "similarity": 0.75165725,
+          "distance": 0.24834275,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "eeb8db46-f757-41f1-9ca5-c022f3d4ea3e",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 2,
+          "section": "",
+          "similarity": 0.75165725,
+          "distance": 0.24834275,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "17e22a4e-78d9-4607-b75b-151e52cc4d20",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 4,
+          "section": "",
+          "similarity": 0.75165725,
+          "distance": 0.24834275,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "fbb0340e-b19d-43c3-a23a-5ee07899e8cd",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "",
+          "similarity": 0.75165725,
+          "distance": 0.24834275,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "e4892114-b8eb-4f39-a7c4-427217039236",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 6,
+          "section": "",
+          "similarity": 0.75165725,
+          "distance": 0.24834275,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "9c5f18b5-9491-4cb2-9eba-9a0d2462f8bb",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "",
+          "similarity": 0.75165725,
+          "distance": 0.24834275,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "c141d593-8af3-43e4-b0a9-f60c7c49da12",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 11,
+          "section": "",
+          "similarity": 0.75165725,
+          "distance": 0.24834275,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "635840ee-2aa9-43b0-86b4-74229536c495",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "",
+          "similarity": 0.75165725,
+          "distance": 0.24834275,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "cf1adf23-d1e1-4e53-990c-b241ad636d39",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 13,
+          "section": "",
+          "similarity": 0.75165725,
+          "distance": 0.24834275,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "756d12b3-7bab-48b3-86c9-f2911e308f0e",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 15,
+          "section": "",
+          "similarity": 0.75165725,
+          "distance": 0.24834275,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 0.0,
+        "mrr": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0,
+        "ragas_id_context_precision": 0.0,
+        "ragas_id_context_recall": 0.0
+      },
+      "latency_ms": {
+        "embedding": 6.171,
+        "query": 7.294,
+        "total": 13.465
+      },
+      "failure_category": "no_gold_hit_top_10"
+    },
+    {
+      "case_id": "UAT-T15",
+      "question_type": "preparation",
+      "document_scope": "transfusion",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "16efaa44-1554-4748-8407-48fac0bced94",
+        "5de4d74d-720e-4d86-a836-f946d70a2d32",
+        "48b9789d-5088-4ba1-a82a-be3a6396ce85"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "16efaa44-1554-4748-8407-48fac0bced94",
+        "48b9789d-5088-4ba1-a82a-be3a6396ce85",
+        "5de4d74d-720e-4d86-a836-f946d70a2d32"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "16efaa44-1554-4748-8407-48fac0bced94",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "2) 수혈 전 검사 확인 및 시행",
+          "similarity": 0.73002219,
+          "distance": 0.26997781,
+          "gold_hit": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "fb4884e3-8fea-42fa-b996-7e9c333e7fef",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "",
+          "similarity": 0.68678045,
+          "distance": 0.31321955,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eeb8db46-f757-41f1-9ca5-c022f3d4ea3e",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 2,
+          "section": "",
+          "similarity": 0.68678045,
+          "distance": 0.31321955,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "17e22a4e-78d9-4607-b75b-151e52cc4d20",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 4,
+          "section": "",
+          "similarity": 0.68678045,
+          "distance": 0.31321955,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "fbb0340e-b19d-43c3-a23a-5ee07899e8cd",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "",
+          "similarity": 0.68678045,
+          "distance": 0.31321955,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "e4892114-b8eb-4f39-a7c4-427217039236",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 6,
+          "section": "",
+          "similarity": 0.68678045,
+          "distance": 0.31321955,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "9c5f18b5-9491-4cb2-9eba-9a0d2462f8bb",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "",
+          "similarity": 0.68678045,
+          "distance": 0.31321955,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "c141d593-8af3-43e4-b0a9-f60c7c49da12",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 11,
+          "section": "",
+          "similarity": 0.68678045,
+          "distance": 0.31321955,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "635840ee-2aa9-43b0-86b4-74229536c495",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "",
+          "similarity": 0.68678045,
+          "distance": 0.31321955,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "cf1adf23-d1e1-4e53-990c-b241ad636d39",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 13,
+          "section": "",
+          "similarity": 0.68678045,
+          "distance": 0.31321955,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 0.3333333333333333,
+        "recall_at_3": 0.3333333333333333,
+        "recall_at_5": 0.3333333333333333,
+        "recall_at_10": 0.3333333333333333,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "ragas_id_context_precision": 0.1,
+        "ragas_id_context_recall": 0.3333333333333333
+      },
+      "latency_ms": {
+        "embedding": 8.359,
+        "query": 9.02,
+        "total": 17.379
+      },
+      "failure_category": "none"
+    },
+    {
+      "case_id": "UAT-T16",
+      "question_type": "summary",
+      "document_scope": "transfusion",
+      "expected_evidence_type": "mixed",
+      "gold_ids": [
+        "b10b8f1c-ed17-44ca-8d7c-1a4f19a12c67",
+        "16efaa44-1554-4748-8407-48fac0bced94",
+        "d2e0fc0a-bf0e-4226-abbf-e9f3dea2fce8",
+        "f9cfc75b-a5e7-4633-a798-4b17ea462325",
+        "8259ed27-8646-4502-a959-aab1e9f1770f",
+        "tbl-b74006a7619224f7474f:tr-bcd969f2c197c5dd7e56",
+        "tbl-c69c1e0ffef2ba8ce8b0:tr-be8f135b127f37f3c929"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "16efaa44-1554-4748-8407-48fac0bced94",
+        "8259ed27-8646-4502-a959-aab1e9f1770f",
+        "b10b8f1c-ed17-44ca-8d7c-1a4f19a12c67",
+        "d2e0fc0a-bf0e-4226-abbf-e9f3dea2fce8",
+        "f9cfc75b-a5e7-4633-a798-4b17ea462325"
+      ],
+      "gold_ids_outside_chromadb_corpus": [
+        "tbl-b74006a7619224f7474f:tr-bcd969f2c197c5dd7e56",
+        "tbl-c69c1e0ffef2ba8ce8b0:tr-be8f135b127f37f3c929"
+      ],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "63cb7040-3526-4f6f-9f88-e295bbe5edaf",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 16,
+          "section": "7. 혈액제제 재 불출",
+          "similarity": 0.67212665,
+          "distance": 0.32787335,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "16efaa44-1554-4748-8407-48fac0bced94",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "2) 수혈 전 검사 확인 및 시행",
+          "similarity": 0.58561492,
+          "distance": 0.41438508,
+          "gold_hit": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "fb4884e3-8fea-42fa-b996-7e9c333e7fef",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "",
+          "similarity": 0.58079481,
+          "distance": 0.41920519,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eeb8db46-f757-41f1-9ca5-c022f3d4ea3e",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 2,
+          "section": "",
+          "similarity": 0.58079481,
+          "distance": 0.41920519,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "17e22a4e-78d9-4607-b75b-151e52cc4d20",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 4,
+          "section": "",
+          "similarity": 0.58079481,
+          "distance": 0.41920519,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "fbb0340e-b19d-43c3-a23a-5ee07899e8cd",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "",
+          "similarity": 0.58079481,
+          "distance": 0.41920519,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "e4892114-b8eb-4f39-a7c4-427217039236",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 6,
+          "section": "",
+          "similarity": 0.58079481,
+          "distance": 0.41920519,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "9c5f18b5-9491-4cb2-9eba-9a0d2462f8bb",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "",
+          "similarity": 0.58079481,
+          "distance": 0.41920519,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "c141d593-8af3-43e4-b0a9-f60c7c49da12",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 11,
+          "section": "",
+          "similarity": 0.58079481,
+          "distance": 0.41920519,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "635840ee-2aa9-43b0-86b4-74229536c495",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "",
+          "similarity": 0.58079481,
+          "distance": 0.41920519,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.5,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.14285714285714285,
+        "recall_at_5": 0.14285714285714285,
+        "recall_at_10": 0.14285714285714285,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "ragas_id_context_precision": 0.1,
+        "ragas_id_context_recall": 0.14285714285714285
+      },
+      "latency_ms": {
+        "embedding": 7.377,
+        "query": 6.874,
+        "total": 14.252
+      },
+      "failure_category": "gold_partially_outside_chromadb_corpus"
+    },
+    {
+      "case_id": "UAT-T17",
+      "question_type": "follow_up",
+      "document_scope": "transfusion",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+        "c78ff32d-ea17-41fd-98ef-2e8872f01df3"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+        "c78ff32d-ea17-41fd-98ef-2e8872f01df3"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "70b95f72-95ec-43b5-b76f-657518103256",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 6,
+          "section": "1) 수혈 처방 및 동의서 작성",
+          "similarity": 0.74374723,
+          "distance": 0.25625277,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "761b9529-5b18-4262-8174-6062c35fb31c",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "11. 수혈간호",
+          "similarity": 0.70256948,
+          "distance": 0.29743052,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "16efaa44-1554-4748-8407-48fac0bced94",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "2) 수혈 전 검사 확인 및 시행",
+          "similarity": 0.69237757,
+          "distance": 0.30762243,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "63cb7040-3526-4f6f-9f88-e295bbe5edaf",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 16,
+          "section": "7. 혈액제제 재 불출",
+          "similarity": 0.6919589,
+          "distance": 0.3080411,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "cfff9bf0-05e4-4179-a793-f3c705d04812",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 7,
+          "section": "",
+          "similarity": 0.67739719,
+          "distance": 0.32260281,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "602c933f-0b8f-4533-87a5-f27ecd5f2af9",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 15,
+          "section": "5. 수혈부작용",
+          "similarity": 0.67358017,
+          "distance": 0.32641983,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "66dba192-bac5-4b3a-bd4d-77e9eacb4192",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "2) 부족한 혈액응고인자를 보충하여 혈액을 교정",
+          "similarity": 0.67324942,
+          "distance": 0.32675058,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "d9a4a9c8-fbd4-41f2-bab6-6abd72575204",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "2. 수혈 요법의 목적",
+          "similarity": 0.66882926,
+          "distance": 0.33117074,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "b8c70ff9-e1b2-40ce-9a0a-f65a53899d13",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 11,
+          "section": "3) 혈액 신청 및 수령",
+          "similarity": 0.66383505,
+          "distance": 0.33616495,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "59d57c8a-c9d7-4f8d-b9a1-a2816f1f01f7",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 13,
+          "section": "6) 수혈",
+          "similarity": 0.65665561,
+          "distance": 0.34334439,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 0.0,
+        "mrr": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0,
+        "ragas_id_context_precision": 0.0,
+        "ragas_id_context_recall": 0.0
+      },
+      "latency_ms": {
+        "embedding": 12.839,
+        "query": 6.327,
+        "total": 19.166
+      },
+      "failure_category": "no_gold_hit_top_10"
+    }
+  ]
+}

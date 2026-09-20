@@ -20,7 +20,7 @@ from tools.chroma_baseline_evaluate import load_catalog
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "data" / "library" / "catalog.sqlite3"
 FIXTURE = ROOT / "tests" / "fixtures" / "transfusion_retrieval_baseline.json"
-PRIOR_BM25 = ROOT / "artifacts" / "2026-09-17_transfusion-expanded-retrieval" / "bm25_results.csv"
+PRIOR_BM25 = ROOT / "workspace" / "과거작업" / "평가산출물" / "2026-09-17_transfusion-expanded-retrieval" / "bm25_results.csv"
 
 
 def test_common_query_splits_attached_aspect_and_removes_request_noise():

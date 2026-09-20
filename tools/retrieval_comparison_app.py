@@ -11,8 +11,8 @@ from typing import Any, Sequence
 
 import streamlit as st
 
-from mvp.library import Chunk, Embedder, bounded_embedding_question
-from mvp.retrieval import BM25Index
+from src.library import Chunk, Embedder, bounded_embedding_question
+from src.retrieval import BM25Index
 from tools.chroma_baseline_evaluate import (
     CatalogChunk,
     load_catalog,

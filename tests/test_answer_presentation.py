@@ -1,12 +1,12 @@
-from mvp.ai import Answer, Evidence, Statement
-from mvp.answer_ui import (
+from src.ai import Answer, Evidence, Statement
+from src.answer_ui import (
     grouped_statement_markdown,
     styled_statement_markdown,
     uses_grouped_procedure,
     uses_structured_presentation,
 )
-from mvp.evidence import SourceUnit
-from mvp.presentation import (
+from src.evidence import SourceUnit
+from src.presentation import (
     AnswerPresentation,
     StatementPresentation,
     answer_display_rows,

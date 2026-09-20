@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SCHAT 전체 구조 · SCHAT 문서</title><link rel="stylesheet" href="../../../assets/style.css"></head>
+<body><main class="document-pane"><div class="official-notice"><div><strong>열람용 복사본</strong><span>공식 정본은 docs/입니다.</span></div></div>
+<article class="markdown-body"><h1 id="section-1">SCHAT 전체 구조</h1>
+<h2 id="section-2">Production 데이터 흐름</h2>
+<pre><code class="language-text">Streamlit 질문
+  → 사용자가 선택한 문서 범위
+  → QueryPlan(domain/topic/aspect/phase/branch/evidence type/context)
+  → BM25 + MiniLM 후보
+  → RRF + 기존 reranker
+  → parent-atomic context
+  → evidence gate
+  → Facet-slot SourceUnit selection
+  → server reconstruction
+  → AnswerCoverage / validate_answer()
+  → presentation sidecar
+  → 답변과 citation UI</code></pre>
+<h2 id="section-3">주요 모듈</h2>
+<div class="table-wrap"><table><thead><tr><th class="align-left">역할</th><th class="align-left">파일</th><th class="align-left">상태</th></tr></thead><tbody><tr><td class="align-left">설정·승인</td><td class="align-left"><code>src/settings.py</code></td><td class="align-left">Production</td></tr><tr><td class="align-left">ingestion/catalog</td><td class="align-left"><code>src/library.py</code>, <code>src/repository.py</code></td><td class="align-left">Production</td></tr><tr><td class="align-left">QueryPlan</td><td class="align-left"><code>src/query.py</code></td><td class="align-left">Production</td></tr><tr><td class="align-left">retrieval/reranker</td><td class="align-left"><code>src/retrieval.py</code></td><td class="align-left">Production</td></tr><tr><td class="align-left">context/parent atomicity</td><td class="align-left"><code>src/context.py</code></td><td class="align-left">Production</td></tr><tr><td class="align-left">evidence/SourceUnit</td><td class="align-left"><code>src/evidence.py</code></td><td class="align-left">Production</td></tr><tr><td class="align-left">selection/reconstruction/validator</td><td class="align-left"><code>src/ai.py</code></td><td class="align-left">Production</td></tr><tr><td class="align-left">presentation/UI</td><td class="align-left"><code>src/presentation.py</code>, <code>src/answer_ui.py</code>, <code>src/app.py</code></td><td class="align-left">Production</td></tr><tr><td class="align-left">controlled generation</td><td class="align-left"><code>src/controlled_generation.py</code></td><td class="align-left">Mock + fail-closed</td></tr><tr><td class="align-left">provider comparison</td><td class="align-left"><code>tools/provider_controlled_generation_evaluate.py</code></td><td class="align-left">Offline-only</td></tr><tr><td class="align-left">v1 최종 UAT</td><td class="align-left"><code>tools/schat_v1_final_validate.py</code>, <code>tools/schat_v1_uat_app.py</code></td><td class="align-left">Local evaluation-only</td></tr><tr><td class="align-left">RAGAS·Gold 통합 평가</td><td class="align-left"><code>tools/schat_v1_ragas_gold_uat_evaluate.py</code></td><td class="align-left">Local evaluation-only</td></tr><tr><td class="align-left">TF027 검수</td><td class="align-left"><code>tools/tf027_human_review_app.py</code></td><td class="align-left">Local, 판정 fixture만 저장·Production 제외</td></tr><tr><td class="align-left">structured table</td><td class="align-left"><code>tools/structured_table_evidence.py</code>, <code>tools/table_evidence_app.py</code></td><td class="align-left">Evaluation-only</td></tr></tbody></table></div>
+<h2 id="section-4">Trust boundary</h2>
+<ul><li>Provider는 server가 선택한 request-local ID 외의 source identity를 받지 않는다.</li><li>Provider output은 구조·invariant·semantic support가 모두 통과해야만 공개 가능하다.</li><li>Presentation은 검증된 Answer의 text/quote/chunk ID/순서를 바꾸지 않는다.</li><li>Image route는 <code>pending_image_review</code>일 때 evidence와 answerability에 연결되지 않는다.</li><li>최종 UAT artifact에는 질문, SourceUnit 원문, prompt, raw response를 저장하지 않는다.</li></ul>
+<h2 id="section-5">Multi-document</h2>
+<ul><li>모든 chunk, parent, evidence, citation은 document ID를 가진다.</li><li>검색은 사용자가 선택한 document ID로 제한된다.</li><li>기본 <code>전체 등록 지침</code>은 기존 동작이며, admission 보조는 명시적 단일 선택에서만 활성화된다.</li><li>Unknown query는 실제 substantive hit가 선택 문서에만 속하고 기존 evidence gate가 통과해야 hospital로 admit된다.</li><li>서로 다른 문서의 evidence를 자동 혼합하지 않는다.</li><li>충돌하는 근거는 각 source citation과 conflict 표시를 요구한다.</li></ul></article></main></body></html>

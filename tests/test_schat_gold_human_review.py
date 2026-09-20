@@ -549,7 +549,9 @@ def test_hold_and_next_unreviewed_navigation_are_fail_closed():
 
 def test_streamlit_review_app_is_local_only_and_does_not_write_on_open(tmp_path, monkeypatch):
     reviewed = tmp_path / "reviewed.json"
+    drafts = tmp_path / "drafts.json"
     monkeypatch.setenv("SCHAT_GOLD_REVIEWED_FIXTURE", str(reviewed))
+    monkeypatch.setenv("SCHAT_GOLD_DRAFT_FIXTURE", str(drafts))
 
     app = AppTest.from_file(str(APP), default_timeout=30).run()
 
@@ -619,7 +621,9 @@ def test_streamlit_form_saves_reviewer_1_and_final_approval_with_timestamps(
     tmp_path, monkeypatch
 ):
     reviewed = tmp_path / "reviewed.json"
+    drafts = tmp_path / "drafts.json"
     monkeypatch.setenv("SCHAT_GOLD_REVIEWED_FIXTURE", str(reviewed))
+    monkeypatch.setenv("SCHAT_GOLD_DRAFT_FIXTURE", str(drafts))
     app = AppTest.from_file(str(APP), default_timeout=60).run()
 
     next(button for button in app.button if button.label == "후보 근거 불러오기").click()

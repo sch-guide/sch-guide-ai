@@ -8,13 +8,13 @@ from pathlib import Path
 
 import httpx
 
-from mvp.ai import Answer, generate
-from mvp.presentation import leading_marker, procedure_display_rows
-from mvp.settings import Settings
+from src.ai import Answer, generate
+from src.presentation import leading_marker, procedure_display_rows
+from src.settings import Settings
 from tools.rag_facet_slot_evaluate import MockQuota, facet_response, q002_inputs
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT / 'artifacts' / '2026-09-15_rag-answer-presentation-mock-02'
+OUTPUT = ROOT / 'workspace' / 'RAG_실험' / '2026-09-15_rag-answer-presentation-mock-02'
 ELEVEN_IDS = (
     'su002', 'su003', 'su005', 'su006', 'su012', 'su017',
     'su020', 'su021', 'su024', 'su029', 'su032',

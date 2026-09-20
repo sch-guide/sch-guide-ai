@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>프롬프트_구현계획 · SCHAT 문서</title><link rel="stylesheet" href="../../../assets/style.css"></head>
+<body><main class="document-pane"><div class="official-notice"><div><strong>열람용 복사본</strong><span>공식 정본은 docs/입니다.</span></div></div>
+<article class="markdown-body"><p>﻿# 자연어 근거 기반 답변 평가 구현 계획</p>
+<blockquote><p><strong>현재 상태:</strong> 이 계획의 구현은 완료되었다. 아래 체크박스는 당시 작업 순서를 보존한 역사 기록이며 현재 진행률을 뜻하지 않는다. 최신 상태는 <code>docs/00_기획/현재_프로젝트_상태.md</code>와 <code>docs/06_변경이력/복구기준점.md</code>를 기준으로 확인한다.  <strong>For agentic workers:</strong> REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (<code>- [ ]</code>) syntax for tracking.</p></blockquote>
+<p><strong>Goal:</strong> <code>v1.0-natural-grounded</code> YAML Prompt를 기존 controlled generation의 offline/mock 평가 경로에만 연결하고, 기존 extractive 답변과의 raw-free 사람 검수를 가능하게 한다.</p>
+<p><strong>Architecture:</strong> 직접 의존성 <code>PyYAML</code>의 <code>SafeLoader</code>를 확장한 fail-closed loader가 registry와 버전 파일을 함께 검증하고 정규화된 설정 해시를 만든다. 기존 controlled generation validator 앞단은 이 설정으로 Prompt를 렌더링하지만, 판단 결과는 계속 extractive Answer를 반환하며 Production <code>generate()</code> 경로에는 어떠한 import나 호출도 추가하지 않는다.</p>
+<p><strong>Tech Stack:</strong> Python 3.11+, PyYAML 6.x, 표준 라이브러리(<code>hashlib</code>, <code>json</code>, <code>pathlib</code>), 기존 Pydantic·Streamlit·pytest·Ruff</p>
+<p><strong>Spec:</strong> <code>docs/03_설계/프롬프트_설계서.md</code></p>
+<h2 id="section-1">Global Constraints</h2>
+<ul><li>YAML 파싱은 직접 의존성 <code>PyYAML&gt;=6,&lt;7</code>만 사용한다.</li><li>Production <code>generate()</code> 및 <code>src/ai.py</code>에는 Prompt loader를 연결하지 않는다.</li><li><code>publish_controlled=false</code>, <code>semantic_support_status=&quot;pending&quot;</code>, <code>fallback_to_extractive=true</code>, <code>retry_count=0</code>을 fail-closed로 고정한다.</li><li>후속 질문 구조는 유지하지만 <code>v1.0-natural-grounded</code>에서는 <code>enabled_for_evaluation=false</code>로 고정한다.</li><li>SourceUnit, citation, AnswerCoverage, <code>validate_answer()</code>, number·unit·time·condition·negation·action, branch·phase, source order와 parent atomicity를 완화하지 않는다.</li><li>Production Retrieval, Validator, Gold, fixture, DB, schema를 변경하지 않는다.</li><li>외부 API/provider 호출을 추가하거나 실행하지 않는다.</li><li>사람이 읽는 Prompt·runtime 안내·safety rule은 한글로 유지하고, key와 status·purpose·version·strategy 등 코드 계약값은 영어를 유지한다.</li><li>영어 계약값에는 필요한 경우 한글 YAML comment를 두며, runtime placeholder의 이름과 집합은 변경하지 않는다.</li><li>raw 질문, 병원 원문, 답변 전문, Prompt 본문, provider payload/response를 검수 artifact에 저장하지 않는다.</li><li>Git commit, tag, push를 수행하지 않는다.</li></ul>
+<hr>
+<h2 id="section-2">1. 파일 구조와 책임</h2>
+<h3 id="section-3">수정할 파일</h3>
+<ul><li><code>src/config/prompts/registry.yaml</code>: 평가 후보 버전과 비활성 안전 플래그의 단일 등록점</li><li><code>src/config/prompts/v1.0-natural-grounded.yaml</code>: 정적 Prompt 본문, 동적 section template, 재서술·presentation·검수 계약</li><li><code>src/controlled_generation.py</code>: Python에 하드코딩된 정적 Prompt 문구를 제거하고 검증된 config를 받아 동적 Evidence context만 결합</li><li><code>tools/provider_controlled_generation_evaluate.py</code>: 평가 전용 loader 호출, config hash 전달, mock 결과 비교 metadata 생성</li><li><code>tests/test_controlled_paraphrasing.py</code>: YAML Prompt 렌더링 이후에도 기존 validator와 fallback 계약이 유지되는지 검증</li><li><code>tests/test_provider_controlled_generation_harness.py</code>: registry/version/hash 및 offline-only provider blueprint 회귀 검증</li></ul>
+<h3 id="section-4">신규 파일</h3>
+<ul><li><code>src/prompt_config.py</code>: registry와 버전 YAML 로딩·검증·정규화·SHA-256 계산 전담</li><li><code>tools/controlled_generation_review.py</code>: raw-free 검수 record 검증·저장과 비교 session hash 계산</li><li><code>tools/controlled_generation_review_app.py</code>: extractive/candidate를 메모리에서만 표시하는 local-only Streamlit 검수 화면</li><li><code>tests/test_prompt_config.py</code>: loader의 정상·오류·경로 경계·해시 테스트</li><li><code>tests/test_controlled_generation_review.py</code>: 검수 enum, raw-free 저장, 최초 저장 시 파일 생성, 후속 질문 비표시 테스트</li></ul>
+<h3 id="section-5">명시적으로 수정하지 않을 파일</h3>
+<ul><li><code>src/ai.py</code></li><li><code>src/retrieval.py</code></li><li><code>src/ai.py</code>, <code>src/evidence.py</code>, <code>src/grounding.py</code>의 기존 validator 구현</li><li><code>streamlit_app.py</code></li><li><code>data/**</code></li><li><code>tests/fixtures/**</code></li><li>DB·schema·migration 파일</li></ul>
+<hr>
+<h3 id="section-6">Task 1: Prompt registry loader와 config hash</h3>
+<p><strong>Files:</strong></p>
+<ul><li>Create: <code>src/prompt_config.py</code></li><li>Modify: <code>src/config/prompts/registry.yaml</code></li><li>Modify: <code>src/config/prompts/v1.0-natural-grounded.yaml</code></li><li>Test: <code>tests/test_prompt_config.py</code></li></ul>
+<p><strong>Interfaces:</strong></p>
+<ul><li>Produces: <code>PromptConfigError</code>, <code>LoadedPromptConfig</code>, <code>load_evaluation_prompt()</code></li><li>Produces: <code>LoadedPromptConfig.config_sha256</code>와 검증된 system/instruction/runtime template</li><li>Consumes: <code>registry.yaml</code>의 <code>evaluation_candidate_version</code>과 대응하는 <code>prompts</code> 목록 entry</li></ul>
+<ul><li>[ ] <strong>Step 1: 정상 로딩과 해시 계약의 실패 테스트를 작성한다</strong></li></ul>
+<pre><code class="language-python">from src.prompt_config import load_evaluation_prompt
+
+
+def test_loads_registered_evaluation_prompt_with_stable_hash():
+    config = load_evaluation_prompt()
+    assert config.prompt_version == &quot;v1.0-natural-grounded&quot;
+    assert len(config.config_sha256) == 64
+    assert config.publish_controlled is False
+    assert config.semantic_support_status == &quot;pending&quot;
+    assert config.follow_up_enabled is False</code></pre>
+<ul><li>[ ] <strong>Step 2: fail-closed 조건의 실패 테스트를 작성한다</strong></li></ul>
+<p>임시 디렉터리에 registry/version YAML을 만들고 다음 각각이 <code>PromptConfigError</code>인지 검증한다.</p>
+<pre><code class="language-python">@pytest.mark.parametrize(
+    &quot;mutation,reason&quot;,
+    [
+        ({&quot;production_enabled&quot;: True}, &quot;production_enabled&quot;),
+        ({&quot;publish_controlled&quot;: True}, &quot;publish_controlled&quot;),
+        ({&quot;semantic_support_status&quot;: &quot;verified&quot;}, &quot;semantic_support_status&quot;),
+        ({&quot;follow_up_enabled&quot;: True}, &quot;follow_up_enabled&quot;),
+    ],
+)
+def test_registry_safety_flags_fail_closed(tmp_path, mutation, reason):
+    root = write_prompt_tree(tmp_path, registry_overrides=mutation)
+    with pytest.raises(PromptConfigError, match=reason):
+        load_evaluation_prompt(prompt_root=root)</code></pre>
+<p>경로가 prompt root 밖을 가리키는 <code>../outside.toml</code>, 중복 version, 누락 field, registry/version의 version 불일치도 각각 거부한다.</p>
+<ul><li>[ ] <strong>Step 3: 테스트가 loader 부재로 실패하는지 확인한다</strong></li></ul>
+<p>Run: <code>pytest tests/test_prompt_config.py -q</code></p>
+<p>Expected: <code>ModuleNotFoundError</code> 또는 <code>load_evaluation_prompt</code> 미정의로 FAIL</p>
+<ul><li>[ ] **Step 4: <code>src/prompt_config.py</code>에 최소 loader를 구현한다**</li></ul>
+<pre><code class="language-python">@dataclass(frozen=True)
+class LoadedPromptConfig:
+    prompt_version: str
+    system: str
+    instruction: str
+    runtime_templates: Mapping[str, str]
+    config_sha256: str
+    max_statements: int
+    publish_controlled: bool
+    semantic_support_status: str
+    follow_up_enabled: bool
+
+
+def load_evaluation_prompt(
+    version: str | None = None,
+    *,
+    prompt_root: Path = PROMPT_ROOT,
+) -&gt; LoadedPromptConfig:
+    root = prompt_root.resolve()
+    registry = _read_yaml(root / &quot;registry.yaml&quot;)
+    selected = version or _require_str(registry, &quot;evaluation_candidate_version&quot;)
+    entry = _select_unique_entry(registry, selected)
+    prompt_path = _resolve_registered_path(root, _require_str(entry, &quot;path&quot;))
+    prompt = _read_yaml(prompt_path)
+    _validate_evaluation_only_contract(registry, entry, prompt, selected)
+    return _build_loaded_prompt(entry, prompt)</code></pre>
+<p><code>_read_yaml()</code>은 duplicate key를 거부하도록 확장한 <code>yaml.SafeLoader</code>만 사용한다. <code>_resolve_registered_path()</code>는 등록된 상대 경로를 <code>resolve()</code>한 뒤 부모가 <code>prompt_root.resolve()</code>와 동일한지 확인한다. <code>_validate_evaluation_only_contract()</code>는 registry의 <code>production_enabled</code>가 <code>false</code>이고 registry entry와 version 파일 양쪽의 <code>publish_controlled</code>가 <code>false</code>, semantic support가 <code>pending</code>, follow-up이 <code>false</code>, publication fallback이 <code>true</code>, retry가 <code>0</code>일 때만 반환한다.</p>
+<ul><li>[ ] <strong>Step 5: 정규화된 config hash를 구현한다</strong></li></ul>
+<pre><code class="language-python">canonical = json.dumps(
+    {&quot;registry_entry&quot;: registry_entry, &quot;prompt&quot;: prompt_data},
+    ensure_ascii=False,
+    sort_keys=True,
+    separators=(&quot;,&quot;, &quot;:&quot;),
+).encode(&quot;utf-8&quot;)
+config_sha256 = hashlib.sha256(canonical).hexdigest()</code></pre>
+<p>이 해시는 registry의 선택·안전 플래그와 버전 Prompt 의미를 함께 묶고, YAML 공백·줄바꿈 변화에는 영향받지 않는다. artifact에는 Prompt 본문 대신 <code>prompt_version</code>과 이 해시만 기록한다.</p>
+<ul><li>[ ] <strong>Step 6: 버전 YAML에 동적 template key를 명시한다</strong></li></ul>
+<p><code>runtime_templates:</code> mapping에 <code>evidence_header</code>, <code>evidence_row</code>, <code>intent</code>, <code>requested_phase</code>, <code>before_phase_guard</code>, <code>source_order</code>, <code>required_coverage_header</code>, <code>required_coverage_instruction</code>, <code>required_coverage_row</code>를 추가한다. loader는 key 누락, 알 수 없는 <code>{placeholder}</code>, Prompt body의 빈 문자열을 거부한다.</p>
+<ul><li>[ ] <strong>Step 7: loader 테스트를 통과시킨다</strong></li></ul>
+<p>Run: <code>pytest tests/test_prompt_config.py -q</code></p>
+<p>Expected: PASS</p>
+<ul><li>[ ] <strong>Step 8: 변경 checkpoint를 확인한다</strong></li></ul>
+<p>Run: <code>git diff --check -- src/prompt_config.py src/config/prompts tests/test_prompt_config.py</code></p>
+<p>Expected: exit code 0. 사용자 금지 조건에 따라 commit은 만들지 않는다.</p>
+<hr>
+<h3 id="section-7">Task 2: Controlled generation Prompt 렌더링 연결</h3>
+<p><strong>Files:</strong></p>
+<ul><li>Modify: <code>src/controlled_generation.py:162-198</code></li><li>Modify: <code>tools/provider_controlled_generation_evaluate.py:98-161</code></li><li>Modify: <code>tests/test_controlled_paraphrasing.py</code></li><li>Modify: <code>tests/test_provider_controlled_generation_harness.py</code></li></ul>
+<p><strong>Interfaces:</strong></p>
+<ul><li>Consumes: <code>LoadedPromptConfig</code></li><li>Changes: <code>build_controlled_generation_prompt(units, *, config, intent, requested_phase=&quot;&quot;, preserve_source_order=False, required_coverage=()) -&gt; str</code></li><li>Changes: <code>build_provider_blueprints(*, case_id: str, intent: str, units: Sequence[SourceUnit], groq_model: str, gemini_model: str, requested_phase: str = &quot;&quot;, preserve_source_order: bool = False, required_coverage: Sequence[Mapping[str, Any]] = (), prompt_version: str | None = None) -&gt; tuple[ProviderBlueprint, ProviderBlueprint]</code></li><li>Extends: <code>ProviderBlueprint.prompt_version</code>, <code>ProviderBlueprint.config_sha256</code></li></ul>
+<ul><li>[ ] <strong>Step 1: YAML 본문 사용과 Python 중복 제거의 실패 테스트를 작성한다</strong></li></ul>
+<pre><code class="language-python">def test_prompt_is_rendered_from_registered_toml():
+    config = load_evaluation_prompt()
+    prompt = build_controlled_generation_prompt(
+        (unit(&quot;su001&quot;, &quot;15분 간격으로 확인한다.&quot;),),
+        config=config,
+        intent=&quot;fact&quot;,
+    )
+    assert config.system in prompt
+    assert config.instruction in prompt
+    assert &quot;su001: 15분 간격으로 확인한다.&quot; in prompt</code></pre>
+<p>소스 검사 테스트는 <code>controlled_generation.py</code>에 기존 정적 문구인 <code>Rewrite only the verified evidence</code>와 <code>Add no clinical fact</code>가 남지 않았음을 확인한다.</p>
+<ul><li>[ ] <strong>Step 2: 재서술 허용·금지 규칙과 후속 질문 비활성 테스트를 작성한다</strong></li></ul>
+<p>Prompt에 어순 변경·연결어 추가·중복 제거·동일 의미 표현만 허용되고 임상 개념·인과관계·행위 주체·조건/금기 강도·근거 없는 강조 변경이 금지됨을 확인한다. output schema에는 follow-up field가 없고 config의 follow-up은 <code>false</code>인지 함께 검증한다.</p>
+<ul><li>[ ] <strong>Step 3: 테스트가 기존 하드코딩 signature 때문에 실패하는지 확인한다</strong></li></ul>
+<p>Run: <code>pytest tests/test_controlled_paraphrasing.py tests/test_provider_controlled_generation_harness.py -q</code></p>
+<p>Expected: 새 <code>config</code> 및 blueprint metadata 계약에서 FAIL</p>
+<ul><li>[ ] **Step 4: <code>build_controlled_generation_prompt()</code>를 config 기반으로 변경한다**</li></ul>
+<p>정적 정책 문구는 전부 <code>LoadedPromptConfig.system</code>, <code>.instruction</code>, <code>.runtime_templates</code>에서 가져온다. Python은 SourceUnit ID와 <code>exact_text</code>, intent, phase, source order, required coverage 값을 format하는 역할만 맡는다. format 전에 intent/phase/slot ID/source ID를 기존 allowlist로 검사하고, template에 예상하지 않은 placeholder가 있으면 <code>PromptConfigError</code>로 중단한다.</p>
+<ul><li>[ ] <strong>Step 5: required coverage 문구를 provider 도구에서 YAML renderer로 이동한다</strong></li></ul>
+<p><code>tools/provider_controlled_generation_evaluate.py::_common_contract()</code>의 lines 117-145에 있는 정적 instruction 결합을 제거하고 <code>required_coverage</code>를 <code>build_controlled_generation_prompt()</code>에 전달한다. SourceUnit count, slot ID, category와 supporting ID 검사는 그대로 유지하거나 더 앞에서 동일하게 수행한다.</p>
+<ul><li>[ ] <strong>Step 6: blueprint에 version/hash를 전파한다</strong></li></ul>
+<pre><code class="language-python">@dataclass(frozen=True)
+class ProviderBlueprint:
+    provider: ProviderName
+    model: str
+    case_id: str
+    intent: str
+    payload: dict[str, Any]
+    evidence_count: int
+    evidence_character_count: int
+    evidence_fingerprint: str
+    schema_fingerprint: str
+    prompt_fingerprint: str
+    request_body_bytes: int
+    prompt_version: str
+    config_sha256: str</code></pre>
+<p><code>build_provider_blueprints()</code>는 평가 도구 내부에서만 <code>load_evaluation_prompt()</code>를 호출한다. payload의 Groq/Gemini label은 mock envelope 정규화를 위한 기존 형태로 유지하지만 HTTP client나 실제 전송 함수는 추가하지 않는다.</p>
+<ul><li>[ ] <strong>Step 7: 기존 validator와 fallback 회귀 테스트를 통과시킨다</strong></li></ul>
+<p>Run: <code>pytest tests/test_controlled_paraphrasing.py tests/test_provider_controlled_generation_harness.py -q</code></p>
+<p>Expected: PASS; 모든 결정에서 <code>publish_controlled is False</code>, 성공 candidate도 reason이 <code>semantic_support_pending</code>, 실패는 extractive object identity 유지, retry 0</p>
+<ul><li>[ ] <strong>Step 8: Production 미연결 정적 검사를 수행한다</strong></li></ul>
+<p>Run: <code>rg -n &quot;prompt_config|load_evaluation_prompt|v1\.0-natural-grounded&quot; src/ai.py streamlit_app.py src/retrieval.py</code></p>
+<p>Expected: 출력 0건</p>
+<hr>
+<h3 id="section-8">Task 3: 결정적 mock candidate와 extractive 비교</h3>
+<p><strong>Files:</strong></p>
+<ul><li>Modify: <code>tools/provider_controlled_generation_evaluate.py:314-555</code></li><li>Modify: <code>tests/test_provider_controlled_generation_harness.py</code></li></ul>
+<p><strong>Interfaces:</strong></p>
+<ul><li>Produces: <code>build_deterministic_mock_responses(candidate: Mapping[str, Any], blueprints: Sequence[ProviderBlueprint]) -&gt; dict[ProviderName, dict[str, Any]]</code></li><li>Produces: <code>safe_comparison_report()</code>의 raw-free 비교 metadata</li><li>Consumes: caller가 메모리에서 제공한 closed-schema candidate; 임상 문장을 자동 창작하지 않음</li></ul>
+<ul><li>[ ] <strong>Step 1: mock 생성 계약의 실패 테스트를 작성한다</strong></li></ul>
+<p>동일 candidate를 Groq/Gemini mock envelope 형태로 감싸되 실제 socket/HTTP 호출이 0이고, provider payload나 raw response가 결과 report에 포함되지 않는지 검증한다. candidate는 synthetic SourceUnit으로만 구성한다.</p>
+<ul><li>[ ] <strong>Step 2: extractive 대 controlled 비교 field 테스트를 작성한다</strong></li></ul>
+<p>보고서에는 <code>case_id</code>, <code>prompt_version</code>, <code>config_sha256</code>, <code>extractive_sha256</code>, <code>candidate_sha256</code>, statement/coverage count, validation reason, fallback/publish/retry 상태만 둔다. 질문·Evidence·답변 전문·Prompt 본문은 없어야 한다.</p>
+<ul><li>[ ] <strong>Step 3: 테스트가 비교 metadata 부재로 실패하는지 확인한다</strong></li></ul>
+<p>Run: <code>pytest tests/test_provider_controlled_generation_harness.py -q</code></p>
+<p>Expected: 새 version/hash/comparison field assertion에서 FAIL</p>
+<ul><li>[ ] <strong>Step 4: 결정적 mock envelope builder를 구현한다</strong></li></ul>
+<p>candidate 생성은 임상 내용을 추론하지 않는다. caller가 제공한 closed-schema mapping을 canonical JSON으로 직렬화하여 각 provider의 기존 mock response envelope에 동일하게 넣는다. 이 단계는 Prompt wiring·schema·validator를 평가하며 자연어 품질은 사람 검수 대상으로 남긴다.</p>
+<ul><li>[ ] <strong>Step 5: raw-free 비교 report를 구현한다</strong></li></ul>
+<p>extractive와 validated candidate는 프로세스 메모리에서만 비교 화면으로 전달하고, 저장 report에는 각각 canonical presentation의 SHA-256과 count·판정만 남긴다. 기존 <code>audit_persisted_artifacts()</code>가 exact SourceUnit text, provider envelope, 전체 instruction, secret marker를 계속 거부하게 한다.</p>
+<ul><li>[ ] <strong>Step 6: focused 평가 테스트를 통과시킨다</strong></li></ul>
+<p>Run: <code>pytest tests/test_provider_controlled_generation_harness.py -q</code></p>
+<p>Expected: PASS, <code>actual_external_calls == 0</code></p>
+<hr>
+<h3 id="section-9">Task 4: Local-only 사람 검수 record와 화면</h3>
+<p><strong>Files:</strong></p>
+<ul><li>Create: <code>tools/controlled_generation_review.py</code></li><li>Create: <code>tools/controlled_generation_review_app.py</code></li><li>Create: <code>tests/test_controlled_generation_review.py</code></li></ul>
+<p><strong>Interfaces:</strong></p>
+<ul><li>Produces: <code>ReviewRecord</code>, <code>validate_review_record()</code>, <code>save_review_record()</code></li><li>Produces: <code>build_review_session()</code>의 메모리 전용 extractive/candidate view model</li><li>Produces: 원문을 포함하지 않는 raw-free review schema</li><li>Consumes: 검증된 <code>ValidatedControlledParaphrase</code>, 기존 extractive Answer, case/prompt hash metadata</li></ul>
+<ul><li>[ ] <strong>Step 1: review enum과 schema의 실패 테스트를 작성한다</strong></li></ul>
+<pre><code class="language-python">def test_review_schema_accepts_semantic_equivalence_enum():
+    record = validate_review_record({
+        &quot;case_id&quot;: &quot;CASE-001&quot;,
+        &quot;prompt_version&quot;: &quot;v1.0-natural-grounded&quot;,
+        &quot;config_sha256&quot;: &quot;a&quot; * 64,
+        &quot;extractive_sha256&quot;: &quot;b&quot; * 64,
+        &quot;candidate_sha256&quot;: &quot;c&quot; * 64,
+        &quot;preferred_answer&quot;: &quot;controlled&quot;,
+        &quot;naturalness&quot;: &quot;좋음&quot;,
+        &quot;accuracy&quot;: &quot;적절&quot;,
+        &quot;completeness&quot;: &quot;적절&quot;,
+        &quot;grounding&quot;: &quot;적절&quot;,
+        &quot;semantic_equivalence&quot;: &quot;동일&quot;,
+        &quot;note&quot;: &quot;&quot;,
+        &quot;timestamp&quot;: &quot;2026-09-20T12:00:00+09:00&quot;,
+    })
+    assert record.semantic_equivalence == &quot;동일&quot;</code></pre>
+<p><code>semantic_equivalence</code>는 <code>동일</code>, <code>경미한 변화</code>, <code>의미 변경</code>, <code>판단 어려움</code> 외 값을 거부한다.</p>
+<ul><li>[ ] <strong>Step 2: raw-free 저장과 최초 저장 생성 테스트를 작성한다</strong></li></ul>
+<p>저장 파일은 화면을 여는 것만으로 생성되지 않고 첫 유효 저장 때 생성되어야 한다. 직렬화 결과에 <code>question</code>, <code>source_text</code>, <code>evidence</code>, <code>extractive_answer</code>, <code>controlled_answer</code>, <code>prompt</code>, <code>provider_response</code>, exact SourceUnit text가 없어야 한다. note에 해당 원문이나 secret 패턴이 들어오면 저장을 거부한다.</p>
+<ul><li>[ ] <strong>Step 3: 테스트가 review module 부재로 실패하는지 확인한다</strong></li></ul>
+<p>Run: <code>pytest tests/test_controlled_generation_review.py -q</code></p>
+<p>Expected: module 또는 API 부재로 FAIL</p>
+<ul><li>[ ] <strong>Step 4: raw-free review model과 저장을 구현한다</strong></li></ul>
+<p>저장 schema는 다음 field만 허용한다.</p>
+<pre><code class="language-json">{
+  &quot;schema_version&quot;: 1,
+  &quot;case_id&quot;: &quot;CASE-001&quot;,
+  &quot;prompt_version&quot;: &quot;v1.0-natural-grounded&quot;,
+  &quot;config_sha256&quot;: &quot;&lt;sha256&gt;&quot;,
+  &quot;extractive_sha256&quot;: &quot;&lt;sha256&gt;&quot;,
+  &quot;candidate_sha256&quot;: &quot;&lt;sha256&gt;&quot;,
+  &quot;preferred_answer&quot;: &quot;controlled&quot;,
+  &quot;naturalness&quot;: &quot;좋음&quot;,
+  &quot;accuracy&quot;: &quot;적절&quot;,
+  &quot;completeness&quot;: &quot;적절&quot;,
+  &quot;grounding&quot;: &quot;적절&quot;,
+  &quot;semantic_equivalence&quot;: &quot;동일&quot;,
+  &quot;note&quot;: &quot;&quot;,
+  &quot;timestamp&quot;: &quot;&lt;ISO-8601&gt;&quot;
+}</code></pre>
+<p>파일은 local-only workspace review 경로에 JSONL append로 저장한다. 질문, SourceUnit, 답변 전문과 후속 질문은 저장하지 않는다. note는 길이 제한과 exact source/answer substring 및 secret marker 검사를 통과해야 한다.</p>
+<ul><li>[ ] <strong>Step 5: Streamlit app을 구현한다</strong></li></ul>
+<p>앱은 local-only session builder가 전달한 extractive/controlled text와 문장별 citation ID를 메모리에서 나란히 보여준다. 입력 widget은 위 enum과 note뿐이다. <code>follow_up_enabled=false</code>이므로 후속 질문 영역을 렌더링하지 않는다. 저장 버튼은 <code>save_review_record()</code>만 호출하며 앱 import 시 파일을 만들거나 네트워크를 호출하지 않는다.</p>
+<ul><li>[ ] <strong>Step 6: app import와 저장 테스트를 통과시킨다</strong></li></ul>
+<p>Run: <code>pytest tests/test_controlled_generation_review.py -q</code></p>
+<p>Expected: PASS</p>
+<p>Run: <code>python -c &quot;import tools.controlled_generation_review_app&quot;</code></p>
+<p>Expected: exit code 0, 외부 호출 0, 파일 생성 0</p>
+<hr>
+<h3 id="section-10">Task 5: 전체 안전성·회귀 검증</h3>
+<p><strong>Files:</strong></p>
+<ul><li>Verify only: <code>src/**</code>, <code>tools/**</code>, <code>tests/**</code>, <code>docs/03_설계/**</code></li></ul>
+<p><strong>Interfaces:</strong></p>
+<ul><li>Consumes: Tasks 1-4의 모든 공개 API와 테스트 결과</li><li>Produces: 구현 완료 검증 기록; Production publish 상태는 바꾸지 않음</li></ul>
+<ul><li>[ ] <strong>Step 1: focused pytest를 실행한다</strong></li></ul>
+<p>Run: <code>pytest tests/test_prompt_config.py tests/test_controlled_paraphrasing.py tests/test_provider_controlled_generation_harness.py tests/test_controlled_generation_review.py -q</code></p>
+<p>Expected: PASS</p>
+<ul><li>[ ] <strong>Step 2: 외부 호출 불가와 Production 미연결을 검사한다</strong></li></ul>
+<p><code>src/prompt_config.py</code>, <code>src/controlled_generation.py</code>, <code>tools/controlled_generation_review*.py</code>, <code>tools/provider_controlled_generation_evaluate.py</code>에서 HTTP client, provider SDK 호출, API key 접근이 없음을 검사한다. <code>src/ai.py</code>, <code>streamlit_app.py</code>, <code>src/retrieval.py</code>에는 새 loader import가 없어야 한다.</p>
+<ul><li>[ ] <strong>Step 3: artifact security 테스트를 실행한다</strong></li></ul>
+<p>Run: <code>pytest tests/test_workspace_security_cleanup.py tests/test_provider_controlled_generation_harness.py tests/test_controlled_generation_review.py -q</code></p>
+<p>Expected: raw question/source/evidence/Prompt/provider response와 secret marker 저장 0건</p>
+<ul><li>[ ] <strong>Step 4: 주요 controlled generation 회귀를 실행한다</strong></li></ul>
+<p>Run: <code>pytest tests/test_source_unit_selection.py tests/test_rag_evidence_groups.py tests/test_rag_contract.py tests/test_mvp_chat.py -q</code></p>
+<p>Expected: baseline known failure가 없는 대상 파일 모두 PASS</p>
+<ul><li>[ ] <strong>Step 5: 전체 pytest를 실행한다</strong></li></ul>
+<p>Run: <code>pytest -q</code></p>
+<p>Expected: 승인된 baseline known failure 2건만 동일하게 남고 신규 실패 0건. 새로운 실패가 나오면 즉시 중단하고 해당 실패 원인만 분석한다.</p>
+<ul><li>[ ] <strong>Step 6: Ruff와 whitespace 검사를 실행한다</strong></li></ul>
+<p>Run: <code>ruff check src tools tests</code></p>
+<p>Expected: PASS</p>
+<p>Run: <code>git diff --check</code></p>
+<p>Expected: PASS</p>
+<ul><li>[ ] <strong>Step 7: 보호 범위 변경 여부를 확인한다</strong></li></ul>
+<p>Run: <code>git diff --name-only -- data tests/fixtures src/migrations</code></p>
+<p>Expected: 출력 0건</p>
+<ul><li>[ ] <strong>Step 8: 최종 상태를 확인한다</strong></li></ul>
+<p>다음을 모두 만족해야 구현 성공으로 판정한다.</p>
+<ul><li>config hash와 Prompt version이 모든 offline report에 존재</li><li><code>publish_controlled=false</code>, <code>semantic_support_pending</code>, extractive fallback, retry 0</li><li>후속 질문 표시·저장 0건</li><li>검수 record에 <code>semantic_equivalence</code> 존재</li><li>Production import/호출 연결 0건</li><li>외부 API 호출 0건</li><li>Gold/fixture/DB/schema/Production Retrieval 변경 0건</li><li>Git commit/tag/push 0건</li></ul>
+<hr>
+<h2 id="section-11">Fail-closed 조건</h2>
+<p>다음 중 하나라도 발생하면 candidate 평가를 중단하고 기존 extractive Answer를 유지한다.</p>
+<ul><li>registry/version 파일 누락, 중복 version, 경로 이탈 또는 YAML parsing 실패</li><li>schema version, prompt version, 상태 또는 안전 플래그 불일치</li><li><code>production_enabled=true</code>, <code>publish_controlled=true</code>, semantic support가 <code>pending</code>이 아님</li><li>follow-up이 활성화됨</li><li>runtime template 필수 key 누락 또는 알 수 없는 placeholder</li><li>SourceUnit ID 중복·미존재, citation 불일치 또는 coverage 누락</li><li>number·unit·time·condition·exception·negation·prohibition·action 변화</li><li>branch·phase 혼합, source order 또는 parent atomicity 위반</li><li>사람 검수 record에 허용되지 않은 field, enum, raw text 또는 secret marker 존재</li></ul>
+<h2 id="section-12">Production 미연결 보장</h2>
+<p>loader는 평가 도구가 명시적으로 호출할 때만 실행한다. <code>src/ai.py</code>, 루트 <code>streamlit_app.py</code>와 Production retrieval 경로에는 import도 feature flag도 추가하지 않는다. <code>decide_controlled_generation()</code>은 검증 성공 시에도 <code>output=extractive_answer</code>, <code>publish_controlled=False</code>, <code>reason=&quot;semantic_support_pending&quot;</code>를 유지한다. 따라서 새 YAML은 평가 candidate를 구성하고 검수하는 데만 쓰이며 사용자 답변을 교체할 수 없다.</p>
+<h2 id="section-13">Rollback</h2>
+<p>구현 중 문제가 생기면 신규 loader/review 파일과 그 전용 테스트만 제거하고, <code>src/controlled_generation.py</code>와 <code>tools/provider_controlled_generation_evaluate.py</code>의 Prompt builder signature를 구현 직전 상태로 되돌린다. YAML draft와 설계서는 실행 경로와 분리되어 있으므로 그대로 남겨도 Production 영향은 없다. rollback에서도 Gold, fixture, DB, schema와 기존 평가 artifact는 수정하지 않으며 Git history rewrite를 사용하지 않는다.</p></article></main></body></html>

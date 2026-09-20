@@ -2,7 +2,9 @@
 
 ## 프로젝트 목적
 
-- 프로젝트 상세 요구사항은 `docs/PRD.md`를 참조한다.
+- 프로젝트 상세 요구사항은 `docs/00_기획/프로젝트_명세서.md`를 참조한다.
+- `docs/`를 유일한 공식 문서 정본으로 사용한다.
+- `docs_view/`는 렌더링·열람용 복사본이며 요구사항·설계·평가 판정의 기준으로 사용하지 않는다.
 - 최종 목표는 병원 실무지침서를 기반으로 간호사가 자연어로 질문했을 때:
   - 관련 근거를 정확하게 검색하고
   - 지침 범위 안에서만 답변하며
@@ -63,7 +65,7 @@
   - 코드
   - 테스트
   - `docs/`
-  - `artifacts/`
+  - `workspace/`
   - Superpowers progress
 
   를 먼저 확인하고, 마지막 미완료 단계부터 이어서 진행한다.
@@ -72,7 +74,8 @@
 
 ## 현재 Retrieval 원칙
 
-- standalone baseline 결과 기준으로 BM25가 현재 SCHAT 데이터에서 가장 우세한 retriever로 확인됨.
+- 외부 API를 사용하지 않는 standalone 기준선에서는 BM25가 가장 강하고 빠른 retriever다.
+- Gemini Embedding 2 기반 ChromaDB-only는 Hit@10 0.9524로 개선됐지만 external evaluation-only이며 MRR·Recall·Precision은 Current Hybrid보다 낮다.
 - ChromaDB 단독 검색은 현재 production 기본 검색기로 채택하지 않는다.
 - 기존 production retrieval 구조는 유지한다.
 
@@ -252,10 +255,20 @@ Negative/out-of-scope 질문은 positive IR metric aggregate에 섞지 않는다
 
 ## 산출물
 
-- 작업 결과는 `artifacts/YYYY-MM-DD_기능명/` 폴더에 저장한다.
-- BM25 관련 문서는 `docs/bm25/`를 참조한다.
-- RAG 관련 문서는 `docs/rag/`를 참조한다.
-- Superpowers 계획/진행기록은 `docs/superpowers/`를 사용한다.
+- 평가·실험·검토 결과는 역할에 따라 `workspace/` 아래에 저장한다.
+- BM25 과거 문서는 `workspace/과거작업/문서이력/bm25/`를 참조한다.
+- RAG 과거 문서는 `workspace/과거작업/문서이력/rag/`를 참조한다.
+- Superpowers 계획·진행 이력은 `workspace/과거작업/문서이력/superpowers/`를 사용한다.
+
+### 문서 자동 현행화
+
+- 코드, 평가 결과, 운영 상태, 안전 판정이 실질적으로 바뀌면 사용자의 별도 요청이 없어도 관련 `docs/` 정본을 함께 갱신한다.
+- 비개발자가 이해해야 하는 변경은 `docs/07_쉬운_작업일지/`에도 날짜별로 반영한다.
+- 문서 변경 후 `tools/build_docs_view.py`를 실행해 `docs_view/`를 다시 생성한다.
+- 사용자용 문서의 비용은 원화(원)를 기본으로 표기한다. 외화로만 제공된 비용은 작업일 또는 가장 가까운 확인 가능 날짜의 환율로 환산하고, 환율 변동이 있으면 `약`으로 표시한다.
+- 감사용 평가 JSON의 provider 원결제 통화 값은 임의로 바꾸지 않으며, 필요하면 사용자용 문서에서만 원화 환산값을 제공한다.
+- 검증되지 않은 결과를 추측해 기록하지 않으며, 공식 tag·Gold·readiness·Production 채택 여부는 승인 없이 승격하지 않는다.
+- 작업 범위상 문서를 갱신하지 못한 경우 완료 보고에 미반영 문서와 이유를 명시한다.
 
 ### Superpowers progress
 
@@ -263,7 +276,7 @@ Negative/out-of-scope 질문은 positive IR metric aggregate에 섞지 않는다
 
 경로:
 
-`docs/superpowers/progress/`
+`workspace/과거작업/문서이력/superpowers/progress/`
 
 각 progress 문서에 포함:
 - 완료 항목
@@ -304,7 +317,7 @@ Negative/out-of-scope 질문은 positive IR metric aggregate에 섞지 않는다
   - executing-plans
   - verification
 
-- Superpowers progress는 `docs/superpowers/`에 기록한다.
+- Superpowers progress는 `workspace/과거작업/문서이력/superpowers/`에 기록한다.
 - Superpowers와 SCHAT 전용 skill이 충돌하면 이 `AGENTS.md`의 규칙과 현재 사용자의 명시적 승인 범위를 우선한다.
 
 ### SCHAT 전용 스킬

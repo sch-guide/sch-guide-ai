@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "evaluation_date": "2026-09-19",
+  "evaluator_file": "tools/bm25_only_evaluate.py",
+  "engine": "bm25_only",
+  "retrieval_contract": {
+    "engine": "bm25_only",
+    "bm25_calls_per_query": 1,
+    "minilm_calls": 0,
+    "vector_retrieval_calls": 0,
+    "chromadb_calls": 0,
+    "faiss_calls": 0,
+    "pgvector_calls": 0,
+    "rrf_calls": 0,
+    "reranker_calls": 0,
+    "context_expansion": false,
+    "evidence_gate": false,
+    "source_unit": false,
+    "llm_calls": 0,
+    "validator_calls": 0
+  },
+  "corpus": {
+    "catalog_revision": 2,
+    "fingerprint_algorithm": "mvp.library.fingerprint_sha256",
+    "fingerprint": "f114e736f5ca9d487ec6be225ae5e942b5cbc25df1d85a648eaaf7bba98d2010",
+    "document_count": 2,
+    "chunk_count": 147,
+    "document_ids": [
+      "49efc318-d430-4b3b-8c16-2779c52f1401",
+      "bc3d0de4-6560-4560-b78f-645e82cddd94"
+    ]
+  },
+  "gold": {
+    "fixture": "tests/fixtures/schat_v1_operational_gold_reviewed.json",
+    "fixture_sha256": "0485c2192324082594bb66cc398097b3abc3ca4dc32066963db69d99a4f9067c",
+    "dataset_version": "schat-v1-operational-gold-reviewed-v1",
+    "approved_positive_case_count": 21,
+    "deferred_positive_case_count": 11,
+    "approved_abstention_case_count": 4,
+    "negative_handling": "separate_not_queried_by_positive_retrieval_evaluator"
+  },
+  "query_processing": {
+    "planner": "mvp.query.plan_query",
+    "query_text": "plan.expanded",
+    "follow_up_context": true,
+    "document_scope_filter": true,
+    "context_expansion": false
+  },
+  "bm25": {
+    "implementation": "mvp.retrieval.BM25Index",
+    "query_method": "BM25Index.scores(plan.expanded)",
+    "ranking": {
+      "primary_sort": "bm25_score_descending",
+      "tie_break": "original_corpus_position_ascending",
+      "final_fallback": "chunk_id_ascending"
+    },
+    "index_build_in_latency": false
+  },
+  "top_k": [
+    1,
+    3,
+    5,
+    10
+  ]
+}

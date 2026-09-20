@@ -299,28 +299,28 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--baseline-retrieval",
         type=Path,
-        default=root / "artifacts/2026-09-17_transfusion-expanded-retrieval/comparison_summary.json",
+        default=root / "workspace/과거작업/평가산출물/2026-09-17_transfusion-expanded-retrieval/comparison_summary.json",
     )
     parser.add_argument(
         "--after-retrieval",
         type=Path,
-        default=root / "artifacts/2026-09-18_schat-v1-ragas-gold-uat-final/retrieval_after/comparison_summary.json",
+        default=root / "workspace/RAGAS/2026-09-18_schat-v1-ragas-gold-uat-final/retrieval_after/comparison_summary.json",
     )
     parser.add_argument(
         "--baseline-uat",
         type=Path,
-        default=root / "artifacts/2026-09-18_schat-v1-ragas-gold-uat-final/baseline/uat_summary.json",
+        default=root / "workspace/RAGAS/2026-09-18_schat-v1-ragas-gold-uat-final/baseline/uat_summary.json",
     )
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=root / "artifacts/2026-09-18_schat-v1-ragas-gold-uat-final",
+        default=root / "workspace/RAGAS/2026-09-18_schat-v1-ragas-gold-uat-final",
     )
     return parser.parse_args()
 
 
 def main() -> None:
-    from mvp.repository import snapshot
+    from src.repository import snapshot
     from tools.schat_multimodal_mvp_evaluate import (
         DEFAULT_FIXTURE,
         DEFAULT_MULTIMODAL,

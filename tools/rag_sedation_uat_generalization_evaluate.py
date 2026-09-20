@@ -12,18 +12,18 @@ from pathlib import Path
 
 import httpx
 
-from mvp.ai import generate
-from mvp.library import SEARCH_VERSION
-from mvp.query import plan_query
-from mvp.settings import ROOT
+from src.ai import generate
+from src.library import SEARCH_VERSION
+from src.query import plan_query
+from src.settings import ROOT
 from tools.rag_facet_slot_evaluate import MockQuota, settings
 from tools.rag_pilot_query_generalization_evaluate import retrieve_funnel
 from tools.rag_procedure_live_evaluate import pilot_corpus
 
 DEFAULT_FIXTURE = ROOT / 'tests' / 'fixtures' / 'sedation_uat_queries.json'
-DEFAULT_OUTPUT = ROOT / 'artifacts' / '2026-09-16_rag-sedation-uat-generalization'
+DEFAULT_OUTPUT = ROOT / 'workspace' / 'UAT' / '2026-09-16_rag-sedation-uat-generalization'
 BASELINE_REPORT = (
-    ROOT / 'artifacts' / '2026-09-15_rag-sedation-uat-generalization-baseline-02'
+    ROOT / 'workspace' / 'UAT' / '2026-09-15_rag-sedation-uat-generalization-baseline-02'
     / 'uat_report.json'
 )
 
@@ -296,9 +296,9 @@ def write_failure_categories(output: Path, report: dict, fixture: Path) -> None:
     )
 
 
-def build_report(fixture: Path = DEFAULT_FIXTURE) -> dict:
+def build_report(fixture: Path = DEFAULT_FIXTURE, *, chunk_version=4) -> dict:
     cases = load_cases(fixture)
-    runtime = pilot_corpus()
+    runtime = pilot_corpus(chunk_version=chunk_version)
     results = [evaluate_case(case, runtime) for case in cases]
     category_summary = []
     for category in dict.fromkeys(case['category'] for case in results):

@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SCHAT Retrieval 3-way 비교</title>
+  <style>
+    :root {
+      --navy:#102a43; --ink:#243b53; --muted:#627d98; --line:#d9e2ec;
+      --paper:#f4f7fa; --white:#fff; --bm:#157a6e; --chroma:#d97706;
+      --hybrid:#5b5bd6; --soft-bm:#e8f6f3; --soft-chroma:#fff4df;
+      --soft-hybrid:#eeeeff; --shadow:0 14px 38px rgba(16,42,67,.09);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;color:var(--ink);background:linear-gradient(180deg,#eaf1f6 0,#f7f9fc 28rem);font-family:Pretendard,"Noto Sans KR","Segoe UI",sans-serif;line-height:1.5}
+    .shell{width:min(1180px,calc(100% - 32px));margin:auto}
+    header{padding:58px 0 34px}
+    .eyebrow{margin:0 0 10px;color:#087f8c;font-weight:850;font-size:.75rem;letter-spacing:.15em}
+    h1{margin:0;color:var(--navy);font-size:clamp(2rem,5vw,4rem);line-height:1.05;letter-spacing:-.045em}
+    .lead{max-width:760px;margin:18px 0 0;color:#486581;font-size:1.04rem}
+    .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+    .badge{padding:7px 11px;border:1px solid #cbd8e2;border-radius:999px;background:rgba(255,255,255,.72);color:#486581;font-size:.76rem;font-weight:750}
+    main{padding-bottom:64px}
+    section{margin-top:22px;padding:clamp(20px,4vw,38px);border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.96);box-shadow:var(--shadow)}
+    h2{margin:0;color:var(--navy);font-size:clamp(1.35rem,3vw,2rem);letter-spacing:-.025em}
+    .section-note{margin:7px 0 24px;color:var(--muted);font-size:.87rem}
+    .winner{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;align-items:stretch}
+    .winner-main{padding:28px;border-radius:18px;background:linear-gradient(135deg,#eeeeff,#f9f9ff);border:1px solid #cdcdf8}
+    .winner-main small{color:var(--hybrid);font-weight:850;letter-spacing:.1em}
+    .winner-main strong{display:block;margin:8px 0;color:var(--navy);font-size:clamp(1.6rem,4vw,2.6rem)}
+    .winner-main p{margin:0;color:#526d82}
+    .winner-counts{display:grid;gap:10px}
+    .count{display:flex;justify-content:space-between;align-items:center;padding:13px 15px;border:1px solid var(--line);border-radius:13px;background:#fbfcfd}
+    .count b{font-size:1.25rem;color:var(--navy)}
+    .legend{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
+    .legend span{display:inline-flex;align-items:center;gap:7px;font-size:.8rem;font-weight:750;color:#486581}
+    .dot{width:11px;height:11px;border-radius:3px}
+    .dot.bm{background:var(--bm)} .dot.chroma{background:var(--chroma)} .dot.hybrid{background:var(--hybrid)}
+    .charts{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .chart{padding:18px;border:1px solid var(--line);border-radius:16px;background:#fbfcfe}
+    .chart h3{margin:0 0 15px;color:var(--navy);font-size:.96rem}
+    .bar-row{display:grid;grid-template-columns:92px 1fr 54px;gap:9px;align-items:center;margin:11px 0;font-size:.76rem}
+    .bar-label{color:#486581;font-weight:750}
+    .track{height:13px;border-radius:999px;background:#e6edf2;overflow:hidden}
+    .bar{height:100%;min-width:2px;border-radius:999px}
+    .bar.bm{background:var(--bm)} .bar.chroma{background:var(--chroma)} .bar.hybrid{background:var(--hybrid)}
+    .bar-value{text-align:right;color:var(--navy);font-variant-numeric:tabular-nums;font-weight:800}
+    .latency .track{height:10px}
+    .callout{margin-top:18px;padding:15px 17px;border-left:4px solid var(--chroma);border-radius:9px;background:#fff8e9;color:#76520b;font-size:.84rem}
+    .controls{display:grid;grid-template-columns:1.4fr repeat(3,minmax(0,1fr));gap:10px;margin:20px 0}
+    label{display:grid;gap:5px;color:#526d82;font-size:.75rem;font-weight:750}
+    select,input{width:100%;padding:10px 11px;border:1px solid #cbd8e2;border-radius:10px;background:white;color:var(--navy);font:inherit}
+    input:focus,select:focus{outline:3px solid rgba(91,91,214,.14);border-color:#8e8ee7}
+    .table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px}
+    table{width:100%;border-collapse:collapse;min-width:980px;font-size:.78rem}
+    th,td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:center;vertical-align:middle}
+    th{position:sticky;top:0;z-index:2;background:#edf2f7;color:var(--navy);font-size:.72rem}
+    td:first-child,th:first-child{text-align:left;font-weight:850}
+    .case-cell{min-width:250px;max-width:340px}
+    .case-id{display:block;color:var(--navy);font-size:.77rem;font-weight:900}
+    .question{display:-webkit-box;margin-top:4px;overflow:hidden;color:#526d82;font-size:.74rem;font-weight:600;line-height:1.4;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+    tbody tr:hover{background:#f7fafc}
+    .engine{display:inline-block;padding:4px 7px;border-radius:7px;font-size:.69rem;font-weight:850;white-space:nowrap}
+    .engine.bm25_only{color:#0b6158;background:var(--soft-bm)}
+    .engine.chromadb_only{color:#8b5000;background:var(--soft-chroma)}
+    .engine.current_hybrid{color:#4141b5;background:var(--soft-hybrid)}
+    .engine.tie{color:#526d82;background:#edf2f7}
+    .score-cell{font-variant-numeric:tabular-nums;white-space:nowrap}
+    .metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;min-width:300px}
+    .metric-grid span{position:relative;padding:4px;border:1px solid transparent;border-radius:6px;background:#f3f6f8;color:#526d82;font-size:.68rem}
+    .metric-grid b{display:block;color:var(--navy)}
+    .metric-grid span.best{border-color:#9b9be8;background:var(--soft-hybrid);box-shadow:inset 0 0 0 1px rgba(91,91,214,.08)}
+    .metric-grid span.best::after{content:"★";position:absolute;right:3px;top:1px;color:var(--hybrid);font-size:.55rem}
+    .empty{padding:28px;text-align:center;color:var(--muted)}
+    .method{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .method article{padding:17px;border:1px solid var(--line);border-radius:14px;background:#fbfcfd}
+    .method h3{margin:0 0 7px;color:var(--navy);font-size:.94rem}
+    .method p{margin:0;color:var(--muted);font-size:.8rem}
+    footer{padding:24px 0 48px;color:var(--muted);font-size:.75rem;text-align:center}
+    @media(max-width:760px){.winner,.charts,.method{grid-template-columns:1fr}.controls{grid-template-columns:1fr}header{padding-top:38px}}
+    @media print{body{background:white}section{box-shadow:none;break-inside:avoid}.controls{display:none}.table-wrap{overflow:visible}table{min-width:0;font-size:.58rem}}
+  </style>
+</head>
+<body>
+  <header class="shell">
+    <p class="eyebrow">SCHAT · RETRIEVAL EVALUATION</p>
+    <h1>검색 방식 3-way 비교</h1>
+    <p class="lead">동일한 승인 Gold 21건과 동일 corpus에서 Pure BM25, ChromaDB-only, Current Hybrid를 비교한 결과입니다.</p>
+    <div class="badges"><span class="badge">Approved Gold 21건</span><span class="badge">Top-k 1 / 3 / 5 / 10</span><span class="badge">동일 QueryPlan</span><span class="badge">Production 변경 없음</span></div>
+  </header>
+
+  <main class="shell">
+    <section>
+      <div class="winner">
+        <div class="winner-main">
+          <small>AGGREGATE WINNER</small>
+          <strong>Current Hybrid</strong>
+          <p>Hit@10, MRR, Recall@10, Precision@10 모두 세 검색 방식 중 가장 높았습니다.</p>
+        </div>
+        <div class="winner-counts">
+          <div class="count"><span>Hybrid 단독 우세</span><b>17</b></div>
+          <div class="count"><span>BM25 단독 우세</span><b>3</b></div>
+          <div class="count"><span>ChromaDB 단독 우세</span><b>0</b></div>
+          <div class="count"><span>완전 동률</span><b>1</b></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>전체 성능 비교</h2>
+      <p class="section-note">길수록 좋은 지표입니다. 아래 값은 21건의 평균입니다.</p>
+      <div class="legend"><span><i class="dot bm"></i>Pure BM25</span><span><i class="dot chroma"></i>ChromaDB-only</span><span><i class="dot hybrid"></i>Current Hybrid</span></div>
+      <div id="charts" class="charts"></div>
+      <div class="callout"><b>해석:</b> Current Hybrid는 Hit@10 95.2%, Recall@10 82.1%로 가장 많은 승인 근거를 상위 10개 안에서 찾았습니다. 다만 평균 검색시간은 124.6ms로 가장 길었습니다.</div>
+    </section>
+
+    <section>
+      <h2>속도 비교</h2>
+      <p class="section-note">평균 latency이며, 짧을수록 빠릅니다. 환경·캐시 상태에 따라 절대 시간은 달라질 수 있습니다.</p>
+      <div id="latency" class="chart latency"></div>
+    </section>
+
+    <section>
+      <h2>21건 case별 비교</h2>
+      <p class="section-note">종합 우열은 Hit@10 → MRR → Recall@10 → Precision@10 순으로 판정했습니다. 표의 네 값은 BM25 / ChromaDB / Hybrid 순입니다.</p>
+      <div class="controls">
+        <label>질문 검색<input id="questionSearch" type="search" placeholder="Case ID 또는 질문 입력"></label>
+        <label>질문 유형<select id="typeFilter"><option value="all">전체 유형</option></select></label>
+        <label>문서 범위<select id="scopeFilter"><option value="all">전체 문서</option></select></label>
+        <label>종합 우승<select id="winnerFilter"><option value="all">전체 결과</option><option value="current_hybrid">Current Hybrid</option><option value="bm25_only">Pure BM25</option><option value="chromadb_only">ChromaDB-only</option><option value="tie">완전 동률</option></select></label>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Case / 승인 UAT 질문</th><th>유형</th><th>범위</th><th>Hit@10</th><th>MRR</th><th>Recall@10</th><th>Precision@10</th><th>종합 우승</th></tr></thead>
+          <tbody id="caseRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>읽는 방법</h2>
+      <p class="section-note">각 지표는 서로 다른 질문에 답합니다.</p>
+      <div class="method">
+        <article><h3>Hit@10</h3><p>상위 10개 결과 안에 승인 Gold가 하나라도 있는지 봅니다.</p></article>
+        <article><h3>MRR</h3><p>첫 번째 정답 근거가 얼마나 위에 나오는지 봅니다.</p></article>
+        <article><h3>Recall@10</h3><p>필요한 승인 Gold 중 상위 10개가 얼마나 회수했는지 봅니다.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell">2026-09-19 · 병원 원문과 질문 원문을 포함하지 않은 evaluation-only 시각화</footer>
+
+  <script>
+    const engines=["bm25_only","chromadb_only","current_hybrid"];
+    const names={bm25_only:"Pure BM25",chromadb_only:"ChromaDB-only",current_hybrid:"Current Hybrid"};
+    const styles=["bm","chroma","hybrid"];
+    const aggregate={
+      hit_at_10:[.904761904762,.333333333333,.952380952381],
+      mrr:[.582199546485,.109259259259,.736961451247],
+      recall_at_10:[.452252112966,.104334157906,.821026592455],
+      precision_at_10:[.257142857143,.047619047619,.53648904006]
+    };
+    const latency=[.433,14.561,124.642];
+    const approvedQuestions={"UAT-S01":"진정간호 목적은?","UAT-S02":"진정절차에 대해 알려줘","UAT-S03":"진정 전에 뭘 확인해?","UAT-S04":"진정할 때 주의할 점은?","UAT-S05":"소아 진정은 몇 분마다 확인해?","UAT-S06":"성인은 몇 분마다 모니터링해?","UAT-S08":"진정 전·중·후 간호를 순서대로 설명해줘","UAT-S09":"성인과 소아 진정 모니터링 차이를 비교해줘","UAT-S11":"진정은 어떻게 진행하는 거야?","UAT-S12":"그중 진정 후에는 어떻게 관찰해?","UAT-S13":"환자에게 진정을 시행하기 전 준비부터 회복 후 관찰까지 지침 근거로 정리해줘","UAT-S14":"진정 전 산소포화도 확인 내용이 있나요?","UAT-T01":"수혈 전에 확인할 준비사항은?","UAT-T02":"수혈 절차를 순서대로 알려줘","UAT-T03":"수혈 중 환자 상태는 어떻게 관찰해?","UAT-T11":"제제별 투여 시간과 속도를 확인해줘","UAT-T12":"수혈 시행 전에 해야 할 일을 정리해줘","UAT-T13":"수혈하는 동안 주의 깊게 볼 항목은?","UAT-T15":"피 넣기 전에 뭐부터 체크해야 돼?","UAT-T16":"수혈간호를 전체적으로 핵심 요약해줘","UAT-T17":"그중 이상반응 발생 직후 조치만 다시 알려줘"};
+    const cases=[{"id":"UAT-S01","type":"fact_specific","scope":"sedation","h10":[1,1,1],"mrr":[1,.1111111111,1],"r10":[1,1,1],"p10":[.1,.1,.1666666667],"winners":["current_hybrid"],"tie":false},{"id":"UAT-S02","type":"procedure","scope":"sedation","h10":[1,1,1],"mrr":[1,.125,1],"r10":[.25,.0833333333,.8333333333],"p10":[.3,.1,1],"winners":["current_hybrid"],"tie":false},{"id":"UAT-S03","type":"preparation","scope":"sedation","h10":[0,0,1],"mrr":[0,0,1],"r10":[0,0,.8],"p10":[0,0,.4],"winners":["current_hybrid"],"tie":false},{"id":"UAT-S04","type":"cautions","scope":"sedation","h10":[1,1,1],"mrr":[1,.125,1],"r10":[.2857142857,.1428571429,1],"p10":[.2,.1,.7],"winners":["current_hybrid"],"tie":false},{"id":"UAT-S05","type":"fact_specific","scope":"sedation","h10":[1,0,1],"mrr":[.1666666667,0,.5],"r10":[.3333333333,0,1],"p10":[.1,0,.3],"winners":["current_hybrid"],"tie":false},{"id":"UAT-S06","type":"fact_specific","scope":"sedation","h10":[1,0,1],"mrr":[.1428571429,0,.1428571429],"r10":[1,0,1],"p10":[.2,0,.2222222222],"winners":["current_hybrid"],"tie":false},{"id":"UAT-S08","type":"temporal","scope":"sedation","h10":[1,0,1],"mrr":[1,0,1],"r10":[.25,0,.8333333333],"p10":[.3,0,1],"winners":["current_hybrid"],"tie":false},{"id":"UAT-S09","type":"comparison","scope":"sedation","h10":[1,0,1],"mrr":[.25,0,.5],"r10":[.5,0,1],"p10":[.4,0,.8],"winners":["current_hybrid"],"tie":false},{"id":"UAT-S11","type":"procedure","scope":"sedation","h10":[1,0,1],"mrr":[1,0,1],"r10":[.4166666667,0,.8333333333],"p10":[.5,0,1],"winners":["current_hybrid"],"tie":false},{"id":"UAT-S12","type":"follow_up","scope":"sedation","h10":[1,1,1],"mrr":[.3333333333,.1,1],"r10":[.625,.125,.375],"p10":[.5,.1,.3333333333],"winners":["current_hybrid"],"tie":false},{"id":"UAT-S13","type":"procedure","scope":"sedation","h10":[1,1,1],"mrr":[.5,.3333333333,1],"r10":[.5454545455,.3636363636,.9090909091],"p10":[.6,.4,1],"winners":["current_hybrid"],"tie":false},{"id":"UAT-S14","type":"fact_specific","scope":"sedation","h10":[1,0,1],"mrr":[.3333333333,0,.5],"r10":[.5,0,1],"p10":[.2,0,.4],"winners":["current_hybrid"],"tie":false},{"id":"UAT-T01","type":"preparation","scope":"transfusion","h10":[1,0,1],"mrr":[.5,0,.3333333333],"r10":[.4285714286,0,1],"p10":[.3,0,.7],"winners":["bm25_only"],"tie":false},{"id":"UAT-T02","type":"procedure","scope":"transfusion","h10":[1,0,1],"mrr":[1,0,.5],"r10":[.6363636364,0,.8181818182],"p10":[.7,0,.9],"winners":["bm25_only"],"tie":false},{"id":"UAT-T03","type":"cautions","scope":"transfusion","h10":[1,0,1],"mrr":[1,0,1],"r10":[.25,0,.75],"p10":[.1,0,.3],"winners":["current_hybrid"],"tie":false},{"id":"UAT-T11","type":"table_lookup","scope":"transfusion","h10":[0,0,0],"mrr":[0,0,0],"r10":[0,0,0],"p10":[0,0,0],"winners":["bm25_only","chromadb_only","current_hybrid"],"tie":true},{"id":"UAT-T12","type":"temporal","scope":"transfusion","h10":[1,0,1],"mrr":[.3333333333,0,.5],"r10":[.5,0,.875],"p10":[.4,0,.7],"winners":["current_hybrid"],"tie":false},{"id":"UAT-T13","type":"cautions","scope":"transfusion","h10":[1,0,1],"mrr":[1,0,1],"r10":[1,0,1],"p10":[.2,0,.2857142857],"winners":["current_hybrid"],"tie":false},{"id":"UAT-T15","type":"preparation","scope":"transfusion","h10":[1,1,1],"mrr":[.5,1,1],"r10":[.3333333333,.3333333333,1],"p10":[.1,.1,.3333333333],"winners":["current_hybrid"],"tie":false},{"id":"UAT-T16","type":"summary","scope":"transfusion","h10":[1,1,1],"mrr":[1,.5,.5],"r10":[.1428571429,.1428571429,.7142857143],"p10":[.1,.1,.625],"winners":["bm25_only"],"tie":false},{"id":"UAT-T17","type":"follow_up","scope":"transfusion","h10":[1,0,1],"mrr":[.1666666667,0,1],"r10":[.5,0,.5],"p10":[.1,0,.1],"winners":["current_hybrid"],"tie":false}];
+
+    const metricNames={hit_at_10:"Hit@10",mrr:"MRR",recall_at_10:"Recall@10",precision_at_10:"Precision@10"};
+    const charts=document.getElementById("charts");
+    Object.entries(aggregate).forEach(([metric,values])=>{
+      const card=document.createElement("div"); card.className="chart";
+      card.innerHTML=`<h3>${metricNames[metric]}</h3>`+values.map((v,i)=>`<div class="bar-row"><span class="bar-label">${names[engines[i]]}</span><div class="track"><div class="bar ${styles[i]}" style="width:${v*100}%"></div></div><span class="bar-value">${(v*100).toFixed(1)}%</span></div>`).join("");
+      charts.appendChild(card);
+    });
+    document.getElementById("latency").innerHTML=`<h3>평균 latency</h3>`+latency.map((v,i)=>`<div class="bar-row"><span class="bar-label">${names[engines[i]]}</span><div class="track"><div class="bar ${styles[i]}" style="width:${v/Math.max(...latency)*100}%"></div></div><span class="bar-value">${v.toFixed(1)}ms</span></div>`).join("");
+
+    const questionSearch=document.getElementById("questionSearch"),typeFilter=document.getElementById("typeFilter"),scopeFilter=document.getElementById("scopeFilter"),winnerFilter=document.getElementById("winnerFilter"),tbody=document.getElementById("caseRows");
+    [...new Set(cases.map(c=>c.type))].sort().forEach(v=>typeFilter.add(new Option(v,v)));
+    [...new Set(cases.map(c=>c.scope))].sort().forEach(v=>scopeFilter.add(new Option(v,v)));
+    const valuesCell=a=>{const max=Math.max(...a);return `<div class="metric-grid">${a.map((v,i)=>`<span class="${Math.abs(v-max)<1e-12?'best':''}" title="${names[engines[i]]}${Math.abs(v-max)<1e-12?' · 이 metric 우승':''}">${i===0?'B':i===1?'C':'H'}<b>${v.toFixed(3)}</b></span>`).join("")}</div>`};
+    const winnerCell=c=>c.tie?`<span class="engine tie">완전 동률</span>`:c.winners.map(w=>`<span class="engine ${w}">${names[w]}</span>`).join(" ");
+    function render(){
+      const term=questionSearch.value.trim().toLocaleLowerCase('ko-KR');
+      const rows=cases.filter(c=>{const q=approvedQuestions[c.id]||'';return (!term||`${c.id} ${q}`.toLocaleLowerCase('ko-KR').includes(term))&&(typeFilter.value==='all'||c.type===typeFilter.value)&&(scopeFilter.value==='all'||c.scope===scopeFilter.value)&&(winnerFilter.value==='all'||(winnerFilter.value==='tie'?c.tie:c.winners.includes(winnerFilter.value)&&!c.tie))});
+      tbody.innerHTML=rows.length?rows.map(c=>{const q=approvedQuestions[c.id]||'';return `<tr><td class="case-cell" title="${q}"><span class="case-id">${c.id}</span><span class="question">${q}</span></td><td>${c.type}</td><td>${c.scope}</td><td class="score-cell">${valuesCell(c.h10)}</td><td class="score-cell">${valuesCell(c.mrr)}</td><td class="score-cell">${valuesCell(c.r10)}</td><td class="score-cell">${valuesCell(c.p10)}</td><td>${winnerCell(c)}</td></tr>`}).join(""):`<tr><td colspan="8" class="empty">조건에 맞는 case가 없습니다.</td></tr>`;
+    }
+    questionSearch.addEventListener("input",render);[typeFilter,scopeFilter,winnerFilter].forEach(el=>el.addEventListener("change",render));render();
+  </script>
+</body>
+</html>

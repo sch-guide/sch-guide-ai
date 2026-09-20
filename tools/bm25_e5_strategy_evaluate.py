@@ -17,9 +17,9 @@ from typing import Any, Sequence
 
 import numpy as np
 
-from mvp.library import CHUNK_VERSION, Hit, clean, embedding_question
-from mvp.query import plan_query
-from mvp.retrieval import BM25Index, _temporal_phases, lexical_tokens, rerank, rrf
+from src.library import Hit, clean, embedding_question
+from src.query import plan_query
+from src.retrieval import BM25Index, _temporal_phases, lexical_tokens, rerank, rrf
 from tools.bm25_vector_fairness_evaluate import (
     CORE_METRICS,
     _group_metrics,
@@ -50,10 +50,12 @@ DEFAULT_CATALOG = ROOT / "data" / "library" / "catalog.sqlite3"
 DEFAULT_FIXTURE = ROOT / "tests" / "fixtures" / "transfusion_retrieval_baseline.json"
 DEFAULT_CACHE = ROOT / "data" / "models"
 DEFAULT_SNAPSHOT = ROOT / "data" / "evaluation" / "e5-transfusion-v3.npz"
-DEFAULT_OUTPUT = ROOT / "artifacts" / "2026-09-17_bm25-e5-retrieval-strategy"
+DEFAULT_OUTPUT = ROOT / "workspace" / "과거작업" / "평가산출물" / "2026-09-17_bm25-e5-retrieval-strategy"
 DEFAULT_PRIOR_E5_AUDIT = (
     ROOT
-    / "artifacts"
+    / "workspace"
+    / "과거작업"
+    / "평가산출물"
     / "2026-09-17_multilingual-e5-large-fairness-validation"
     / "model_audit.json"
 )
@@ -405,14 +407,14 @@ def evaluate_bm25_e5_strategy(
     audit = validate_evaluation_cases(
         fixture["cases"], chunks, minimum_cases=80, maximum_cases=100
     )
-    if tuple(fixture["cutoffs"]) != (1, 3, 5, 10) or CHUNK_VERSION != 4:
+    if tuple(fixture["cutoffs"]) != (1, 3, 5, 10) or metadata["chunk_version"] != 4:
         raise ValueError("retrieval contract drift")
 
     identifiers = tuple(chunk.chunk_id for chunk in chunks)
     snapshot_contract = {
         "dataset_version": fixture["dataset_version"],
         "document_version": fixture["document_version"],
-        "chunk_version": CHUNK_VERSION,
+        "chunk_version": metadata["chunk_version"],
         "model": MODEL_NAME,
         "dimensions": MODEL_DIMENSIONS,
         "passage_representation": "body_only_with_passage_prefix",
@@ -655,7 +657,7 @@ def evaluate_bm25_e5_strategy(
         "dataset": {
             "dataset_version": fixture["dataset_version"],
             "document_version": fixture["document_version"],
-            "chunk_version": CHUNK_VERSION,
+            "chunk_version": metadata["chunk_version"],
             "chunk_count": len(chunks),
             "case_count": len(fixture["cases"]),
             "approved_positive_count": audit["approved_case_count"],

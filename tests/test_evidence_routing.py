@@ -1,5 +1,5 @@
-from mvp.evidence_routing import route_evidence
-from mvp.query import plan_query
+from src.evidence_routing import route_evidence
+from src.query import plan_query
 
 
 def test_generic_text_table_mixed_and_image_routes():

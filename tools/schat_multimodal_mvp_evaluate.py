@@ -23,7 +23,7 @@ DEFAULT_CATALOG = ROOT / 'data' / 'library' / 'catalog.sqlite3'
 DEFAULT_PDF = ROOT / 'data' / '실무지침서_수혈간호.pdf'
 DEFAULT_FIXTURE = ROOT / 'tests' / 'fixtures' / 'transfusion_retrieval_baseline.json'
 DEFAULT_MULTIMODAL = ROOT / 'tests' / 'fixtures' / 'transfusion_multimodal_retrieval.json'
-DEFAULT_OUTPUT = ROOT / 'artifacts' / '2026-09-17_schat-multimodal-mvp'
+DEFAULT_OUTPUT = ROOT / 'workspace' / 'RAG_실험' / '2026-09-17_schat-multimodal-mvp'
 
 
 def _load_json(path: Path) -> dict[str, Any]:

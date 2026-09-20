@@ -17,17 +17,19 @@ from tools.retrieval_strategy_evaluate import (
     validate_dataset_identity,
 )
 from tools.schat_mvp_stabilize import split_reusable_chroma_cases
+from tools.workspace_security_cleanup import stable_identifier
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURE = ROOT / "tests" / "fixtures" / "transfusion_retrieval_baseline.json"
 CATALOG = ROOT / "data" / "library" / "catalog.sqlite3"
 PRIOR_CHROMA = (
     ROOT
-    / "artifacts"
+    / "workspace"
+    / "RAGAS"
     / "2026-09-16_transfusion-chromadb-ragas-baseline"
     / "chroma_results.json"
 )
-RESULTS = ROOT / "artifacts" / "2026-09-16_transfusion-retrieval-baseline"
+RESULTS = ROOT / "workspace" / "과거작업" / "평가산출물" / "2026-09-16_transfusion-retrieval-baseline"
 
 
 def _chunk(identifier, position, text):
@@ -191,7 +193,7 @@ def test_existing_chroma_positive_results_are_reused_only_after_identity_validat
     assert all(row["expected_answerable"] is True for row in reused)
 
     drifted = json.loads(PRIOR_CHROMA.read_text(encoding="utf-8"))
-    drifted["cases"][0]["question"] = "drift"
+    drifted["cases"][0]["question_sha256"] = stable_identifier("drift")
     drifted_path = PRIOR_CHROMA.parent / "_test_drifted_chroma_results.json"
     try:
         drifted_path.write_text(json.dumps(drifted), encoding="utf-8")

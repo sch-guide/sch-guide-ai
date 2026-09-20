@@ -16,12 +16,12 @@ from typing import Iterable, Sequence
 import numpy as np
 from rank_bm25 import BM25Okapi
 
-from mvp.diagnostics import scan_summary
-from mvp.documents import read_document
-from mvp.library import CHUNK_VERSION, Chunk, Embedder, clean, make_chunks
-from mvp.query import plan_query
-from mvp.retrieval import BM25Index, lexical_tokens, rank_bm25_candidates
-from mvp.settings import ROOT
+from src.diagnostics import scan_summary
+from src.documents import read_document
+from src.library import CHUNK_VERSION, Chunk, Embedder, clean, make_chunks
+from src.query import plan_query
+from src.retrieval import BM25Index, lexical_tokens, rank_bm25_candidates
+from src.settings import ROOT
 
 DEFAULT_QUESTIONS = (
     "진정간호 목적은?",
@@ -66,12 +66,16 @@ def default_input_paths(data_dir: Path) -> list[Path]:
     )
 
 
-def stable_evaluation_chunks(path: Path, counter: object) -> tuple[dict, list[Chunk], dict]:
+def stable_evaluation_chunks(
+    path: Path, counter: object, *, chunk_version: int = CHUNK_VERSION
+) -> tuple[dict, list[Chunk], dict]:
     """운영 추출·청킹을 재사용하되 평가 ID만 파일 해시 기반으로 안정화한다."""
     content = path.read_bytes()
     digest = hashlib.sha256(content).hexdigest()
     document = read_document(path.name, content, ocr=False)
-    metadata, generated = make_chunks(document, counter, file_hash=digest)
+    metadata, generated = make_chunks(
+        document, counter, file_hash=digest, _chunk_version=chunk_version
+    )
     identity = hashlib.sha256(f"{path.name.casefold()}:{digest}".encode()).hexdigest()
     document_id = f"eval-{identity[:20]}"
     ids = [f"{document_id}-chunk-{index + 1:05d}" for index in range(len(generated))]
@@ -240,10 +244,10 @@ def build_report(input_paths: Sequence[Path], questions: Sequence[str], counter:
         "comparison_contract": {
             "same_questions": True,
             "same_chunks": True,
-            "same_corpus_tokenizer": "mvp.retrieval.lexical_tokens",
+            "same_corpus_tokenizer": "src.retrieval.lexical_tokens",
             "same_query_text": "QueryPlan.expanded",
             "mixed_ranking_created": False,
-            "schat_engine": "mvp.retrieval.BM25Index",
+            "schat_engine": "src.retrieval.BM25Index",
             "schat_ranking": "match > neutral > mismatch stable temporal tiers within raw Top 40",
             "schat_ranking_query": "QueryPlan.original",
             "baseline_engine": "rank_bm25.BM25Okapi(k1=1.5, b=0.75)",
@@ -444,7 +448,9 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--question", action="append", dest="questions", help="평가 질문(반복 가능)")
     parser.add_argument("--top-k", type=int, default=10)
     parser.add_argument(
-        "--output-dir", type=Path, default=ROOT / "artifacts" / f"{date.today().isoformat()}_bm25-evaluation"
+        "--output-dir",
+        type=Path,
+        default=ROOT / "workspace" / "검색_성능평가" / "BM25" / f"{date.today().isoformat()}_bm25-evaluation",
     )
     return parser.parse_args(argv)
 

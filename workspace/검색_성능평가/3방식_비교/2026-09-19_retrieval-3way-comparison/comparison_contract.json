@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "evaluation_date": "2026-09-19",
+  "evaluator_file": "tools/retrieval_3way_compare.py",
+  "corpus_fingerprint": "f114e736f5ca9d487ec6be225ae5e942b5cbc25df1d85a648eaaf7bba98d2010",
+  "gold_fixture_sha256": "0485c2192324082594bb66cc398097b3abc3ca4dc32066963db69d99a4f9067c",
+  "approved_positive_case_count": 21,
+  "top_k": [
+    1,
+    3,
+    5,
+    10
+  ],
+  "engines": [
+    "bm25_only",
+    "chromadb_only",
+    "current_hybrid"
+  ],
+  "winner_metrics": [
+    "hit_at_10",
+    "mrr",
+    "recall_at_10",
+    "precision_at_10"
+  ],
+  "overall_winner_rule": "lexicographic_hit_at_10_then_mrr_then_recall_at_10_then_precision_at_10",
+  "complete_tie_rule": "all_four_case_metrics_equal_across_all_engines",
+  "inputs": {
+    "bm25_only": {
+      "artifact_dir": "artifacts/2026-09-19_bm25-only-eval",
+      "evaluation_contract_sha256": "fde915f68b6f373cc1a817e1b0f0577145978bc563bb2cbf63f688561f93ab1e",
+      "summary_sha256": "505c276767b7871efe6e6aa9420725c2f06043d87df5a870a50c64ba3eefd738",
+      "per_case_results_sha256": "15c25812e119fec448638e92902c5397461656e804ed8afb24724d38cbf48353"
+    },
+    "chromadb_only": {
+      "artifact_dir": "artifacts/2026-09-19_chromadb-only-eval",
+      "evaluation_contract_sha256": "bfa76ba83d6b05a7237fd454f87815064541869adf34c87b8ef8680fd50f326f",
+      "summary_sha256": "f229f855bb14ae30ee74768d987b7f39521358daed9d72f82e1878bbb40a3c01",
+      "per_case_results_sha256": "c668281fb847aed818414f6ca1eeb15a804b63ce9e91192679821bc2847de3d5"
+    },
+    "current_hybrid": {
+      "artifact_dir": "artifacts/2026-09-19_current-hybrid-eval",
+      "evaluation_contract_sha256": "2fb825e745d7f3abac4714da09a77af83d6a2d75ad6b1edfc0b6715cd1974970",
+      "summary_sha256": "3743e8176a381f959d7875406cb72abf75bdf86e0ea12bbdc39357771cca8e3b",
+      "per_case_results_sha256": "e52c7b8b1b5cd2cb3dce59c278669e943842c8d3492ee1e6200575af4c69198a"
+    }
+  }
+}

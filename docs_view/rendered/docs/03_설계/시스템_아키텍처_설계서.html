@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SCHAT 시스템 설계 — 멘토 검토용 Current Truth · SCHAT 문서</title><link rel="stylesheet" href="../../../assets/style.css"></head>
+<body><main class="document-pane"><div class="official-notice"><div><strong>열람용 복사본</strong><span>공식 정본은 docs/입니다.</span></div></div>
+<article class="markdown-body"><h1 id="section-1">SCHAT 시스템 설계 — 멘토 검토용 Current Truth</h1>
+<blockquote><p>기준일: 2026-09-19  기준 브랜치: <code>boha-rag</code>  목적: 현재 실행 구조를 10초 안에 파악할 수 있는 구조도와 그 근거 제공 비범위: Production 코드·검색·validator·DB/schema·Gold/UAT 변경, 외부 Provider 호출</p></blockquote>
+<h2 id="section-2">먼저 읽을 한 문장</h2>
+<p><strong>현재 SCHAT의 Hybrid Retrieval은 자체 BM25의 단어 기반 검색과 MiniLM의 의미 기반 vector 검색을 병렬로 수행하고, 두 순위를 RRF로 합친 뒤 규칙 기반 reranker와 Evidence 안전 경계를 통과시키는 구조다.</strong></p>
+<hr>
+<h2 id="section-3">1. 한눈에 보는 전체 시스템 구조</h2>
+<pre><code class="language-text">직원 / 관리자 브라우저
+          │
+          ▼
+Streamlit Web App                         src/app.py · src/ui.py
+          │
+          ▼
+질문 입력 / 인증 / 문서 범위
+          │
+          ▼
+QueryPlan                                 src/query.py
+정규화 · 검색어 확장 · intent · branch / phase
+          │
+          ▼
+Hybrid Retrieval                          src/retrieval.py · src/cloud.py
+          │
+          ▼
+RRF → 규칙 기반 Reranker                  src/retrieval.py
+          │
+          ▼
+Context Expansion / Parent Atomicity      src/context.py
+          │
+          ▼
+Evidence Gate / SourceUnit Catalog        src/evidence.py
+          │
+          ▼
+승인된 AI Provider의 SourceUnit ID 선택   src/ai.py
+          │
+          ▼
+Server Exact Reconstruction               src/ai.py
+          │
+          ▼
+Validators / AnswerCoverage               src/ai.py · src/evidence.py · src/grounding.py
+          │
+     ┌────┴─────┐
+     ▼          ▼
+검증된 답변    Abstention
++ Citation     + 참고 원문</code></pre>
+<p>핵심 불변식:</p>
+<ol><li>Vector similarity만으로 답변 가능성을 결정하지 않는다.</li><li>BM25와 vector 후보는 RRF로 결합한 뒤 기존 규칙 기반 검사를 통과한다.</li><li>Parent 의미 단위를 부분적으로 잘라 답변하지 않는다.</li><li>승인된 AI Provider는 임상 문장을 자유 생성하지 않고 허용된 SourceUnit ID만 선택한다.</li><li>서버가 exact text를 재구성하고 validator를 통과한 결과만 표시한다.</li><li>근거가 부족하거나 계약이 깨지면 자동 보완하지 않고 abstain한다.</li></ol>
+<hr>
+<h2 id="section-4">2. Hybrid Retrieval 상세 구조</h2>
+<pre><code class="language-text">                              사용자 질문
+                                   │
+                                   ▼
+                               QueryPlan
+                                   │
+                    ┌──────────────┴──────────────┐
+                    │                             │
+                    ▼                             ▼
+          BM25 Lexical Retrieval         MiniLM Semantic Embedding
+          단어·구문 기반 검색             의미 기반 384차원 vector
+          src/retrieval.py               src/library.py
+                    │                             │
+                    │                    ┌────────┴────────┐
+                    │                    │                 │
+                    │                    ▼                 ▼
+                    │               Local FAISS      Staff pgvector
+                    │               IndexFlatIP      guide_search RPC
+                    │                    │                 │
+                    └────────────────────┴────────┬────────┘
+                                                 ▼
+                                                RRF
+                                      BM25·vector 순위 결합
+                                                 │
+                                                 ▼
+                                      규칙 기반 Reranker
+                                                 │
+                                                 ▼
+                                       Context Expansion
+                                                 │
+                                                 ▼
+                                          Evidence Gate
+                                                 │
+                                                 ▼
+                                            SourceUnit</code></pre>
+<p><code>Hybrid = BM25 + Semantic Vector Retrieval</code>이다.</p>
+<div class="table-wrap"><table><thead><tr><th class="align-left">구성요소</th><th class="align-left">현재 역할</th><th class="align-left">실제 구현</th></tr></thead><tbody><tr><td class="align-left">BM25</td><td class="align-left">lexical / 단어 기반 후보 검색</td><td class="align-left"><code>src/retrieval.py</code>의 자체 <code>BM25Index</code></td></tr><tr><td class="align-left">MiniLM</td><td class="align-left">semantic / 의미 기반 query·chunk vector</td><td class="align-left"><code>src/library.py</code>의 FastEmbed <code>TextEmbedding</code></td></tr><tr><td class="align-left">FAISS</td><td class="align-left">Local dense similarity</td><td class="align-left"><code>src/retrieval.py</code>의 <code>IndexFlatIP</code></td></tr><tr><td class="align-left">pgvector</td><td class="align-left">Staff dense similarity</td><td class="align-left"><code>src/cloud.py</code>의 <code>guide_search</code> RPC</td></tr><tr><td class="align-left">RRF</td><td class="align-left">BM25와 vector 결과의 순위 결합</td><td class="align-left"><code>src/retrieval.py</code>의 <code>rrf()</code></td></tr><tr><td class="align-left">Reranker</td><td class="align-left">결합 후보에 compatibility·coverage·threshold 등 적용</td><td class="align-left"><code>src/retrieval.py</code>의 <code>rerank()</code></td></tr><tr><td class="align-left">Context expansion</td><td class="align-left">이웃·절차 순서·branch·parent 보존</td><td class="align-left"><code>src/context.py</code>의 <code>expand_context()</code></td></tr><tr><td class="align-left">Evidence gate</td><td class="align-left">생성 전후 sufficiency와 필수 coverage 판정</td><td class="align-left"><code>src/evidence.py</code>의 <code>assess_evidence()</code></td></tr></tbody></table></div>
+<p><code>rank-bm25==0.2.2</code>는 설치돼 있지만 Production BM25 runtime은 아니다. Production은 자체 <code>BM25Index</code>를 호출한다. 모델 식별자에 <code>sentence-transformers</code>가 포함되지만 해당 Python 패키지는 미설치이며, 실제 MiniLM runtime은 <code>fastembed==0.8.0</code>이다.</p>
+<hr>
+<h2 id="section-5">3. Local / Staff 실행 모드</h2>
+<pre><code class="language-text">                         SCHAT
+                           │
+                    실행 환경 분기
+                ┌──────────┴──────────┐
+                │                     │
+                ▼                     ▼
+           Local Mode             Staff Mode
+                │                     │
+              SQLite             Supabase Auth/RLS
+                │                     │
+          공통 BM25 + MiniLM     공통 BM25 + MiniLM
+                │                     │
+              FAISS               pgvector RPC
+                │                     │
+                └──────────┬──────────┘
+                           ▼
+                RRF 이후 공통 안전 경로</code></pre>
+<p>Local / Staff는 retrieval algorithm의 별도 버전이 아니라 배포·저장 환경의 차이다. Pure BM25 / ChromaDB / Hybrid 비교군과 혼동하지 않는다.</p>
+<div class="table-wrap"><table><thead><tr><th class="align-left">항목</th><th class="align-left">Local (<code>GUIDE_MODE=local</code>)</th><th class="align-left">Staff (<code>GUIDE_MODE=staff</code>)</th></tr></thead><tbody><tr><td class="align-left">앱</td><td class="align-left">Streamlit</td><td class="align-left">Streamlit</td></tr><tr><td class="align-left">인증</td><td class="align-left">로컬 계정 DB</td><td class="align-left">Supabase Auth + profile/RLS</td></tr><tr><td class="align-left">Catalog</td><td class="align-left">SQLite <code>catalog.sqlite3</code></td><td class="align-left">Supabase tables/RPC</td></tr><tr><td class="align-left">BM25</td><td class="align-left">서버 메모리 자체 <code>BM25Index</code></td><td class="align-left">허용 chunk를 앱 cache에 두고 자체 <code>BM25Index</code></td></tr><tr><td class="align-left">Embedding</td><td class="align-left">FastEmbed MiniLM</td><td class="align-left">FastEmbed MiniLM</td></tr><tr><td class="align-left">Vector engine</td><td class="align-left">FAISS <code>IndexFlatIP</code></td><td class="align-left">Supabase pgvector <code>guide_search</code> RPC</td></tr><tr><td class="align-left">Fusion 이후</td><td class="align-left">RRF → 기존 reranker/context/evidence</td><td class="align-left">동일</td></tr><tr><td class="align-left">원본 저장</td><td class="align-left">Local private originals</td><td class="align-left">Supabase private Storage 가능</td></tr></tbody></table></div>
+<p>직원 환경에서도 BM25를 Supabase full-text 검색으로 대체하지 않는다. SQLite는 metadata·계정·사용량·vector snapshot 저장소이며 vector similarity 계산 엔진은 아니다.</p>
+<hr>
+<h2 id="section-6">4. Generation / Validation 구조</h2>
+<pre><code class="language-text">검증된 Evidence
+       │
+       ▼
+SourceUnit Catalog
+       │
+       ▼
+Request-local ID Schema
+       │
+       ▼
+승인된 AI Provider
+허용된 SourceUnit ID만 선택
+자유 임상 문장 생성 없음
+       │
+       ▼
+Server Reconstruction
+선택 ID → exact source text
+       │
+       ▼
+Validators / AnswerCoverage
+Citation · Number · Unit · Time · Condition
+Negation · Action · Branch/Phase · Source Order
+       │
+   ┌───┴────┐
+   ▼        ▼
+ PASS      FAIL
+답변 표시  Abstention / 근거 부족 안내</code></pre>
+<p>AI Provider 경로는 최종 임상 문장을 마음대로 쓰는 구조가 아니다. 승인된 설정에 따라 Groq 또는 OpenAI 호환 internal/Gemini endpoint를 사용할 수 있다. <code>src/ai.py</code>가 요청별 선택 가능 ID를 strict schema로 제한하고, <code>validate_source_unit_selection()</code>이 ID·중복·group/facet·순서·branch/phase·coverage를 검사한다. 서버는 <code>reconstruct_source_unit_answer()</code>로 원문을 복원한 뒤 <code>validate_answer()</code>를 실행한다.</p>
+<div class="table-wrap"><table><thead><tr><th class="align-left">Gate</th><th class="align-left">통과 조건</th><th class="align-left">실패 동작</th></tr></thead><tbody><tr><td class="align-left">질문</td><td class="align-left">in-scope, clarification 불필요</td><td class="align-left">검색/Provider 호출 없이 안내</td></tr><tr><td class="align-left">Pre-LLM Evidence</td><td class="align-left">필수 group/facet/branch/phase 충족</td><td class="align-left"><code>answerable=false</code></td></tr><tr><td class="align-left">Prompt budget</td><td class="align-left">필수 근거와 parent atomicity 유지</td><td class="align-left"><code>answerable=false</code></td></tr><tr><td class="align-left">SourceUnit selection</td><td class="align-left">허용 ID, 순서·coverage 충족</td><td class="align-left">Provider 결과 폐기</td></tr><tr><td class="align-left">Reconstruction</td><td class="align-left">선택 ID를 exact text로 변환</td><td class="align-left">임의 문장 생성 없음</td></tr><tr><td class="align-left"><code>validate_answer()</code></td><td class="align-left">citation·숫자·단위·행위·support 통과</td><td class="align-left">결과 미표시</td></tr><tr><td class="align-left">Citation reassessment</td><td class="align-left">실제 인용 근거만으로 충분</td><td class="align-left"><code>answerable=false</code></td></tr></tbody></table></div>
+<p>Q006 및 운영 out-of-scope 안전 경계는 Provider transport 0회를 유지한다.</p>
+<hr>
+<h2 id="section-7">5. Production / Evaluation-only 경계</h2>
+<div class="table-wrap"><table><thead><tr><th class="align-left">구성요소</th><th class="align-left">현재 사용</th><th class="align-left">경계</th><th class="align-left">구현 파일</th></tr></thead><tbody><tr><td class="align-left">자체 BM25 + MiniLM</td><td class="align-left">사용 중</td><td class="align-left">Production 공통</td><td class="align-left"><code>src/retrieval.py</code>, <code>src/library.py</code></td></tr><tr><td class="align-left">FAISS</td><td class="align-left">사용 중</td><td class="align-left">Production Local</td><td class="align-left"><code>src/retrieval.py</code></td></tr><tr><td class="align-left">Supabase pgvector</td><td class="align-left">사용 중</td><td class="align-left">Production Staff</td><td class="align-left"><code>src/cloud.py</code></td></tr><tr><td class="align-left">RRF + 규칙 기반 reranker</td><td class="align-left">사용 중</td><td class="align-left">Production</td><td class="align-left"><code>src/retrieval.py</code></td></tr><tr><td class="align-left">Context expansion / parent atomicity</td><td class="align-left">사용 중</td><td class="align-left">Production</td><td class="align-left"><code>src/context.py</code></td></tr><tr><td class="align-left">Evidence / SourceUnit / exact reconstruction</td><td class="align-left">사용 중</td><td class="align-left">Production</td><td class="align-left"><code>src/evidence.py</code>, <code>src/ai.py</code></td></tr><tr><td class="align-left">Validators / AnswerCoverage</td><td class="align-left">사용 중</td><td class="align-left">Production</td><td class="align-left"><code>src/ai.py</code>, <code>src/evidence.py</code>, <code>src/grounding.py</code></td></tr><tr><td class="align-left">Controlled paraphrase</td><td class="align-left">운영 미게시</td><td class="align-left">Evaluation-only, extractive fallback</td><td class="align-left"><code>src/controlled_generation.py</code></td></tr><tr><td class="align-left">Structured Table Retrieval</td><td class="align-left">운영 미연결</td><td class="align-left">Evaluation-only</td><td class="align-left"><code>tools/structured_table_evidence.py</code></td></tr><tr><td class="align-left">Image/Diagram retrieval</td><td class="align-left">실제 retrieval 없음</td><td class="align-left">Metadata routing / Pending</td><td class="align-left"><code>src/evidence_routing.py</code></td></tr><tr><td class="align-left">TF027 image Gold</td><td class="align-left">Production 제외</td><td class="align-left">10/10 1차 검수 완료, reject</td><td class="align-left">reviewed fixture</td></tr><tr><td class="align-left">E5</td><td class="align-left">미채택</td><td class="align-left">Evaluation-only</td><td class="align-left"><code>tools/multilingual_e5_fairness_evaluate.py</code></td></tr><tr><td class="align-left">ChromaDB</td><td class="align-left"><strong>현재 Production 미사용</strong></td><td class="align-left">Evaluation-only</td><td class="align-left"><code>tools/chroma_baseline_evaluate.py</code></td></tr></tbody></table></div>
+<p>Controlled paraphrase는 형식·ID·숫자·단위·조건·부정 검증을 제공하지만 semantic entailment가 승인된 validator로 확정되지 않아 <code>publish_controlled=False</code>를 유지한다.</p>
+<p>Structured Table Retrieval은 parser 기반 table/row/cell metadata를 보존하지만 <code>src/retrieval.py</code> 또는 <code>src/cloud.py</code>에 연결되지 않았다. Image routing은 질문 cue에 따른 metadata status일 뿐 실제 image retrieval이나 vision answerability가 아니다.</p>
+<hr>
+<h2 id="section-8">6. 향후 BM25 / ChromaDB / Hybrid 비교 구조</h2>
+<pre><code class="language-text">동일 Gold · 질문 · Chunk Snapshot · Query Processing · Top-k
+                         │
+             ┌───────────┼───────────┐
+             │           │           │
+             ▼           ▼           ▼
+          Pure BM25   ChromaDB    Current Hybrid
+          lexical     vector      BM25 + MiniLM
+             │           │        + RRF + reranker
+             └───────────┼───────────┘
+                         ▼
+                동일 Evaluation Harness
+                         │
+                         ▼
+Hit@1/3/5/10 · MRR · Recall · Precision
+ID Context Precision/Recall · Latency · Memory
+질문 유형별 Failure Analysis</code></pre>
+<p>한 번에 여러 요소를 바꾸지 않고 검색 방식만 교체해 성능 차이를 비교한다.</p>
+<p>공정 비교 조건:</p>
+<ul><li>사람이 검수한 동일 positive Gold와 동일 질문 집합</li><li>동일 chunk snapshot, 문서 scope, query normalization/expansion</li><li>동일 Top-k와 cutoff: 1, 3, 5, 10</li><li>negative/out-of-scope는 positive IR aggregate와 분리</li><li>heading-only chunk를 Gold로 사용하지 않음</li><li>retrieval 결과에서 Gold를 자동 확정하지 않음</li><li>embedding model과 corpus fingerprint 명시</li></ul>
+<p>채택은 aggregate뿐 아니라 temporal, product-specific, paraphrase, procedure, fact-specific, branch-specific, table, image, negative/out-of-scope 실패 유형과 안전/UAT 회귀를 함께 본다. 기존 Hybrid 변경은 별도 설계와 승인이 필요하다.</p>
+<hr>
+<h2 id="section-9">7. 실제 구현 파일 Current Truth</h2>
+<div class="table-wrap"><table><thead><tr><th class="align-left">책임</th><th class="align-left">실제 파일</th><th class="align-left">확인 지점</th></tr></thead><tbody><tr><td class="align-left">Streamlit 진입·환경 분기</td><td class="align-left"><code>src/app.py</code></td><td class="align-left"><code>Settings.mode</code>, Local/Staff 객체 선택</td></tr><tr><td class="align-left">질문 계획</td><td class="align-left"><code>src/query.py</code></td><td class="align-left"><code>QueryPlan</code>, <code>plan_query()</code></td></tr><tr><td class="align-left">모델·차원</td><td class="align-left"><code>src/settings.py</code></td><td class="align-left"><code>MODEL</code>, <code>DIMENSIONS=384</code></td></tr><tr><td class="align-left">MiniLM runtime</td><td class="align-left"><code>src/library.py</code></td><td class="align-left"><code>Embedder</code>, FastEmbed <code>TextEmbedding</code></td></tr><tr><td class="align-left">자체 BM25</td><td class="align-left"><code>src/retrieval.py</code></td><td class="align-left"><code>BM25Index</code>, <code>rank_bm25_candidates()</code></td></tr><tr><td class="align-left">RRF</td><td class="align-left"><code>src/retrieval.py</code></td><td class="align-left"><code>rrf()</code></td></tr><tr><td class="align-left">규칙 기반 reranker</td><td class="align-left"><code>src/retrieval.py</code></td><td class="align-left"><code>rerank()</code></td></tr><tr><td class="align-left">Local FAISS</td><td class="align-left"><code>src/retrieval.py</code></td><td class="align-left"><code>search()</code>, <code>faiss.IndexFlatIP</code></td></tr><tr><td class="align-left">Staff pgvector + 앱 BM25</td><td class="align-left"><code>src/cloud.py</code></td><td class="align-left"><code>StaffLibrary.search()</code>, <code>guide_search</code> RPC</td></tr><tr><td class="align-left">Context expansion</td><td class="align-left"><code>src/context.py</code></td><td class="align-left"><code>expand_context()</code></td></tr><tr><td class="align-left">Evidence·SourceUnit</td><td class="align-left"><code>src/evidence.py</code></td><td class="align-left"><code>assess_evidence()</code>, <code>build_source_unit_catalog()</code></td></tr><tr><td class="align-left">AI Provider 선택 계약</td><td class="align-left"><code>src/ai.py</code></td><td class="align-left">selection schema, <code>validate_source_unit_selection()</code></td></tr><tr><td class="align-left">Exact reconstruction</td><td class="align-left"><code>src/ai.py</code></td><td class="align-left"><code>reconstruct_source_unit_answer()</code></td></tr><tr><td class="align-left">답변 validator</td><td class="align-left"><code>src/ai.py</code></td><td class="align-left"><code>validate_answer()</code></td></tr><tr><td class="align-left">Action/conflict grounding</td><td class="align-left"><code>src/grounding.py</code></td><td class="align-left">unsupported action, explicit conflicts</td></tr><tr><td class="align-left">Presentation</td><td class="align-left"><code>src/presentation.py</code>, <code>src/answer_ui.py</code></td><td class="align-left">검증 결과 표현과 UI rendering</td></tr><tr><td class="align-left">로컬 catalog</td><td class="align-left"><code>src/repository.py</code></td><td class="align-left">SQLite schema/snapshot</td></tr><tr><td class="align-left">Supabase schema/pgvector</td><td class="align-left"><code>src/schema.sql</code>, <code>src/migrations/20260910_operational_pgvector.sql</code></td><td class="align-left"><code>vector(384)</code>, <code>guide_search</code></td></tr><tr><td class="align-left">Controlled paraphrase</td><td class="align-left"><code>src/controlled_generation.py</code></td><td class="align-left">evaluation contract, extractive fallback</td></tr><tr><td class="align-left">Table evaluation</td><td class="align-left"><code>tools/structured_table_evidence.py</code>, <code>tools/table_evidence_app.py</code></td><td class="align-left">parser metadata와 local lookup</td></tr><tr><td class="align-left">Image metadata routing</td><td class="align-left"><code>src/evidence_routing.py</code></td><td class="align-left"><code>route_evidence()</code></td></tr><tr><td class="align-left">E5 evaluation</td><td class="align-left"><code>tools/multilingual_e5_fairness_evaluate.py</code>, <code>tools/bm25_e5_strategy_evaluate.py</code></td><td class="align-left">Production change false</td></tr><tr><td class="align-left">ChromaDB evaluation</td><td class="align-left"><code>tools/chroma_baseline_evaluate.py</code>, <code>tools/retrieval_comparison_app.py</code></td><td class="align-left">local comparison only</td></tr></tbody></table></div>
+<hr>
+<h2 id="section-10">8. Dependency / 개발 환경</h2>
+<p>2026-09-19 프로젝트 <code>.venv</code> 확인값이다.</p>
+<div class="table-wrap"><table><thead><tr><th class="align-left">Package</th><th class="align-right">설치 버전</th><th class="align-left">역할/비고</th></tr></thead><tbody><tr><td class="align-left">Python</td><td class="align-right">3.12.14</td><td class="align-left">runtime</td></tr><tr><td class="align-left">streamlit</td><td class="align-right">1.63.0</td><td class="align-left">Web UI</td></tr><tr><td class="align-left">pypdf</td><td class="align-right">6.17.0</td><td class="align-left">PDF text extraction</td></tr><tr><td class="align-left">fastembed</td><td class="align-right">0.8.0</td><td class="align-left">Production MiniLM runtime</td></tr><tr><td class="align-left">faiss-cpu</td><td class="align-right">1.15.0</td><td class="align-left">Local vector search</td></tr><tr><td class="align-left">langchain-core</td><td class="align-right">1.6.2</td><td class="align-left">text processing dependency</td></tr><tr><td class="align-left">langchain-text-splitters</td><td class="align-right">1.1.2</td><td class="align-left">chunking</td></tr><tr><td class="align-left">httpx</td><td class="align-right">0.28.1</td><td class="align-left">Supabase/승인 Provider HTTP</td></tr><tr><td class="align-left">python-dotenv</td><td class="align-right">1.2.3</td><td class="align-left">local configuration</td></tr><tr><td class="align-left">numpy</td><td class="align-right">2.5.3</td><td class="align-left">vectors/numeric operations</td></tr><tr><td class="align-left">pydantic</td><td class="align-right">2.13.5</td><td class="align-left">response contracts</td></tr><tr><td class="align-left">tiktoken</td><td class="align-right">0.14.0</td><td class="align-left">Groq request budget estimation</td></tr><tr><td class="align-left">python-docx</td><td class="align-right">1.2.0</td><td class="align-left">DOCX input</td></tr><tr><td class="align-left">openpyxl</td><td class="align-right">3.1.5</td><td class="align-left">XLSX input</td></tr><tr><td class="align-left">pdfplumber</td><td class="align-right">0.11.10</td><td class="align-left">table evaluation extraction</td></tr><tr><td class="align-left">rank-bm25</td><td class="align-right">0.2.2</td><td class="align-left">설치됨, Production BM25 runtime 아님</td></tr><tr><td class="align-left">sentence-transformers</td><td class="align-right">미설치</td><td class="align-left">FastEmbed가 MiniLM 실행</td></tr></tbody></table></div>
+<p>저장소 역할:</p>
+<div class="table-wrap"><table><thead><tr><th class="align-left">저장소/엔진</th><th class="align-left">역할</th><th class="align-left">Vector similarity 엔진</th></tr></thead><tbody><tr><td class="align-left">SQLite <code>catalog.sqlite3</code></td><td class="align-left">local metadata, chunk, vector snapshot, checklist</td><td class="align-left">아니오</td></tr><tr><td class="align-left">SQLite <code>accounts.sqlite3</code></td><td class="align-left">local account</td><td class="align-left">아니오</td></tr><tr><td class="align-left">SQLite <code>usage.sqlite3</code></td><td class="align-left">token reservation / usage</td><td class="align-left">아니오</td></tr><tr><td class="align-left">Supabase Auth/RLS</td><td class="align-left">Staff 인증과 접근 제어</td><td class="align-left">아니오</td></tr><tr><td class="align-left">Supabase tables/Storage</td><td class="align-left">Staff metadata/chunk/vector/original 저장</td><td class="align-left">저장소</td></tr><tr><td class="align-left">FAISS <code>IndexFlatIP</code></td><td class="align-left">Local inner-product vector 검색</td><td class="align-left">예</td></tr><tr><td class="align-left">Supabase pgvector RPC</td><td class="align-left">Staff vector similarity 검색</td><td class="align-left">예</td></tr><tr><td class="align-left">ChromaDB</td><td class="align-left">별도 evaluation baseline</td><td class="align-left">Production 아님</td></tr></tbody></table></div>
+<hr>
+<h2 id="section-11">9. 상세 기술 설명과 변경하지 않은 범위</h2>
+<h3 id="section-12">질문 처리</h3>
+<p>Streamlit이 질문과 명시적 문서 범위를 수집하면 <code>plan_query()</code>가 정규화, 오탈자 보완, intent, domain, 질문 유형, 비교 대상, branch/phase, procedure 요구를 분석한다. Clarification이 필요하거나 domain 밖 질문이면 Provider 호출 전에 차단한다.</p>
+<h3 id="section-13">후보 검색과 재정렬</h3>
+<p>BM25는 확장 질의를 대상으로 lexical 점수를 계산한다. Vector 경로는 동일 MiniLM 질의 vector를 사용하되 Local은 FAISS, Staff는 pgvector RPC가 dense 후보를 반환한다. RRF는 서로 다른 점수계를 rank 기반으로 결합하며 확률을 산출하지 않는다.</p>
+<p><code>rerank()</code>는 heading-only 또는 지나치게 짧은 본문, topic compatibility, lexical support, dense threshold, 핵심어 coverage, focus, 비교 질문의 entity 다양성, 중복과 seed 수를 검사한다.</p>
+<h3 id="section-14">Context와 Evidence</h3>
+<p><code>expand_context()</code>는 같은 문서·section의 연결된 앞뒤 문맥, 페이지 거리, 절차 순서, 명시적 branch와 parent block을 보존한다. 불완전한 parent block은 answer path에서 차단한다. <code>assess_evidence()</code>는 LLM 호출 전과 prompt budget 적용 후 필수 document/entity/branch/phase/group/facet coverage를 검사한다.</p>
+<h3 id="section-15">변경하지 않은 범위</h3>
+<ul><li>이 문서 작성 당시의 공식 문서 내용</li><li><code>src/</code> Production 코드와 설정</li><li>Retrieval / validator / database schema</li><li>test fixture, Gold, metric 결과</li><li><code>.env</code> 및 secret</li><li>외부 Provider/API 호출 상태</li><li>Git branch, commit, tag, push</li></ul>
+<p>이 산출물은 실제 실행 코드를 설명하는 검수용 문서다. 존재하지 않는 component를 제안 구조처럼 추가하지 않으며, 평가 코드를 Production 실행선에 포함시키지 않는다.</p></article></main></body></html>

@@ -13,7 +13,7 @@ from typing import Any, Iterable, Sequence
 
 import numpy as np
 
-from mvp.library import CHUNK_VERSION, clean, embedding_question
+from src.library import clean, embedding_question
 from tools.bm25_vector_fairness_evaluate import (
     CORE_METRICS,
     _group_metrics,
@@ -37,9 +37,9 @@ QUERY_PREFIX = "query: "
 PASSAGE_PREFIX = "passage: "
 DEFAULT_CATALOG = ROOT / "data" / "library" / "catalog.sqlite3"
 DEFAULT_FIXTURE = ROOT / "tests" / "fixtures" / "transfusion_retrieval_baseline.json"
-DEFAULT_BASELINE = ROOT / "artifacts" / "2026-09-17_bm25-vector-fairness-validation"
+DEFAULT_BASELINE = ROOT / "workspace" / "과거작업" / "평가산출물" / "2026-09-17_bm25-vector-fairness-validation"
 DEFAULT_CACHE = ROOT / "data" / "models"
-DEFAULT_OUTPUT = ROOT / "artifacts" / "2026-09-17_multilingual-e5-large-fairness-validation"
+DEFAULT_OUTPUT = ROOT / "workspace" / "과거작업" / "평가산출물" / "2026-09-17_multilingual-e5-large-fairness-validation"
 BASELINE_CONFIGS = (
     "bm25_minimal_raw",
     "bm25_current_baseline",
@@ -250,7 +250,7 @@ def evaluate_multilingual_e5(
     )
     if fixture.get("dataset_version") != "transfusion-retrieval-v3":
         raise ValueError("dataset version drift")
-    if tuple(fixture["cutoffs"]) != (1, 3, 5, 10) or CHUNK_VERSION != 4:
+    if tuple(fixture["cutoffs"]) != (1, 3, 5, 10) or fixture["document"]["chunk_version"] != 4:
         raise ValueError("retrieval contract drift")
     baseline_rows, baseline_type_rows = _baseline_rows(baseline_dir)
 
@@ -327,7 +327,7 @@ def evaluate_multilingual_e5(
     }
     dataset = {
         "dataset_version": fixture["dataset_version"],
-        "chunk_version": CHUNK_VERSION,
+        "chunk_version": metadata["chunk_version"],
         "chunk_count": len(chunks),
         "case_count": len(fixture["cases"]),
         "evaluated_positive_count": case_audit["approved_case_count"],

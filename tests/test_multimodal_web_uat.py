@@ -8,10 +8,10 @@ TABLE_APP = ROOT / "tools" / "table_evidence_app.py"
 
 def test_verified_text_answer_uses_production_streamlit_renderer_without_outer_numbering():
     script = r'''
-from mvp.ai import Answer, Evidence, Statement
-from mvp.answer_ui import render_answer
-from mvp.library import Chunk, Hit
-from mvp.presentation import AnswerPresentation, StatementPresentation
+from src.ai import Answer, Evidence, Statement
+from src.answer_ui import render_answer
+from src.library import Chunk, Hit
+from src.presentation import AnswerPresentation, StatementPresentation
 
 chunk = Chunk(
     id="chunk-1", document_id="doc-1", document_name="synthetic.pdf", page=1,

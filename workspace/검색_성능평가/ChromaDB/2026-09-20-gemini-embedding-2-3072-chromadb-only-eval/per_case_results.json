@@ -1,0 +1,3127 @@
+{
+  "schema_version": 1,
+  "engine": "chromadb_only_gemini_embedding_2_3072",
+  "cases": [
+    {
+      "case_id": "UAT-S01",
+      "question_type": "fact_specific",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "b8aa4248-5304-4e92-8d46-378c29d2ea1f"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "b8aa4248-5304-4e92-8d46-378c29d2ea1f"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.81822884,
+          "distance": 0.18177116,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "b8aa4248-5304-4e92-8d46-378c29d2ea1f",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "1. 목적",
+          "similarity": 0.77191269,
+          "distance": 0.22808731,
+          "gold_hit": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "466dfba9-2a70-43c4-acb1-072205e7617a",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.75297689,
+          "distance": 0.24702311,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "58f75e7c-abca-44af-973d-7f3ab82de79e",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "6. 진정 절차",
+          "similarity": 0.74824381,
+          "distance": 0.25175619,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "706121bb-6008-41f8-98f4-3837ac2ca60c",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "5. 진정 대상 의약품 목록",
+          "similarity": 0.74681485,
+          "distance": 0.25318515,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "3a8c7132-b8d0-4d22-96d3-3661cc828b8b",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 6,
+          "section": "",
+          "similarity": 0.73962522,
+          "distance": 0.26037478,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "similarity": 0.72831154,
+          "distance": 0.27168846,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "19050bbd-4aa4-48fc-975f-512af6495ef9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 5,
+          "section": "",
+          "similarity": 0.72304749,
+          "distance": 0.27695251,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "f6270c31-269f-4ed1-980f-28595246784e",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.72090685,
+          "distance": 0.27909315,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "5fda5f8d-682e-4834-8dbb-78804598fe93",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.7194798,
+          "distance": 0.2805202,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.5,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "ragas_id_context_precision": 0.1,
+        "ragas_id_context_recall": 1.0
+      },
+      "latency_ms": {
+        "embedding": 530.317,
+        "query": 8.333,
+        "total": 538.65
+      },
+      "failure_category": "gold_below_rank_1"
+    },
+    {
+      "case_id": "UAT-S02",
+      "question_type": "procedure",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "58f75e7c-abca-44af-973d-7f3ab82de79e",
+        "f6270c31-269f-4ed1-980f-28595246784e",
+        "466dfba9-2a70-43c4-acb1-072205e7617a",
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf",
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "466dfba9-2a70-43c4-acb1-072205e7617a",
+        "58f75e7c-abca-44af-973d-7f3ab82de79e",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd",
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+        "f6270c31-269f-4ed1-980f-28595246784e",
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.83732826,
+          "distance": 0.16267174,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "58f75e7c-abca-44af-973d-7f3ab82de79e",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "6. 진정 절차",
+          "similarity": 0.8216148,
+          "distance": 0.1783852,
+          "gold_hit": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "466dfba9-2a70-43c4-acb1-072205e7617a",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.80251658,
+          "distance": 0.19748342,
+          "gold_hit": true
+        },
+        {
+          "rank": 4,
+          "chunk_id": "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "similarity": 0.79175669,
+          "distance": 0.20824331,
+          "gold_hit": true
+        },
+        {
+          "rank": 5,
+          "chunk_id": "3a8c7132-b8d0-4d22-96d3-3661cc828b8b",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 6,
+          "section": "",
+          "similarity": 0.77861059,
+          "distance": 0.22138941,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "b8aa4248-5304-4e92-8d46-378c29d2ea1f",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "1. 목적",
+          "similarity": 0.77636069,
+          "distance": 0.22363931,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "similarity": 0.7744689,
+          "distance": 0.2255311,
+          "gold_hit": true
+        },
+        {
+          "rank": 8,
+          "chunk_id": "f6270c31-269f-4ed1-980f-28595246784e",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.77259916,
+          "distance": 0.22740084,
+          "gold_hit": true
+        },
+        {
+          "rank": 9,
+          "chunk_id": "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.7698648,
+          "distance": 0.2301352,
+          "gold_hit": true
+        },
+        {
+          "rank": 10,
+          "chunk_id": "7b17d4cb-1579-452e-a702-043a35bdcf74",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "3) 과다진정으로 인해 산소를 투여함에도 산소포화도가 95%이하로 지속되면(시술 중이면 시술을 중지)",
+          "similarity": 0.7673834,
+          "distance": 0.2326166,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.5,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.16666666666666666,
+        "recall_at_5": 0.25,
+        "recall_at_10": 0.5,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.6666666666666666,
+        "precision_at_5": 0.6,
+        "precision_at_10": 0.6,
+        "ragas_id_context_precision": 0.6,
+        "ragas_id_context_recall": 0.5
+      },
+      "latency_ms": {
+        "embedding": 591.721,
+        "query": 6.246,
+        "total": 597.967
+      },
+      "failure_category": "gold_below_rank_1"
+    },
+    {
+      "case_id": "UAT-S03",
+      "question_type": "preparation",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "58f75e7c-abca-44af-973d-7f3ab82de79e",
+        "f6270c31-269f-4ed1-980f-28595246784e",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "58f75e7c-abca-44af-973d-7f3ab82de79e",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd",
+        "f6270c31-269f-4ed1-980f-28595246784e"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.79525197,
+          "distance": 0.20474803,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "466dfba9-2a70-43c4-acb1-072205e7617a",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.79180187,
+          "distance": 0.20819813,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "f6270c31-269f-4ed1-980f-28595246784e",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.76565433,
+          "distance": 0.23434567,
+          "gold_hit": true
+        },
+        {
+          "rank": 4,
+          "chunk_id": "b8aa4248-5304-4e92-8d46-378c29d2ea1f",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "1. 목적",
+          "similarity": 0.75920248,
+          "distance": 0.24079752,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "58f75e7c-abca-44af-973d-7f3ab82de79e",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "6. 진정 절차",
+          "similarity": 0.75261968,
+          "distance": 0.24738032,
+          "gold_hit": true
+        },
+        {
+          "rank": 6,
+          "chunk_id": "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.74118447,
+          "distance": 0.25881553,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "706121bb-6008-41f8-98f4-3837ac2ca60c",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "5. 진정 대상 의약품 목록",
+          "similarity": 0.73472029,
+          "distance": 0.26527971,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "e5779489-0972-4785-bb8f-7a6d114b3ca2",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 5,
+          "section": "",
+          "similarity": 0.73335093,
+          "distance": 0.26664907,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "3a8c7132-b8d0-4d22-96d3-3661cc828b8b",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 6,
+          "section": "",
+          "similarity": 0.73205405,
+          "distance": 0.26794595,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "similarity": 0.72827256,
+          "distance": 0.27172744,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.3333333333333333,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.2,
+        "recall_at_5": 0.4,
+        "recall_at_10": 0.4,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.2,
+        "ragas_id_context_precision": 0.2,
+        "ragas_id_context_recall": 0.4
+      },
+      "latency_ms": {
+        "embedding": 618.384,
+        "query": 4.714,
+        "total": 623.098
+      },
+      "failure_category": "gold_below_rank_1"
+    },
+    {
+      "case_id": "UAT-S04",
+      "question_type": "cautions",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "b8aa4248-5304-4e92-8d46-378c29d2ea1f",
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd",
+        "d9895e63-9d78-4bb7-8ccc-94f1583111e6",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd",
+        "b8aa4248-5304-4e92-8d46-378c29d2ea1f",
+        "d9895e63-9d78-4bb7-8ccc-94f1583111e6",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.83366853,
+          "distance": 0.16633147,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "3a8c7132-b8d0-4d22-96d3-3661cc828b8b",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 6,
+          "section": "",
+          "similarity": 0.77917129,
+          "distance": 0.22082871,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "5fda5f8d-682e-4834-8dbb-78804598fe93",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.7754395,
+          "distance": 0.2245605,
+          "gold_hit": true
+        },
+        {
+          "rank": 4,
+          "chunk_id": "58f75e7c-abca-44af-973d-7f3ab82de79e",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "6. 진정 절차",
+          "similarity": 0.77326739,
+          "distance": 0.22673261,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "similarity": 0.77244461,
+          "distance": 0.22755539,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "466dfba9-2a70-43c4-acb1-072205e7617a",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.77153373,
+          "distance": 0.22846627,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "4483f256-4086-457b-b568-6819d7817bc5",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.77083516,
+          "distance": 0.22916484,
+          "gold_hit": true
+        },
+        {
+          "rank": 8,
+          "chunk_id": "b8aa4248-5304-4e92-8d46-378c29d2ea1f",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "1. 목적",
+          "similarity": 0.76844037,
+          "distance": 0.23155963,
+          "gold_hit": true
+        },
+        {
+          "rank": 9,
+          "chunk_id": "7b17d4cb-1579-452e-a702-043a35bdcf74",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "3) 과다진정으로 인해 산소를 투여함에도 산소포화도가 95%이하로 지속되면(시술 중이면 시술을 중지)",
+          "similarity": 0.76789641,
+          "distance": 0.23210359,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.76630878,
+          "distance": 0.23369122,
+          "gold_hit": true
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.3333333333333333,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.14285714285714285,
+        "recall_at_5": 0.14285714285714285,
+        "recall_at_10": 0.5714285714285714,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.4,
+        "ragas_id_context_precision": 0.4,
+        "ragas_id_context_recall": 0.5714285714285714
+      },
+      "latency_ms": {
+        "embedding": 555.169,
+        "query": 5.196,
+        "total": 560.365
+      },
+      "failure_category": "gold_below_rank_1"
+    },
+    {
+      "case_id": "UAT-S05",
+      "question_type": "fact_specific",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.80121815,
+          "distance": 0.19878185,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "f95da1ef-2d7e-421d-a4b5-7ac0f0636c89",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "8. 외래에서의 소아 진정치료 절차",
+          "similarity": 0.78547776,
+          "distance": 0.21452224,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.78148872,
+          "distance": 0.21851128,
+          "gold_hit": true
+        },
+        {
+          "rank": 4,
+          "chunk_id": "58f75e7c-abca-44af-973d-7f3ab82de79e",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "6. 진정 절차",
+          "similarity": 0.76073045,
+          "distance": 0.23926955,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "466dfba9-2a70-43c4-acb1-072205e7617a",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.75715148,
+          "distance": 0.24284852,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "4483f256-4086-457b-b568-6819d7817bc5",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.75421321,
+          "distance": 0.24578679,
+          "gold_hit": true
+        },
+        {
+          "rank": 7,
+          "chunk_id": "88cc1aa7-0260-4444-b55d-ecea455bc5e3",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 6,
+          "section": "",
+          "similarity": 0.75315231,
+          "distance": 0.24684769,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "5fda5f8d-682e-4834-8dbb-78804598fe93",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.75240153,
+          "distance": 0.24759847,
+          "gold_hit": true
+        },
+        {
+          "rank": 9,
+          "chunk_id": "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "similarity": 0.74449968,
+          "distance": 0.25550032,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "e5779489-0972-4785-bb8f-7a6d114b3ca2",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 5,
+          "section": "",
+          "similarity": 0.7409845,
+          "distance": 0.2590155,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.3333333333333333,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.3333333333333333,
+        "recall_at_5": 0.3333333333333333,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.3,
+        "ragas_id_context_precision": 0.3,
+        "ragas_id_context_recall": 1.0
+      },
+      "latency_ms": {
+        "embedding": 591.572,
+        "query": 6.315,
+        "total": 597.887
+      },
+      "failure_category": "gold_below_rank_1"
+    },
+    {
+      "case_id": "UAT-S06",
+      "question_type": "fact_specific",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "5fda5f8d-682e-4834-8dbb-78804598fe93",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.79506707,
+          "distance": 0.20493293,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "4483f256-4086-457b-b568-6819d7817bc5",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.78664953,
+          "distance": 0.21335047,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.77726388,
+          "distance": 0.22273612,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "similarity": 0.77401203,
+          "distance": 0.22598797,
+          "gold_hit": true
+        },
+        {
+          "rank": 5,
+          "chunk_id": "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "similarity": 0.7702933,
+          "distance": 0.2297067,
+          "gold_hit": true
+        },
+        {
+          "rank": 6,
+          "chunk_id": "fe87e2bd-f92a-4507-abae-5f99050a91bf",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "similarity": 0.75779504,
+          "distance": 0.24220496,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "f6270c31-269f-4ed1-980f-28595246784e",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.75371319,
+          "distance": 0.24628681,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.74909586,
+          "distance": 0.25090414,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "6999a7ea-802d-4753-a3c4-4897e0772ed2",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "2) 진정치료 중(시술 중, 회복 시 동일 적용) 산소포화도가 95%이하로 저하 시 환자 모니터링 및",
+          "similarity": 0.74457633,
+          "distance": 0.25542367,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "466dfba9-2a70-43c4-acb1-072205e7617a",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.74366099,
+          "distance": 0.25633901,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.25,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.2,
+        "ragas_id_context_precision": 0.2,
+        "ragas_id_context_recall": 1.0
+      },
+      "latency_ms": {
+        "embedding": 598.545,
+        "query": 5.458,
+        "total": 604.003
+      },
+      "failure_category": "gold_below_rank_1"
+    },
+    {
+      "case_id": "UAT-S08",
+      "question_type": "temporal",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+        "58f75e7c-abca-44af-973d-7f3ab82de79e",
+        "f6270c31-269f-4ed1-980f-28595246784e",
+        "466dfba9-2a70-43c4-acb1-072205e7617a",
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "466dfba9-2a70-43c4-acb1-072205e7617a",
+        "58f75e7c-abca-44af-973d-7f3ab82de79e",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd",
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+        "f6270c31-269f-4ed1-980f-28595246784e",
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.81212676,
+          "distance": 0.18787324,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "58f75e7c-abca-44af-973d-7f3ab82de79e",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "6. 진정 절차",
+          "similarity": 0.80498242,
+          "distance": 0.19501758,
+          "gold_hit": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "similarity": 0.79404944,
+          "distance": 0.20595056,
+          "gold_hit": true
+        },
+        {
+          "rank": 4,
+          "chunk_id": "466dfba9-2a70-43c4-acb1-072205e7617a",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.78974128,
+          "distance": 0.21025872,
+          "gold_hit": true
+        },
+        {
+          "rank": 5,
+          "chunk_id": "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.7757535,
+          "distance": 0.2242465,
+          "gold_hit": true
+        },
+        {
+          "rank": 6,
+          "chunk_id": "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "similarity": 0.77097738,
+          "distance": 0.22902262,
+          "gold_hit": true
+        },
+        {
+          "rank": 7,
+          "chunk_id": "f6270c31-269f-4ed1-980f-28595246784e",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.76613051,
+          "distance": 0.23386949,
+          "gold_hit": true
+        },
+        {
+          "rank": 8,
+          "chunk_id": "5fda5f8d-682e-4834-8dbb-78804598fe93",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.75678933,
+          "distance": 0.24321067,
+          "gold_hit": true
+        },
+        {
+          "rank": 9,
+          "chunk_id": "4483f256-4086-457b-b568-6819d7817bc5",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.75572413,
+          "distance": 0.24427587,
+          "gold_hit": true
+        },
+        {
+          "rank": 10,
+          "chunk_id": "f95da1ef-2d7e-421d-a4b5-7ac0f0636c89",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "8. 외래에서의 소아 진정치료 절차",
+          "similarity": 0.75301933,
+          "distance": 0.24698067,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.5,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.16666666666666666,
+        "recall_at_5": 0.3333333333333333,
+        "recall_at_10": 0.6666666666666666,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.6666666666666666,
+        "precision_at_5": 0.8,
+        "precision_at_10": 0.8,
+        "ragas_id_context_precision": 0.8,
+        "ragas_id_context_recall": 0.6666666666666666
+      },
+      "latency_ms": {
+        "embedding": 530.312,
+        "query": 5.474,
+        "total": 535.786
+      },
+      "failure_category": "gold_below_rank_1"
+    },
+    {
+      "case_id": "UAT-S09",
+      "question_type": "comparison",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "e9334cb8-37e1-46ad-a242-7ab429c227f9",
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+        "e9334cb8-37e1-46ad-a242-7ab429c227f9",
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "3e55183f-469d-4e07-8ef0-f47ebfba30b9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "5. 진정 대상 의약품 목록",
+          "similarity": 0.76618445,
+          "distance": 0.23381555,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "42b44e36-1690-48b9-988a-54b702123b96",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.76618445,
+          "distance": 0.23381555,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "f8cd6c11-0535-4185-bacd-58b4f4d2ce46",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "6. 진정 절차",
+          "similarity": 0.75598955,
+          "distance": 0.24401045,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "5fda5f8d-682e-4834-8dbb-78804598fe93",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.72662306,
+          "distance": 0.27337694,
+          "gold_hit": true
+        },
+        {
+          "rank": 5,
+          "chunk_id": "fe87e2bd-f92a-4507-abae-5f99050a91bf",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "similarity": 0.72233981,
+          "distance": 0.27766019,
+          "gold_hit": true
+        },
+        {
+          "rank": 6,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.72146416,
+          "distance": 0.27853584,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "4483f256-4086-457b-b568-6819d7817bc5",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.71918446,
+          "distance": 0.28081554,
+          "gold_hit": true
+        },
+        {
+          "rank": 8,
+          "chunk_id": "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.71470165,
+          "distance": 0.28529835,
+          "gold_hit": true
+        },
+        {
+          "rank": 9,
+          "chunk_id": "f95da1ef-2d7e-421d-a4b5-7ac0f0636c89",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "8. 외래에서의 소아 진정치료 절차",
+          "similarity": 0.71373737,
+          "distance": 0.28626263,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "d640c5a9-3dc1-4f92-81da-620527a47f92",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "2. 규정, 지침",
+          "similarity": 0.70543754,
+          "distance": 0.29456246,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.25,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.25,
+        "recall_at_10": 0.5,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.4,
+        "ragas_id_context_precision": 0.4,
+        "ragas_id_context_recall": 0.5
+      },
+      "latency_ms": {
+        "embedding": 580.146,
+        "query": 5.459,
+        "total": 585.605
+      },
+      "failure_category": "gold_below_rank_1"
+    },
+    {
+      "case_id": "UAT-S11",
+      "question_type": "procedure",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "58f75e7c-abca-44af-973d-7f3ab82de79e",
+        "f6270c31-269f-4ed1-980f-28595246784e",
+        "466dfba9-2a70-43c4-acb1-072205e7617a",
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf",
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "466dfba9-2a70-43c4-acb1-072205e7617a",
+        "58f75e7c-abca-44af-973d-7f3ab82de79e",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd",
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+        "f6270c31-269f-4ed1-980f-28595246784e",
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.81080258,
+          "distance": 0.18919742,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "58f75e7c-abca-44af-973d-7f3ab82de79e",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "6. 진정 절차",
+          "similarity": 0.80700725,
+          "distance": 0.19299275,
+          "gold_hit": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "466dfba9-2a70-43c4-acb1-072205e7617a",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.80131394,
+          "distance": 0.19868606,
+          "gold_hit": true
+        },
+        {
+          "rank": 4,
+          "chunk_id": "f6270c31-269f-4ed1-980f-28595246784e",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.77981341,
+          "distance": 0.22018659,
+          "gold_hit": true
+        },
+        {
+          "rank": 5,
+          "chunk_id": "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "similarity": 0.77771175,
+          "distance": 0.22228825,
+          "gold_hit": true
+        },
+        {
+          "rank": 6,
+          "chunk_id": "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "similarity": 0.77119851,
+          "distance": 0.22880149,
+          "gold_hit": true
+        },
+        {
+          "rank": 7,
+          "chunk_id": "b8aa4248-5304-4e92-8d46-378c29d2ea1f",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "1. 목적",
+          "similarity": 0.76959026,
+          "distance": 0.23040974,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "3a8c7132-b8d0-4d22-96d3-3661cc828b8b",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 6,
+          "section": "",
+          "similarity": 0.7648719,
+          "distance": 0.2351281,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.76246715,
+          "distance": 0.23753285,
+          "gold_hit": true
+        },
+        {
+          "rank": 10,
+          "chunk_id": "5fda5f8d-682e-4834-8dbb-78804598fe93",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.7573542,
+          "distance": 0.2426458,
+          "gold_hit": true
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.5,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.16666666666666666,
+        "recall_at_5": 0.3333333333333333,
+        "recall_at_10": 0.5833333333333334,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.6666666666666666,
+        "precision_at_5": 0.8,
+        "precision_at_10": 0.7,
+        "ragas_id_context_precision": 0.7,
+        "ragas_id_context_recall": 0.5833333333333334
+      },
+      "latency_ms": {
+        "embedding": 494.977,
+        "query": 5.607,
+        "total": 500.584
+      },
+      "failure_category": "gold_below_rank_1"
+    },
+    {
+      "case_id": "UAT-S12",
+      "question_type": "follow_up",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd",
+        "f6270c31-269f-4ed1-980f-28595246784e",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845",
+        "d9895e63-9d78-4bb7-8ccc-94f1583111e6",
+        "3a8c7132-b8d0-4d22-96d3-3661cc828b8b"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "3a8c7132-b8d0-4d22-96d3-3661cc828b8b",
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd",
+        "d9895e63-9d78-4bb7-8ccc-94f1583111e6",
+        "f6270c31-269f-4ed1-980f-28595246784e",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "5fda5f8d-682e-4834-8dbb-78804598fe93",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.78345799,
+          "distance": 0.21654201,
+          "gold_hit": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "similarity": 0.78088593,
+          "distance": 0.21911407,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "4483f256-4086-457b-b568-6819d7817bc5",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.78003395,
+          "distance": 0.21996605,
+          "gold_hit": true
+        },
+        {
+          "rank": 4,
+          "chunk_id": "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "similarity": 0.77242142,
+          "distance": 0.22757858,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.76824313,
+          "distance": 0.23175687,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "f6270c31-269f-4ed1-980f-28595246784e",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.75736254,
+          "distance": 0.24263746,
+          "gold_hit": true
+        },
+        {
+          "rank": 7,
+          "chunk_id": "a986e86f-c4a6-45c4-85c0-5967202de62b",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "similarity": 0.75483608,
+          "distance": 0.24516392,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "628c1c6a-77f3-40f2-b735-be6f45d88845",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.75423664,
+          "distance": 0.24576336,
+          "gold_hit": true
+        },
+        {
+          "rank": 9,
+          "chunk_id": "3a8c7132-b8d0-4d22-96d3-3661cc828b8b",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 6,
+          "section": "",
+          "similarity": 0.75168782,
+          "distance": 0.24831218,
+          "gold_hit": true
+        },
+        {
+          "rank": 10,
+          "chunk_id": "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.74652457,
+          "distance": 0.25347543,
+          "gold_hit": true
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 0.125,
+        "recall_at_3": 0.25,
+        "recall_at_5": 0.25,
+        "recall_at_10": 0.75,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.6666666666666666,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.6,
+        "ragas_id_context_precision": 0.6,
+        "ragas_id_context_recall": 0.75
+      },
+      "latency_ms": {
+        "embedding": 655.15,
+        "query": 5.455,
+        "total": 660.605
+      },
+      "failure_category": "none"
+    },
+    {
+      "case_id": "UAT-S13",
+      "question_type": "procedure",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf",
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "b8aa4248-5304-4e92-8d46-378c29d2ea1f",
+        "d9895e63-9d78-4bb7-8ccc-94f1583111e6",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "4483f256-4086-457b-b568-6819d7817bc5",
+        "5fda5f8d-682e-4834-8dbb-78804598fe93",
+        "628c1c6a-77f3-40f2-b735-be6f45d88845",
+        "7d0f8e77-88b3-462f-b6ee-5b5ada7c25fd",
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "b8aa4248-5304-4e92-8d46-378c29d2ea1f",
+        "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+        "d9895e63-9d78-4bb7-8ccc-94f1583111e6",
+        "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "b8fd371a-50b6-4fa2-93c3-63c58d830c25",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "similarity": 0.79304039,
+          "distance": 0.20695961,
+          "gold_hit": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "4483f256-4086-457b-b568-6819d7817bc5",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.78749478,
+          "distance": 0.21250522,
+          "gold_hit": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "fa3f5709-cdd9-479e-aa42-cf70bd688a63",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "similarity": 0.78076512,
+          "distance": 0.21923488,
+          "gold_hit": true
+        },
+        {
+          "rank": 4,
+          "chunk_id": "5fda5f8d-682e-4834-8dbb-78804598fe93",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.77627605,
+          "distance": 0.22372395,
+          "gold_hit": true
+        },
+        {
+          "rank": 5,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.77532709,
+          "distance": 0.22467291,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "b8aa4248-5304-4e92-8d46-378c29d2ea1f",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "1. 목적",
+          "similarity": 0.77157491,
+          "distance": 0.22842509,
+          "gold_hit": true
+        },
+        {
+          "rank": 7,
+          "chunk_id": "f6270c31-269f-4ed1-980f-28595246784e",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.76946235,
+          "distance": 0.23053765,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "466dfba9-2a70-43c4-acb1-072205e7617a",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.76857823,
+          "distance": 0.23142177,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "a986e86f-c4a6-45c4-85c0-5967202de62b",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 3,
+          "section": "4) 진정 치료를 수행하는 의료인은 ‘진정 평가 기록지’ 또는 ‘간호기록’ 등을 통해 진정 전‧중‧후",
+          "similarity": 0.76127028,
+          "distance": 0.23872972,
+          "gold_hit": true
+        },
+        {
+          "rank": 10,
+          "chunk_id": "7b17d4cb-1579-452e-a702-043a35bdcf74",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "3) 과다진정으로 인해 산소를 투여함에도 산소포화도가 95%이하로 지속되면(시술 중이면 시술을 중지)",
+          "similarity": 0.75728965,
+          "distance": 0.24271035,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 0.09090909090909091,
+        "recall_at_3": 0.2727272727272727,
+        "recall_at_5": 0.36363636363636365,
+        "recall_at_10": 0.5454545454545454,
+        "precision_at_1": 1.0,
+        "precision_at_3": 1.0,
+        "precision_at_5": 0.8,
+        "precision_at_10": 0.6,
+        "ragas_id_context_precision": 0.6,
+        "ragas_id_context_recall": 0.5454545454545454
+      },
+      "latency_ms": {
+        "embedding": 471.967,
+        "query": 5.62,
+        "total": 477.587
+      },
+      "failure_category": "none"
+    },
+    {
+      "case_id": "UAT-S14",
+      "question_type": "fact_specific",
+      "document_scope": "sedation",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "f6270c31-269f-4ed1-980f-28595246784e"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "a986e86f-c4a6-45c4-85c0-5967202de62b",
+        "f6270c31-269f-4ed1-980f-28595246784e",
+        "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+        "fe87e2bd-f92a-4507-abae-5f99050a91bf"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "6999a7ea-802d-4753-a3c4-4897e0772ed2",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "2) 진정치료 중(시술 중, 회복 시 동일 적용) 산소포화도가 95%이하로 저하 시 환자 모니터링 및",
+          "similarity": 0.78698432,
+          "distance": 0.21301568,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "c93eb2ca-bd93-4aa6-99f9-26c31a3c2b37",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "15. 진정간호",
+          "similarity": 0.76500022,
+          "distance": 0.23499978,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "7b17d4cb-1579-452e-a702-043a35bdcf74",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 8,
+          "section": "3) 과다진정으로 인해 산소를 투여함에도 산소포화도가 95%이하로 지속되면(시술 중이면 시술을 중지)",
+          "similarity": 0.7528457,
+          "distance": 0.2471543,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "466dfba9-2a70-43c4-acb1-072205e7617a",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 2,
+          "section": "2) 진정 치료를 수행하는 의사는 진정 치료 전",
+          "similarity": 0.74776691,
+          "distance": 0.25223309,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "4483f256-4086-457b-b568-6819d7817bc5",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.741579,
+          "distance": 0.258421,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "fc74310b-4e24-48ac-be3c-596288a9e6e9",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.73895693,
+          "distance": 0.26104307,
+          "gold_hit": true
+        },
+        {
+          "rank": 7,
+          "chunk_id": "88cc1aa7-0260-4444-b55d-ecea455bc5e3",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 6,
+          "section": "",
+          "similarity": 0.73491532,
+          "distance": 0.26508468,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "e5779489-0972-4785-bb8f-7a6d114b3ca2",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 5,
+          "section": "",
+          "similarity": 0.73385203,
+          "distance": 0.26614797,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "b8aa4248-5304-4e92-8d46-378c29d2ea1f",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 1,
+          "section": "1. 목적",
+          "similarity": 0.73354924,
+          "distance": 0.26645076,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "5fda5f8d-682e-4834-8dbb-78804598fe93",
+          "document_id": "49efc318-d430-4b3b-8c16-2779c52f1401",
+          "page": 4,
+          "section": "",
+          "similarity": 0.72973204,
+          "distance": 0.27026796,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.16666666666666666,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.25,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.1,
+        "ragas_id_context_precision": 0.1,
+        "ragas_id_context_recall": 0.25
+      },
+      "latency_ms": {
+        "embedding": 481.201,
+        "query": 5.696,
+        "total": 486.897
+      },
+      "failure_category": "gold_below_rank_1"
+    },
+    {
+      "case_id": "UAT-T01",
+      "question_type": "preparation",
+      "document_scope": "transfusion",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "a952e706-800e-493c-886a-8f06602fb2be",
+        "d2e0fc0a-bf0e-4226-abbf-e9f3dea2fce8",
+        "b10b8f1c-ed17-44ca-8d7c-1a4f19a12c67",
+        "f9cfc75b-a5e7-4633-a798-4b17ea462325",
+        "b8c70ff9-e1b2-40ce-9a0a-f65a53899d13",
+        "21d38039-895b-46a4-8902-96e380ce41aa",
+        "8259ed27-8646-4502-a959-aab1e9f1770f"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "21d38039-895b-46a4-8902-96e380ce41aa",
+        "8259ed27-8646-4502-a959-aab1e9f1770f",
+        "a952e706-800e-493c-886a-8f06602fb2be",
+        "b10b8f1c-ed17-44ca-8d7c-1a4f19a12c67",
+        "b8c70ff9-e1b2-40ce-9a0a-f65a53899d13",
+        "d2e0fc0a-bf0e-4226-abbf-e9f3dea2fce8",
+        "f9cfc75b-a5e7-4633-a798-4b17ea462325"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "16efaa44-1554-4748-8407-48fac0bced94",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "2) 수혈 전 검사 확인 및 시행",
+          "similarity": 0.82684457,
+          "distance": 0.17315543,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "7e5199d4-e5c9-40ca-a69f-ea37f52c6ce3",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "5) 수혈 직전 환자 확인",
+          "similarity": 0.80482888,
+          "distance": 0.19517112,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "2) 수혈 전 검사 확인 및 시행",
+          "similarity": 0.77857053,
+          "distance": 0.22142947,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "4) 수혈 전 혈액 확인 절차",
+          "similarity": 0.77779144,
+          "distance": 0.22220856,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "761b9529-5b18-4262-8174-6062c35fb31c",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "11. 수혈간호",
+          "similarity": 0.7689209,
+          "distance": 0.2310791,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "1. 수혈 간호의 정의",
+          "similarity": 0.76762444,
+          "distance": 0.23237556,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "4. 수혈 절차",
+          "similarity": 0.76744401,
+          "distance": 0.23255599,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "b10b8f1c-ed17-44ca-8d7c-1a4f19a12c67",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 17,
+          "section": "",
+          "similarity": 0.76458192,
+          "distance": 0.23541808,
+          "gold_hit": true
+        },
+        {
+          "rank": 9,
+          "chunk_id": "f9cfc75b-a5e7-4633-a798-4b17ea462325",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 17,
+          "section": "",
+          "similarity": 0.76457876,
+          "distance": 0.23542124,
+          "gold_hit": true
+        },
+        {
+          "rank": 10,
+          "chunk_id": "36bac780-b1a2-42dc-8cca-3605f80c5521",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "5) 수혈 직전 환자 확인",
+          "similarity": 0.76154643,
+          "distance": 0.23845357,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.125,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.2857142857142857,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.2,
+        "ragas_id_context_precision": 0.2,
+        "ragas_id_context_recall": 0.2857142857142857
+      },
+      "latency_ms": {
+        "embedding": 499.316,
+        "query": 12.763,
+        "total": 512.079
+      },
+      "failure_category": "gold_below_rank_1"
+    },
+    {
+      "case_id": "UAT-T02",
+      "question_type": "procedure",
+      "document_scope": "transfusion",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+        "7e68f70a-ba74-4eb8-bbae-c7e9f7340567",
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+        "b225ae64-72d2-4e59-81c0-57f5d8438666",
+        "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+        "98d006ac-5212-4c8c-8a63-4cbd4d6caffc",
+        "84c0a864-176f-4776-a15e-167fc2518e5d",
+        "9552a4ac-31b4-43a8-aa92-37bd3e89362a",
+        "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+        "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+        "f7a9837d-f8db-4461-abd8-a3607db2276f"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+        "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+        "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+        "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+        "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+        "7e68f70a-ba74-4eb8-bbae-c7e9f7340567",
+        "84c0a864-176f-4776-a15e-167fc2518e5d",
+        "9552a4ac-31b4-43a8-aa92-37bd3e89362a",
+        "98d006ac-5212-4c8c-8a63-4cbd4d6caffc",
+        "b225ae64-72d2-4e59-81c0-57f5d8438666",
+        "f7a9837d-f8db-4461-abd8-a3607db2276f"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "7e5199d4-e5c9-40ca-a69f-ea37f52c6ce3",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "5) 수혈 직전 환자 확인",
+          "similarity": 0.7933293,
+          "distance": 0.2066707,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "761b9529-5b18-4262-8174-6062c35fb31c",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "11. 수혈간호",
+          "similarity": 0.77917999,
+          "distance": 0.22082001,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "16efaa44-1554-4748-8407-48fac0bced94",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "2) 수혈 전 검사 확인 및 시행",
+          "similarity": 0.76868927,
+          "distance": 0.23131073,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "주의사항",
+          "similarity": 0.76814318,
+          "distance": 0.23185682,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "4. 수혈 절차",
+          "similarity": 0.76704079,
+          "distance": 0.23295921,
+          "gold_hit": true
+        },
+        {
+          "rank": 6,
+          "chunk_id": "30ce28cb-f702-4cce-8105-137e2f73af0d",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 6,
+          "section": "1) 수혈 처방 및 동의서 작성",
+          "similarity": 0.76570427,
+          "distance": 0.23429573,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "4) 수혈 전 혈액 확인 절차",
+          "similarity": 0.76448226,
+          "distance": 0.23551774,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "주의사항",
+          "similarity": 0.75877649,
+          "distance": 0.24122351,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "1. 수혈 간호의 정의",
+          "similarity": 0.75325102,
+          "distance": 0.24674898,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "f9cfc75b-a5e7-4633-a798-4b17ea462325",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 17,
+          "section": "",
+          "similarity": 0.75174826,
+          "distance": 0.24825174,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.2,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.09090909090909091,
+        "recall_at_10": 0.09090909090909091,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "ragas_id_context_precision": 0.1,
+        "ragas_id_context_recall": 0.09090909090909091
+      },
+      "latency_ms": {
+        "embedding": 471.001,
+        "query": 10.378,
+        "total": 481.379
+      },
+      "failure_category": "gold_below_rank_1"
+    },
+    {
+      "case_id": "UAT-T03",
+      "question_type": "cautions",
+      "document_scope": "transfusion",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "8259ed27-8646-4502-a959-aab1e9f1770f",
+        "5de4d74d-720e-4d86-a836-f946d70a2d32",
+        "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+        "59d57c8a-c9d7-4f8d-b9a1-a2816f1f01f7"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "59d57c8a-c9d7-4f8d-b9a1-a2816f1f01f7",
+        "5de4d74d-720e-4d86-a836-f946d70a2d32",
+        "8259ed27-8646-4502-a959-aab1e9f1770f",
+        "c78ff32d-ea17-41fd-98ef-2e8872f01df3"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "16efaa44-1554-4748-8407-48fac0bced94",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "2) 수혈 전 검사 확인 및 시행",
+          "similarity": 0.77810836,
+          "distance": 0.22189164,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "주의사항",
+          "similarity": 0.77734137,
+          "distance": 0.22265863,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "주의사항",
+          "similarity": 0.77662122,
+          "distance": 0.22337878,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "8f3ed830-3a06-41c6-8b06-cfcf6d36a83c",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 14,
+          "section": "",
+          "similarity": 0.77034259,
+          "distance": 0.22965741,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "1. 수혈 간호의 정의",
+          "similarity": 0.7701447,
+          "distance": 0.2298553,
+          "gold_hit": true
+        },
+        {
+          "rank": 6,
+          "chunk_id": "7e5199d4-e5c9-40ca-a69f-ea37f52c6ce3",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "5) 수혈 직전 환자 확인",
+          "similarity": 0.76939356,
+          "distance": 0.23060644,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "761b9529-5b18-4262-8174-6062c35fb31c",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "11. 수혈간호",
+          "similarity": 0.76783365,
+          "distance": 0.23216635,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "602c933f-0b8f-4533-87a5-f27ecd5f2af9",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 15,
+          "section": "5. 수혈부작용",
+          "similarity": 0.76609343,
+          "distance": 0.23390657,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "8259ed27-8646-4502-a959-aab1e9f1770f",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 17,
+          "section": "",
+          "similarity": 0.75876081,
+          "distance": 0.24123919,
+          "gold_hit": true
+        },
+        {
+          "rank": 10,
+          "chunk_id": "5de4d74d-720e-4d86-a836-f946d70a2d32",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 13,
+          "section": "6) 수혈",
+          "similarity": 0.75046468,
+          "distance": 0.24953532,
+          "gold_hit": true
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.2,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.25,
+        "recall_at_10": 0.75,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.3,
+        "ragas_id_context_precision": 0.3,
+        "ragas_id_context_recall": 0.75
+      },
+      "latency_ms": {
+        "embedding": 515.061,
+        "query": 8.256,
+        "total": 523.317
+      },
+      "failure_category": "gold_below_rank_1"
+    },
+    {
+      "case_id": "UAT-T11",
+      "question_type": "table_lookup",
+      "document_scope": "transfusion",
+      "expected_evidence_type": "table",
+      "gold_ids": [
+        "tbl-c6a809a33d22566a6006:tr-52332cc5918c5663a51f",
+        "tbl-c6a809a33d22566a6006:tr-1e822fa6adaa18902ed8",
+        "tbl-c6a809a33d22566a6006:tr-4ec5fd89f516f887eb0c"
+      ],
+      "gold_ids_in_chromadb_corpus": [],
+      "gold_ids_outside_chromadb_corpus": [
+        "tbl-c6a809a33d22566a6006:tr-1e822fa6adaa18902ed8",
+        "tbl-c6a809a33d22566a6006:tr-4ec5fd89f516f887eb0c",
+        "tbl-c6a809a33d22566a6006:tr-52332cc5918c5663a51f"
+      ],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "ffcf7308-6e83-47bc-a519-0b4b7ba44562",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 2,
+          "section": "",
+          "similarity": 0.80475342,
+          "distance": 0.19524658,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "71d2e37c-44e2-4972-8e6b-a6449c2f8404",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 2,
+          "section": "",
+          "similarity": 0.79786187,
+          "distance": 0.20213813,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "da79aa00-567d-434c-8441-915ac080f918",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 2,
+          "section": "",
+          "similarity": 0.78760403,
+          "distance": 0.21239597,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "17abd2d4-27a2-40ba-a55b-0b3ceee19005",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 2,
+          "section": "",
+          "similarity": 0.76545644,
+          "distance": 0.23454356,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "5de4d74d-720e-4d86-a836-f946d70a2d32",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 13,
+          "section": "6) 수혈",
+          "similarity": 0.74393702,
+          "distance": 0.25606298,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "주의사항",
+          "similarity": 0.74161404,
+          "distance": 0.25838596,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "1b376f6f-5ee5-4d05-a585-f3aa6b7ee824",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 2,
+          "section": "",
+          "similarity": 0.73886639,
+          "distance": 0.26113361,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "1033ac46-dec8-493e-b577-7f5ad80f8e86",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 2,
+          "section": "",
+          "similarity": 0.73857319,
+          "distance": 0.26142681,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "주의사항",
+          "similarity": 0.73707199,
+          "distance": 0.26292801,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "3ecc27b9-634c-4026-b44e-e01123aa0467",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 2,
+          "section": "",
+          "similarity": 0.73481369,
+          "distance": 0.26518631,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 0.0,
+        "mrr": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0,
+        "ragas_id_context_precision": 0.0,
+        "ragas_id_context_recall": 0.0
+      },
+      "latency_ms": {
+        "embedding": 767.197,
+        "query": 7.621,
+        "total": 774.818
+      },
+      "failure_category": "gold_not_in_chromadb_corpus"
+    },
+    {
+      "case_id": "UAT-T12",
+      "question_type": "temporal",
+      "document_scope": "transfusion",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+        "7e68f70a-ba74-4eb8-bbae-c7e9f7340567",
+        "98d006ac-5212-4c8c-8a63-4cbd4d6caffc",
+        "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+        "b225ae64-72d2-4e59-81c0-57f5d8438666",
+        "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+        "84c0a864-176f-4776-a15e-167fc2518e5d"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "22e6c188-2e4c-4029-b200-7770a3f00e6e",
+        "6ffcd319-e868-444b-b6fe-8d192a4de3ff",
+        "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+        "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+        "7e68f70a-ba74-4eb8-bbae-c7e9f7340567",
+        "84c0a864-176f-4776-a15e-167fc2518e5d",
+        "98d006ac-5212-4c8c-8a63-4cbd4d6caffc",
+        "b225ae64-72d2-4e59-81c0-57f5d8438666"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "7e5199d4-e5c9-40ca-a69f-ea37f52c6ce3",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "5) 수혈 직전 환자 확인",
+          "similarity": 0.80981588,
+          "distance": 0.19018412,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "16efaa44-1554-4748-8407-48fac0bced94",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "2) 수혈 전 검사 확인 및 시행",
+          "similarity": 0.80664337,
+          "distance": 0.19335663,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "4) 수혈 전 혈액 확인 절차",
+          "similarity": 0.78375566,
+          "distance": 0.21624434,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "4. 수혈 절차",
+          "similarity": 0.7729249,
+          "distance": 0.2270751,
+          "gold_hit": true
+        },
+        {
+          "rank": 5,
+          "chunk_id": "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "2) 수혈 전 검사 확인 및 시행",
+          "similarity": 0.77003551,
+          "distance": 0.22996449,
+          "gold_hit": true
+        },
+        {
+          "rank": 6,
+          "chunk_id": "74c0eabe-77c7-4dbf-a321-27966a12fafb",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "4. 수혈 절차",
+          "similarity": 0.76710469,
+          "distance": 0.23289531,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "98d006ac-5212-4c8c-8a63-4cbd4d6caffc",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "4. 수혈 절차",
+          "similarity": 0.76633871,
+          "distance": 0.23366129,
+          "gold_hit": true
+        },
+        {
+          "rank": 8,
+          "chunk_id": "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "주의사항",
+          "similarity": 0.76611584,
+          "distance": 0.23388416,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "주의사항",
+          "similarity": 0.76340735,
+          "distance": 0.23659265,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "36bac780-b1a2-42dc-8cca-3605f80c5521",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "5) 수혈 직전 환자 확인",
+          "similarity": 0.76140404,
+          "distance": 0.23859596,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.25,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.25,
+        "recall_at_10": 0.375,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.3,
+        "ragas_id_context_precision": 0.3,
+        "ragas_id_context_recall": 0.375
+      },
+      "latency_ms": {
+        "embedding": 487.848,
+        "query": 8.317,
+        "total": 496.165
+      },
+      "failure_category": "gold_below_rank_1"
+    },
+    {
+      "case_id": "UAT-T13",
+      "question_type": "cautions",
+      "document_scope": "transfusion",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "8259ed27-8646-4502-a959-aab1e9f1770f",
+        "c78ff32d-ea17-41fd-98ef-2e8872f01df3"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "8259ed27-8646-4502-a959-aab1e9f1770f",
+        "c78ff32d-ea17-41fd-98ef-2e8872f01df3"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "주의사항",
+          "similarity": 0.77329433,
+          "distance": 0.22670567,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "1. 수혈 간호의 정의",
+          "similarity": 0.764925,
+          "distance": 0.235075,
+          "gold_hit": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "761b9529-5b18-4262-8174-6062c35fb31c",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "11. 수혈간호",
+          "similarity": 0.75961351,
+          "distance": 0.24038649,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "16efaa44-1554-4748-8407-48fac0bced94",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "2) 수혈 전 검사 확인 및 시행",
+          "similarity": 0.75238168,
+          "distance": 0.24761832,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "7e5199d4-e5c9-40ca-a69f-ea37f52c6ce3",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "5) 수혈 직전 환자 확인",
+          "similarity": 0.75080818,
+          "distance": 0.24919182,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "5de4d74d-720e-4d86-a836-f946d70a2d32",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 13,
+          "section": "6) 수혈",
+          "similarity": 0.74886489,
+          "distance": 0.25113511,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "주의사항",
+          "similarity": 0.74508655,
+          "distance": 0.25491345,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "602c933f-0b8f-4533-87a5-f27ecd5f2af9",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 15,
+          "section": "5. 수혈부작용",
+          "similarity": 0.74224615,
+          "distance": 0.25775385,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "8f3ed830-3a06-41c6-8b06-cfcf6d36a83c",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 14,
+          "section": "",
+          "similarity": 0.73777759,
+          "distance": 0.26222241,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "8259ed27-8646-4502-a959-aab1e9f1770f",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 17,
+          "section": "",
+          "similarity": 0.73601413,
+          "distance": 0.26398587,
+          "gold_hit": true
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.5,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.5,
+        "recall_at_5": 0.5,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.2,
+        "ragas_id_context_precision": 0.2,
+        "ragas_id_context_recall": 1.0
+      },
+      "latency_ms": {
+        "embedding": 649.121,
+        "query": 8.267,
+        "total": 657.388
+      },
+      "failure_category": "gold_below_rank_1"
+    },
+    {
+      "case_id": "UAT-T15",
+      "question_type": "preparation",
+      "document_scope": "transfusion",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "16efaa44-1554-4748-8407-48fac0bced94",
+        "5de4d74d-720e-4d86-a836-f946d70a2d32",
+        "48b9789d-5088-4ba1-a82a-be3a6396ce85"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "16efaa44-1554-4748-8407-48fac0bced94",
+        "48b9789d-5088-4ba1-a82a-be3a6396ce85",
+        "5de4d74d-720e-4d86-a836-f946d70a2d32"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "16efaa44-1554-4748-8407-48fac0bced94",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "2) 수혈 전 검사 확인 및 시행",
+          "similarity": 0.81547952,
+          "distance": 0.18452048,
+          "gold_hit": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "7e5199d4-e5c9-40ca-a69f-ea37f52c6ce3",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "5) 수혈 직전 환자 확인",
+          "similarity": 0.81317633,
+          "distance": 0.18682367,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eda54b74-cd2f-4808-8175-bcc5b916ce90",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "4) 수혈 전 혈액 확인 절차",
+          "similarity": 0.77625155,
+          "distance": 0.22374845,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "98d006ac-5212-4c8c-8a63-4cbd4d6caffc",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "4. 수혈 절차",
+          "similarity": 0.76995611,
+          "distance": 0.23004389,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "주의사항",
+          "similarity": 0.76984149,
+          "distance": 0.23015851,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "36bac780-b1a2-42dc-8cca-3605f80c5521",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "5) 수혈 직전 환자 확인",
+          "similarity": 0.76804495,
+          "distance": 0.23195505,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "73735f01-c9d0-4dd5-8d46-c70045e4b334",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "2) 수혈 전 검사 확인 및 시행",
+          "similarity": 0.76607132,
+          "distance": 0.23392868,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "주의사항",
+          "similarity": 0.76583922,
+          "distance": 0.23416078,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "7adacb8c-91c0-4ea7-8d82-7505eeac5042",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "4. 수혈 절차",
+          "similarity": 0.7653181,
+          "distance": 0.2346819,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "f9cfc75b-a5e7-4633-a798-4b17ea462325",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 17,
+          "section": "",
+          "similarity": 0.76490134,
+          "distance": 0.23509866,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 0.3333333333333333,
+        "recall_at_3": 0.3333333333333333,
+        "recall_at_5": 0.3333333333333333,
+        "recall_at_10": 0.3333333333333333,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "ragas_id_context_precision": 0.1,
+        "ragas_id_context_recall": 0.3333333333333333
+      },
+      "latency_ms": {
+        "embedding": 578.933,
+        "query": 8.135,
+        "total": 587.068
+      },
+      "failure_category": "none"
+    },
+    {
+      "case_id": "UAT-T16",
+      "question_type": "summary",
+      "document_scope": "transfusion",
+      "expected_evidence_type": "mixed",
+      "gold_ids": [
+        "b10b8f1c-ed17-44ca-8d7c-1a4f19a12c67",
+        "16efaa44-1554-4748-8407-48fac0bced94",
+        "d2e0fc0a-bf0e-4226-abbf-e9f3dea2fce8",
+        "f9cfc75b-a5e7-4633-a798-4b17ea462325",
+        "8259ed27-8646-4502-a959-aab1e9f1770f",
+        "tbl-b74006a7619224f7474f:tr-bcd969f2c197c5dd7e56",
+        "tbl-c69c1e0ffef2ba8ce8b0:tr-be8f135b127f37f3c929"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "16efaa44-1554-4748-8407-48fac0bced94",
+        "8259ed27-8646-4502-a959-aab1e9f1770f",
+        "b10b8f1c-ed17-44ca-8d7c-1a4f19a12c67",
+        "d2e0fc0a-bf0e-4226-abbf-e9f3dea2fce8",
+        "f9cfc75b-a5e7-4633-a798-4b17ea462325"
+      ],
+      "gold_ids_outside_chromadb_corpus": [
+        "tbl-b74006a7619224f7474f:tr-bcd969f2c197c5dd7e56",
+        "tbl-c69c1e0ffef2ba8ce8b0:tr-be8f135b127f37f3c929"
+      ],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "d9a4a9c8-fbd4-41f2-bab6-6abd72575204",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "2. 수혈 요법의 목적",
+          "similarity": 0.7853319,
+          "distance": 0.2146681,
+          "gold_hit": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "9b6cc313-9a59-4387-a5ce-2ed14389a0a7",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "주의사항",
+          "similarity": 0.78307158,
+          "distance": 0.21692842,
+          "gold_hit": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "1. 수혈 간호의 정의",
+          "similarity": 0.77987319,
+          "distance": 0.22012681,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "7e5199d4-e5c9-40ca-a69f-ea37f52c6ce3",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "5) 수혈 직전 환자 확인",
+          "similarity": 0.76589489,
+          "distance": 0.23410511,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "761b9529-5b18-4262-8174-6062c35fb31c",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "11. 수혈간호",
+          "similarity": 0.76537848,
+          "distance": 0.23462152,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "16efaa44-1554-4748-8407-48fac0bced94",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "2) 수혈 전 검사 확인 및 시행",
+          "similarity": 0.75092989,
+          "distance": 0.24907011,
+          "gold_hit": true
+        },
+        {
+          "rank": 7,
+          "chunk_id": "5de4d74d-720e-4d86-a836-f946d70a2d32",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 13,
+          "section": "6) 수혈",
+          "similarity": 0.7461431,
+          "distance": 0.2538569,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "주의사항",
+          "similarity": 0.74559975,
+          "distance": 0.25440025,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "602c933f-0b8f-4533-87a5-f27ecd5f2af9",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 15,
+          "section": "5. 수혈부작용",
+          "similarity": 0.74455315,
+          "distance": 0.25544685,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "cfff9bf0-05e4-4179-a793-f3c705d04812",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 7,
+          "section": "",
+          "similarity": 0.7368179,
+          "distance": 0.2631821,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "hit_at_10": 1.0,
+        "mrr": 0.16666666666666666,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.14285714285714285,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.1,
+        "ragas_id_context_precision": 0.1,
+        "ragas_id_context_recall": 0.14285714285714285
+      },
+      "latency_ms": {
+        "embedding": 488.779,
+        "query": 7.714,
+        "total": 496.493
+      },
+      "failure_category": "gold_partially_outside_chromadb_corpus"
+    },
+    {
+      "case_id": "UAT-T17",
+      "question_type": "follow_up",
+      "document_scope": "transfusion",
+      "expected_evidence_type": "text",
+      "gold_ids": [
+        "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+        "c78ff32d-ea17-41fd-98ef-2e8872f01df3"
+      ],
+      "gold_ids_in_chromadb_corpus": [
+        "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+        "c78ff32d-ea17-41fd-98ef-2e8872f01df3"
+      ],
+      "gold_ids_outside_chromadb_corpus": [],
+      "ranked_results": [
+        {
+          "rank": 1,
+          "chunk_id": "15e829a9-a475-429d-b0e3-5c34bfbd3ab7",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 15,
+          "section": "5. 수혈부작용",
+          "similarity": 0.77318108,
+          "distance": 0.22681892,
+          "gold_hit": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "c78ff32d-ea17-41fd-98ef-2e8872f01df3",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "1. 수혈 간호의 정의",
+          "similarity": 0.76077741,
+          "distance": 0.23922259,
+          "gold_hit": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "602c933f-0b8f-4533-87a5-f27ecd5f2af9",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 15,
+          "section": "5. 수혈부작용",
+          "similarity": 0.75531119,
+          "distance": 0.24468881,
+          "gold_hit": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "761b9529-5b18-4262-8174-6062c35fb31c",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 1,
+          "section": "11. 수혈간호",
+          "similarity": 0.75172555,
+          "distance": 0.24827445,
+          "gold_hit": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "2e55093d-0a0f-4fd9-954b-4fc72df9eac0",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 15,
+          "section": "5. 수혈부작용",
+          "similarity": 0.7510612,
+          "distance": 0.2489388,
+          "gold_hit": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "f4580736-a09e-471f-93d2-8089c695eb67",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 15,
+          "section": "5. 수혈부작용",
+          "similarity": 0.74657309,
+          "distance": 0.25342691,
+          "gold_hit": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "16efaa44-1554-4748-8407-48fac0bced94",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 9,
+          "section": "2) 수혈 전 검사 확인 및 시행",
+          "similarity": 0.74249566,
+          "distance": 0.25750434,
+          "gold_hit": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "7e5199d4-e5c9-40ca-a69f-ea37f52c6ce3",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 12,
+          "section": "5) 수혈 직전 환자 확인",
+          "similarity": 0.74177992,
+          "distance": 0.25822008,
+          "gold_hit": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "8939253d-3272-4915-8c2b-c60062aeb818",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 15,
+          "section": "5. 수혈부작용",
+          "similarity": 0.7373575,
+          "distance": 0.2626425,
+          "gold_hit": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "a7cf71a5-8426-4d7c-8106-e0754e7cb4bf",
+          "document_id": "bc3d0de4-6560-4560-b78f-645e82cddd94",
+          "page": 5,
+          "section": "주의사항",
+          "similarity": 0.72108203,
+          "distance": 0.27891797,
+          "gold_hit": false
+        }
+      ],
+      "metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "hit_at_10": 1.0,
+        "mrr": 1.0,
+        "recall_at_1": 0.5,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.6666666666666666,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.2,
+        "ragas_id_context_precision": 0.2,
+        "ragas_id_context_recall": 1.0
+      },
+      "latency_ms": {
+        "embedding": 764.726,
+        "query": 7.994,
+        "total": 772.72
+      },
+      "failure_category": "none"
+    }
+  ]
+}

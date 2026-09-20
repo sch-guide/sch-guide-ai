@@ -39,7 +39,7 @@ from tools.uat_t01_human_semantic_review import (  # noqa: E402
     save_human_review_record,
 )
 
-REVIEW_RESULT_PATH = ROOT / ".tmp" / "uat_t01_human_semantic_review.json"
+REVIEW_RESULT_PATH = ROOT / "workspace" / "UAT" / ".tmp" / "uat_t01_human_semantic_review.json"
 SESSION_KEY = "uat-t01-human-semantic-review-session"
 ATTEMPT_KEY = "uat-t01-human-semantic-review-call-attempted"
 

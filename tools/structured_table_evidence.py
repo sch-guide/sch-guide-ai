@@ -14,7 +14,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Sequence
 
-from mvp.retrieval import lexical_tokens
+from src.retrieval import lexical_tokens
 from tools.chroma_baseline_evaluate import CatalogChunk
 
 

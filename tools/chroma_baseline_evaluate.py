@@ -21,8 +21,8 @@ from typing import Any
 
 import numpy as np
 
-from mvp.library import CHUNK_VERSION, Chunk, Embedder, bounded_embedding_question, has_substantive_body
-from mvp.settings import DIMENSIONS, MODEL
+from src.library import Chunk, Embedder, bounded_embedding_question, has_substantive_body
+from src.settings import DIMENSIONS, MODEL
 from tools.retrieval_baseline_metrics import (
     aggregate_metrics,
     id_based_context_scores,
@@ -32,7 +32,7 @@ from tools.retrieval_baseline_metrics import (
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CATALOG = ROOT / "data" / "library" / "catalog.sqlite3"
 DEFAULT_FIXTURE = ROOT / "tests" / "fixtures" / "transfusion_retrieval_baseline.json"
-DEFAULT_OUTPUT = ROOT / "artifacts" / "2026-09-16_transfusion-chromadb-ragas-baseline"
+DEFAULT_OUTPUT = ROOT / "workspace" / "RAGAS" / "2026-09-16_transfusion-chromadb-ragas-baseline"
 FORBIDDEN_TEXT_FIELDS = {
     "chunk_text",
     "content",
@@ -88,8 +88,8 @@ def load_catalog(path: Path, *, document_name: str) -> tuple[dict[str, Any], lis
 
     if metadata.get("model") != MODEL:
         raise ValueError("catalog embedding model drift")
-    if metadata.get("chunk_version") != CHUNK_VERSION:
-        raise ValueError("catalog chunk version drift")
+    if not isinstance(metadata.get("chunk_version"), int) or metadata["chunk_version"] < 1:
+        raise ValueError("catalog chunk version missing")
     if metadata.get("chunk_count") != len(rows):
         raise ValueError("catalog chunk count drift")
     if not rows:

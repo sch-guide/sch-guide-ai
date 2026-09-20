@@ -21,18 +21,20 @@ from tools.schat_mvp_stabilize import (
     split_reusable_chroma_cases,
     validate_review_audit,
 )
+from tools.workspace_security_cleanup import stable_identifier
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURE = ROOT / "tests" / "fixtures" / "transfusion_retrieval_baseline.json"
 CATALOG = ROOT / "data" / "library" / "catalog.sqlite3"
 PDF = ROOT / "data" / "실무지침서_수혈간호.pdf"
 MULTIMODAL_FIXTURE = ROOT / "tests" / "fixtures" / "transfusion_multimodal_retrieval.json"
-EXPANDED_RESULTS = ROOT / "artifacts" / "2026-09-17_transfusion-expanded-retrieval"
-STABILIZATION_RESULTS = ROOT / "artifacts" / "2026-09-17_schat-mvp-stabilization"
-SEDATION_UAT = ROOT / "artifacts" / "2026-09-16_rag-sedation-uat-generalization" / "uat_report.json"
+EXPANDED_RESULTS = ROOT / "workspace" / "과거작업" / "평가산출물" / "2026-09-17_transfusion-expanded-retrieval"
+STABILIZATION_RESULTS = ROOT / "workspace" / "과거작업" / "평가산출물" / "2026-09-17_schat-mvp-stabilization"
+SEDATION_UAT = ROOT / "workspace" / "UAT" / "2026-09-16_rag-sedation-uat-generalization" / "uat_report.json"
 PRIOR_CHROMA = (
     ROOT
-    / "artifacts"
+    / "workspace"
+    / "RAGAS"
     / "2026-09-16_transfusion-chromadb-ragas-baseline"
     / "chroma_results.json"
 )
@@ -143,6 +145,94 @@ def test_chroma_reuse_is_incremental_and_requires_exact_identity():
     drifted[0]["question"] += " drift"
     with pytest.raises(ValueError, match="prior Chroma case drift"):
         split_reusable_chroma_cases(drifted, PRIOR_CHROMA)
+
+
+def _identity_case():
+    return {
+        "question_id": "CASE-001",
+        "question": "synthetic identity question",
+        "reference_context_ids": ["chunk-001"],
+    }
+
+
+def _write_identity_artifact(path: Path, row: dict):
+    path.write_text(json.dumps({"cases": [row]}), encoding="utf-8")
+
+
+def test_chroma_reuse_accepts_raw_free_question_hash_without_restoring_question(
+    tmp_path: Path,
+):
+    case = _identity_case()
+    artifact = tmp_path / "chroma_results.json"
+    _write_identity_artifact(
+        artifact,
+        {
+            "case_id": case["question_id"],
+            "question_sha256": stable_identifier(case["question"]),
+            "reference_context_ids": case["reference_context_ids"],
+        },
+    )
+    before = artifact.read_bytes()
+
+    reusable, pending = split_reusable_chroma_cases([case], artifact)
+
+    assert reusable == [case]
+    assert pending == []
+    assert artifact.read_bytes() == before
+    assert "question" not in json.loads(before)["cases"][0]
+
+
+def test_chroma_reuse_rejects_question_hash_mismatch_even_with_matching_legacy_text(
+    tmp_path: Path,
+):
+    case = _identity_case()
+    artifact = tmp_path / "chroma_results.json"
+    _write_identity_artifact(
+        artifact,
+        {
+            "case_id": case["question_id"],
+            "question_sha256": stable_identifier("different question"),
+            "question": case["question"],
+            "reference_context_ids": case["reference_context_ids"],
+        },
+    )
+
+    with pytest.raises(ValueError, match="prior Chroma case drift"):
+        split_reusable_chroma_cases([case], artifact)
+
+
+def test_chroma_reuse_rejects_case_id_mismatch(tmp_path: Path):
+    case = _identity_case()
+    artifact = tmp_path / "chroma_results.json"
+    _write_identity_artifact(
+        artifact,
+        {
+            "case_id": "CASE-OTHER",
+            "question_sha256": stable_identifier(case["question"]),
+            "reference_context_ids": case["reference_context_ids"],
+        },
+    )
+
+    with pytest.raises(ValueError, match="prior Chroma case drift"):
+        split_reusable_chroma_cases([case], artifact)
+
+
+def test_chroma_reuse_keeps_legacy_raw_question_fallback(tmp_path: Path):
+    case = _identity_case()
+    artifact = tmp_path / "chroma_results.json"
+    _write_identity_artifact(
+        artifact,
+        {
+            "case_id": case["question_id"],
+            "question": case["question"],
+            "reference_context_ids": case["reference_context_ids"],
+        },
+    )
+
+    reusable, pending = split_reusable_chroma_cases([case], artifact)
+
+    assert reusable == [case]
+    assert pending == []
 
 
 def test_table_units_are_deterministic_linked_and_raw_free():

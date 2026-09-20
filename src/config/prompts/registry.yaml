@@ -1,0 +1,23 @@
+# 설정 파일 구조 버전이다.
+schema_version: 1
+# 현재 등록부는 평가용 초안 상태이며 Production 활성 상태가 아니다.
+registry_status: draft
+# Production 연결 여부다. 이 평가에서는 항상 false여야 한다.
+production_enabled: false
+# Production에 연결된 Prompt 버전은 없다.
+production_prompt_version: ''
+# 현재 evaluation-only 평가에서 선택할 Prompt 버전이다.
+evaluation_candidate_version: v1.0-natural-grounded
+prompts:
+  - prompt_version: v1.0-natural-grounded
+    path: v1.0-natural-grounded.yaml
+    # 평가 전용 초안 상태를 뜻하는 코드 계약값이다.
+    status: draft_evaluation_only
+    # 용도: 근거 기반 자연어 답변을 오프라인 환경에서 평가한다.
+    purpose: grounded_natural_answer_offline_evaluation
+    # 검증된 candidate도 Production 답변으로 게시하지 않는다.
+    publish_controlled: false
+    # 의미 동등성에 대한 최종 안전 검증은 아직 승인 대기 상태다.
+    semantic_support_status: pending
+    # 이번 평가에서는 후속 질문을 사용하지 않는다.
+    follow_up_enabled: false

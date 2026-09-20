@@ -3,8 +3,8 @@ import json
 
 import pytest
 
-from mvp.library import Chunk
-from mvp.retrieval import BM25Index, bm25_corpus_policy, rank_bm25_candidates
+from src.library import Chunk
+from src.retrieval import BM25Index, bm25_corpus_policy, rank_bm25_candidates
 from tools.bm25_evaluate import (
     evaluate_chunks,
     render_review_html,

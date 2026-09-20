@@ -44,9 +44,9 @@ from tools.uat_s01_human_semantic_review import (  # noqa: E402
     save_reviewed_case_snapshot,
 )
 
-REVIEW_RESULT_PATH = ROOT / ".tmp" / "uat_s01_human_semantic_review.json"
+REVIEW_RESULT_PATH = ROOT / "workspace" / "UAT" / ".tmp" / "uat_s01_human_semantic_review.json"
 REVIEW_SNAPSHOT_PATH = (
-    ROOT / ".tmp" / "uat_s01_human_semantic_review_snapshot.json"
+    ROOT / "workspace" / "UAT" / ".tmp" / "uat_s01_human_semantic_review_snapshot.json"
 )
 SESSION_KEY = "uat-s01-human-semantic-review-session"
 NON_SEMANTIC_REVIEW_PREREQUISITES = (

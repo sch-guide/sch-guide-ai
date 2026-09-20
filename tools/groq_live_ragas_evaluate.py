@@ -23,11 +23,11 @@ from typing import Any, Mapping, Sequence
 
 import httpx
 
-from mvp.controlled_generation import (
+from src.controlled_generation import (
     _normalized_numeric_tokens,
     decide_controlled_generation,
 )
-from mvp.evidence import SourceUnit
+from src.evidence import SourceUnit
 from tools.provider_controlled_generation_evaluate import (
     NormalizedProviderResponse,
     ProviderBlueprint,
@@ -49,12 +49,12 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CATALOG = ROOT / "data/library/catalog.sqlite3"
 DEFAULT_UAT = ROOT / "tests/fixtures/schat_v1_operational_uat.json"
 DEFAULT_REVIEWED = ROOT / "tests/fixtures/schat_v1_operational_gold_reviewed.json"
-DEFAULT_OUTPUT = ROOT / "artifacts/2026-09-18_schat-v1-live-ragas-final"
-DEFAULT_HUMAN_REVIEW = ROOT / ".tmp/uat_s01_human_semantic_review.json"
+DEFAULT_OUTPUT = ROOT / "workspace/RAGAS/2026-09-18_schat-v1-live-ragas-final"
+DEFAULT_HUMAN_REVIEW = ROOT / "workspace/UAT/.tmp/uat_s01_human_semantic_review.json"
 DEFAULT_HUMAN_REVIEW_SNAPSHOT = (
-    ROOT / ".tmp/uat_s01_human_semantic_review_snapshot.json"
+    ROOT / "workspace/UAT/.tmp/uat_s01_human_semantic_review_snapshot.json"
 )
-DEFAULT_HUMAN_REVIEW_QUEUE = ROOT / ".tmp/groq_live_human_review_queue.json"
+DEFAULT_HUMAN_REVIEW_QUEUE = ROOT / "workspace/RAGAS/.tmp/groq_live_human_review_queue.json"
 
 
 class GroqLiveError(RuntimeError):
@@ -713,7 +713,7 @@ def _step_number(text: str) -> int | None:
 
 
 def _overlap_score(left: str, right: str) -> float:
-    from mvp.retrieval import lexical_tokens
+    from src.retrieval import lexical_tokens
 
     left_tokens = {
         token for token in lexical_tokens(left) if not token.startswith("entity:")
@@ -863,7 +863,7 @@ def _generation_candidate_hits(
     selected: Sequence[Any],
 ) -> tuple[Any, ...]:
     """Keep production selections plus safe same-parent retrieved siblings."""
-    from mvp.library import compatible, has_substantive_body
+    from src.library import compatible, has_substantive_body
 
     selected_ids = {hit.chunk.id for hit in selected}
     selected_parents = {
@@ -1287,14 +1287,14 @@ def prepare_approved_live_cases(
     reviewed_path: Path = DEFAULT_REVIEWED,
 ) -> list[PreparedLiveCase]:
     """Prepare production-selected exact evidence entirely in local memory."""
-    from mvp.evidence import (
+    from src.evidence import (
         assess_evidence,
         build_source_unit_catalog,
         evidence_groups,
     )
-    from mvp.library import Embedder, bounded_embedding_question
-    from mvp.query import plan_query
-    from mvp.repository import snapshot
+    from src.library import Embedder, bounded_embedding_question
+    from src.query import plan_query
+    from src.repository import snapshot
     from tools.schat_v1_final_validate import (
         _catalog_revision,
         _post_budget_selection,

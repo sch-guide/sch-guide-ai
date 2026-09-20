@@ -606,8 +606,8 @@ def _document_scopes(documents: Sequence[Mapping[str, Any]]) -> dict[str, tuple[
 
 @lru_cache(maxsize=2)
 def _candidate_engine(catalog_path: str):
-    from mvp.library import Embedder
-    from mvp.repository import snapshot
+    from src.library import Embedder
+    from src.repository import snapshot
 
     path = Path(catalog_path)
     library = snapshot(str(path.resolve()), _catalog_revision(path))
@@ -622,8 +622,8 @@ def retrieve_local_chunk_candidates(
     limit: int = 16,
 ) -> list[dict[str, Any]]:
     """Run the existing local retrieval path and return memory-only display rows."""
-    from mvp.library import bounded_embedding_question
-    from mvp.query import plan_query
+    from src.library import bounded_embedding_question
+    from src.query import plan_query
 
     library, embedder, scopes = _candidate_engine(str(catalog_path.resolve()))
     allowed = scopes.get(document_scope)

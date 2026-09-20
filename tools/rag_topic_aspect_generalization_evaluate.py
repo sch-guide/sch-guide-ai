@@ -8,15 +8,15 @@ from html import escape
 
 import httpx
 
-from mvp.ai import generate
-from mvp.evidence import assess_evidence
-from mvp.library import SEARCH_VERSION
-from mvp.query import plan_query, topic_words
-from mvp.settings import ROOT
+from src.ai import generate
+from src.evidence import assess_evidence
+from src.library import SEARCH_VERSION
+from src.query import plan_query, topic_words
+from src.settings import ROOT
 from tools.rag_facet_slot_evaluate import MockQuota, settings
 from tools.rag_procedure_live_evaluate import pilot_corpus, retrieve
 
-OUTPUT = ROOT / 'artifacts' / '2026-09-15_rag-topic-aspect-generalization-02'
+OUTPUT = ROOT / 'workspace' / 'RAG_실험' / '2026-09-15_rag-topic-aspect-generalization-02'
 CASES = (
     ('Q001', 'purpose', '진정간호 목적은?', True),
     ('Q002', 'procedure', '진정간호 절차는?', True),

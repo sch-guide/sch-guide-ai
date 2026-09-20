@@ -3,10 +3,10 @@ import json
 import httpx
 import pytest
 
-from mvp.ai import generate
-from mvp.query import classify, plan_query, topic_words
-from mvp.retrieval import _temporal_phases
-from mvp.settings import ROOT
+from src.ai import generate
+from src.query import classify, plan_query, topic_words
+from src.retrieval import _temporal_phases
+from src.settings import ROOT
 from tools.rag_facet_slot_evaluate import MockQuota, settings
 from tools.rag_sedation_uat_generalization_evaluate import build_report, load_cases
 
@@ -123,6 +123,15 @@ def test_all_45_reclassified_uat_cases_pass_offline():
     report = build_report(FIXTURE)
 
     assert report['question_count'] == 45
+    assert report['actual_groq_calls'] == 0
+    assert report['q006_zero_call']['pass']
+    assert report['passed'] == 45
+    assert report['failed'] == 0
+
+
+def test_chunking_v5_keeps_all_45_operational_uat_cases_passing():
+    report = build_report(FIXTURE, chunk_version=5)
+
     assert report['actual_groq_calls'] == 0
     assert report['q006_zero_call']['pass']
     assert report['passed'] == 45

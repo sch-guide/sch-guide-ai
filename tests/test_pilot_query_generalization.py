@@ -3,15 +3,15 @@ import json
 import httpx
 import pytest
 
-from mvp.ai import (
+from src.ai import (
     GROQ_REQUEST_TOKEN_BUDGET,
     FacetSlotSelectionContract,
     generate,
     prompt_messages,
 )
-from mvp.evidence import assess_evidence, build_source_unit_catalog, evidence_groups
-from mvp.library import Chunk, Hit
-from mvp.query import plan_query, topic_words
+from src.evidence import assess_evidence, build_source_unit_catalog, evidence_groups
+from src.library import Chunk, Hit
+from src.query import plan_query, topic_words
 from tools.rag_facet_slot_evaluate import (
     MockQuota,
     facet_response,

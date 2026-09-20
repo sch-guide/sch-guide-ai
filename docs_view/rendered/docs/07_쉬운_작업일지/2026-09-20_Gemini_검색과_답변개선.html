@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-09-20 · Gemini 검색과 답변 개선 · SCHAT 문서</title><link rel="stylesheet" href="../../../assets/style.css"></head>
+<body><main class="document-pane"><div class="official-notice"><div><strong>열람용 복사본</strong><span>공식 정본은 docs/입니다.</span></div></div>
+<article class="markdown-body"><h1 id="section-1">2026-09-20 · Gemini 검색과 답변 개선</h1>
+<h2 id="section-2">이날 한 일을 한눈에 보면</h2>
+<p>이날은 서로 다른 두 가지 Gemini 작업을 진행했습니다.</p>
+<ol><li><strong>검색 개선 실험</strong>: ChromaDB에서 MiniLM 대신 Gemini Embedding 2를 사용해 검색 점수가 달라지는지 확인했습니다.</li><li><strong>답변 안전 개선</strong>: Gemini가 근거를 답변으로 바꿀 때 중요한 행동과 강도를 바꾸지 않는지 검사하고, T02 검수 저장 오류를 수정했습니다.</li></ol>
+<p>같은 Gemini라는 이름을 사용하지만, 첫 번째는 문장을 검색용 숫자로 바꾸는 작업이고 두 번째는 자연어 답변을 만드는 작업입니다.</p>
+<hr>
+<h2 id="section-3">1. Gemini 임베딩으로 ChromaDB 다시 평가</h2>
+<h3 id="section-4">왜 다시 평가했나</h3>
+<p>전날 ChromaDB-only 검색은 상위 10개 안에 정답 근거를 찾은 비율이 33.3%로 낮았습니다. 이 결과가 ChromaDB 저장소 자체의 한계인지, 문장을 숫자 벡터로 바꾸던 MiniLM의 영향인지 구분할 필요가 있었습니다.</p>
+<p>그래서 ChromaDB와 평가 조건은 그대로 두고, <strong>임베딩 모델만 MiniLM에서 Gemini Embedding 2로 바꿔</strong> 다시 평가했습니다.</p>
+<blockquote><p>여기서 Gemini Embedding 2는 답변을 작성하는 Gemini LLM이 아니라, 문장의 의미를 검색용 숫자 벡터로 바꾸는 모델입니다.</p></blockquote>
+<h3 id="section-5">무엇을 같게 유지했나</h3>
+<ul><li>사람이 승인한 Positive Gold 21건</li><li>보류된 11건 제외</li><li>같은 지침서 2개와 같은 청크 147개</li><li>같은 corpus fingerprint</li><li>같은 질문 처리와 문서 범위</li><li>같은 ChromaDB cosine 검색</li><li>같은 Top-k 1·3·5·10과 같은 채점 방법</li><li>BM25, RRF, reranker, LLM 답변 생성, validator 사용 안 함</li></ul>
+<h3 id="section-6">MiniLM에서 Gemini로 바꾼 결과</h3>
+<div class="table-wrap"><table><thead><tr><th class="align-left">지표</th><th class="align-right">ChromaDB + MiniLM</th><th class="align-right">ChromaDB + Gemini Embedding 2</th><th class="align-right">변화</th></tr></thead><tbody><tr><td class="align-left">Hit@1</td><td class="align-right">4.8%</td><td class="align-right">19.0%</td><td class="align-right">+14.3%p</td></tr><tr><td class="align-left">Hit@3</td><td class="align-right">14.3%</td><td class="align-right">57.1%</td><td class="align-right">+42.9%p</td></tr><tr><td class="align-left">Hit@5</td><td class="align-right">14.3%</td><td class="align-right">81.0%</td><td class="align-right">+66.7%p</td></tr><tr><td class="align-left">Hit@10</td><td class="align-right">33.3%</td><td class="align-right"><strong>95.2%</strong></td><td class="align-right"><strong>+61.9%p</strong></td></tr><tr><td class="align-left">MRR</td><td class="align-right">10.9%</td><td class="align-right">43.4%</td><td class="align-right">+32.4%p</td></tr><tr><td class="align-left">Recall@10</td><td class="align-right">10.4%</td><td class="align-right">55.9%</td><td class="align-right">+45.5%p</td></tr><tr><td class="align-left">Precision@10</td><td class="align-right">4.8%</td><td class="align-right">31.0%</td><td class="align-right">+26.2%p</td></tr></tbody></table></div>
+<p>21개 질문 중 MiniLM에서는 실패하고 Gemini에서는 성공한 질문이 13건이었습니다. 반대로 MiniLM만 성공하고 Gemini가 실패한 질문은 없었습니다. UAT-T11은 두 방식 모두 상위 10개 안에서 정답 근거를 찾지 못했습니다.</p>
+<h3 id="section-7">이 결과가 의미하는 것</h3>
+<ul><li>처음 ChromaDB 점수가 낮았던 주요 원인은 ChromaDB 자체보다는 <strong>MiniLM 임베딩과 현재 병원 지침 데이터의 조합</strong>에 있었습니다.</li><li>같은 ChromaDB도 어떤 임베딩 모델을 쓰느냐에 따라 결과가 크게 달라졌습니다.</li><li>따라서 “ChromaDB가 나쁘다” 또는 “ChromaDB로 바꾸면 무조건 좋아진다”고 결론 내릴 수 없습니다.</li></ul>
+<h3 id="section-8">세 가지 검색 방식 최종 비교</h3>
+<div class="table-wrap"><table><thead><tr><th class="align-left">검색 방식</th><th class="align-right">Hit@10</th><th class="align-right">MRR</th><th class="align-right">Recall@10</th><th class="align-right">Precision@10</th><th class="align-right">평균 검색 시간</th></tr></thead><tbody><tr><td class="align-left">Pure BM25</td><td class="align-right">90.5%</td><td class="align-right">58.2%</td><td class="align-right">45.2%</td><td class="align-right">25.7%</td><td class="align-right">0.4ms</td></tr><tr><td class="align-left">ChromaDB + Gemini Embedding 2</td><td class="align-right"><strong>95.2%</strong></td><td class="align-right">43.4%</td><td class="align-right">55.9%</td><td class="align-right">31.0%</td><td class="align-right">574.8ms</td></tr><tr><td class="align-left">Current Hybrid</td><td class="align-right"><strong>95.2%</strong></td><td class="align-right"><strong>73.7%</strong></td><td class="align-right"><strong>82.1%</strong></td><td class="align-right"><strong>53.6%</strong></td><td class="align-right">124.6ms</td></tr></tbody></table></div>
+<p>Gemini ChromaDB는 Hit@10에서 Current Hybrid와 같아졌지만, 정답을 앞쪽에 배치하는 정도와 필요한 근거를 충분히 찾는 정도는 Current Hybrid가 더 높았습니다. 속도도 Gemini ChromaDB가 더 느렸습니다.</p>
+<h3 id="section-9">비용과 적용 여부</h3>
+<ul><li>문서 청크 147건과 질문 21건을 합쳐 실제 API 요청은 168회였습니다.</li><li>실패 요청과 재시도는 0회였습니다.</li><li>기록된 예상 비용은 당시 환율로 환산해 약 3원이었습니다.</li><li>원문 질문, 병원 근거 원문, 전체 요청·응답, API 키는 평가 산출물에 저장하지 않았습니다.</li><li>이 결과는 <strong>evaluation-only</strong>이며 실제 Production 검색 구조는 변경하지 않았습니다.</li></ul>
+<p>현재 Production은 계속 다음 구조를 사용합니다.</p>
+<p><code>BM25 + MiniLM 의미 검색 + RRF + reranker</code></p>
+<hr>
+<h2 id="section-10">2. Gemini 답변의 의미 보존 강화</h2>
+<h3 id="section-11">왜 개선했나</h3>
+<p>Gemini가 지침서 근거를 자연스러운 문장으로 바꿀 때 중요한 행동과 강도를 바꾸지 않는지 확인하려고 했습니다.</p>
+<p>예를 들어 원문이 “즉시 중단한다”인데 “중단을 고려한다”로 바뀌면 단어는 비슷해도 의미는 약해집니다. 이런 변화를 자동으로 차단하는 것이 목표였습니다.</p>
+<h3 id="section-12">실제로 한 일</h3>
+<ul><li>시행, 확인, 측정, 투여, 중단 같은 <strong>행동 종류</strong>를 보존하는 검사를 추가했습니다.</li><li>반드시, 즉시, 권고, 고려, 가능, 금지 같은 <strong>행동 강도</strong>를 보존하는 검사를 추가했습니다.</li><li>숫자·시간·속도가 서로 다른 제제나 근거와 섞이지 않도록 Prompt 규칙을 강화했습니다.</li><li>UAT-T02, UAT-T12, UAT-T11 세 질문만 Gemini로 다시 평가했습니다.</li><li>실패 원인을 분석해 실제 의미 문제와 검사 도구의 오해를 구분했습니다.</li></ul>
+<h3 id="section-13">세 질문에서 확인된 내용</h3>
+<div class="table-wrap"><table><thead><tr><th class="align-left">질문</th><th class="align-left">확인된 문제</th><th class="align-left">쉬운 설명</th><th class="align-left">다음 대상</th></tr></thead><tbody><tr><td class="align-left">UAT-T02</td><td class="align-left">검수 저장 오류</td><td class="align-left">8문단 답변에 이전 답변용 출처 7줄을 잘못 붙임</td><td class="align-left">저장 로직 수정 완료</td></tr><tr><td class="align-left">UAT-T12</td><td class="align-left">검사 도구의 오해</td><td class="align-left">“즉시 운반하며 확인”에서 <code>즉시</code>가 확인까지 수식한다고 잘못 판단</td><td class="align-left">9월 21일 검사기 개선 완료</td></tr><tr><td class="align-left">UAT-T11</td><td class="align-left">필수 행동 일부 누락</td><td class="align-left">제제별 시간은 적었지만 “제제에 맞게 적용”한다는 결론이 빠짐</td><td class="align-left">Prompt 개선 필요</td></tr></tbody></table></div>
+<hr>
+<h2 id="section-14">3. UAT-T02 검수 저장 오류 수정</h2>
+<p>답변과 출처 목록을 따로 취급하지 않고 하나의 묶음으로 저장하도록 바꿨습니다.</p>
+<ul><li>8문단 fallback 답변에는 그 답변에서 다시 만든 출처 8줄만 사용합니다.</li><li>8문단과 출처 7줄처럼 개수가 맞지 않으면 저장하지 않습니다.</li><li>저장에 실패하면 이전의 정상 검수 파일을 덮어쓰지 않습니다.</li><li>실패 기록에는 병원 원문, AI 답변 원문, API 키를 남기지 않습니다.</li></ul>
+<h3 id="section-15">확인된 결과</h3>
+<div class="table-wrap"><table><thead><tr><th class="align-left">검사</th><th class="align-right">결과</th></tr></thead><tbody><tr><td class="align-left">UAT-T02 관련 집중 테스트</td><td class="align-right">15건 통과</td></tr><tr><td class="align-left">관련 review/provider 회귀</td><td class="align-right">49건 통과</td></tr><tr><td class="align-left">보안 테스트</td><td class="align-right">13건 통과</td></tr><tr><td class="align-left">Ruff 및 문서 형식 검사</td><td class="align-right">통과</td></tr><tr><td class="align-left">이 수정 중 Gemini 호출</td><td class="align-right">0회</td></tr></tbody></table></div>
+<p>당시 전체 테스트에서는 964건이 통과하고 5건이 건너뛰어졌습니다. 별도 3건의 실패는 이번 수정 때문이 아니라 이미 존재하는 사람 검수 파일과 과거 화면 가정을 전제로 한 테스트였습니다. 사람 검수 자료는 임의로 삭제하거나 바꾸지 않았습니다.</p>
+<h2 id="section-16">아직 해결되지 않은 문제</h2>
+<ul><li>UAT-T12: 행동 강도를 문장 전체가 아니라 연결된 행위 구간별로 읽도록 9월 21일 개선했습니다. 다만 과거 후보에서 사람이 확인한 <code>검사 시행 누락</code>은 별도 문제로 남겨 두었습니다.</li><li>UAT-T11: 필수 행동 결론을 답변에 빠뜨리지 않도록 Prompt를 보강해야 합니다.</li><li>검색에서는 Gemini 임베딩이 크게 개선됐지만, 이것이 답변 생성 안전성까지 자동으로 보장하는 것은 아닙니다.</li></ul>
+<h2 id="section-17">다음에 할 일</h2>
+<ol><li>완료: UAT-T12 검사기의 잘못된 경고를 일반적인 방식으로 수정</li><li>UAT-T11의 필수 내용 보존 규칙 강화</li><li>로컬 테스트가 모두 통과한 뒤에만 승인된 범위에서 답변 재평가</li></ol>
+<h2 id="section-18">이날의 핵심 한 줄</h2>
+<blockquote><p>Gemini Embedding 2로 ChromaDB 검색은 크게 좋아졌지만 Production은 유지했고, Gemini 답변은 행동·강도 보존을 더 엄격하게 검사하며 T02의 답변·출처 저장 오류를 안전하게 막았습니다.</p></blockquote></article></main></body></html>

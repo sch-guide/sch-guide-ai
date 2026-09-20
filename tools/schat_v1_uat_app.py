@@ -10,7 +10,7 @@ import streamlit as st
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_ARTIFACT = (
-    ROOT / "artifacts" / "2026-09-18_schat-v1-ragas-gold-uat-final"
+    ROOT / "workspace" / "RAGAS" / "2026-09-18_schat-v1-ragas-gold-uat-final"
 )
 
 

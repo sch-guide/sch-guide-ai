@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "evaluation_date": "2026-09-20",
+  "evaluator_file": "tools/gemini_chromadb_only_evaluate.py",
+  "engine": "chromadb_only",
+  "retrieval_contract": {
+    "engine": "chromadb_only",
+    "bm25_calls": 0,
+    "rrf_calls": 0,
+    "reranker_calls": 0,
+    "context_expansion": false,
+    "evidence_gate": false,
+    "source_unit": false,
+    "llm_calls": 0,
+    "validator_calls": 0
+  },
+  "corpus": {
+    "catalog_revision": 2,
+    "fingerprint_algorithm": "mvp.library.fingerprint_sha256",
+    "fingerprint": "f114e736f5ca9d487ec6be225ae5e942b5cbc25df1d85a648eaaf7bba98d2010",
+    "document_count": 2,
+    "chunk_count": 147,
+    "document_ids": [
+      "49efc318-d430-4b3b-8c16-2779c52f1401",
+      "bc3d0de4-6560-4560-b78f-645e82cddd94"
+    ]
+  },
+  "gold": {
+    "fixture": "tests/fixtures/schat_v1_operational_gold_reviewed.json",
+    "fixture_sha256": "0485c2192324082594bb66cc398097b3abc3ca4dc32066963db69d99a4f9067c",
+    "dataset_version": "schat-v1-operational-gold-reviewed-v1",
+    "approved_positive_case_count": 21,
+    "deferred_positive_case_count": 11,
+    "approved_abstention_case_count": 4,
+    "negative_handling": "separate_not_queried_by_positive_retrieval_evaluator"
+  },
+  "query_processing": {
+    "planner": "src.query.plan_query",
+    "embedding_projection": "src.library.bounded_embedding_question(plan.expanded)",
+    "follow_up_context": true,
+    "document_scope_filter": true,
+    "context_expansion": false,
+    "equal_distance_tie_breaker": "corpus_position_then_chunk_id"
+  },
+  "embedding": {
+    "provider": "Google Gemini paid API",
+    "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-2:embedContent",
+    "model": "gemini-embedding-2",
+    "dimension": 3072,
+    "normalization": "provider_3072_l2_unit_verified",
+    "minimum_norm": 1.0,
+    "maximum_norm": 1.0,
+    "document_task_representation": "title: none | text: {value}",
+    "query_task_representation": "task: search result | query: {value}",
+    "task_type_api_field_used": false
+  },
+  "chromadb": {
+    "version": "1.5.9",
+    "collection_name": "schat_chromadb_gemini_embedding_3072_eval_v1",
+    "similarity_metric": "cosine",
+    "default_embedding_function_used": false,
+    "documents_stored": false,
+    "anonymized_telemetry": false,
+    "clean_rebuild": true
+  },
+  "top_k": [
+    1,
+    3,
+    5,
+    10
+  ],
+  "usage": {
+    "logical_input_count": 168,
+    "actual_api_request_count": 168,
+    "successful_request_count": 168,
+    "failed_request_count": 0,
+    "retry_count": 0,
+    "approved_retransmission_count": 28,
+    "post_checkpoint_duplicate_request_count": 0,
+    "resumed_input_count_at_final_execution": 0,
+    "new_http_request_count_at_final_execution": 168,
+    "document_embedding_count": 147,
+    "query_embedding_count": 21,
+    "actual_input_tokens": 10326,
+    "actual_total_tokens": 10326,
+    "paid_standard_usd_per_million_text_tokens": 0.2,
+    "actual_estimated_cost_usd": 0.0020652,
+    "embedding_generation_time_seconds": 96.705,
+    "current_execution_wall_time_seconds": 102.307,
+    "document_embedding_latency_mean_ms": 576.76,
+    "query_embedding_latency_mean_ms": 567.688,
+    "chromadb_query_latency_mean_ms": 7.096
+  },
+  "storage_policy": {
+    "request_payload_stored": false,
+    "request_payload_logged": false,
+    "api_key_stored_or_logged": false,
+    "provider_response_raw_stored": false,
+    "parsed_vectors_persisted_in_separate_chroma_collection": true,
+    "raw_free_metrics_only": true
+  }
+}

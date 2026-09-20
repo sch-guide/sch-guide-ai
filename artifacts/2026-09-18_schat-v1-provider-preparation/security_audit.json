@@ -1,9 +1,0 @@
-{
-  "status": "passed",
-  "artifact_files_checked": 5,
-  "raw_clinical_text_matches": 0,
-  "raw_provider_envelopes": 0,
-  "full_instruction_bodies": 0,
-  "secret_markers": 0,
-  "actual_external_calls": 0
-}

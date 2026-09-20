@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any, Sequence
 
 from tools.chroma_baseline_evaluate import CatalogChunk
+from tools.workspace_security_cleanup import stable_identifier
 
 _STRUCTURAL_TABLE_CASES = {
     "TF003": ("page_2_product_header_row_column", "verified"),
@@ -285,6 +286,26 @@ def build_expanded_fixture(base_fixture: dict[str, Any]) -> dict[str, Any]:
     return fixture
 
 
+def prior_chroma_case_identity_matches(
+    prior: dict[str, Any], case: dict[str, Any]
+) -> bool:
+    """Match a prior case using the raw-free hash, with legacy text fallback."""
+
+    if "question_sha256" in prior:
+        question_matches = prior.get("question_sha256") == stable_identifier(
+            case["question"]
+        )
+    else:
+        question_matches = prior.get("question") == case["question"]
+    return all(
+        (
+            prior.get("case_id") == case["question_id"],
+            question_matches,
+            prior.get("reference_context_ids") == case["reference_context_ids"],
+        )
+    )
+
+
 def split_reusable_chroma_cases(
     cases: Sequence[dict[str, Any]], prior_results_path: Path
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
@@ -296,12 +317,7 @@ def split_reusable_chroma_cases(
     reusable: list[dict[str, Any]] = []
     for case_id, prior in prior_by_id.items():
         case = current_by_id.get(case_id)
-        if case is None or any(
-            (
-                prior.get("question") != case["question"],
-                prior.get("reference_context_ids") != case["reference_context_ids"],
-            )
-        ):
+        if case is None or not prior_chroma_case_identity_matches(prior, case):
             raise ValueError(f"prior Chroma case drift: {case_id}")
         reusable.append(case)
     reusable_ids = {case["question_id"] for case in reusable}

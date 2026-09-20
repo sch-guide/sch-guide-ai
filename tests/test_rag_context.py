@@ -2,10 +2,10 @@ import json
 from dataclasses import replace
 from pathlib import Path
 
-from mvp.context import expand_context
-from mvp.evidence import assess_evidence
-from mvp.library import Chunk, Hit
-from mvp.query import plan_query
+from src.context import expand_context
+from src.evidence import assess_evidence
+from src.library import Chunk, Hit
+from src.query import plan_query
 from tools.rag_phase1_evaluate import stage_recall
 
 

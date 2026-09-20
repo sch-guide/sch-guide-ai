@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SCHAT Retrieval 평가 근거 감사</title>
+  <style>
+    :root {
+      --navy:#102a43; --ink:#243b53; --muted:#627d98; --line:#d9e2ec;
+      --paper:#f4f7fa; --white:#fff; --teal:#087f8c; --teal-soft:#e7f6f4;
+      --blue:#3156c8; --blue-soft:#edf2ff; --amber:#b46900; --amber-soft:#fff5dd;
+      --rose:#b42318; --rose-soft:#fff0ee; --violet:#5b5bd6; --violet-soft:#eeeeff;
+      --shadow:0 14px 38px rgba(16,42,67,.09);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;color:var(--ink);background:linear-gradient(180deg,#eaf1f6 0,#f8fafc 30rem);font-family:Pretendard,"Noto Sans KR","Segoe UI",sans-serif;line-height:1.55}
+    .shell{width:min(1220px,calc(100% - 32px));margin:auto}
+    header{padding:58px 0 35px}
+    .eyebrow{margin:0 0 10px;color:var(--teal);font-size:.76rem;font-weight:900;letter-spacing:.15em}
+    h1{margin:0;color:var(--navy);font-size:clamp(2rem,5vw,4rem);line-height:1.05;letter-spacing:-.045em}
+    .lead{max-width:820px;margin:18px 0 0;color:#486581;font-size:1.04rem}
+    .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+    .badge{padding:7px 11px;border:1px solid #cbd8e2;border-radius:999px;background:rgba(255,255,255,.78);color:#486581;font-size:.76rem;font-weight:800}
+    nav{position:sticky;top:0;z-index:20;border-block:1px solid var(--line);background:rgba(248,250,252,.92);backdrop-filter:blur(12px)}
+    nav .shell{display:flex;gap:7px;overflow:auto;padding:10px 0}
+    nav a{flex:0 0 auto;padding:7px 10px;border-radius:9px;color:#486581;font-size:.76rem;font-weight:800;text-decoration:none}
+    nav a:hover{background:white;color:var(--teal)}
+    main{padding:8px 0 64px}
+    section{scroll-margin-top:68px;margin-top:22px;padding:clamp(22px,4vw,38px);border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.97);box-shadow:var(--shadow)}
+    h2{margin:0;color:var(--navy);font-size:clamp(1.3rem,3vw,2rem);letter-spacing:-.025em}
+    .note{margin:7px 0 22px;color:var(--muted);font-size:.86rem}
+    .summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .stat{padding:20px;border:1px solid var(--line);border-radius:16px;background:#fbfcfd}
+    .stat b{display:block;color:var(--navy);font-size:1.7rem;letter-spacing:-.03em}
+    .stat span{color:var(--muted);font-size:.78rem;font-weight:800}
+    .stat.alert{border-color:#f0c5be;background:var(--rose-soft)}
+    .stat.alert b{color:var(--rose)}
+    .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:22px;align-items:stretch}
+    .step{position:relative;min-height:120px;padding:18px;border:1px solid #c4d9de;border-top:5px solid var(--teal);border-radius:15px;background:linear-gradient(145deg,#f4fcfb,#fff)}
+    .step::after{content:"→";position:absolute;right:-17px;top:50%;color:#91aabd;font-size:1.25rem;font-weight:900;transform:translateY(-50%)}
+    .step:last-child::after{display:none}
+    .step strong{display:block;margin-bottom:6px;color:var(--navy)}
+    .step p{margin:0;color:var(--muted);font-size:.78rem}
+    .step.human{border-color:#d1c8f2;border-top-color:var(--violet);background:linear-gradient(145deg,#f3f0ff,#fff)}
+    .warning{margin-top:18px;padding:15px 18px;border-left:4px solid var(--amber);border-radius:10px;background:var(--amber-soft);color:#74520c;font-size:.84rem}
+    .review-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}
+    .review-card{padding:20px;border:1px solid var(--line);border-radius:16px;background:#fbfcfd}
+    .review-card h3{margin:0 0 12px;color:var(--navy);font-size:1rem}
+    .reviewers{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .reviewer{padding:12px;border-radius:11px;background:var(--teal-soft);text-align:center}
+    .reviewer b{display:block;color:#06636b;font-size:1.2rem}
+    .reviewer span{font-size:.72rem;color:#39777c}
+    .matrix-wrap,.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:15px}
+    table{width:100%;border-collapse:collapse;font-size:.78rem}
+    th,td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:center;vertical-align:top}
+    th{background:#edf2f7;color:var(--navy);font-size:.72rem;white-space:nowrap}
+    tr:last-child td{border-bottom:0}
+    td:first-child,th:first-child{text-align:left;font-weight:850}
+    .yes{color:#08785f;font-weight:900}.no{color:var(--muted)}.on{color:var(--blue);font-weight:900}
+    .same{padding:4px 7px;border-radius:7px;background:var(--teal-soft);color:#07656b;font-size:.68rem;font-weight:900;white-space:nowrap}
+    .different{padding:4px 7px;border-radius:7px;background:var(--violet-soft);color:#4545ad;font-size:.68rem;font-weight:900;white-space:nowrap}
+    .controls{display:grid;grid-template-columns:1.5fr repeat(2,1fr);gap:10px;margin:18px 0}
+    label{display:grid;gap:5px;color:#526d82;font-size:.74rem;font-weight:800}
+    input,select{width:100%;padding:10px 11px;border:1px solid #cbd8e2;border-radius:10px;background:white;color:var(--navy);font:inherit}
+    input:focus,select:focus{outline:3px solid rgba(91,91,214,.14);border-color:#8e8ee7}
+    .miss-table{min-width:1060px}
+    .case{min-width:270px;text-align:left}
+    .case b{display:block;color:var(--navy)}
+    .case span{display:block;margin-top:3px;color:#526d82;font-size:.73rem;font-weight:600}
+    .gold{white-space:nowrap;font-weight:900}
+    .gold.present{color:#08785f}.gold.out{color:var(--rose)}
+    .result-list{min-width:510px;text-align:left}
+    .top3{display:flex;flex-wrap:wrap;gap:5px}
+    .result{padding:4px 7px;border-radius:7px;background:#f0f4f7;color:#486581;font:700 .68rem "Cascadia Code",Consolas,monospace;white-space:nowrap}
+    details{margin-top:7px}
+    summary{cursor:pointer;color:var(--blue);font-size:.71rem;font-weight:850}
+    .top10{margin-top:8px;color:#526d82;font:600 .68rem/1.65 "Cascadia Code",Consolas,monospace;overflow-wrap:anywhere}
+    .category{display:inline-block;padding:5px 8px;border-radius:8px;background:var(--rose-soft);color:var(--rose);font-size:.67rem;font-weight:900;white-space:nowrap}
+    .category.outside{background:var(--amber-soft);color:#8a5a00}
+    .legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;color:var(--muted);font-size:.75rem}
+    .legend b{color:var(--navy)}
+    .security{display:flex;gap:12px;align-items:flex-start;padding:17px;border:1px solid #b9ddd7;border-radius:14px;background:var(--teal-soft)}
+    .security .icon{display:grid;place-items:center;flex:0 0 38px;height:38px;border-radius:12px;background:white;color:var(--teal);font-weight:900}
+    .security strong{display:block;color:#075e68}
+    .security p{margin:3px 0 0;color:#39777c;font-size:.8rem}
+    .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+    .links a{padding:7px 10px;border:1px solid #cbd8e2;border-radius:9px;color:var(--blue);background:white;font-size:.73rem;font-weight:800;text-decoration:none}
+    .empty{padding:28px;text-align:center;color:var(--muted)}
+    footer{padding:0 0 48px;color:var(--muted);font-size:.75rem;text-align:center}
+    @media(max-width:850px){.summary{grid-template-columns:repeat(2,1fr)}.flow{grid-template-columns:1fr}.step::after{content:"↓";right:auto;left:50%;top:auto;bottom:-23px;transform:translateX(-50%)}.review-grid{grid-template-columns:1fr}.controls{grid-template-columns:1fr}}
+    @media(max-width:520px){.shell{width:min(100% - 20px,1220px)}.summary{grid-template-columns:1fr}.reviewers{grid-template-columns:1fr}header{padding-top:38px}}
+    @media print{body{background:white}nav,.controls{display:none}section{box-shadow:none;break-inside:avoid}.table-wrap{overflow:visible}.miss-table{min-width:0;font-size:.55rem}details[open] summary{display:none}}
+  </style>
+</head>
+<body>
+  <header class="shell">
+    <p class="eyebrow">SCHAT · RETRIEVAL EVALUATION AUDIT</p>
+    <h1>3-way 평가 근거를<br>한눈에 확인하기</h1>
+    <p class="lead">무엇을 정답으로 삼았고, 세 검색 방식이 같은 데이터를 사용했는지, ChromaDB가 놓친 14문항에서 실제로 어떤 ID가 반환됐는지를 정리했습니다.</p>
+    <div class="badges"><span class="badge">2026-09-19</span><span class="badge">Evaluation-only</span><span class="badge">Production 변경 없음</span><span class="badge">원문 미표시</span></div>
+  </header>
+
+  <nav aria-label="페이지 목차"><div class="shell"><a href="#summary">요약</a><a href="#gold">Gold 승인</a><a href="#corpus">Corpus·ID</a><a href="#engines">검색 구성</a><a href="#misses">Chroma 14건</a><a href="#security">보안·출처</a></div></nav>
+
+  <main class="shell">
+    <section id="summary">
+      <h2>핵심 요약</h2>
+      <p class="note">세 평가는 같은 승인 기준과 같은 catalog snapshot을 사용했습니다.</p>
+      <div class="summary">
+        <div class="stat"><b>21건</b><span>승인 Gold 21건</span></div>
+        <div class="stat"><b>147개</b><span>공통 text chunk corpus</span></div>
+        <div class="stat alert"><b>14건</b><span>Chroma 무적중 14건</span></div>
+        <div class="stat"><b>13 + 1</b><span>색인 내 miss 13 · corpus 밖 1</span></div>
+      </div>
+      <div class="warning"><b>핵심 해석:</b> Gold는 검색 결과가 자동으로 정답이 된 것이 아닙니다. Local retrieval이 후보를 제시했고, 사람이 지침 원문과 대조한 뒤 최종 승인했습니다. 따라서 assisted human review이며 완전한 blind annotation은 아닙니다.</div>
+    </section>
+
+    <section id="gold">
+      <h2>Gold 생성과 승인 흐름</h2>
+      <p class="note">외부 LLM·provider 호출 없이 로컬에서 진행된 기록입니다.</p>
+      <div class="flow">
+        <div class="step"><strong>1. 운영 UAT 질문</strong><p>Positive 32문항을 검수 대상으로 준비</p></div>
+        <div class="step"><strong>2. Local retrieval 후보</strong><p>BM25 + MiniLM + RRF + reranker가 후보 근거를 표시</p></div>
+        <div class="step"><strong>3. 규칙 기반 초안</strong><p>Primary·Acceptable ID와 최소 critical fact를 제안</p></div>
+        <div class="step human"><strong>4. 사람 원문 대조</strong><p>질문·페이지·section·근거 원문을 직접 확인하고 필요 시 수정</p></div>
+        <div class="step human"><strong>5. 최종 승인</strong><p>사람이 최종 Gold 체크를 해야만 평가에 포함</p></div>
+      </div>
+      <div class="review-grid" style="margin-top:20px">
+        <div class="review-card">
+          <h3>Reviewer 기록</h3>
+          <div class="reviewers"><div class="reviewer"><b>2건</b><span>boha</span></div><div class="reviewer"><b>12건</b><span>보하</span></div><div class="reviewer"><b>7건</b><span>뽀</span></div></div>
+        </div>
+        <div class="review-card">
+          <h3>승인 감사 정보</h3>
+          <p style="margin:0;color:var(--muted);font-size:.8rem"><b style="color:var(--navy)">승인 시간</b><br>2026-09-18 10:38:10–12:51:53 KST<br><br><b style="color:var(--navy)">2차 reviewer</b><br>필수 0건 · 기록 0건</p>
+        </div>
+      </div>
+      <div class="warning"><b>기록의 한계:</b> reviewer 문자열 세 개가 동일인인지 서로 다른 사람인지는 파일만으로 확인할 수 없습니다. 사람의 외부 도구 사용 여부나 임상 자격을 증명하는 독립 감사 기록도 없습니다.</div>
+    </section>
+
+    <section id="corpus">
+      <h2>Corpus·청킹·ID가 같은가?</h2>
+      <p class="note">기본 검색 universe는 동일합니다. Current Hybrid만 검색 후 같은 corpus 안에서 context expansion을 수행합니다.</p>
+      <div class="matrix-wrap">
+        <table>
+          <thead><tr><th>확인 항목</th><th>Pure BM25</th><th>ChromaDB-only</th><th>Current Hybrid</th><th>판정</th></tr></thead>
+          <tbody>
+            <tr><td>Catalog revision</td><td>2</td><td>2</td><td>2</td><td><span class="same">동일</span></td></tr>
+            <tr><td>Corpus fingerprint</td><td colspan="3"><code>f114e736…98d2010</code></td><td><span class="same">동일</span></td></tr>
+            <tr><td>문서 / text chunk</td><td>2 / 147</td><td>2 / 147</td><td>2 / 147</td><td><span class="same">동일</span></td></tr>
+            <tr><td>청킹</td><td colspan="3">Chunk v4 · 110 embedding tokens · overlap 20 · semantic block</td><td><span class="same">동일</span></td></tr>
+            <tr><td>Chunk ID</td><td>catalog UUID</td><td>catalog UUID를 collection ID로 사용</td><td>catalog UUID</td><td><span class="same">정확히 매칭</span></td></tr>
+            <tr><td>Gold 판정</td><td colspan="3"><code>returned chunk_id == primary ∪ acceptable Gold ID</code></td><td><span class="same">동일</span></td></tr>
+            <tr><td>Context expansion</td><td>없음</td><td>없음</td><td>같은 corpus의 인접·parent chunk 추가</td><td><span class="different">파이프라인 차이</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="engines">
+      <h2>검색 구성 비교</h2>
+      <p class="note">Current Hybrid는 단일 retriever가 아니라 production 검색 전체 경로입니다.</p>
+      <div class="matrix-wrap">
+        <table>
+          <thead><tr><th>기능</th><th>Pure BM25</th><th>ChromaDB-only</th><th>Current Hybrid</th></tr></thead>
+          <tbody>
+            <tr><td>BM25</td><td class="on">ON</td><td class="no">OFF</td><td class="on">ON</td></tr>
+            <tr><td>MiniLM query embedding</td><td class="no">OFF</td><td class="on">ON</td><td class="on">ON</td></tr>
+            <tr><td>Vector backend</td><td class="no">없음</td><td class="on">ChromaDB cosine</td><td class="on">FAISS inner product</td></tr>
+            <tr><td>RRF</td><td class="no">OFF</td><td class="no">OFF</td><td class="on">ON</td></tr>
+            <tr><td>Reranker</td><td class="no">OFF</td><td class="no">OFF</td><td class="on">ON</td></tr>
+            <tr><td>Context expansion</td><td class="no">OFF</td><td class="no">OFF</td><td class="on">ON</td></tr>
+            <tr><td>Evidence gate / SourceUnit</td><td class="no">OFF</td><td class="no">OFF</td><td class="no">OFF</td></tr>
+            <tr><td>LLM / Validator</td><td class="no">OFF</td><td class="no">OFF</td><td class="no">OFF</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="misses">
+      <h2>ChromaDB Hit@10 무적중 14문항</h2>
+      <p class="note">Top-10에 승인 Gold ID가 하나도 없었던 case입니다. ID는 앞 8자리만 표시하며, 병원 근거 원문은 표시하지 않습니다.</p>
+      <div class="controls">
+        <label>질문 검색<input id="search" type="search" placeholder="Case ID 또는 질문"></label>
+        <label>문서<select id="scope"><option value="all">전체</option><option value="S">진정간호</option><option value="T">수혈간호</option></select></label>
+        <label>실패 유형<select id="failure"><option value="all">전체</option><option value="miss">Gold는 색인에 있음</option><option value="outside">Gold가 text corpus 밖</option></select></label>
+      </div>
+      <div class="table-wrap">
+        <table class="miss-table">
+          <thead><tr><th>Case / 질문</th><th>Gold 색인 존재</th><th>분류</th><th>Chroma 반환 결과</th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <div class="legend"><span><b>S</b>: 진정간호 문서</span><span><b>T</b>: 수혈간호 문서</span><span><b>p</b>: PDF 페이지</span><span>칩 순서가 검색 rank</span></div>
+      <div class="warning"><b>UAT-T11:</b> 승인 Gold 3개가 structured-table row ID여서 일반 text chunk 147개로 만든 Chroma collection에는 존재하지 않습니다. 이 case는 BM25·Chroma·일반 Hybrid 비교에서 모두 0점입니다.</div>
+    </section>
+
+    <section id="security">
+      <h2>보안 범위와 원본 확인</h2>
+      <p class="note">이 화면은 기존 평가 artifact를 사람이 읽기 쉽게 재구성한 정적 문서입니다.</p>
+      <div class="security"><div class="icon">✓</div><div><strong>병원 근거 원문을 표시하지 않습니다.</strong><p>질문, case ID, chunk ID 축약값, 문서 구분, 페이지, 승인·평가 메타데이터만 표시합니다. Gold 원문·전체 지침·환자정보는 포함하지 않습니다.</p></div></div>
+      <div class="links">
+        <a href="./index.html">3-way 성능 비교 화면</a>
+        <a href="./comparison_contract.json">비교 계약 JSON</a>
+        <a href="../2026-09-19_chromadb-only-eval/per_case_results.json">Chroma 전체 ID·점수</a>
+        <a href="../../docs/rag/65_SCHAT_OPERATIONAL_GOLD_HUMAN_REVIEW_GUIDE.md">Gold 검수 안내서</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell">SCHAT Retrieval evaluation audit · 읽기 전용 시각화 · Git commit/tag/push 없음</footer>
+
+  <script>
+    const cases = [
+      {id:"UAT-S03",q:"진정 전에 뭘 확인해?",scope:"S",gold:"5/5",f:"miss",top:["f95da1ef/S-p8","c93eb2ca/S-p1","558b2b3e/S-p1","69ca3d17/S-p2","92e53b9f/S-p3","44294275/S-p8","f8cd6c11/S-p2","19050bbd/S-p5","3a8c7132/S-p6","dcc0a81c/S-p1"]},
+      {id:"UAT-S05",q:"소아 진정은 몇 분마다 확인해?",scope:"S",gold:"3/3",f:"miss",top:["558b2b3e/S-p1","69ca3d17/S-p2","92e53b9f/S-p3","44294275/S-p8","c93eb2ca/S-p1","f8cd6c11/S-p2","f95da1ef/S-p8","3a8c7132/S-p6","19050bbd/S-p5","3e55183f/S-p1"]},
+      {id:"UAT-S06",q:"성인은 몇 분마다 모니터링해?",scope:"S",gold:"2/2",f:"miss",top:["f95da1ef/S-p8","558b2b3e/S-p1","69ca3d17/S-p2","92e53b9f/S-p3","44294275/S-p8","f8cd6c11/S-p2","c93eb2ca/S-p1","dcc0a81c/S-p1","3e55183f/S-p1","42b44e36/S-p2"]},
+      {id:"UAT-S08",q:"진정 전·중·후 간호를 순서대로 설명해줘",scope:"S",gold:"12/12",f:"miss",top:["f95da1ef/S-p8","c93eb2ca/S-p1","f8cd6c11/S-p2","558b2b3e/S-p1","69ca3d17/S-p2","92e53b9f/S-p3","44294275/S-p8","19050bbd/S-p5","dcc0a81c/S-p1","3a8c7132/S-p6"]},
+      {id:"UAT-S09",q:"성인과 소아 진정 모니터링 차이를 비교해줘",scope:"S",gold:"8/8",f:"miss",top:["f8cd6c11/S-p2","f95da1ef/S-p8","3e55183f/S-p1","42b44e36/S-p2","c93eb2ca/S-p1","558b2b3e/S-p1","69ca3d17/S-p2","92e53b9f/S-p3","44294275/S-p8","3a8c7132/S-p6"]},
+      {id:"UAT-S11",q:"진정은 어떻게 진행하는 거야?",scope:"S",gold:"12/12",f:"miss",top:["f95da1ef/S-p8","c93eb2ca/S-p1","558b2b3e/S-p1","69ca3d17/S-p2","92e53b9f/S-p3","44294275/S-p8","f8cd6c11/S-p2","dcc0a81c/S-p1","19050bbd/S-p5","3a8c7132/S-p6"]},
+      {id:"UAT-S14",q:"진정 전 산소포화도 확인 내용이 있나요?",scope:"S",gold:"4/4",f:"miss",top:["558b2b3e/S-p1","69ca3d17/S-p2","92e53b9f/S-p3","44294275/S-p8","dcc0a81c/S-p1","7b17d4cb/S-p8","c93eb2ca/S-p1","6999a7ea/S-p8","90301c7b/S-p8","3a8c7132/S-p6"]},
+      {id:"UAT-T01",q:"수혈 전에 확인할 준비사항은?",scope:"T",gold:"7/7",f:"miss",top:["16efaa44/T-p9","fb4884e3/T-p1","eeb8db46/T-p2","17e22a4e/T-p4","fbb0340e/T-p5","e4892114/T-p6","9c5f18b5/T-p9","c141d593/T-p11","635840ee/T-p12","cf1adf23/T-p13"]},
+      {id:"UAT-T02",q:"수혈 절차를 순서대로 알려줘",scope:"T",gold:"11/11",f:"miss",top:["63cb7040/T-p16","fb4884e3/T-p1","eeb8db46/T-p2","17e22a4e/T-p4","fbb0340e/T-p5","e4892114/T-p6","9c5f18b5/T-p9","c141d593/T-p11","635840ee/T-p12","cf1adf23/T-p13"]},
+      {id:"UAT-T03",q:"수혈 중 환자 상태는 어떻게 관찰해?",scope:"T",gold:"4/4",f:"miss",top:["16efaa44/T-p9","fb4884e3/T-p1","eeb8db46/T-p2","17e22a4e/T-p4","fbb0340e/T-p5","e4892114/T-p6","9c5f18b5/T-p9","c141d593/T-p11","635840ee/T-p12","cf1adf23/T-p13"]},
+      {id:"UAT-T11",q:"제제별 투여 시간과 속도를 확인해줘",scope:"T",gold:"0/3",f:"outside",top:["16efaa44/T-p9","63cb7040/T-p16","fb4884e3/T-p1","eeb8db46/T-p2","17e22a4e/T-p4","fbb0340e/T-p5","e4892114/T-p6","9c5f18b5/T-p9","c141d593/T-p11","635840ee/T-p12"]},
+      {id:"UAT-T12",q:"수혈 시행 전에 해야 할 일을 정리해줘",scope:"T",gold:"8/8",f:"miss",top:["63cb7040/T-p16","fb4884e3/T-p1","eeb8db46/T-p2","17e22a4e/T-p4","fbb0340e/T-p5","e4892114/T-p6","9c5f18b5/T-p9","c141d593/T-p11","635840ee/T-p12","cf1adf23/T-p13"]},
+      {id:"UAT-T13",q:"수혈하는 동안 주의 깊게 볼 항목은?",scope:"T",gold:"2/2",f:"miss",top:["fb4884e3/T-p1","eeb8db46/T-p2","17e22a4e/T-p4","fbb0340e/T-p5","e4892114/T-p6","9c5f18b5/T-p9","c141d593/T-p11","635840ee/T-p12","cf1adf23/T-p13","756d12b3/T-p15"]},
+      {id:"UAT-T17",q:"그중 이상반응 발생 직후 조치만 다시 알려줘",scope:"T",gold:"2/2",f:"miss",top:["70b95f72/T-p6","761b9529/T-p1","16efaa44/T-p9","63cb7040/T-p16","cfff9bf0/T-p7","602c933f/T-p15","66dba192/T-p1","d9a4a9c8/T-p1","b8c70ff9/T-p11","59d57c8a/T-p13"]}
+    ];
+    const search=document.getElementById("search"),scope=document.getElementById("scope"),failure=document.getElementById("failure"),rows=document.getElementById("rows");
+    function render(){
+      const term=search.value.trim().toLocaleLowerCase("ko-KR");
+      const filtered=cases.filter(c=>(!term||`${c.id} ${c.q}`.toLocaleLowerCase("ko-KR").includes(term))&&(scope.value==="all"||c.scope===scope.value)&&(failure.value==="all"||c.f===failure.value));
+      rows.innerHTML=filtered.length?filtered.map(c=>`<tr><td class="case"><b>${c.id}</b><span>${c.q}</span></td><td><span class="gold ${c.f==='outside'?'out':'present'}">${c.gold}</span></td><td><span class="category ${c.f==='outside'?'outside':''}">${c.f==='outside'?'Gold가 text corpus 밖':'색인 내 Top-10 miss'}</span></td><td class="result-list"><div class="top3">${c.top.slice(0,3).map((v,i)=>`<span class="result">${i+1}. ${v}</span>`).join('')}</div><details><summary>Top-10 전체 보기</summary><div class="top10">${c.top.map((v,i)=>`${i+1}. ${v}`).join(' · ')}</div></details></td></tr>`).join(''):`<tr><td colspan="4" class="empty">조건에 맞는 문항이 없습니다.</td></tr>`;
+    }
+    search.addEventListener("input",render);scope.addEventListener("change",render);failure.addEventListener("change",render);render();
+  </script>
+</body>
+</html>

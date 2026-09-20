@@ -19,7 +19,7 @@ OPERATIONAL_GOLD = ROOT / "tests/fixtures/schat_v1_operational_gold.json"
 UAT = ROOT / "tests/fixtures/schat_v1_operational_uat.json"
 TF027 = ROOT / "tests/fixtures/tf027_image_human_review_checklist.json"
 TF027_REVIEWED = ROOT / "tests/fixtures/tf027_image_human_review_reviewed.json"
-DEFERRED = ROOT / "artifacts/2026-09-18_schat-v1-final-stabilization/deferred_analysis.json"
+DEFERRED = ROOT / "workspace/과거작업/평가산출물/2026-09-18_schat-v1-final-stabilization/deferred_analysis.json"
 
 
 def _load(path: Path) -> dict:

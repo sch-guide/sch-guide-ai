@@ -1,9 +1,0 @@
-{
-  "out_of_scope_case_count": 4,
-  "out_of_scope_pass_count": 4,
-  "provider_zero_call": true,
-  "vision_zero_call": true,
-  "hospital_data_external_transfer_count": 0,
-  "validator_relaxation_count": 0,
-  "v0_9_tag_changed": false
-}

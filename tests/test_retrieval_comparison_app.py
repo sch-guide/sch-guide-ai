@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 APP = ROOT / "tools" / "retrieval_comparison_app.py"
 CATALOG = ROOT / "data" / "library" / "catalog.sqlite3"
 FIXTURE = ROOT / "tests" / "fixtures" / "transfusion_retrieval_baseline.json"
-RESULTS = ROOT / "artifacts" / "2026-09-17_transfusion-expanded-retrieval"
+RESULTS = ROOT / "workspace" / "과거작업" / "평가산출물" / "2026-09-17_transfusion-expanded-retrieval"
 
 
 def _case(payload: dict, case_id: str) -> dict:

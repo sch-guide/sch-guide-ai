@@ -6,6 +6,8 @@ from collections import defaultdict
 from collections.abc import Iterable, Mapping, Sequence
 from statistics import fmean
 
+FINGERPRINT_ALGORITHM_ID = "mvp.library.fingerprint_sha256"
+
 
 def _unique_ids(values: Iterable[str], *, label: str) -> tuple[str, ...]:
     result = tuple(values)

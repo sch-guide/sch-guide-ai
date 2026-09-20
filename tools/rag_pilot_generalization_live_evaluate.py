@@ -11,12 +11,12 @@ from datetime import datetime
 from html import escape
 from pathlib import Path
 
-from mvp.ai import answer_text, generate
-from mvp.evidence import assess_evidence, relevant_body
-from mvp.library import NO_GUIDELINE
-from mvp.query import plan_query, topic_words
-from mvp.retrieval import BM25Index, rank_bm25_candidates
-from mvp.settings import ROOT, load_settings
+from src.ai import answer_text, generate
+from src.evidence import assess_evidence, relevant_body
+from src.library import NO_GUIDELINE
+from src.query import plan_query, topic_words
+from src.retrieval import BM25Index, rank_bm25_candidates
+from src.settings import ROOT, load_settings
 from tools.bm25_evaluate import DEFAULT_QUESTIONS
 from tools.rag_procedure_live_evaluate import (
     RejectTransport,
@@ -28,7 +28,7 @@ from tools.rag_procedure_live_evaluate import (
     write_json,
 )
 
-DEFAULT_OUTPUT = ROOT / "artifacts" / "2026-09-15_rag-pilot-generalization-live"
+DEFAULT_OUTPUT = ROOT / "workspace" / "RAG_실험" / "2026-09-15_rag-pilot-generalization-live"
 CASE_IDS = ("Q001", "Q002", "Q003", "Q004", "Q005")
 
 

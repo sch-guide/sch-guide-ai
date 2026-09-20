@@ -3,7 +3,7 @@ import json
 import httpx
 import pytest
 
-from mvp.evidence import SourceUnit
+from src.evidence import SourceUnit
 from tools.groq_live_ragas_evaluate import (
     GROQ_MODEL,
     GroqLiveCall,
@@ -109,7 +109,7 @@ def test_live_payload_is_strict_and_has_no_tools_or_reasoning():
     assert "maxItems" not in json.dumps(schema)
     serialized = json.dumps(payload)
     assert "private-production-id" not in serialized
-    assert "Do not write list numbers or step labels" in payload["messages"][0][
+    assert "목록 번호나 단계 표지를 작성하지 않는다" in payload["messages"][0][
         "content"
     ]
 

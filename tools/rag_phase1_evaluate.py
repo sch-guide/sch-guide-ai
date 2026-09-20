@@ -12,24 +12,24 @@ from pathlib import Path
 
 import numpy as np
 
-from mvp.context import (
+from src.context import (
     _procedure_expansion,
     _procedure_signature,
     expand_context,
     neighbors,
 )
-from mvp.evidence import assess_evidence
-from mvp.library import NO_GUIDELINE, Embedder, Hit, bounded_embedding_question, clean, has_substantive_body
-from mvp.query import plan_query
-from mvp.retrieval import BM25Index, rank_bm25_candidates, rerank, rrf
-from mvp.settings import ROOT
+from src.evidence import assess_evidence
+from src.library import NO_GUIDELINE, Embedder, Hit, bounded_embedding_question, clean, has_substantive_body
+from src.query import plan_query
+from src.retrieval import BM25Index, rank_bm25_candidates, rerank, rrf
+from src.settings import ROOT
 from tools.bm25_evaluate import stable_evaluation_chunks
 
 QUESTION = "진정간호 절차는?"
 NEGATIVE_QUESTION = "화성 우주선의 궤도 계산 공식은?"
 DEFAULT_SOURCE = ROOT / "data" / "실무지침서_진정간호.pdf"
 DEFAULT_GOLD = ROOT / "tests" / "fixtures" / "q002_gold_stages.json"
-DEFAULT_OUTPUT = ROOT / "artifacts" / "2026-09-13_rag-phase1-retrieval"
+DEFAULT_OUTPUT = ROOT / "workspace" / "RAG_실험" / "2026-09-13_rag-phase1-retrieval"
 
 
 def _stable_positions(scores, limit=40):

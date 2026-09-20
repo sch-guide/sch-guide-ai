@@ -10,7 +10,7 @@ from tools.reranker_bottleneck_evaluate import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-FROZEN = ROOT / "artifacts" / "2026-09-17_bm25-e5-retrieval-strategy-02"
+FROZEN = ROOT / "workspace" / "과거작업" / "평가산출물" / "2026-09-17_bm25-e5-retrieval-strategy-02"
 
 
 def _candidates() -> tuple[CandidateRanks, ...]:

@@ -11,7 +11,7 @@ from html import escape
 
 import httpx
 
-from mvp.ai import (
+from src.ai import (
     AI_VERSION,
     GROQ_REQUEST_TOKEN_BUDGET,
     OUTPUT_LIMIT,
@@ -19,14 +19,14 @@ from mvp.ai import (
     generate,
     groq_answer_json_schema,
 )
-from mvp.evidence import assess_evidence, source_sentences
-from mvp.query import plan_query
-from mvp.settings import ROOT
+from src.evidence import assess_evidence, source_sentences
+from src.query import plan_query
+from src.settings import ROOT
 from tools.rag_phase1_evaluate import stage_recall
 from tools.rag_phase2_evaluate import _load_q002
 from tools.rag_prompt_budget_evaluate import MockQuota, exact_group_statements, mock_settings
 
-DEFAULT_OUTPUT = ROOT / "artifacts" / "2026-09-13_rag-unsupported-sentence-mock"
+DEFAULT_OUTPUT = ROOT / "workspace" / "RAG_실험" / "2026-09-13_rag-unsupported-sentence-mock"
 
 
 def _response(statements):

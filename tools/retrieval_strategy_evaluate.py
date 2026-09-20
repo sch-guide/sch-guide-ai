@@ -17,9 +17,9 @@ from typing import Any, Sequence
 
 import numpy as np
 
-from mvp.library import CHUNK_VERSION, Chunk, Embedder, bounded_embedding_question
-from mvp.retrieval import BM25Index
-from mvp.settings import DIMENSIONS, MODEL
+from src.library import Chunk, Embedder, bounded_embedding_question
+from src.retrieval import BM25Index
+from src.settings import DIMENSIONS, MODEL
 from tools.chroma_baseline_evaluate import (
     CatalogChunk,
     _directory_size,
@@ -32,13 +32,17 @@ from tools.chroma_baseline_evaluate import (
     validate_fixture_document,
 )
 from tools.retrieval_baseline_metrics import id_based_context_scores, ranked_retrieval_metrics
-from tools.schat_mvp_stabilize import split_reusable_chroma_cases, validate_review_audit
+from tools.schat_mvp_stabilize import (
+    prior_chroma_case_identity_matches,
+    split_reusable_chroma_cases,
+    validate_review_audit,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CATALOG = ROOT / "data" / "library" / "catalog.sqlite3"
 DEFAULT_FIXTURE = ROOT / "tests" / "fixtures" / "transfusion_retrieval_baseline.json"
-DEFAULT_PRIOR_CHROMA = ROOT / "artifacts" / "2026-09-16_transfusion-chromadb-ragas-baseline"
-DEFAULT_OUTPUT = ROOT / "artifacts" / "2026-09-17_transfusion-expanded-retrieval"
+DEFAULT_PRIOR_CHROMA = ROOT / "workspace" / "RAGAS" / "2026-09-16_transfusion-chromadb-ragas-baseline"
+DEFAULT_OUTPUT = ROOT / "workspace" / "과거작업" / "평가산출물" / "2026-09-17_transfusion-expanded-retrieval"
 
 COMMON_ROW_FIELDS = (
     "dataset_version",
@@ -102,12 +106,7 @@ def load_reused_chroma_results(
     results = []
     for case in positive:
         prior = prior_by_id.get(case["question_id"])
-        if prior is None or any(
-            (
-                prior.get("question") != case["question"],
-                prior.get("reference_context_ids") != case["reference_context_ids"],
-            )
-        ):
+        if prior is None or not prior_chroma_case_identity_matches(prior, case):
             raise ValueError(f"prior Chroma case drift: {case['question_id']}")
         ids = prior.get("retrieved_context_ids")
         distances = prior.get("distances")
@@ -574,7 +573,7 @@ def evaluate_strategy(
     review_audit = validate_review_audit(fixture["cases"], chunks)
     if tuple(fixture["cutoffs"]) != (1, 3, 5, 10):
         raise ValueError("comparison cutoffs must be 1,3,5,10")
-    if metadata["model"] != MODEL or DIMENSIONS != 384 or CHUNK_VERSION != 4:
+    if metadata["model"] != MODEL or DIMENSIONS != 384 or metadata["chunk_version"] != 4:
         raise ValueError("embedding or chunk contract drift")
     contract = _common_contract(fixture)
 

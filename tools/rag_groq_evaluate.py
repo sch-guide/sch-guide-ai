@@ -11,26 +11,26 @@ from html import escape
 
 import httpx
 
-from mvp.ai import (
+from src.ai import (
     GROQ_REQUEST_TOKEN_BUDGET,
     PROMPT_EVIDENCE_SCHEMA_VERSION,
     answer_text,
     generate,
     prompt_messages,
 )
-from mvp.evidence import (
+from src.evidence import (
     assess_evidence,
     build_source_unit_catalog,
     procedure_citations_ordered,
     required_coverage_loss,
 )
-from mvp.library import NO_GUIDELINE
-from mvp.query import plan_query
-from mvp.settings import ROOT, GuideError, load_settings
+from src.library import NO_GUIDELINE
+from src.query import plan_query
+from src.settings import ROOT, GuideError, load_settings
 from tools.rag_phase1_evaluate import stage_recall
 from tools.rag_phase2_evaluate import _load_q002
 
-DEFAULT_OUTPUT = ROOT / 'artifacts' / '2026-09-13_rag-groq-evaluation'
+DEFAULT_OUTPUT = ROOT / 'workspace' / 'RAG_실험' / '2026-09-13_rag-groq-evaluation'
 
 
 class EvaluationQuota:

@@ -5,7 +5,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from mvp.settings import DIMENSIONS, MODEL
+from src.settings import DIMENSIONS, MODEL
 from tools.chroma_baseline_evaluate import (
     CatalogChunk,
     _ragas_id_scores,

@@ -19,10 +19,10 @@ from typing import Any, Sequence
 
 import numpy as np
 
-from mvp.library import CHUNK_VERSION, Embedder, bounded_embedding_question, clean
-from mvp.query import normalize_attached_aspects, plan_query
-from mvp.retrieval import BM25Index, lexical_tokens, rank_bm25_candidates
-from mvp.settings import DIMENSIONS, MODEL
+from src.library import Embedder, bounded_embedding_question, clean
+from src.query import normalize_attached_aspects, plan_query
+from src.retrieval import BM25Index, lexical_tokens, rank_bm25_candidates
+from src.settings import DIMENSIONS, MODEL
 from tools.chroma_baseline_evaluate import (
     CatalogChunk,
     load_catalog,
@@ -39,8 +39,8 @@ from tools.retrieval_strategy_evaluate import (
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CATALOG = ROOT / "data" / "library" / "catalog.sqlite3"
 DEFAULT_FIXTURE = ROOT / "tests" / "fixtures" / "transfusion_retrieval_baseline.json"
-DEFAULT_PRIOR = ROOT / "artifacts" / "2026-09-17_transfusion-expanded-retrieval"
-DEFAULT_OUTPUT = ROOT / "artifacts" / "2026-09-17_bm25-vector-fairness-validation"
+DEFAULT_PRIOR = ROOT / "workspace" / "과거작업" / "평가산출물" / "2026-09-17_transfusion-expanded-retrieval"
+DEFAULT_OUTPUT = ROOT / "workspace" / "과거작업" / "평가산출물" / "2026-09-17_bm25-vector-fairness-validation"
 CORE_METRICS = ("hit_at_5", "hit_at_10", "mrr", "recall_at_10")
 PRODUCTION_BM25_CANDIDATE_LIMIT = int(
     inspect.signature(rank_bm25_candidates).parameters["limit"].default
@@ -687,7 +687,7 @@ def evaluate_fairness(
         raise ValueError("dataset version drift")
     if tuple(fixture["cutoffs"]) != (1, 3, 5, 10):
         raise ValueError("cutoff drift")
-    if metadata["model"] != MODEL or DIMENSIONS != 384 or CHUNK_VERSION != 4:
+    if metadata["model"] != MODEL or DIMENSIONS != 384 or metadata["chunk_version"] != 4:
         raise ValueError("embedding/chunk contract drift")
 
     cases = fixture["cases"]
@@ -819,7 +819,7 @@ def evaluate_fairness(
         "dataset": {
             "dataset_version": fixture["dataset_version"],
             "document_version": fixture["document_version"],
-            "chunk_version": CHUNK_VERSION,
+            "chunk_version": metadata["chunk_version"],
             "chunk_count": len(chunks),
             "case_count": len(cases),
             "evaluated_positive_count": audit["approved_case_count"],

@@ -32,10 +32,10 @@ DEFAULT_TF027_REVIEWED = (
 )
 DEFAULT_DEFERRED = (
     ROOT
-    / "artifacts/2026-09-18_schat-v1-final-stabilization/deferred_analysis.json"
+    / "workspace/과거작업/평가산출물/2026-09-18_schat-v1-final-stabilization/deferred_analysis.json"
 )
 DEFAULT_CATALOG = ROOT / "data/library/catalog.sqlite3"
-DEFAULT_OUTPUT = ROOT / "artifacts/2026-09-18_schat-v1-final-release-readiness"
+DEFAULT_OUTPUT = ROOT / "workspace/과거작업/평가산출물/2026-09-18_schat-v1-final-release-readiness"
 
 _APPROVAL_FIELDS = (
     "hospital_evidence_external_transfer",

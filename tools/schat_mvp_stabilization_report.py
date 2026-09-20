@@ -14,10 +14,10 @@ from tools.chroma_baseline_evaluate import ensure_raw_text_free, load_catalog
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_FIXTURE = ROOT / "tests" / "fixtures" / "transfusion_retrieval_baseline.json"
 DEFAULT_CATALOG = ROOT / "data" / "library" / "catalog.sqlite3"
-DEFAULT_RETRIEVAL = ROOT / "artifacts" / "2026-09-17_transfusion-expanded-retrieval"
-DEFAULT_MULTIMODAL = ROOT / "artifacts" / "2026-09-17_schat-mvp-stabilization"
+DEFAULT_RETRIEVAL = ROOT / "workspace" / "과거작업" / "평가산출물" / "2026-09-17_transfusion-expanded-retrieval"
+DEFAULT_MULTIMODAL = ROOT / "workspace" / "과거작업" / "평가산출물" / "2026-09-17_schat-mvp-stabilization"
 DEFAULT_SEDATION_UAT = (
-    ROOT / "artifacts" / "2026-09-16_rag-sedation-uat-generalization" / "uat_report.json"
+    ROOT / "workspace" / "UAT" / "2026-09-16_rag-sedation-uat-generalization" / "uat_report.json"
 )
 
 

@@ -13,18 +13,19 @@ import hashlib
 import json
 import re
 from copy import deepcopy
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass, is_dataclass
 from html import escape
 from pathlib import Path
 from typing import Any, Literal, Mapping, Sequence
 
-from mvp.controlled_generation import (
+from src.controlled_generation import (
     ControlledGenerationDecision,
     build_controlled_generation_prompt,
     build_controlled_generation_schema,
     decide_controlled_generation,
 )
-from mvp.evidence import SourceUnit
+from src.evidence import SourceUnit
+from src.prompt_config import load_evaluation_prompt
 
 ProviderName = Literal['groq', 'gemini']
 MAX_TRANSMITTED_SOURCE_UNITS = 16
@@ -48,6 +49,8 @@ class ProviderBlueprint:
     schema_fingerprint: str
     prompt_fingerprint: str
     request_body_bytes: int
+    prompt_version: str
+    config_sha256: str
 
 
 @dataclass(frozen=True)
@@ -67,6 +70,8 @@ class MockProviderResult:
     finish_reason: str | None
     usage: dict[str, int]
     decision: ControlledGenerationDecision
+    extractive_sha256: str
+    candidate_sha256: str
     actual_external_calls: int = 0
 
 
@@ -76,6 +81,29 @@ def _canonical_json(value: Any) -> str:
 
 def _sha256_text(value: str) -> str:
     return hashlib.sha256(value.encode('utf-8')).hexdigest()
+
+
+def _fingerprint_projection(value: Any) -> str:
+    """Hash an in-memory value without persisting its potentially raw content."""
+    if is_dataclass(value) and not isinstance(value, type):
+        value = asdict(value)
+    elif hasattr(value, 'model_dump') and callable(value.model_dump):
+        value = value.model_dump(mode='json')
+    try:
+        serialized = _canonical_json(value)
+    except (TypeError, ValueError):
+        serialized = _canonical_json({
+            'type': f'{type(value).__module__}.{type(value).__qualname__}'
+        })
+    return _sha256_text(serialized)
+
+
+def _fingerprint_candidate(content: str) -> str:
+    try:
+        value = json.loads(content)
+    except (json.JSONDecodeError, TypeError):
+        value = content
+    return _fingerprint_projection(value)
 
 
 def _request_bytes(payload: Mapping[str, Any]) -> int:
@@ -98,6 +126,7 @@ def _provider_compatible_schema(value: Any) -> Any:
 def _common_contract(
     units: tuple[SourceUnit, ...],
     *,
+    config,
     intent: str,
     requested_phase: str = '',
     preserve_source_order: bool = False,
@@ -110,39 +139,12 @@ def _common_contract(
         raise ValueError('duplicate_source_unit_id')
     prompt = build_controlled_generation_prompt(
         units,
+        config=config,
         intent=intent,
         requested_phase=requested_phase,
         preserve_source_order=preserve_source_order,
+        required_coverage=required_coverage,
     )
-    if required_coverage:
-        rows: list[str] = []
-        allowed_ids = set(identifiers)
-        allowed_categories = {'fact', 'condition', 'qualifier', 'step'}
-        for slot in required_coverage:
-            slot_id = slot.get('slot_id')
-            category = slot.get('category')
-            source_ids = slot.get('supporting_source_unit_ids')
-            if (
-                not isinstance(slot_id, str)
-                or re.fullmatch(r'[a-z][a-z0-9_]{0,79}', slot_id) is None
-                or category not in allowed_categories
-                or not isinstance(source_ids, (list, tuple))
-                or not source_ids
-                or not all(
-                    isinstance(source_id, str) and source_id in allowed_ids
-                    for source_id in source_ids
-                )
-            ):
-                raise ValueError('required_coverage_contract')
-            rows.append(f"{slot_id} [{category}] -> {','.join(source_ids)}")
-        prompt += (
-            '\nREQUIRED COVERAGE SLOTS:\n'
-            'Each required coverage slot must preserve the complete clinical meaning '
-            'from its linked SourceUnit statement. Citing a SourceUnit alone does not '
-            'satisfy a slot. Preserve required facts, conditions, qualifiers, and '
-            'action steps while keeping the requested phase and source order.\n'
-            + '\n'.join(rows)
-        )
     schema = _provider_compatible_schema(build_controlled_generation_schema(units))
     evidence_contract = [
         {'id': unit.source_unit_id, 'text': unit.exact_text} for unit in units
@@ -171,8 +173,10 @@ def build_provider_blueprints(
     requested_phase: str = '',
     preserve_source_order: bool = False,
     required_coverage: Sequence[Mapping[str, Any]] = (),
+    prompt_version: str | None = None,
 ) -> tuple[ProviderBlueprint, ProviderBlueprint]:
     """Build equivalent in-memory provider payloads without sending them."""
+    config = load_evaluation_prompt(prompt_version)
     (
         prompt,
         schema,
@@ -182,6 +186,7 @@ def build_provider_blueprints(
         character_count,
     ) = _common_contract(
         units,
+        config=config,
         intent=intent,
         requested_phase=requested_phase,
         preserve_source_order=preserve_source_order,
@@ -224,6 +229,8 @@ def build_provider_blueprints(
         'evidence_fingerprint': evidence_fingerprint,
         'schema_fingerprint': schema_fingerprint,
         'prompt_fingerprint': prompt_fingerprint,
+        'prompt_version': config.prompt_version,
+        'config_sha256': config.config_sha256,
     }
     return (
         ProviderBlueprint(
@@ -311,6 +318,47 @@ def normalize_mock_response(
     raise ProviderEnvelopeError('provider')
 
 
+def build_deterministic_mock_responses(
+    candidate: Mapping[str, Any],
+    blueprints: Sequence[ProviderBlueprint],
+) -> dict[ProviderName, dict[str, Any]]:
+    """Wrap one caller-supplied candidate as offline envelopes without I/O."""
+    content = _canonical_json(candidate)
+    responses: dict[ProviderName, dict[str, Any]] = {}
+    for blueprint in blueprints:
+        if blueprint.provider in responses:
+            raise ValueError('duplicate_provider')
+        if blueprint.provider == 'groq':
+            responses['groq'] = {
+                'model': blueprint.model,
+                'choices': [{
+                    'finish_reason': 'stop',
+                    'message': {'content': content},
+                }],
+                'usage': {
+                    'prompt_tokens': 0,
+                    'completion_tokens': 0,
+                    'total_tokens': 0,
+                },
+            }
+        elif blueprint.provider == 'gemini':
+            responses['gemini'] = {
+                'modelVersion': blueprint.model,
+                'candidates': [{
+                    'finishReason': 'STOP',
+                    'content': {'parts': [{'text': content}]},
+                }],
+                'usageMetadata': {
+                    'promptTokenCount': 0,
+                    'candidatesTokenCount': 0,
+                    'totalTokenCount': 0,
+                },
+            }
+        else:
+            raise ValueError('provider')
+    return responses
+
+
 def evaluate_mock_providers(
     blueprints: tuple[ProviderBlueprint, ...],
     responses: Mapping[ProviderName, Mapping[str, Any]],
@@ -323,12 +371,19 @@ def evaluate_mock_providers(
     evidence_fingerprints = {row.evidence_fingerprint for row in blueprints}
     schema_fingerprints = {row.schema_fingerprint for row in blueprints}
     prompt_fingerprints = {row.prompt_fingerprint for row in blueprints}
+    prompt_versions = {row.prompt_version for row in blueprints}
+    config_fingerprints = {row.config_sha256 for row in blueprints}
     if not all(len(values) == 1 for values in (
-        evidence_fingerprints, schema_fingerprints, prompt_fingerprints
+        evidence_fingerprints,
+        schema_fingerprints,
+        prompt_fingerprints,
+        prompt_versions,
+        config_fingerprints,
     )):
         raise ValueError('provider_contract_mismatch')
 
     results = []
+    extractive_sha256 = _fingerprint_projection(extractive_answer)
     for blueprint in blueprints:
         try:
             normalized = normalize_mock_response(
@@ -350,6 +405,8 @@ def evaluate_mock_providers(
                 finish_reason=None,
                 usage={'prompt_tokens': 0, 'completion_tokens': 0, 'total_tokens': 0},
                 decision=decision,
+                extractive_sha256=extractive_sha256,
+                candidate_sha256=_sha256_text(f'provider_{reason}'),
             ))
             continue
         decision = decide_controlled_generation(
@@ -365,6 +422,8 @@ def evaluate_mock_providers(
             finish_reason=normalized.finish_reason,
             usage=normalized.usage,
             decision=decision,
+            extractive_sha256=extractive_sha256,
+            candidate_sha256=_fingerprint_candidate(normalized.content),
         ))
     return tuple(results)
 
@@ -377,6 +436,10 @@ def safe_comparison_report(
     if not blueprints:
         raise ValueError('blueprints_required')
     result_by_provider = {row.provider: row for row in results}
+    extractive_hashes = {row.extractive_sha256 for row in results}
+    candidate_hashes = {row.candidate_sha256 for row in results}
+    if len(extractive_hashes) != 1:
+        raise ValueError('extractive_contract_mismatch')
     providers = []
     for blueprint in blueprints:
         result = result_by_provider[blueprint.provider]
@@ -404,9 +467,21 @@ def safe_comparison_report(
         'harness_schema_version': HARNESS_SCHEMA_VERSION,
         'case_id': blueprints[0].case_id,
         'intent': blueprints[0].intent,
+        'prompt_version': blueprints[0].prompt_version,
+        'config_sha256': blueprints[0].config_sha256,
         'offline_only': True,
         'production_connected': False,
         'actual_external_calls': sum(row.actual_external_calls for row in results),
+        'comparison': {
+            'extractive_sha256': next(iter(extractive_hashes)),
+            'candidate_sha256': (
+                next(iter(candidate_hashes)) if len(candidate_hashes) == 1 else None
+            ),
+            'candidate_variant_count': len(candidate_hashes),
+            'validated_candidate_available': all(
+                row.decision.validated_candidate is not None for row in results
+            ),
+        },
         'providers': providers,
     }
 
@@ -501,31 +576,13 @@ def run_offline_mock_evaluation(output_dir: Path) -> dict[str, Any]:
         groq_model='openai/gpt-oss-20b',
         gemini_model='gemini-2.5-flash',
     )
-    candidate = _canonical_json({
+    candidate = {
         'statements': [{
             'text': '검증용 상태 확인 문장이다.',
             'supporting_source_unit_ids': ['su001'],
         }]
-    })
-    responses = {
-        'groq': {
-            'model': 'openai/gpt-oss-20b',
-            'choices': [{'finish_reason': 'stop', 'message': {'content': candidate}}],
-            'usage': {'prompt_tokens': 0, 'completion_tokens': 0, 'total_tokens': 0},
-        },
-        'gemini': {
-            'modelVersion': 'gemini-2.5-flash',
-            'candidates': [{
-                'finishReason': 'STOP',
-                'content': {'parts': [{'text': candidate}]},
-            }],
-            'usageMetadata': {
-                'promptTokenCount': 0,
-                'candidatesTokenCount': 0,
-                'totalTokenCount': 0,
-            },
-        },
     }
+    responses = build_deterministic_mock_responses(candidate, blueprints)
     results = evaluate_mock_providers(
         blueprints,
         responses,
@@ -538,6 +595,8 @@ def run_offline_mock_evaluation(output_dir: Path) -> dict[str, Any]:
         'harness_schema_version': HARNESS_SCHEMA_VERSION,
         'offline_only': True,
         'actual_external_calls': 0,
+        'prompt_version': blueprints[0].prompt_version,
+        'config_sha256': blueprints[0].config_sha256,
         'provider_labels': [row.provider for row in blueprints],
         'same_evidence_sha256': len({row.evidence_fingerprint for row in blueprints}) == 1,
         'same_schema_sha256': len({row.schema_fingerprint for row in blueprints}) == 1,
@@ -560,7 +619,7 @@ def main() -> None:
     parser.add_argument(
         '--output',
         type=Path,
-        default=Path('artifacts/2026-09-18_schat-v1-provider-preparation'),
+        default=Path('workspace/RAG_실험/2026-09-18_schat-v1-provider-preparation'),
     )
     args = parser.parse_args()
     report = run_offline_mock_evaluation(args.output)

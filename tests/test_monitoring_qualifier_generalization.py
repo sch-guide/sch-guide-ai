@@ -1,7 +1,7 @@
 import pytest
 
-from mvp.query import plan_query
-from mvp.retrieval import _temporal_phases
+from src.query import plan_query
+from src.retrieval import _temporal_phases
 from tools.rag_monitoring_qualifier_evaluate import build_report, load_cases
 
 

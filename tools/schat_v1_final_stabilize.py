@@ -35,7 +35,7 @@ DEFAULT_REVIEWED_GOLD = (
 DEFAULT_TF027 = ROOT / "tests/fixtures/tf027_image_human_review_checklist.json"
 DEFAULT_E5_SNAPSHOT = ROOT / "data/evaluation/e5-operational-reviewed-v1.npz"
 DEFAULT_MODEL_CACHE = ROOT / "data/models"
-DEFAULT_OUTPUT = ROOT / "artifacts/2026-09-18_schat-v1-final-stabilization"
+DEFAULT_OUTPUT = ROOT / "workspace/과거작업/평가산출물/2026-09-18_schat-v1-final-stabilization"
 RETRIEVER_NAMES = (
     "bm25_current",
     "production_hybrid",
@@ -457,10 +457,10 @@ def evaluate_local_retrievers(
     model_cache: Path,
 ) -> tuple[dict[str, Any], dict[str, Any], list[str]]:
     """Run four local retrieval strategies with one planned-query contract."""
-    from mvp.library import Embedder, bounded_embedding_question, embedding_question
-    from mvp.query import plan_query
-    from mvp.repository import snapshot
-    from mvp.retrieval import BM25Index
+    from src.library import Embedder, bounded_embedding_question, embedding_question
+    from src.query import plan_query
+    from src.repository import snapshot
+    from src.retrieval import BM25Index
     from tools.bm25_e5_strategy_evaluate import fuse_rrf
     from tools.multilingual_e5_fairness_evaluate import _embed, e5_query_text
     from tools.schat_v1_final_validate import _scope_document_ids

@@ -1,0 +1,272 @@
+{
+  "schema_version": 1,
+  "case_count": 21,
+  "engine_order": [
+    "bm25",
+    "gemini_chroma",
+    "current_hybrid"
+  ],
+  "aggregate_metrics": {
+    "bm25": {
+      "case_count": 21,
+      "hit_at_1": 0.428571428571,
+      "hit_at_3": 0.714285714286,
+      "hit_at_5": 0.761904761905,
+      "hit_at_10": 0.904761904762,
+      "mrr": 0.582199546485,
+      "recall_at_1": 0.113172541744,
+      "recall_at_3": 0.172284065141,
+      "recall_at_5": 0.247990105133,
+      "recall_at_10": 0.452252112966,
+      "precision_at_1": 0.428571428571,
+      "precision_at_3": 0.269841269841,
+      "precision_at_5": 0.257142857143,
+      "precision_at_10": 0.257142857143,
+      "ragas_id_context_precision": 0.257142857143,
+      "ragas_id_context_recall": 0.452252112966,
+      "latency_mean_ms": 0.433
+    },
+    "gemini_chroma": {
+      "case_count": 21,
+      "hit_at_1": 0.190476190476,
+      "hit_at_3": 0.571428571429,
+      "hit_at_5": 0.809523809524,
+      "hit_at_10": 0.952380952381,
+      "mrr": 0.43373015873,
+      "recall_at_1": 0.049963924964,
+      "recall_at_3": 0.215821480107,
+      "recall_at_5": 0.337177901464,
+      "recall_at_10": 0.559271284271,
+      "precision_at_1": 0.190476190476,
+      "precision_at_3": 0.301587301587,
+      "precision_at_5": 0.32380952381,
+      "precision_at_10": 0.309523809524,
+      "ragas_id_context_precision": 0.309523809524,
+      "ragas_id_context_recall": 0.559271284271,
+      "latency_mean_ms": 574.784
+    },
+    "current_hybrid": {
+      "case_count": 21,
+      "hit_at_1": 0.571428571429,
+      "hit_at_3": 0.904761904762,
+      "hit_at_5": 0.904761904762,
+      "hit_at_10": 0.952380952381,
+      "mrr": 0.736961451247,
+      "recall_at_1": 0.161528550814,
+      "recall_at_3": 0.31280148423,
+      "recall_at_5": 0.472407750979,
+      "recall_at_10": 0.821026592455,
+      "precision_at_1": 0.571428571429,
+      "precision_at_3": 0.539682539683,
+      "precision_at_5": 0.542857142857,
+      "precision_at_10": 0.53648904006,
+      "ragas_id_context_precision": 0.53648904006,
+      "ragas_id_context_recall": 0.821026592455,
+      "latency_mean_ms": 124.642
+    }
+  },
+  "latency_breakdown_ms": {
+    "bm25": {
+      "query": 0.433,
+      "combined": 0.433
+    },
+    "gemini_chroma": {
+      "query_embedding": 567.688,
+      "chromadb_query": 7.096,
+      "combined": 574.784
+    },
+    "current_hybrid": {
+      "embedding": 21.192,
+      "retrieval": 103.45,
+      "combined": 124.642
+    }
+  },
+  "metric_win_counts": {
+    "hit_at_10": {
+      "bm25": 20,
+      "gemini_chroma": 21,
+      "current_hybrid": 21
+    },
+    "mrr": {
+      "bm25": 11,
+      "current_hybrid": 17,
+      "gemini_chroma": 6
+    },
+    "recall_at_10": {
+      "bm25": 4,
+      "gemini_chroma": 8,
+      "current_hybrid": 19
+    },
+    "precision_at_10": {
+      "current_hybrid": 19,
+      "gemini_chroma": 5,
+      "bm25": 1
+    }
+  },
+  "overall_win_counts": {
+    "current_hybrid": 15,
+    "gemini_chroma": 4,
+    "bm25": 4
+  },
+  "single_winner_counts": {
+    "current_hybrid": 14,
+    "gemini_chroma": 3,
+    "bm25": 3
+  },
+  "complete_tie_case_count": 1,
+  "priority_review_cases": {
+    "gemini_only_success": [],
+    "bm25_over_hybrid": [
+      "UAT-T01",
+      "UAT-T02",
+      "UAT-T16"
+    ],
+    "hybrid_mrr_over_gemini": [
+      "UAT-S01",
+      "UAT-S02",
+      "UAT-S03",
+      "UAT-S04",
+      "UAT-S05",
+      "UAT-S08",
+      "UAT-S09",
+      "UAT-S11",
+      "UAT-S14",
+      "UAT-T01",
+      "UAT-T02",
+      "UAT-T03",
+      "UAT-T12",
+      "UAT-T13",
+      "UAT-T16"
+    ],
+    "all_failed": [
+      "UAT-T11"
+    ],
+    "table_related": [
+      "UAT-T11",
+      "UAT-T16"
+    ],
+    "same_hit_different_recall_or_precision": [
+      "UAT-S01",
+      "UAT-S02",
+      "UAT-S04",
+      "UAT-S05",
+      "UAT-S06",
+      "UAT-S08",
+      "UAT-S09",
+      "UAT-S11",
+      "UAT-S12",
+      "UAT-S13",
+      "UAT-S14",
+      "UAT-T01",
+      "UAT-T02",
+      "UAT-T03",
+      "UAT-T12",
+      "UAT-T13",
+      "UAT-T15",
+      "UAT-T16",
+      "UAT-T17"
+    ],
+    "uat_t11": [
+      "UAT-T11"
+    ]
+  },
+  "priority_review_case_ids": [
+    "UAT-S01",
+    "UAT-S02",
+    "UAT-S03",
+    "UAT-S04",
+    "UAT-S05",
+    "UAT-S06",
+    "UAT-S08",
+    "UAT-S09",
+    "UAT-S11",
+    "UAT-S12",
+    "UAT-S13",
+    "UAT-S14",
+    "UAT-T01",
+    "UAT-T02",
+    "UAT-T03",
+    "UAT-T11",
+    "UAT-T12",
+    "UAT-T13",
+    "UAT-T15",
+    "UAT-T16",
+    "UAT-T17"
+  ],
+  "minilm_reference": {
+    "schema_version": 1,
+    "comparison": "chromadb_gemini_embedding_2_3072_vs_minilm_384",
+    "success_definition": "hit_at_10 == 1.0",
+    "case_count": 21,
+    "gemini_metrics": {
+      "hit_at_1": 0.190476190476,
+      "hit_at_3": 0.571428571429,
+      "hit_at_5": 0.809523809524,
+      "hit_at_10": 0.952380952381,
+      "mrr": 0.43373015873,
+      "recall_at_10": 0.559271284271,
+      "precision_at_10": 0.309523809524,
+      "ragas_id_context_precision": 0.309523809524,
+      "ragas_id_context_recall": 0.559271284271
+    },
+    "minilm_metrics": {
+      "hit_at_1": 0.047619047619,
+      "hit_at_3": 0.142857142857,
+      "hit_at_5": 0.142857142857,
+      "hit_at_10": 0.333333333333,
+      "mrr": 0.109259259259,
+      "recall_at_10": 0.104334157906,
+      "precision_at_10": 0.047619047619,
+      "ragas_id_context_precision": 0.047619047619,
+      "ragas_id_context_recall": 0.104334157906
+    },
+    "metric_delta_gemini_minus_minilm": {
+      "hit_at_1": 0.142857142857,
+      "hit_at_3": 0.428571428572,
+      "hit_at_5": 0.666666666667,
+      "hit_at_10": 0.619047619048,
+      "mrr": 0.324470899471,
+      "recall_at_10": 0.454937126365,
+      "precision_at_10": 0.261904761905,
+      "ragas_id_context_precision": 0.261904761905,
+      "ragas_id_context_recall": 0.454937126365
+    },
+    "gemini_only_success_case_ids": [
+      "UAT-S03",
+      "UAT-S05",
+      "UAT-S06",
+      "UAT-S08",
+      "UAT-S09",
+      "UAT-S11",
+      "UAT-S14",
+      "UAT-T01",
+      "UAT-T02",
+      "UAT-T03",
+      "UAT-T12",
+      "UAT-T13",
+      "UAT-T17"
+    ],
+    "minilm_only_success_case_ids": [],
+    "both_failed_case_ids": [
+      "UAT-T11"
+    ],
+    "both_succeeded_case_ids": [
+      "UAT-S01",
+      "UAT-S02",
+      "UAT-S04",
+      "UAT-S12",
+      "UAT-S13",
+      "UAT-T15",
+      "UAT-T16"
+    ],
+    "raw_question_persisted": false,
+    "raw_source_text_persisted": false,
+    "primary_comparison": false
+  },
+  "retrieval_rerun": false,
+  "external_api_calls": 0,
+  "production_changed": false,
+  "gold_changed": false,
+  "raw_source_text_persisted": false,
+  "raw_question_persisted": false
+}

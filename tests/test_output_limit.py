@@ -1,6 +1,6 @@
 import math
 
-from mvp.ai import GROQ_REQUEST_TOKEN_BUDGET, OUTPUT_LIMIT
+from src.ai import GROQ_REQUEST_TOKEN_BUDGET, OUTPUT_LIMIT
 from tools.rag_prompt_budget_evaluate import build_report
 
 

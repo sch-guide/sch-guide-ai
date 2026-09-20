@@ -3,9 +3,10 @@ import socket
 
 import pytest
 
-from mvp.evidence import SourceUnit
+from src.evidence import SourceUnit
 from tools.provider_controlled_generation_evaluate import (
     audit_persisted_artifacts,
+    build_deterministic_mock_responses,
     build_provider_blueprints,
     evaluate_mock_providers,
     normalize_mock_response,
@@ -71,6 +72,9 @@ def test_blueprints_share_one_evidence_contract_without_private_metadata():
     assert len({row.evidence_fingerprint for row in blueprints}) == 1
     assert len({row.schema_fingerprint for row in blueprints}) == 1
     assert len({row.prompt_fingerprint for row in blueprints}) == 1
+    assert {row.prompt_version for row in blueprints} == {'v1.0-natural-grounded'}
+    assert len({row.config_sha256 for row in blueprints}) == 1
+    assert len(blueprints[0].config_sha256) == 64
     assert all(row.evidence_count == 2 for row in blueprints)
 
     groq, gemini = blueprints
@@ -125,9 +129,33 @@ def test_required_coverage_strengthens_instruction_without_changing_wire_schema(
     )[0]
 
     prompt = strengthened.payload['messages'][0]['content']
-    assert 'required_qualifier_001 [qualifier] -> su001' in prompt
-    assert 'Each required coverage slot' in prompt
+    assert (
+        '- required_qualifier_001 [qualifier]: 생략 금지 · '
+        '완전한 statement 최소 1개 · supporting SourceUnit su001'
+    ) in prompt
+    assert '필수 답변 범위는 간결성, 요약 및 중복 제거보다 우선한다.' in prompt
+    assert '필수 의미를 여러 statement에 불완전하게 나누지 않고' in prompt
+    assert '서로 다른 제제 또는 SourceUnit의 수치 관계를 혼합하지 않으며' in prompt
+    assert '결론 행위를 생략하지 않는다.' in prompt
+    assert '같은 제제의 수치라도 서로 다른 조건' in prompt
+    assert '자연스러움보다 임상 의미와 필수 coverage 보존을 우선한다.' in prompt
+    assert 'slot_id, category 및 checklist는 최종 사용자 답변에 출력하지 않는다.' in prompt
+    assert 'JSON을 반환하기 전에 모든 required slot 충족 여부를 내부적으로 확인한다.' in prompt
+    assert '새로운 임상 정보를 추가하지 않는다.' in prompt
+    assert '재생성하지 않고 기존 extractive fallback을 유지한다.' in prompt
     assert strengthened.schema_fingerprint == baseline.schema_fingerprint
+
+    mock_candidate = {
+        'statements': [
+            {
+                'text': '수혈 시작 전 동의서를 확인한다.',
+                'supporting_source_unit_ids': ['su001'],
+            }
+        ]
+    }
+    assert 'required_qualifier_001' not in json.dumps(
+        mock_candidate, ensure_ascii=False
+    )
 
 
 def test_provider_envelopes_normalize_to_the_same_candidate():
@@ -166,6 +194,29 @@ def test_provider_envelopes_normalize_to_the_same_candidate():
         'prompt_tokens': 10,
         'completion_tokens': 20,
         'total_tokens': 30,
+    }
+
+
+def test_deterministic_mock_responses_wrap_one_candidate_without_network():
+    units = (unit('su001', '15분 간격으로 상태를 확인한다.'),)
+    blueprints = build_provider_blueprints(
+        case_id='OFFLINE-MOCK-001',
+        intent='fact',
+        units=units,
+        groq_model='mock-groq',
+        gemini_model='mock-gemini',
+    )
+
+    responses = build_deterministic_mock_responses(candidate(), blueprints)
+    groq = normalize_mock_response('groq', responses['groq'])
+    gemini = normalize_mock_response('gemini', responses['gemini'])
+
+    assert json.loads(groq.content) == candidate()
+    assert json.loads(gemini.content) == candidate()
+    assert groq.usage == gemini.usage == {
+        'prompt_tokens': 0,
+        'completion_tokens': 0,
+        'total_tokens': 0,
     }
 
 
@@ -306,6 +357,11 @@ def test_safe_report_contains_hashes_and_counts_but_no_raw_data():
     encoded = json.dumps(report, ensure_ascii=False)
 
     assert report['actual_external_calls'] == 0
+    assert report['prompt_version'] == 'v1.0-natural-grounded'
+    assert report['config_sha256'] == blueprints[0].config_sha256
+    assert len(report['comparison']['extractive_sha256']) == 64
+    assert len(report['comparison']['candidate_sha256']) == 64
+    assert report['comparison']['validated_candidate_available'] is True
     assert 'payload' not in encoded
     assert 'raw_response' not in encoded
     assert 'messages' not in encoded
